@@ -1,0 +1,12 @@
+{
+  "name": "fuben",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "sync": "browser-sync start --server --files \"**/**\""
+  },
+  "dependencies": {
+    "browser-sync": "^2.26.3"
+  }
+}

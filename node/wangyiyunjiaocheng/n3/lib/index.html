@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div class="login-box">
+    用户名：<input type="text" id="username"><br />
+    密码：<input type="text" id="password"><br />
+    <button id="register">注册</button>
+    <button id="login">登录</button>
+    <button id="replace">更换密码</button>
+  </div>
+
+<script>
+register.onclick = () => {
+  ajax({
+    type: 'post',
+    url: 'http://localhost:8001/user/register',
+    data: {
+      username: encodeURIComponent(username.value),
+      password: encodeURIComponent(password.value)
+    },
+    success (data) {
+      console.log(data)
+    }
+  })
+}
+login.onclick = () => {
+  ajax({
+    type: 'post',
+    url: 'http://localhost:8001/user/login',
+    data: {
+      username: encodeURIComponent(username.value),
+      password: encodeURIComponent(password.value)
+    },
+    success (data) {
+      console.log(data)
+    }
+  })
+}
+
+replace.onclick = () => {
+  ajax({
+    type: 'post',
+    url: 'http://localhost:8001/user/replace',
+    data: {
+      username: encodeURIComponent(username.value),
+      password: encodeURIComponent(password.value)
+    },
+    success (data) {
+      console.log(data)
+    }
+  })
+}
+
+function ajax(json){
+	if(window.XMLHttpRequest){
+		var ajax = new XMLHttpRequest();
+	}
+	else{
+		var ajax = new ActiveXObject( "Microsoft.XMLHTTP" );
+	}
+
+	if(json.type=='get'){
+		ajax.open('get',json.url+'?'+JsonToString(json.data),true);
+		ajax.send();
+	}
+	else if(json.type=='post'){
+		ajax.open('post',json.url,true);
+		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    ajax.send(JsonToString(json.data));
+	}
+	
+
+	ajax.onreadystatechange = function(){
+		if(ajax.readyState == 4){
+			if(ajax.status>=200 && ajax.status<300 || ajax.status == 304){
+				json.success(ajax.responseText);
+
+			}
+			else{
+				json.error && json.error();
+			}
+		};
+	};
+	function JsonToString(json){
+		var arr = [];
+		for(var i in json){
+			arr.push(i+'='+json[i]);
+		};
+		return arr.join('&');
+	}
+}
+
+</script>
+</body>
+</html>
