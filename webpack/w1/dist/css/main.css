@@ -1,0 +1,19 @@
+body {
+   background: url(../images/queen-1.jpg) 0 0 no-repeat;
+}
+.box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100px;
+  height: 100px;
+  background: #f00;
+  border: 1px solid #000;
+  -webkit-transition: all 1s;
+  transition: all 1s;
+}
+.box:hover {
+  -webkit-transform: translateX(100px);
+          transform: translateX(100px);
+}
+

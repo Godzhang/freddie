@@ -1,12 +1,12 @@
 body {
-  /* background: url(./images/queen-1.jpg) 0 0 no-repeat; */
+   background: url("../images/queen-1.jpg") 0 0 no-repeat;
 }
 .box {
   display: flex;
   width: 100px;
   height: 100px;
   background: #f00;
-  border: 1PX solid #000;
+  border: 1px solid #000;
   transition: all 1s;
 }
 .box:hover {

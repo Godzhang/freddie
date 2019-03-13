@@ -9,5 +9,6 @@ module.exports = {
       },
       useBuiltIns: 'usage'
     }]
-  ]
+  ],
+  plugins: ['lodash']
 }

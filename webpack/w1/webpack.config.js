@@ -2,6 +2,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 const isPord = process.env.NODE_ENV === 'production'
 
@@ -27,33 +28,22 @@ const config = {
           'css-loader',
           'postcss-loader'
         ]
+      },
+      {
+        test: /\.(jpg|png|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+              name: 'images/[name].[ext]',
+              publicPath: '../'
+            }
+          }
+        ]
       }
-      // {
-      //   test: /\.(jpg|png|gif)$/,
-      //   use: [
-      //     {
-      //       loader: 'url-loader',
-      //       options: {
-      //         limit: 8192
-      //       }
-      //     }
-      //   ]
-      // }
     ]
   },
-  plugins: [
-    new CleanWebpackPlugin(['dist']),
-    new HtmlWebpackPlugin({
-      filename: 'index.html', // 相对于output.path路径生成
-      template: 'assets/index.html',
-      title: 'webpack-1',
-      favicon: './assets/love.ico'
-    }),
-    new MiniCssExtractPlugin({
-      filename: isPord ? "css/[name].[chunkhash:8].css" : "css/[name].css",
-      chunkFilename: "[id].css"
-　　 })
-  ],
   resolve: {
     extensions: ['.js', '.json', '.jsx', '.css'],
     modules: [
@@ -69,7 +59,23 @@ const config = {
       warnings: true,
       errors: true
     }
-  }
+  },
+  plugins: [
+    new CleanWebpackPlugin(['dist']),
+    new HtmlWebpackPlugin({
+      filename: 'index.html', // 相对于output.path路径生成
+      template: 'assets/index.html',
+      title: 'webpack-1',
+      favicon: './assets/love.ico'
+    }),
+    new MiniCssExtractPlugin({
+      filename: isPord ? "css/[name].[chunkhash:8].css" : "css/[name].css",
+      chunkFilename: "[id].css"
+　　 }),
+    new LodashModuleReplacementPlugin({
+      shorthands: true
+    })
+  ]
 }
 
 module.exports = config
