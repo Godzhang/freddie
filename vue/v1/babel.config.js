@@ -6,5 +6,15 @@ module.exports = {
         useBuiltIns: 'entry'
       }
     ]
+  ],
+  plugins: [
+    '@babel/plugin-syntax-dynamic-import',
+    [
+      'component',
+      {
+        libraryName: 'element-ui',
+        styleLibraryName: 'theme-chalk'
+      }
+    ]
   ]
 }

@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import App from '../components/App'
-import Test from '../components/Test'
 
 Vue.use(VueRouter)
 
@@ -15,7 +14,7 @@ export default new VueRouter({
       children: [
         {
           path: 'test',
-          component: Test
+          component: () => import('@/components/Test')
         }
       ]
     }

@@ -1,21 +1,34 @@
 const path = require('path')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
+const resolve = dir => path.resolve(__dirname, dir)
+
 const config = {
   mode: 'development',
-  entry: ['@babel/polyfill', './src/main.js'],
+  entry: ['./src/main.js'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: process.env.NODE_ENV === 'serve' ? '/' : '/dist/',
-    filename: 'js/[name].[hash:8].js'
+    filename: 'js/[name].[hash:8].js',
+    chunkFilename: 'js/[id].[hash:8].js'
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          name: 'vendors'
+        }
+      }
+    }
   },
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': path.resolve(__dirname, './src')
+      '@': resolve('./src')
     },
     extensions: ['.js', '.vue', '.json']
   },
@@ -51,7 +64,7 @@ const config = {
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader?indentedSyntax']
       },
       {
-        test: /\.(jpg|png|gif|svg)$/,
+        test: /\.(jpg|png|gif|svg|eot|woff2?|ttf)$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
@@ -61,7 +74,7 @@ const config = {
     ]
   },
   plugins: [
-    // new CleanWebpackPlugin(),
+    new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'index.html'),
@@ -70,7 +83,10 @@ const config = {
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[hash:8].css'
-    })
+    }),
+      new webpack.ProvidePlugin({
+
+      })
   ]
 }
 
