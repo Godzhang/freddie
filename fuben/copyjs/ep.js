@@ -289,11 +289,55 @@
     })
   }
 
-  EventProxy.prototype.done = function () {}
+  EventProxy.prototype.done = function (handler, callback) {
+    return (err, data) => {
+      if (err) {
+        return this.emit.apply(this, ['error'].concat(SLICE.call(arguments)))
+      }
+      let args = SLICE.call(arguments, 1)
+      
+      if (typeof handler === 'string') {
+        if (callback) {
+          return this.emit(handler, callback.apply(null, args))
+        } else {
+          return this.emit.apply(this, [handler].concat(args))
+        }
+      }
 
-  EventProxy.prototype.doneLater = function (handler, callback) {}
+      if (arguments.length <= 2) {
+        return handler(data)
+      }
 
-  EventProxy.prototype.create = function () {}
+      handler.apply(null, args)
+    }
+  }
+
+  EventProxy.prototype.doneLater = function (handler, callback) {
+    let _doneHandler = this.done(handler, callback)
+    return function (err, data) {
+      let args = arguments
+      later(() => {
+        _doneHandler.apply(null, args)
+      })
+    }
+  }
+
+  EventProxy.prototype.create = function () {
+    let ep = new EventProxy()
+    let args = CONCAT.apply([], arguments)
+    if (args.length) {
+      let errorHandler = args[args.length - 1]
+      let callback = args[args.length - 2]
+      if (typeof errorHandler === 'function' && typeof callback === 'function') {
+        args.pop()
+        ep.fail(errorHandler)
+      }
+      ep.assign.apply(ep, args)
+    }
+    return ep
+  }
+
+  EventProxy.EventProxy = EventProxy
 
   return EventProxy
 })

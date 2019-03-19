@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import App from '../components/App'
+import App from '../views/App'
 
 Vue.use(VueRouter)
 
@@ -10,11 +10,15 @@ export default new VueRouter({
     {
       path: '',
       component: App,
-      redirect: '/test',
+      redirect: '/home',
       children: [
         {
-          path: 'test',
-          component: () => import('@/components/Test')
+          path: 'home',
+          component: () => import('@/views/Home')
+        },
+        {
+          path: 'a',
+          component: () => import('@/views/A')
         }
       ]
     }
