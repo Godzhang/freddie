@@ -29,7 +29,8 @@ const config = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('./src'),
-      'mixins': resolve('./src/mixins')
+      'mixins': resolve('./src/mixins'),
+      'utils': resolve('./src/utils')
     },
     extensions: ['.js', '.vue', '.json']
   },
@@ -39,7 +40,8 @@ const config = {
     port: 8001,
     overlay: true,
     hot: true,
-    compress: true
+    compress: true,
+    clientLogLevel: 'none'
   },
   module: {
     rules: [

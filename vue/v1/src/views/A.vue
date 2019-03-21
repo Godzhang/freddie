@@ -6,6 +6,8 @@
   </div>
 </template>
 <script>
+import { findBrothersComponents } from 'utils/assist'
+
 import B from './B'
 
 export default {
@@ -14,6 +16,7 @@ export default {
     return {}
   },
   mounted () {
+    // console.log(findBrothersComponents(this, 'B'))
     this.init()
   },
   methods: {

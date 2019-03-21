@@ -1,5 +1,6 @@
 <template>
-  <input type="text"
+  <input class="i-input"
+         type="text"
          :value="currentValue"
          @input="handleInput($event)"
          @blur="handleBlur()">
@@ -33,6 +34,12 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-
+<style lang="scss">
+.i-input {
+  height: 24px;
+  line-height: 24px;
+  padding: 2px 5px;
+  border: 1px solid #dcdfe6;
+  outline: none;
+}
 </style>
