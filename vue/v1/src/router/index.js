@@ -19,6 +19,14 @@ export default new VueRouter({
         {
           path: 'a',
           component: () => import('@/views/A')
+        },
+        {
+          path: 'tableslot',
+          component: () => import('@/views/TableSlot')
+        },
+        {
+          path: 'tree',
+          component: () => import('@/views/TreeRender')
         }
       ]
     }

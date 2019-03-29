@@ -38,7 +38,7 @@ export default {
         parseStrToFunc.template = this.html
         const Component = Vue.extend(parseStrToFunc)
         this.component = new Component().$mount()
-
+        console.log(this.component)
         this.$refs.display.appendChild(this.component.$el)
 
         if (this.css !== '') {
