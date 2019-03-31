@@ -83,10 +83,7 @@ const config = {
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[hash:8].css'
-    }),
-      new webpack.ProvidePlugin({
-
-      })
+    })
   ]
 }
 

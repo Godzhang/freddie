@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+const optimizeCss = require('optimize-css-assets-webpack-plugin')
 
 const isPord = process.env.NODE_ENV === 'production'
 
@@ -13,6 +14,15 @@ const config = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'js/[name].[hash:8].js'
+  },
+  optimization: {
+    minimizer: [
+      new optimizeCss({
+        cssProcessor: require('cssnano'),
+        cssProcessorOptions: { discardComments: { removeAll: true } },
+        canPrint: true
+      })
+    ]
   },
   module: {
     rules: [
@@ -66,10 +76,18 @@ const config = {
       filename: 'index.html', // 相对于output.path路径生成
       template: 'assets/index.html',
       title: 'webpack-1',
-      favicon: './assets/love.ico'
+      favicon: './assets/love.ico',
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true
+      }
     }),
     new MiniCssExtractPlugin({
-      filename: isPord ? "css/[name].[chunkhash:8].css" : "css/[name].css",
+      filename: isPord ? "css/[name].[chunkhash:8].css" : "css/[name].[hash:4].css",
       chunkFilename: "[id].css"
 　　 }),
     new LodashModuleReplacementPlugin({
