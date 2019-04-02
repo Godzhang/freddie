@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./main.css?");
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -104,7 +104,10 @@ eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./main
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("__webpack_require__(/*! ./main.css */ \"./main.css\")\r\nconst show = __webpack_require__(/*! ./show.js */ \"./show.js\")\r\n\r\nshow('webpack')\r\n\n\n//# sourceURL=webpack:///./main.js?");
+__webpack_require__(/*! ./main.css */ "./main.css")
+const show = __webpack_require__(/*! ./show.js */ "./show.js")
+show('webpack-2')
+
 
 /***/ }),
 
@@ -115,8 +118,14 @@ eval("__webpack_require__(/*! ./main.css */ \"./main.css\")\r\nconst show = __we
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("function show (content) {\r\n  window.document.getElementById('app').innerText = 'hello ' + 'content'\r\n}\r\n\r\nmodule.exports = show\r\n\n\n//# sourceURL=webpack:///./show.js?");
+function show (content) {
+  window.document.getElementById('app').innerText = 'hello ' + content
+}
+
+module.exports = show
+
 
 /***/ })
 
 /******/ });
+//# sourceMappingURL=bundle.js.map

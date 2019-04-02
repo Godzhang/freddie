@@ -16,6 +16,7 @@ const config = {
     filename: 'js/[name].[hash:8].js'
   },
   optimization: {
+<<<<<<< HEAD
     minimizer: [
       new optimizeCss({
         cssProcessor: require('cssnano'),
@@ -23,6 +24,11 @@ const config = {
         canPrint: true
       })
     ]
+=======
+    splitChunks: {
+      chunks: 'all'
+    }
+>>>>>>> 2019-4-2
   },
   module: {
     rules: [
@@ -59,7 +65,8 @@ const config = {
     modules: [
       path.resolve(__dirname, 'node_modules'),
       'node_modules'
-    ]
+    ],
+    mainFields: ['main', 'browser', 'module']
   },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
@@ -93,7 +100,8 @@ const config = {
     new LodashModuleReplacementPlugin({
       shorthands: true
     })
-  ]
+  ],
+  devtool: 'source-map'
 }
 
 module.exports = config
