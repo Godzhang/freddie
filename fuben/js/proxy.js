@@ -289,22 +289,6 @@
 // revoke()
 // console.log(proxy.foo)
 
-let target = new Date('2015-01-01')
-
-let handler = {
-  get (target, key) {
-    console.log(target)
-    if (key === 'getDate') {
-      return target.getDate.bind(target)
-    }
-    return Reflect.get(target, prop)
-  }
-}
-
-let proxy = new Proxy(target, handler)
-
-console.log(proxy.getDate())
-
 
 
 

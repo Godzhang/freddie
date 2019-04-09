@@ -16,19 +16,9 @@ const config = {
     filename: 'js/[name].[hash:8].js'
   },
   optimization: {
-<<<<<<< HEAD
-    minimizer: [
-      new optimizeCss({
-        cssProcessor: require('cssnano'),
-        cssProcessorOptions: { discardComments: { removeAll: true } },
-        canPrint: true
-      })
-    ]
-=======
     splitChunks: {
       chunks: 'all'
     }
->>>>>>> 2019-4-2
   },
   module: {
     rules: [
