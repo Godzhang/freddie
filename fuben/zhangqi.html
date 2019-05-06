@@ -1,44 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <script src="./copyjs/ep.js"></script>
+    <script src="./js/underscore.js"></script>
     <!-- <script src="./js/eventproxy.js"></script> -->
+    <style></style>
     <title>zhangqi</title>
-</head>
-<body>
+  </head>
+  <body>
+    <script src="./js/lodash.js" type="text/javascript"></script>
+    <script src="./js/func.js" type="text/javascript"></script>
+    <script>
+      function zPromise(handle) {
+        this._status = "pending";
+        this.value = "";
+        handle(this._resolve.bind(this), this._reject.bind(this));
+        return this;
+      }
+      zPromise.prototype._resolve = function(val) {
+        if (this._status === "pending") return;
+        this._status = "fulfilled";
+        this.value = val;
+      };
+      zPromise.prototype._reject = function(err) {
+        if (this._status === "pending") return;
+        this._status = "rejected";
+        this.value = err;
+      };
+      zPromise.prototype.then = function(onFulfilled, onRejected) {
+        callback(this.value);
+      };
 
+      function fn() {
+        return new zPromise((resolve, reject) => {
+          setTimeout(() => {
+            resolve(1);
+          }, 1000);
+        });
+      }
+      fn().then(res => console.log(res));
 
+      // let editor = document.getElementById('editor')
+      // let p1 = document.getElementById('p1')
+      // let p2 = document.getElementById('p2')
+      // let p1Index = -1
+      // let range1 = document.createRange()
+      // let range2 = document.createRange()
 
-<!-- <script src="./js/proxy.js"></script> -->
-<script>
+      // console.log(isCloseLimbs(range1, p1, p2))
 
+      // for (let i = 0, len = p1.parentNode.childNodes.length; i < len; i++) {
+      //   if (p1.parentNode.childNodes[i] === p1) {
+      // 		p1Index = i
+      // 		break
+      // 	}
+      // }
+      // let helloNode = p1.firstChild.firstChild
+      // let worldNode = p1.lastChild
+      // range1.setStart(helloNode, 2)
+      // range1.setEnd(worldNode, 3)
 
+      // range1.collapse(true)
 
+      // editor.innerHTML = '<p>觉得是哦分<b>就问佛是</b>点击发送大附件</p>'
 
+      // editor.addEventListener('mouseup', e => {
+      //     let sel = window.getSelection()
+      //     console.log(sel.toString())
+      // })
 
+      // range1.selectNode(p1)
+      // console.log(range1)
+      // console.log(range1.toString())
+      // range2.selectNodeContents(p1)
+      // console.log(range2)
+      // console.log(range2.toString())
 
+      // console.log(document.body.childNodes)
 
+      // console.log(range1.selectNode(editor))
+      // console.log(range2.selectNodeContents(editor))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
-</body>
+      // function isCloseLimbs (range, elem1, elem2) {
+      //     range.setStartAfter(elem1)
+      //     range.setStartBefore(elem2)
+      //     return range.collapsed
+      // }
+    </script>
+  </body>
 </html>
