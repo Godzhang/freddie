@@ -1,24 +1,29 @@
-import './css/style.css'
-import util from './js/util'
-import keyBy from 'lodash/keyBy'
+import "@babel/polyfill";
 
-let a = 10
-let b = 15
+import foo from "./js/module-a";
+console.log(foo);
 
-console.log(util.add(a, b))
-console.log(util.isType({ type: 1 }, 1, 2, 3))
+// import './css/style.css'
+// import util from './js/util'
+// import keyBy from 'lodash/keyBy'
 
-let arr = [1, 2, 3]
-arr = arr.map(item => item * 2)
-console.log(arr)
+// let a = 10
+// let b = 15
 
-let arr1 = [1, 2, 2, 3, 3, 1]
-let arr2 = [...new Set(arr1)]
-console.log(arr2)
+// console.log(util.add(a, b))
+// console.log(util.isType({ type: 1 }, 1, 2, 3))
 
-Promise.resolve().then(() => {
-  console.log('promise then')
-})
+// let arr = [1, 2, 3]
+// arr = arr.map(item => item * 2)
+// console.log(arr)
 
-let qs = [{id: 1, name: 'freddie'}, {id: 2, name: 'deacon'}]
-console.log(keyBy(qs, 'id'))
+// let arr1 = [1, 2, 2, 3, 3, 1]
+// let arr2 = [...new Set(arr1)]
+// console.log(arr2)
+
+// Promise.resolve().then(() => {
+//   console.log('promise then')
+// })
+
+// let qs = [{id: 1, name: 'freddie'}, {id: 2, name: 'deacon'}]
+// console.log(keyBy(qs, 'id'))
