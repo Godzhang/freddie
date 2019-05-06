@@ -9,5 +9,31 @@
   <body>
     <!-- <script src="./js/promise/promise-1.js"></script> -->
     <script src="./js/promise/promise-2.js"></script>
+    <script>
+      function fn1 () {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            console.log(1111)
+            resolve()
+          }, 1000)
+        })
+      }
+      function fn2 () {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            console.log(2222)
+            resolve()
+          }, 1000)
+        })
+      }
+      function final () {
+        return new Promise(resolve => {
+          console.log('final')
+        })
+      }
+      fn1().then(function () {
+        fn2()
+      }).then(final)
+    </script>
   </body>
 </html>
