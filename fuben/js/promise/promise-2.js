@@ -1,6 +1,10 @@
 // https://juejin.im/post/5b2f02cd5188252b937548ab
 class zPromise {
   constructor(executor) {
+    if (typeof executor !== "function") {
+      throw new Error("MyPromise must accept a function as a parameter");
+    }
+
     this.status = "pending";
     this.value = undefined;
     this.reason = undefined;
@@ -9,19 +13,19 @@ class zPromise {
 
     const resolve = value => {
       if (this.status !== "pending") return;
-      // setTimeout(() => {
       this.status = "fulfilled";
       this.value = value;
       this.onResolvedCallbacks.forEach(cb => cb());
-      // }, 0);
     };
     const reject = err => {
       if (this.status !== "pending") return;
-      // setTimeout(() => {
       this.status = "rejected";
       this.reason = err;
+      // 如果最后一步报错，检查失败回调事件数组长度，为0则手动打印错误
+      if (this.onRejectedCallbacks.length === 0) {
+        console.error(err);
+      }
       this.onRejectedCallbacks.forEach(cb => cb());
-      // }, 0);
     };
 
     try {
@@ -32,27 +36,126 @@ class zPromise {
   }
 
   then(onFulfilled, onRejected) {
+    onFulfilled =
+      typeof onFulfilled === "function" ? onFulfilled : value => value;
+    onRejected =
+      typeof onRejected === "function"
+        ? onRejected
+        : err => {
+            throw err;
+          };
     let promise2 = new zPromise((resolve, reject) => {
       if (this.status === "fulfilled") {
-        let x = onFulfilled(this.value);
-        resolvePromise(promise2, x, resolve, reject);
+        setTimeout(() => {
+          try {
+            let x = onFulfilled(this.value);
+            resolvePromise(promise2, x, resolve, reject);
+          } catch (e) {
+            reject(e);
+          }
+        }, 0);
       }
       if (this.status === "rejected") {
-        let x = onRejected(this.reason);
-        resolvePromise(promise2, x, resolve, reject);
+        setTimeout(() => {
+          try {
+            let x = onRejected(this.reason);
+            resolvePromise(promise2, x, resolve, reject);
+          } catch (e) {
+            reject(e);
+          }
+        }, 0);
       }
       if (this.status === "pending") {
         this.onResolvedCallbacks.push(() => {
-          let x = onFulfilled(this.value);
-          resolvePromise(promise2, x, resolve, reject);
+          setTimeout(() => {
+            try {
+              let x = onFulfilled(this.value);
+              resolvePromise(promise2, x, resolve, reject);
+            } catch (e) {
+              reject(e);
+            }
+          }, 0);
         });
         this.onRejectedCallbacks.push(() => {
-          let x = onRejected(this.reason);
-          resolvePromise(promise2, x, resolve, reject);
+          setTimeout(() => {
+            try {
+              let x = onRejected(this.reason);
+              resolvePromise(promise2, x, resolve, reject);
+            } catch (e) {
+              reject(e);
+            }
+          }, 0);
         });
       }
     });
     return promise2;
+  }
+
+  catch(onRejected) {
+    return this.then(null, onRejected);
+  }
+
+  finally(callback) {
+    return this.then(
+      value => zPromise.resolve(callback()).then(() => value),
+      err =>
+        zPromise.resolve(callback()).then(() => {
+          throw err;
+        })
+    );
+  }
+  // 最后调用，如果最后一步有错误可以捕捉到
+  // done() {
+  //   return this.catch(err => console.error(err));
+  // }
+
+  isPending() {
+    return this.status === "pending";
+  }
+  isFulfilled() {
+    return this.status === "fulfilled";
+  }
+  isRejected() {
+    return this.status === "rejected";
+  }
+
+  static resolve(val) {
+    return new zPromise(resolve => resolve(val));
+  }
+
+  static reject(err) {
+    return new zPromise((resolve, reject) => reject(err));
+  }
+
+  static all(promises) {
+    let arr = [];
+    let i = 0;
+    let len = promises.length;
+    return new zPromise((resolve, reject) => {
+      for (let i = 0; i < len; i++) {
+        promises[i].then(res => {
+          arr[i] = res;
+          i++;
+          if (i === len) {
+            resolve(arr);
+          }
+        }, reject);
+      }
+    });
+  }
+  static race(promises) {
+    return new zPromise((resolve, reject) => {
+      for (let i = 0, l = promises.length; i < l; i++) {
+        promises[i].then(resolve, reject);
+      }
+    });
+  }
+  // 为了终止后续的执行
+  static cancel() {
+    return new zPromise(() => {});
+  }
+  static stop() {
+    return this.cancel();
   }
 }
 
@@ -97,13 +200,58 @@ function resolvePromise(promise2, x, resolve, reject) {
   }
 }
 
-function fn() {
-  return new zPromise(resolve => {
-    setTimeout(() => {
-      resolve(1);
-    }, 1000);
-  });
-}
+// let p = new zPromise(resolve => resolve(42))
+//   .then(value => res * 2)
+//   .catch(err => err)
+//   .then(res => {
+//     return res * 4;
+//   });
+// let p1 = new zPromise((resolve, reject) => {
+//   setTimeout(() => {
+//     reject("p1");
+//   }, 1000);
+// });
+// let p2 = p1.then(res => res, "yichang");
+// p2.then(res => console.log(res), err => console.log(err));
 
-fn().then(res => console.log(res));
-// fn().then(res => console.log(1 + res));
+// function fn1() {
+//   return new zPromise(resolve => {
+//     setTimeout(() => {
+//       console.log(1111);
+//       resolve(1);
+//     }, 1000);
+//   });
+// }
+// function fn2() {
+//   return new zPromise(resolve => {
+//     setTimeout(() => {
+//       console.log(2222);
+//       resolve(2);
+//     }, 2000);
+//   });
+// }
+// function final() {
+//   return new zPromise(resolve => {
+//     console.log("final");
+//   });
+// }
+// fn1()
+//   .then(res => console.log(res), err => console.log(err))
+//   .then(res => console.log(res), err => console.log(err))
+//   .then(res => console.log(res), err => console.log(err))
+//   .then(res => console.log(res), err => console.log(err))
+//   .finally(() => {
+//     console.log("finally");
+//   });
+
+//   // promises-aplus-tests promise-2.js
+//   zPromise.defer = zPromise.deferred = function() {
+//     let dfd = {};
+//     dfd.promise = new zPromise((resolve, reject) => {
+//       dfd.resolve = resolve;
+//       dfd.reject = reject;
+//     });
+//     return dfd;
+//   };
+
+// module.exports = zPromise;
