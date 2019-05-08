@@ -7,15 +7,23 @@
     <title>self-check</title>
   </head>
   <body>
-    <div id="outer" style="width: 500px;height: 500px;background: red;">
+    <!-- <div id="outer" style="width: 500px;height: 500px;background: red;">
       <div
         id="inner"
         style="width: 300px;height: 300px;background: yellow;"
       ></div>
-    </div>
+    </div> -->
+    <div id="con">this is con</div>
     <!-- <script src="./js/promise/promise-1.js"></script> -->
     <script src="./js/promise/promise-2.js"></script>
     <script>
+      let t = 0;
+      let con = document.getElementById("con");
+      con.onclick = () => {
+        setTimeout(() => {
+          con.textContent = 1;
+        }, 0);
+      };
       // function onClick() {
       //   console.log("click");
       //   setTimeout(() => {
