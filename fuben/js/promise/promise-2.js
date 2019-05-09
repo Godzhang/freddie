@@ -24,8 +24,9 @@ class zPromise {
       // 如果最后一步报错，检查失败回调事件数组长度，为0则手动打印错误
       if (this.onRejectedCallbacks.length === 0) {
         console.error(err);
+      } else {
+        this.onRejectedCallbacks.forEach(cb => cb());
       }
-      this.onRejectedCallbacks.forEach(cb => cb());
     };
 
     try {
@@ -122,11 +123,9 @@ class zPromise {
   static resolve(val) {
     return new zPromise(resolve => resolve(val));
   }
-
   static reject(err) {
     return new zPromise((resolve, reject) => reject(err));
   }
-
   static all(promises) {
     let arr = [];
     let i = 0;
@@ -154,6 +153,7 @@ class zPromise {
   static cancel() {
     return new zPromise(() => {});
   }
+  // 同上
   static stop() {
     return this.cancel();
   }
