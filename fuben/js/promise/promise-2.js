@@ -105,6 +105,7 @@ class zPromise {
         })
     );
   }
+
   // 最后调用，如果最后一步有错误可以捕捉到
   // done() {
   //   return this.catch(err => console.error(err));
@@ -121,9 +122,14 @@ class zPromise {
   }
 
   static resolve(val) {
+    if (val instanceof zPromise) return val;
     return new zPromise(resolve => resolve(val));
+    // return new zPromise((resolve, reject) => {
+    //   resolvePromise(null, val, resolve, reject);
+    // });
   }
   static reject(err) {
+    if (val instanceof zPromise) return val;
     return new zPromise((resolve, reject) => reject(err));
   }
   static all(promises) {
@@ -156,6 +162,66 @@ class zPromise {
   // 同上
   static stop() {
     return this.cancel();
+  }
+  // 变体方法
+  static none(promises) {
+    let arr = [];
+    let i = 0;
+    let len = promises.length;
+    return new zPromise((resolve, reject) => {
+      for (let i = 0; i < len; i++) {
+        promises[i].then(
+          res => {
+            reject();
+          },
+          err => {
+            arr.push(err);
+            i++;
+            if (i === len) {
+              resolve(arr);
+            }
+          }
+        );
+      }
+    });
+  }
+  static any() {}
+  // ???
+  static first(promises) {
+    return new zPromise(resolve => {
+      promises.forEach(promise => {
+        zPromise.resolve(promise).then(resolve);
+        // promise.then(resolve);
+      });
+    });
+  }
+  static last() {}
+
+  static map(vals, callback) {
+    return zPromise.all(
+      vals.map(val => {
+        return new zPromise(resolve => {
+          callback(val, resolve);
+        });
+      })
+    );
+  }
+
+  static wrap(fn) {
+    return (...args) => {
+      return new zPromise((resolve, reject) => {
+        fn.apply(
+          null,
+          args.concat((err, v) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(v);
+            }
+          })
+        );
+      });
+    };
   }
 }
 
@@ -200,6 +266,36 @@ function resolvePromise(promise2, x, resolve, reject) {
   }
 }
 
+// first ???
+let fn1 = () => {
+  return new zPromise(resolve => {
+    setTimeout(() => {
+      resolve("fn1");
+    }, 2000);
+  });
+};
+let fn2 = () => {
+  return new zPromise((resolve, reject) => {
+    setTimeout(() => {
+      reject("fn2");
+    }, 1000);
+  });
+};
+let fn3 = () => {
+  return new zPromise(resolve => {
+    setTimeout(() => {
+      resolve("fn3");
+    }, 3000);
+  });
+};
+
+zPromise.first([fn1(), fn2(), fn3()]).then(res => {
+  console.log(res);
+});
+
+// zPromise
+//   .resolve(fn2())
+//   .then(res => console.log("success"), err => console.log("fail"));
 // let p = new zPromise(resolve => resolve(42))
 //   .then(value => res * 2)
 //   .catch(err => err)
