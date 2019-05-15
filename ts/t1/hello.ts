@@ -1,6 +1,1 @@
-function sayHello (person: string) {
-  return `hello ${ person }`
-}
-
-let user = 'freddie'
-console.log(sayHello(user))
+enum Days {sum, mon, tue, wed, thu, fri, sat}
