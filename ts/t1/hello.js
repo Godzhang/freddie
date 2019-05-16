@@ -1,10 +1,37 @@
-var Days;
-(function (Days) {
-    Days[Days["sum"] = 0] = "sum";
-    Days[Days["mon"] = 1] = "mon";
-    Days[Days["tue"] = 2] = "tue";
-    Days[Days["wed"] = 3] = "wed";
-    Days[Days["thu"] = 4] = "thu";
-    Days[Days["fri"] = 5] = "fri";
-    Days[Days["sat"] = 6] = "sat";
-})(Days || (Days = {}));
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var Animal = /** @class */ (function () {
+    function Animal(name) {
+        this.name = name;
+    }
+    return Animal;
+}());
+// let a = new Animal('jack')
+// console.log(a.name)
+// a.name = 'tom'
+// console.log(a.name)
+var Cat = /** @class */ (function (_super) {
+    __extends(Cat, _super);
+    function Cat(name) {
+        var _this = _super.call(this, name) || this;
+        console.log(_this.name);
+        return _this;
+    }
+    Cat.prototype.sayHi = function () {
+        return "Meow, " + this.name;
+    };
+    return Cat;
+}(Animal));
+var c = new Cat('tom');
+console.log(c.sayHi());
