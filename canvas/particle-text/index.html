@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../reset.css"></link>
+  <style>
+    body,html {
+    	margin:0;
+    	width:100%;
+    	overflow:hidden;
+    }
+    canvas {
+    	width:100%;
+    }
+    .control {
+    	position:absolute;
+    }
+    .control input {
+    	border:0;
+    	margin:0;
+    	padding:15px;
+    	outline:none;
+    	text-align:center;
+    }
+    .control button {
+    	border:0;
+    	margin:0;
+    	padding:15px;
+    	outline:none;
+    	background:#333;
+    	color:#fff;
+    }
+    .control button:focus,.control button:hover {
+    	background:#222
+    }
+  </style>
+  <title></title>
+</head>
+<body>
+
+<div class="control" style="position:absolute;">
+    <input type="text" value="down.admin5.com" id="t" />
+    <button onclick="changeText(t.value)">change</button>
+</div>
+
+<script type="text/javascript">
+let canvas = document.createElement('canvas')
+document.body.appendChild(canvas)
+let ctx = canvas.getContext('2d')
+let cw, ch
+
+function resize () {
+  cw = canvas.width = document.documentElement.clientWidth
+  ch = canvas.height = document.documentElement.clientHeight
+}
+let max_radius = 3
+let min_radius = 1
+let drag = 50
+window.onresize = resize
+
+function cfill () {
+  ctx.fillStyle = '#000'
+  ctx.fillRect(0, 0, cw, ch)
+  ctx.fill()
+}
+let mouse = {
+  x: -1000,
+  y: -1000
+}
+canvas.onmousemove = function (e) {
+  mouse.x = e.clientX
+  mouse.y = e.clientY
+}
+canvas.ontouchmove = function (e) {
+  mouse.x = e.touches[0].clientX
+  mouse.y = e.touches[0].clientY
+}
+resize()
+cfill()
+
+function distance(x, y, x1, y1) {
+  return Math.sqrt((x1 - x) * (x1 - x) + (y1 - y) * (y1 - y))
+}
+
+class Particle {
+  constructor (pos, target, val, color, radius) {
+    this.pos = pos
+    this.target = target
+    this.val = val
+    this.color = color
+    this.radius = radius
+    let arr = [-1, 1]
+    this.direction = arr[~~(Math.random() * 2)] * Math.random() / 10
+  }
+  set (type, value) {
+    this[type] = value
+  }
+  update () {}
+}
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

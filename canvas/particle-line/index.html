@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../reset.css"></link>
+  <script src="../public/public.js" charset="utf-8"></script>
+  <script src="../public/utils.js" charset="utf-8"></script>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    #canvas {
+      background: linear-gradient(to left, #8CA6DB, #B993D6);
+    }
+  </style>
+  <title>particle-line</title>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+<div class="filter"></div>
+
+<script>
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+let cw, ch
+let threshold = 200
+resize()
+
+class MyParticle extends Particle {
+  constructor (options) {
+    super(options)
+    this.vx = options.vx
+    this.vy = options.vy
+  }
+  update () {
+    let radius = this.radius
+    this.x += this.vx
+    this.y += this.vy
+
+    if (this.x <= radius || this.x >= cw - radius) {
+      this.vx = -this.vx
+    }
+    if (this.y < radius || this.y >= ch - radius) {
+      this.vy = -this.vy
+    }
+  }
+}
+
+let ps = []
+for (let i = 0; i < 50; i++) {
+  let radius = random(5, 8)
+  ps.push(new MyParticle({
+    radius,
+    x: random(radius, cw - radius),
+    y: random(radius, ch - radius),
+    color: `rgba(255, 255, 255, 1)`,
+    vx: (random(1, 10) / 30) * (Math.random() > 0.5 ? 1 : -1),
+    vy: (random(1, 10) / 30) * (Math.random() > 0.5 ? 1 : -1)
+  }))
+}
+function makeLine () {
+  let pl = ps.length
+  for (let i = 0; i < pl; i++) {
+    for (let j = i + 1; j < pl; j++) {
+      connectLine(ps[i], ps[j])
+    }
+  }
+}
+
+function connectLine (p1, p2) {
+  let x1 = p1.x
+  let y1 = p1.y
+  let x2 = p2.x
+  let y2 = p2.y
+  let distance = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2))
+  if (distance < threshold) {
+    drawLine(p1, p2)
+  }
+}
+function drawLine (p1, p2) {
+  ctx.strokeStyle = '#fff'
+  ctx.lineWidth = 1
+  ctx.moveTo(p1.x, p1.y)
+  ctx.lineTo(p2.x, p2.y)
+  ctx.stroke()
+}
+let mouseArr = []
+canvas.addEventListener('mousemove', e => {
+  mouseArr = []
+  let x = e.clientX
+  let y = e.clientY
+  for (let i = 0, l = ps.length; i < l; i++) {
+    let x1 = ps[i].x
+    let y1 = ps[i].y
+    let distance = Math.sqrt(Math.pow((x1 - x), 2) + Math.pow((y1 - y), 2))
+    if (distance < threshold) {
+      mouseArr.push({
+        x1: x,
+        y1: y,
+        x2: x1,
+        y2: y1
+      })
+    }
+  }
+})
+
+function drawLineWithMouse () {
+  for (let i = 0, l = mouseArr.length; i < l; i++) {
+    let { x1, y1, x2, y2 } = mouseArr[i]
+    drawLine({ x: x1, y: y1 }, { x: x2, y: y2 })
+  }
+}
+
+function draw () {
+  ctx.clearRect(0, 0, cw, ch)
+  ps.forEach(p => {
+    p.draw()
+    p.update()
+  })
+  makeLine()
+  drawLineWithMouse()
+  requestAnimationFrame(draw)
+}
+draw()
+
+function resize () {
+  cw = canvas.width = document.documentElement.clientWidth
+  ch = canvas.height = document.documentElement.clientHeight
+}
+window.onresize = function () {
+  resize()
+  draw()
+}
+
+
+</script>
+</body>
+</html>

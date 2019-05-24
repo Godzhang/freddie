@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../reset.css"></link>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    body * {
+      box-sizing: border-box;
+    }
+    .board {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+    .box, .tool {
+      height: 100%;
+    }
+    .box {
+      flex: 4;
+      border: 2px solid #08c;
+    }
+    .tool {
+      flex: 1;
+    }
+    #canvas {
+      background: #eee;
+    }
+  </style>
+  <title>board</title>
+</head>
+<body>
+
+<div class="board">
+  <div class="box">
+    <canvas id="canvas"></canvas>
+  </div>
+  <div class="tool">
+    <button id="clear">清空</button>
+  </div>
+</div>
+
+<script>
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+
+let box = document.querySelector('.box')
+let clear = document.getElementById('clear')
+
+let cw = canvas.width = box.clientWidth
+let ch = canvas.height = box.clientHeight
+let isMouseDown = false
+
+let oldX, oldY
+
+let lineWidth = 10
+
+ctx.fillStyle = '#333'
+ctx.strokeStyle = '#333'
+ctx.lineWidth = lineWidth
+
+canvas.addEventListener('mousedown', e => {
+  isMouseDown = true
+})
+canvas.addEventListener('mouseup', e => {
+  isMouseDown = false
+})
+canvas.addEventListener('mousemove', e => {
+  if (!isMouseDown) return
+  let x = e.clientX
+  let y = e.clientY
+  drawCircle(x, y)
+})
+
+function drawCircle (x, y) {
+
+}
+
+clear.addEventListener('click', () => {
+  ctx.clearRect(0, 0, cw, ch)
+})
+
+</script>
+</body>
+</html>

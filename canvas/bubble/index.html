@@ -14,11 +14,10 @@
       overflow: hidden;
     }
     #canvas {
-      /* background: #000; */
       background: linear-gradient(to right, #141e30, #243b55);
     }
   </style>
-  <title>test</title>
+  <title>bubble</title>
 </head>
 <body>
 
@@ -34,18 +33,18 @@ resize()
 class MyParticle extends Particle {
   constructor (options) {
     super(options)
-    this.vx = (random(1, 10) / 20) * (Math.random() > 0.5 ? 1 : -1)
-    this.vy = (random(1, 10) / 20) * (Math.random() > 0.5 ? 1 : -1)
+    this.vx = options.vx
+    this.vy = options.vy
   }
   update () {
-    let halfRadius = this.radius
+    let radius = this.radius
     this.x += this.vx
     this.y += this.vy
 
-    if (this.x <= halfRadius || this.x >= cw - halfRadius) {
+    if (this.x <= radius || this.x >= cw - radius) {
       this.vx = -this.vx
     }
-    if (this.y < halfRadius || this.y >= ch - halfRadius) {
+    if (this.y < radius || this.y >= ch - radius) {
       this.vy = -this.vy
     }
   }
@@ -58,7 +57,9 @@ for (let i = 0; i < 100; i++) {
     radius,
     x: random(radius, cw - radius),
     y: random(radius, ch - radius),
-    color: randomColor()
+    color: randomColor(),
+    vx: (random(1, 10) / 10) * (Math.random() > 0.5 ? 1 : -1),
+    vy: (random(1, 10) / 10) * (Math.random() > 0.5 ? 1 : -1)
   }))
 }
 function draw () {
