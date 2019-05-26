@@ -90,10 +90,15 @@ function drawLine (p1, p2) {
   ctx.stroke()
 }
 let mouseArr = []
+let globalEvent
 canvas.addEventListener('mousemove', e => {
+  globalEvent = e
+})
+function getNearPoint () {
+  if (!globalEvent) return
   mouseArr = []
-  let x = e.clientX
-  let y = e.clientY
+  let x = globalEvent.clientX
+  let y = globalEvent.clientY
   for (let i = 0, l = ps.length; i < l; i++) {
     let x1 = ps[i].x
     let y1 = ps[i].y
@@ -107,7 +112,7 @@ canvas.addEventListener('mousemove', e => {
       })
     }
   }
-})
+}
 
 function drawLineWithMouse () {
   for (let i = 0, l = mouseArr.length; i < l; i++) {
@@ -123,6 +128,7 @@ function draw () {
     p.update()
   })
   makeLine()
+  getNearPoint()
   drawLineWithMouse()
   requestAnimationFrame(draw)
 }

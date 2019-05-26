@@ -15,7 +15,7 @@
     }
     #canvas {
       /* background: #000; */
-      background: linear-gradient(to right, #141e30, #243b55);
+      /* background: linear-gradient(to right, #141e30, #243b55); */
     }
   </style>
   <title>test</title>
@@ -30,55 +30,80 @@ let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
 let cw, ch
 resize()
-
-class MyParticle extends Particle {
-  constructor (options) {
-    super(options)
-    this.vx = (random(1, 10) / 20) * (Math.random() > 0.5 ? 1 : -1)
-    this.vy = (random(1, 10) / 20) * (Math.random() > 0.5 ? 1 : -1)
-  }
-  update () {
-    let halfRadius = this.radius
-    this.x += this.vx
-    this.y += this.vy
-
-    if (this.x <= halfRadius || this.x >= cw - halfRadius) {
-      this.vx = -this.vx
-    }
-    if (this.y < halfRadius || this.y >= ch - halfRadius) {
-      this.vy = -this.vy
-    }
-  }
-}
-
-let ps = []
-for (let i = 0; i < 100; i++) {
-  let radius = random(30, 50)
-  ps.push(new MyParticle({
-    radius,
-    x: random(radius, cw - radius),
-    y: random(radius, ch - radius),
-    color: randomColor()
-  }))
-}
-function draw () {
-  ctx.clearRect(0, 0, cw, ch)
-  ps.forEach(p => {
-    p.draw()
-    p.update()
-  })
-  requestAnimationFrame(draw)
-}
-draw()
-
 function resize () {
   cw = canvas.width = document.documentElement.clientWidth
   ch = canvas.height = document.documentElement.clientHeight
 }
-window.onresize = function () {
-  resize()
-  draw()
-}
+ctx.lineWidth = 12
+ctx.strokeStyle = 'red'
+
+ctx.save()
+
+ctx.rect(0, 0, 200, 200)
+ctx.clip()
+
+ctx.beginPath()
+ctx.arc(200, 200, 100, 0, Math.PI * 2)
+ctx.stroke()
+ctx.closePath()
+
+ctx.restore()
+
+ctx.beginPath()
+ctx.arc(220, 220, 100, 0, Math.PI * 2)
+ctx.stroke()
+ctx.closePath()
+
+
+
+// class MyParticle extends Particle {
+//   constructor (options) {
+//     super(options)
+//     this.vx = (random(1, 10) / 20) * (Math.random() > 0.5 ? 1 : -1)
+//     this.vy = (random(1, 10) / 20) * (Math.random() > 0.5 ? 1 : -1)
+//   }
+//   update () {
+//     let halfRadius = this.radius
+//     this.x += this.vx
+//     this.y += this.vy
+
+//     if (this.x <= halfRadius || this.x >= cw - halfRadius) {
+//       this.vx = -this.vx
+//     }
+//     if (this.y < halfRadius || this.y >= ch - halfRadius) {
+//       this.vy = -this.vy
+//     }
+//   }
+// }
+
+// let ps = []
+// for (let i = 0; i < 100; i++) {
+//   let radius = random(30, 50)
+//   ps.push(new MyParticle({
+//     radius,
+//     x: random(radius, cw - radius),
+//     y: random(radius, ch - radius),
+//     color: randomColor()
+//   }))
+// }
+// function draw () {
+//   ctx.clearRect(0, 0, cw, ch)
+//   ps.forEach(p => {
+//     p.draw()
+//     p.update()
+//   })
+//   requestAnimationFrame(draw)
+// }
+// draw()
+
+// function resize () {
+//   cw = canvas.width = document.documentElement.clientWidth
+//   ch = canvas.height = document.documentElement.clientHeight
+// }
+// window.onresize = function () {
+//   resize()
+//   draw()
+// }
 
 
 </script>
