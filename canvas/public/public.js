@@ -1,5 +1,5 @@
 class Particle {
-  constructor ({x, y, radius, color}) {
+  constructor ({x, y, radius = 5, color = '#08c'}) {
     this.x = x
     this.y = y
     this.radius =  radius

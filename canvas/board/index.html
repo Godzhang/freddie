@@ -33,6 +33,17 @@
     #canvas {
       background: #eee;
     }
+    .color-select {
+      height: 30px;
+    }
+    .color-select span {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      padding-left: 10px;
+      margin-right: 20px;
+      cursor: pointer;
+    }
   </style>
   <title>board</title>
 </head>
@@ -43,33 +54,37 @@
     <canvas id="canvas"></canvas>
   </div>
   <div class="tool">
+    <div class="color-select">
+      <span data-color="#000"></span>
+      <span data-color="#f00"></span>
+      <span data-color="#08c"></span>
+      <span data-color="#ebe012"></span>
+      <span data-color="#e91f92"></span>
+    </div>
     <button id="clear">清空</button>
     <button id="parser">橡皮擦</button>
   </div>
 </div>
 
 <script>
+let box = document.querySelector('.box')
+let clear = document.getElementById('clear')
+let parser = document.getElementById('parser')
+let colorSelect = document.querySelector('.color-select')
+
 let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
 
 let isDraw = true
 
-let box = document.querySelector('.box')
-let clear = document.getElementById('clear')
-let parser = document.getElementById('parser')
-
 let cw = canvas.width = box.clientWidth
 let ch = canvas.height = box.clientHeight
-let isMouseDown = false
 
-let oldX, oldY
 let oldPoint = {}
-let mouseRoutes = []
-let requestId = null
 
 let lineWidth = 10
 let radius = 10
-let parseRadius = 14
+let parseRadius = 15
 
 ctx.fillStyle = '#333'
 ctx.strokeStyle = '#333'
@@ -120,10 +135,8 @@ function draw (x, y) {
   ctx.closePath()
 }
 
-
 clear.addEventListener('click', () => {
   ctx.clearRect(0, 0, cw, ch)
-  mouseRoutes = []
 })
 parser.addEventListener('click', () => {
   isDraw = !isDraw
@@ -139,6 +152,25 @@ function clearPart (x, y) {
   ctx.restore()
 }
 
+function initColorSelect () {
+  let children = [].slice.call(colorSelect.querySelectorAll('span'))
+  children.forEach(c => {
+    let color = c.dataset.color
+    c.style.backgroundColor = color
+  })
+  colorSelect.addEventListener('click', e => {
+    let cur = e.target
+    if (cur.tagName.toLowerCase() === 'span') {
+      let color = cur.dataset.color
+      ctx.strokeStyle = color
+    }
+  })
+}
+
+function init () {
+  initColorSelect()
+}
+init()
 </script>
 </body>
 </html>

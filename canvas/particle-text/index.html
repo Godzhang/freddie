@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../reset.css"></link>
+  <script src="../public/public.js" charset="utf-8"></script>
+  <script src="../public/utils.js" charset="utf-8"></script>
+  <script src="./shape.js" charset="utf-8"></script>
   <style>
     body,html {
     	margin:0;
@@ -35,8 +38,11 @@
     .control button:focus,.control button:hover {
     	background:#222
     }
+    #canvas {
+      background: #000;
+    }
   </style>
-  <title></title>
+  <title>粒子文字</title>
 </head>
 <body>
 
@@ -47,64 +53,66 @@
 
 <script type="text/javascript">
 let canvas = document.createElement('canvas')
+canvas.id = 'canvas'
 document.body.appendChild(canvas)
 let ctx = canvas.getContext('2d')
 let cw, ch
+let gridX = 10
+let gridY = 10
 
 function resize () {
   cw = canvas.width = document.documentElement.clientWidth
   ch = canvas.height = document.documentElement.clientHeight
 }
-let max_radius = 3
-let min_radius = 1
-let drag = 50
+resize()
 window.onresize = resize
 
-function cfill () {
-  ctx.fillStyle = '#000'
-  ctx.fillRect(0, 0, cw, ch)
-  ctx.fill()
-}
-let mouse = {
-  x: -1000,
-  y: -1000
-}
-canvas.onmousemove = function (e) {
-  mouse.x = e.clientX
-  mouse.y = e.clientY
-}
-canvas.ontouchmove = function (e) {
-  mouse.x = e.touches[0].clientX
-  mouse.y = e.touches[0].clientY
-}
-resize()
-cfill()
-
-function distance(x, y, x1, y1) {
-  return Math.sqrt((x1 - x) * (x1 - x) + (y1 - y) * (y1 - y))
-}
-
-class Particle {
-  constructor (pos, target, val, color, radius) {
-    this.pos = pos
-    this.target = target
-    this.val = val
-    this.color = color
-    this.radius = radius
-    let arr = [-1, 1]
-    this.direction = arr[~~(Math.random() * 2)] * Math.random() / 10
+class MyParticle extends Particle {
+  constructor (options) {
+    super(options)
+    this.minRadius = 3
+    this.maxRadius = 10
+    let v = random(1, 5) / 10
+    this.speed = Math.random() > 0.5 ? v : -v
   }
-  set (type, value) {
-    this[type] = value
+
+  update () {
+    this.radius += this.speed
+    if (this.radius >= this.maxRadius || this.radius <= this.minRadius) {
+      this.speed = this.speed * -1
+    }
   }
-  update () {}
 }
 
+let colors = [
+  '#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5',
+  '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50',
+  '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800',
+  '#FF5722'
+  ]
+let message = '权力的游戏'
 
+let word = new Shape(cw / 2, ch / 2, message)
+word.getValue()
 
+function draw () {
+  ctx.clearRect(0, 0, cw, ch)
 
+  word.placement.forEach(p => {
+    p.draw()
+    p.update()
+  })
 
+  requestAnimationFrame(draw)
+}
 
+draw()
+
+function changeText (value) {
+  ctx.clearRect(0, 0, cw, ch)
+  word = new Shape(cw / 2, ch / 2, value)
+  word.getValue()
+}
 
 </script>
 </body>

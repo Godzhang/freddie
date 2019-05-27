@@ -15,7 +15,17 @@
     }
     #canvas {
       /* background: #000; */
+      /* background: #f00; */
       /* background: linear-gradient(to right, #141e30, #243b55); */
+    }
+    .text {
+      position: absolute;top: 420px;left: 0;
+    }
+    .color {
+      position: absolute;top: 450px;left: 0;
+      display: block;
+      width: 30px;
+      height: 30px;
     }
   </style>
   <title>test</title>
@@ -23,38 +33,25 @@
 <body>
 
 <canvas id="canvas"></canvas>
-<div class="filter"></div>
+<div class="text"></div>
+<div class="color"></div>
 
 <script>
 let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
 let cw, ch
-resize()
+// resize()
 function resize () {
   cw = canvas.width = document.documentElement.clientWidth
   ch = canvas.height = document.documentElement.clientHeight
 }
-ctx.lineWidth = 12
-ctx.strokeStyle = 'red'
 
-ctx.save()
+ctx.font = '38pt Arial'
+ctx.fillStyle = 'cornflowerblue'
+ctx.strokeStyle = 'blue'
 
-ctx.rect(0, 0, 200, 200)
-ctx.clip()
-
-ctx.beginPath()
-ctx.arc(200, 200, 100, 0, Math.PI * 2)
-ctx.stroke()
-ctx.closePath()
-
-ctx.restore()
-
-ctx.beginPath()
-ctx.arc(220, 220, 100, 0, Math.PI * 2)
-ctx.stroke()
-ctx.closePath()
-
-
+ctx.fillText('hello Canvas', cw / 2 - 150, ch / 2 + 15)
+ctx.strokeText('hello Canvas', cw / 2 - 150, ch / 2 + 15)
 
 // class MyParticle extends Particle {
 //   constructor (options) {
