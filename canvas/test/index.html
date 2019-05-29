@@ -34,6 +34,17 @@ function resize () {
   cw = canvas.width = document.documentElement.clientWidth
   ch = canvas.height = document.documentElement.clientHeight
 }
+ctx.strokeStyle = '#f00'
+function drawCoordinate () {
+  ctx.moveTo(0, 0)
+  ctx.lineTo(0, ch)
+  ctx.stroke()
+  ctx.moveTo(0, 0)
+  ctx.lineTo(cw, 0)
+  ctx.stroke()
+}
+
+drawCoordinate()
 
 console.log(canvas.getBoundingClientRect())
 
