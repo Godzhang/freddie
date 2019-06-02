@@ -34,46 +34,67 @@ function resize () {
   cw = canvas.width = document.documentElement.clientWidth
   ch = canvas.height = document.documentElement.clientHeight
 }
-// ctx.translate(10, 10)
-ctx.strokeStyle = '#f00'
-function drawCoordinate () {
-  ctx.moveTo(0, 0)
-  ctx.lineTo(0, ch)
-  ctx.stroke()
-  ctx.moveTo(0, 0)
-  ctx.lineTo(cw, 0)
-  ctx.stroke()
-}
 
-// drawCoordinate()
 
-// ctx.lineWidth = 1
-// ctx.shadowColor = '#f00'
-// ctx.shadowOffsetX = -5
-// ctx.shadowOffsetY = -5
-// ctx.shadowBlur = 10
-// ctx.strokeStyle = 'rgba(255, 0, 0, .7)'
+
+
+// ctx.fillStyle = 'lightgray'
+// ctx.rect(0, 0, cw, ch)
+// ctx.fill()
+//
+// ctx.fillStyle = '#fff'
+// ctx.strokeStyle = '#fff'
 //
 // ctx.beginPath()
-// ctx.arc(200, 200, 60, 0, Math.PI * 2)
-// ctx.clip()
+// ctx.moveTo(100, 100)
+// ctx.lineTo(100, 200)
+// ctx.lineTo(200, 200)
+// ctx.lineTo(200, 100)
+// ctx.closePath()
 // ctx.stroke()
-
-ctx.shadowColor = 'rgba(0, 0, 0, 0.5)'
-ctx.shadowOffsetX = 1
-ctx.shadowOffsetY = 1
-ctx.shadowBlur = 3
-
-let gradient = ctx.createLinearGradient(0, 0, 200, 100)
-gradient.addColorStop(0, 'rgba(153, 244, 255, 1)')
-gradient.addColorStop(1, 'rgba(62, 205, 246, 1)')
-
-ctx.fillStyle = gradient
-// ctx.strokeStyle = gradient
 //
-ctx.font = '30px Arial'
-ctx.fillText('甘肃省热点突发舆情事件', 10, 50)
-// ctx.fillRect(0, 0, 200, 100)
+// ctx.save()
+// ctx.strokeStyle = '#fff'
+// ctx.arc(300, 350, 100, 0, Math.PI * 2)
+// ctx.stroke()
+// ctx.fill()
+// ctx.clip()
+// ctx.restore()
+//
+//
+// function drawTwoArcs () {
+//   ctx.beginPath()
+//   ctx.arc(300, 190, 150, 0, Math.PI * 2, false)
+//   ctx.arc(300, 190, 100, 0, Math.PI * 2, true)
+//
+//   ctx.fill()
+//   ctx.shadowColor = undefined
+//   ctx.shadowOffsetX = 0
+//   ctx.shadowOffsetY = 0
+//   ctx.stroke()
+// }
+//
+// function draw () {
+//   ctx.clearRect(0, 0, cw, ch)
+//   drawGrid('lightgray', 10, 10)
+//
+//   ctx.save()
+//   ctx.shadowColor = 'rgba(0, 0, 0, 0.8)'
+//   ctx.shadowOffsetX = 12
+//   ctx.shadowOffsetY = 12
+//   ctx.shadowBlur = 15
+//
+//   ctx.fillStyle = '#000'
+//   drawTwoArcs()
+//
+//   ctx.restore()
+// }
+//
+// draw()
+
+
+
+
 
 
 </script>
