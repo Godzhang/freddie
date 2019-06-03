@@ -34,9 +34,56 @@ function resize () {
   cw = canvas.width = document.documentElement.clientWidth
   ch = canvas.height = document.documentElement.clientHeight
 }
+ctx.strokeStyle = '#f00'
+ctx.fillStyle = '#000'
 
 
 
+
+
+
+
+
+
+// let mousedown = {x: 0, y: 0}
+// let isDown = false
+// canvas.addEventListener('mousedown', e => {
+//   mousedown.x = e.clientX
+//   mousedown.y = e.clientY
+//   isDown = true
+// })
+//
+// canvas.addEventListener('mousemove', e => {
+//   if (!isDown) return
+//   drawRubberbandShape({
+//     x: e.clientX,
+//     y: e.clientY
+//   })
+// })
+//
+// canvas.addEventListener('mouseup', e => {
+//   isDown = false
+// })
+//
+// function drawRubberbandShape (loc) {
+//   ctx.clearRect(0, 0, cw, ch)
+//   let radius
+//
+//   if (mousedown.y === loc.y) {
+//     radius = Math.abs(loc.x - mousedown.x)
+//   } else {
+//     radius = Math.sqrt(Math.pow(loc.y - mousedown.y, 2), Math.pow(loc.x - mousedown.x, 2))
+//   }
+//
+//   ctx.beginPath()
+//   ctx.arc(mousedown.x, mousedown.y, radius, 0, Math.PI * 2, false)
+//   ctx.stroke()
+// }
+
+
+
+// drawDashedLine(0, 0, cw, ch)
+// drawGrid('lightgray', 10, 10)
 
 // ctx.fillStyle = 'lightgray'
 // ctx.rect(0, 0, cw, ch)

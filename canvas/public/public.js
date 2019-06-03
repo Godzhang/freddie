@@ -50,3 +50,21 @@ function rect(x, y, w, h, direction) {
   }
   ctx.closePath()
 }
+
+function drawDashedLine (x1, y1, x2, y2, dashLength = 5, strokeStyle = '#000') {
+  if (typeof dashLength === 'string') {
+    strokeStyle = dashLength
+    dashLength = 5
+  }
+  let deltaX = x2 - x1
+  let deltaY = y2 - y1
+  // 计算出分几段
+  let numDashes = Math.floor(
+    Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) / dashLength
+  )
+  for (let i = 0; i < numDashes; i++) {
+    ctx[i % 2 === 0 ? 'moveTo' : 'lineTo'](x1 + (deltaX / numDashes) * i, y1 + (deltaY / numDashes) * i)
+  }
+  ctx.strokeStyle = strokeStyle
+  ctx.stroke()
+}
