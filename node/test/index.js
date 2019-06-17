@@ -4,8 +4,6 @@ const fs = require("fs");
 const url = require("url");
 const net = require("net");
 
-console.log(process.env.NODE_ENV);
-
 // let server = net.createServer(c => {
 //   console.log("client connected");
 //   c.on("end", () => console.log("client disconnected"));
