@@ -15,16 +15,15 @@
     <!-- <script src="./js/lodash.js" type="text/javascript"></script> -->
     <!-- <script src="./js/func.js" type="text/javascript"></script> -->
     <script>
-      function map(arr, cb) {
-        let res = [];
-        for (let i = 0, l = arr.length; i < l; i++) {
-          res[i] = cb(arr[i], i, arr);
-        }
-        return res;
-      }
-      let arr = [1, 2, 3, 4, 5];
-      let res = map(arr, item => item + 1);
-      console.log(res);
+      const a = {};
+      const b = { key: "b" };
+      const c = { key: "c" };
+
+      a[b] = 123;
+      a[c] = 456;
+
+      console.log(a);
+      console.log(a[b]);
     </script>
   </body>
 </html>
