@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
+    "request-promise": "^4.2.4",
     "request.js": "^0.0.6"
   }
 }

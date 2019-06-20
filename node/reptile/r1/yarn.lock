@@ -7,6 +7,11 @@
   resolved "http://172.21.84.44:4873/@types%2fnode/-/node-12.0.8.tgz#551466be11b2adc3f3d47156758f610bd9f6b1d8"
   integrity sha1-VRRmvhGyrcPz1HFWdY9hC9n2sdg=
 
+bluebird@^3.5.0:
+  version "3.5.5"
+  resolved "http://172.21.84.44:4873/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
+  integrity sha1-qNCv1zJR7/u9X+OEp31zADwXpx8=
+
 boolbase@~1.0.0:
   version "1.0.0"
   resolved "http://172.21.84.44:4873/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
@@ -97,7 +102,7 @@ inherits@^2.0.1, inherits@^2.0.3:
   resolved "http://172.21.84.44:4873/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
   integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
 
-lodash@^4.15.0:
+lodash@^4.15.0, lodash@^4.17.11:
   version "4.17.11"
   resolved "http://172.21.84.44:4873/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
@@ -116,6 +121,16 @@ parse5@^3.0.1:
   dependencies:
     "@types/node" "*"
 
+psl@^1.1.28:
+  version "1.1.33"
+  resolved "http://172.21.84.44:4873/psl/-/psl-1.1.33.tgz#5533d9384ca7aab86425198e10e8053ebfeab661"
+  integrity sha1-VTPZOEynqrhkJRmOEOgFPr/qtmE=
+
+punycode@^2.1.1:
+  version "2.1.1"
+  resolved "http://172.21.84.44:4873/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
+  integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
+
 readable-stream@^3.1.1:
   version "3.4.0"
   resolved "http://172.21.84.44:4873/readable-stream/-/readable-stream-3.4.0.tgz#a51c26754658e0a3c21dbf59163bd45ba6f447fc"
@@ -124,6 +139,23 @@ readable-stream@^3.1.1:
     inherits "^2.0.3"
     string_decoder "^1.1.1"
     util-deprecate "^1.0.1"
+
+request-promise-core@1.1.2:
+  version "1.1.2"
+  resolved "http://172.21.84.44:4873/request-promise-core/-/request-promise-core-1.1.2.tgz#339f6aababcafdb31c799ff158700336301d3346"
+  integrity sha1-M59qq6vK/bMceZ/xWHADNjAdM0Y=
+  dependencies:
+    lodash "^4.17.11"
+
+request-promise@^4.2.4:
+  version "4.2.4"
+  resolved "http://172.21.84.44:4873/request-promise/-/request-promise-4.2.4.tgz#1c5ed0d71441e38ad58c7ce4ea4ea5b06d54b310"
+  integrity sha1-HF7Q1xRB44rVjHzk6k6lsG1UsxA=
+  dependencies:
+    bluebird "^3.5.0"
+    request-promise-core "1.1.2"
+    stealthy-require "^1.1.1"
+    tough-cookie "^2.3.3"
 
 request.js@^0.0.6:
   version "0.0.6"
@@ -135,12 +167,25 @@ safe-buffer@~5.1.0:
   resolved "http://172.21.84.44:4873/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
   integrity sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
 
+stealthy-require@^1.1.1:
+  version "1.1.1"
+  resolved "http://172.21.84.44:4873/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
+  integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
+
 string_decoder@^1.1.1:
   version "1.2.0"
   resolved "http://172.21.84.44:4873/string_decoder/-/string_decoder-1.2.0.tgz#fe86e738b19544afe70469243b2a1ee9240eae8d"
   integrity sha1-/obnOLGVRK/nBGkkOyoe6SQOro0=
   dependencies:
     safe-buffer "~5.1.0"
+
+tough-cookie@^2.3.3:
+  version "2.5.0"
+  resolved "http://172.21.84.44:4873/tough-cookie/-/tough-cookie-2.5.0.tgz#cd9fb2a0aa1d5a12b473bd9fb96fa3dcff65ade2"
+  integrity sha1-zZ+yoKodWhK0c72fuW+j3P9lreI=
+  dependencies:
+    psl "^1.1.28"
+    punycode "^2.1.1"
 
 util-deprecate@^1.0.1:
   version "1.0.2"
