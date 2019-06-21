@@ -1,5 +1,5 @@
 {
-  "name": "r1",
+  "name": "baiduNews",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
-    "request-promise": "^4.2.4",
-    "request.js": "^0.0.6"
+    "express": "^4.17.1",
+    "nightmare": "^3.0.2",
+    "superagent": "^5.1.0"
   }
 }
