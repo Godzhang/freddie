@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- name: 元数据名称 -->
+    <!-- http-equiv: 编译指令 -->
+    <!-- charset: 字符编码 -->
+    <meta charset="UTF-8" />
+    <!-- viewport宽度等于设备宽度，比例1:1， 禁止缩放， 最大缩放比例为1 -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0"
+    />
+    <!--内核控制标签-->
+    <!-- content取值如下 -->
+    <!-- webkit: webkit内核 -->
+    <!-- ie-comp: IE兼容内核 --->
+    <!-- ie-stand: IE标准内核 -->
+    <meta name="renderer" content="webkit" />
+    <!-- 使IE内核浏览器优先使用最新版本引擎渲染页面 -->
+    <!-- 并且在安装了google chrome frame扩展插件的浏览器中激活chrome frame作为渲染引擎 -->
+    <!-- 避免使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!-- SEO相关 -->
+    <meta name="keywords" content="keywords" />
+    <meta name="description" content="description" />
+    <!--控制搜索引擎的抓取行为，不希望页面被抓取并公开-->
+    <!-- content为none，代表页面文件将不被检索，且页面上的链接不可被查询 -->
+    <!-- content为all, 文件和链接都能够被检索和查询 -->
+    <meta name="robots" content="none" />
+    <!-- 针对移动端 -->
+    <!-- 移动页面中的数字不被识别为电话号码 -->
+    <meta name="format-detection" content="telephone=no" />
+    <!-- 避免对邮箱地址识别 -->
+    <meta name="format-detection" content="email=no" />
+    <!-- 使页面针对老式手持设备优化 -->
+    <meta name="HandheldFriendly" content="true" />
+    <!-- 指定时间刷新页面,以秒为单位 -->
+    <meta http-equiv="refresh" content="30000" />
+    <!-- 0秒后立即跳转到指定URL -->
+    <!-- <meta http-equiv="refresh" content="0;URL=http://www.sohu.com" /> -->
+    <!-- 设置页面缓存过期时间，超过时间重新发送请求 -->
+    <!-- <meta http-equiv="expires" content="Wed, 12 Aug 2015 13:43:22 GMT"> -->
+    <!-- 通过百度搜索访问时，强制进入原网页 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <script src="./js/public.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        /* text-align: center; */
+        /* overflow: hidden; */
+        position: relative;
+        /* color: #fff; */
+        /* background: linear-gradient(45deg, #51b0e7 50%, #006084 50%);
+        background-size: 20px 20px; */
+      }
+      #mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+    <title>h5</title>
+  </head>
+  <body>
+    <h1>刮一刮</h1>
+    <div style="position: relative;">
+      <img src="./images/person-2.jpg" alt="" />
+      <canvas id="mask" width="300" height="400"></canvas>
+    </div>
+    <p id="status">请在以上的刮奖区刮奖</p>
+    <script>
+      const canvas = document.getElementById("mask");
+      let ctx = canvas.getContext("2d");
+      ctx.globalCompositeOperation = "destination-out";
+
+      ctx.fillStyle = "#d1d1d1";
+      ctx.fillRect(0, 0, 300, 400);
+
+      canvas.addEventListener("touchmove", event => {
+        event.preventDefault();
+        let touch = event.touches[0];
+        ctx.beginPath();
+        ctx.arc(
+          touch.pageX - canvas.offsetLeft,
+          touch.pageY - canvas.offsetTop,
+          20,
+          0,
+          Math.PI * 2
+        );
+        ctx.closePath();
+        ctx.fillStyle = "#bdc3c7";
+        ctx.fill();
+      });
+    </script>
+  </body>
+</html>
