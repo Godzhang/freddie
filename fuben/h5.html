@@ -43,10 +43,15 @@
     <!-- 通过百度搜索访问时，强制进入原网页 -->
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <script src="./js/public.js"></script>
+    <script src="./js/jquery.js"></script>
     <style>
       * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
+      }
+      li {
+        list-style: none;
       }
       html,
       body {
@@ -55,51 +60,12 @@
       body {
         margin: 0;
         padding: 0;
-        /* text-align: center; */
-        /* overflow: hidden; */
         position: relative;
-        /* color: #fff; */
-        /* background: linear-gradient(45deg, #51b0e7 50%, #006084 50%);
-        background-size: 20px 20px; */
-      }
-      #mask {
-        position: absolute;
-        top: 0;
-        left: 0;
       }
     </style>
     <title>h5</title>
   </head>
   <body>
-    <h1>刮一刮</h1>
-    <div style="position: relative;">
-      <img src="./images/person-2.jpg" alt="" />
-      <canvas id="mask" width="300" height="400"></canvas>
-    </div>
-    <p id="status">请在以上的刮奖区刮奖</p>
-    <script>
-      const canvas = document.getElementById("mask");
-      let ctx = canvas.getContext("2d");
-      ctx.globalCompositeOperation = "destination-out";
-
-      ctx.fillStyle = "#d1d1d1";
-      ctx.fillRect(0, 0, 300, 400);
-
-      canvas.addEventListener("touchmove", event => {
-        event.preventDefault();
-        let touch = event.touches[0];
-        ctx.beginPath();
-        ctx.arc(
-          touch.pageX - canvas.offsetLeft,
-          touch.pageY - canvas.offsetTop,
-          20,
-          0,
-          Math.PI * 2
-        );
-        ctx.closePath();
-        ctx.fillStyle = "#bdc3c7";
-        ctx.fill();
-      });
-    </script>
+    <script></script>
   </body>
 </html>

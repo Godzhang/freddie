@@ -17,30 +17,6 @@
   <body>
     <div class="container"></div>
 
-    <script>
-      let container = document.querySelector(".container");
-
-      function throttle(fn, delay) {
-        let last = 0;
-        let timer = null;
-
-        return function() {
-          let context = this;
-          let args = arguments;
-          let now = +new Date();
-
-          if (now - last < delay) {
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-              last = now;
-              fn.apply(this, args);
-            }, delay);
-          } else {
-            last = now;
-            fn.apply(context, args);
-          }
-        };
-      }
-    </script>
+    <script></script>
   </body>
 </html>
