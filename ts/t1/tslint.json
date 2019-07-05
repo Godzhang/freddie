@@ -10,7 +10,8 @@
     "trailing-comma": false,
     "interface-name": [true, "never-prefix"],
     "no-angle-bracket-type-assertion": false,
-    "callable-types": false
+    "callable-types": false,
+    "max-classes-per-file": false
   },
   "rulesDirectory": []
 }
