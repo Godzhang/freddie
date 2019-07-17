@@ -26,15 +26,3 @@
 // };
 
 // 工厂模式
-function restaurant(menu) {
-  switch (menu) {
-    case "yuxiangrousi":
-      return new Yuxiangrousi();
-      break;
-    case "gongbaojiding":
-      return new Gongbaojiding();
-      break;
-    default:
-      throw new Error("meiyou");
-  }
-}
