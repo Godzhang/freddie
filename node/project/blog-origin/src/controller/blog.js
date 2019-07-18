@@ -1,12 +1,15 @@
-const { exec } = require("../db/mysql");
+const xss = require("xss");
+const { exec, escape } = require("../db/mysql");
 
 const getList = (author, keyword) => {
+  author = escape(author);
+  keyword = escape("%" + keyword + "%");
   let sql = `select * from blogs where 1=1 `;
-  if (author) {
-    sql += `and author='${author}' `;
+  if (author != "''") {
+    sql += `and author=${author} `;
   }
   if (keyword) {
-    sql += `and title like '%${keyword}%'`;
+    sql += `and title like ${keyword}`;
   }
   sql += `order by createtime desc;`;
 
@@ -22,10 +25,13 @@ const getDetail = id => {
 };
 
 const newBlog = (blogData = {}) => {
-  const { title, content, author } = blogData;
+  let { title, content, author } = blogData;
+  title = escape(xss(title));
+  content = escape(xss(content));
+  author = escape(author);
   const createtime = Date.now();
 
-  let sql = `insert into blogs (title, content, createtime, author) values ('${title}', '${content}', ${createtime}, '${author}')`;
+  let sql = `insert into blogs (title, content, createtime, author) values (${title}, ${content}, ${createtime}, ${author})`;
 
   return exec(sql).then(res => {
     return { id: res.insertId };
@@ -33,7 +39,8 @@ const newBlog = (blogData = {}) => {
 };
 
 const updateBlog = (id, blogData = {}) => {
-  const { title, content } = blogData;
+  let title = escape(xss(blogData.title));
+  let content = escape(xss(blogData.content));
 
   let sql = `update blogs set title='${title}', content='${content}' where id='${id}';`;
 
