@@ -1,23 +1,28 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import App from './App.vue'
-import Home from './page/Home.vue'
+import Vue from "vue";
+import Router from "vue-router";
+import App from "./App.vue";
+import Home from "./page/Home.vue";
+import Rotary from "./page/Rotary.vue";
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'app',
+      path: "/",
+      name: "app",
       component: App,
-      redirect: 'home',
+      redirect: "home",
       children: [
         {
-          path: 'home',
+          path: "home",
           component: Home
         }
       ]
+    },
+    {
+      path: "/rotary",
+      component: Rotary
     }
   ]
-})
+});
