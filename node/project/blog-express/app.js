@@ -1,5 +1,6 @@
 var express = require("express");
 var path = require("path");
+var fs = require("fs");
 var favicon = require("serve-favicon");
 var logger = require("morgan");
 var cookieParser = require("cookie-parser");
@@ -15,10 +16,19 @@ var app = express();
 // view engine setup
 // app.set("views", path.join(__dirname, "views"));
 // app.set("view engine", "jade");
+const ENV = process.env.NODE_ENV;
+if (ENV !== "production") {
+  app.use(logger("dev"));
+} else {
+  const fileName = path.resolve(__dirname, "logs", "access.log");
+  const writeStream = fs.createWriteStream(fileName, { flags: "a" });
+  app.use(
+    logger("combined", {
+      stream: writeStream
+    })
+  );
+}
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
