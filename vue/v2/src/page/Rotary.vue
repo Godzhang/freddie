@@ -3,7 +3,6 @@
     <div class="iframe-page">
       <template v-for="(page, pageIndex) in pageData">
         <div class="iframe-item" :key="page.url" v-show="currentIndex === pageIndex">
-          <!--这里需要懒加载-->
           <iframe
             ref="page"
             src

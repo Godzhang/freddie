@@ -1,13 +1,11 @@
 <template>
   <div ref="home">
-    <i-form :model="formValidate" :rules="ruleValidate">
-      <i-form-item label="用户名" prop="name">
-        <i-input v-model="formValidate.name"></i-input>
-      </i-form-item>
-      <i-form-item label="邮箱" prop="mail">
-        <i-input v-model="formValidate.mail"></i-input>
-      </i-form-item>
-    </i-form>
+    <!-- <i-checkbox-group v-model="group">
+      <i-checkbox label="zhangqi">zhangqi</i-checkbox>
+      <i-checkbox label="zhaojinge">zhaojinge</i-checkbox>
+      <i-checkbox label="sdofsdf">sdofsdf</i-checkbox>
+      <i-checkbox label="sdfsd">sdfsd</i-checkbox>
+    </i-checkbox-group>-->
   </div>
 </template>
 <script>
@@ -31,6 +29,8 @@ export default {
   name: "Home",
   data() {
     return {
+      check: false,
+      group: [],
       formValidate: {
         name: "",
         mail: ""
@@ -45,12 +45,22 @@ export default {
     };
   },
   mounted() {
-    this.init();
+    // this.init();
+    this.addComponent();
+  },
+  watch: {
+    check(val) {
+      console.log(val);
+    },
+    group(val) {
+      console.log(val);
+    }
   },
   methods: {
     init() {
       console.log(this);
-    }
+    },
+    addComponent() {}
   },
   components: {
     iForm,
