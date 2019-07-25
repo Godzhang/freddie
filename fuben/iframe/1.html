@@ -22,5 +22,16 @@
   </head>
   <body>
     <h1 style="text-align: center;">iframe-1</h1>
+
+    <script>
+      // window.showName = function() {
+      //   console.log("iframe1");
+      // };
+      window.onload = function() {
+        setTimeout(() => {
+          window.parent.postMessage({ isDone: true }, "*");
+        }, 3000);
+      };
+    </script>
   </body>
 </html>
