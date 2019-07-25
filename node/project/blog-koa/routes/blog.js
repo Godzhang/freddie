@@ -1,15 +1,5 @@
 const router = require("koa-router")();
 
-router.prefix("/api/blog");
-
-// router.get("/list", async (ctx, next) => {
-//   const query = ctx.query;
-//   ctx.body = {
-//     errno: 0,
-//     data: ["滑動if教師的"],
-//     query
-//   };
-// });
 const {
   getList,
   getDetail,
@@ -19,6 +9,8 @@ const {
 } = require("../controller/blog");
 const { SuccessModel, ErrorModel } = require("../model/resModel");
 const loginCheck = require("../middleware/loginCheck");
+
+router.prefix("/api/blog");
 
 router.get("/list", async (ctx, next) => {
   let { author = "", keyword = "" } = ctx.query;

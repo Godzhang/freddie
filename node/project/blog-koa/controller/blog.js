@@ -1,7 +1,7 @@
 const xss = require("xss");
 const { exec, escape } = require("../db/mysql");
 
-const getList = (author, keyword) => {
+const getList = async (author, keyword) => {
   author = escape(author);
   keyword = escape("%" + keyword + "%");
   let sql = `select * from blogs where 1=1 `;
@@ -14,17 +14,16 @@ const getList = (author, keyword) => {
   sql += `order by createtime desc;`;
 
   // 返回promise
-  return exec(sql);
+  return await exec(sql);
 };
 
-const getDetail = id => {
+const getDetail = async id => {
   let sql = `select * from blogs where id=${id};`;
-  return exec(sql).then(rows => {
-    return rows[0];
-  });
+  const rows = await exec(sql);
+  return rows[0];
 };
 
-const newBlog = (blogData = {}) => {
+const newBlog = async (blogData = {}) => {
   let { title, content, author } = blogData;
   title = escape(xss(title));
   content = escape(xss(content));
@@ -33,34 +32,25 @@ const newBlog = (blogData = {}) => {
 
   let sql = `insert into blogs (title, content, createtime, author) values (${title}, ${content}, ${createtime}, ${author})`;
 
-  return exec(sql).then(res => {
-    return { id: res.insertId };
-  });
+  const result = await exec(sql);
+  return { id: result.insertId };
 };
 
-const updateBlog = (id, blogData = {}) => {
+const updateBlog = async (id, blogData = {}) => {
   let title = escape(xss(blogData.title));
   let content = escape(xss(blogData.content));
 
   let sql = `update blogs set title=${title}, content=${content} where id='${id}';`;
 
-  return exec(sql).then(updateData => {
-    if (updateData.affectedRows > 0) {
-      return true;
-    }
-    return false;
-  });
+  const updateData = await exec(sql);
+  return updateData.affectedRows > 0;
 };
 
-const delBlog = (id, author) => {
+const delBlog = async (id, author) => {
   let sql = `delete from blogs where id='${id}' and author='${author}';`;
 
-  return exec(sql).then(delData => {
-    if (delData.affectedRows > 0) {
-      return true;
-    }
-    return false;
-  });
+  const delData = await exec(sql);
+  return delData.affectedRows > 0;
 };
 module.exports = {
   getList,
