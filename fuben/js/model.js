@@ -26,3 +26,16 @@
 // };
 
 // 工厂模式
+
+// 建造者(生成器)模式
+function CarBuilder({ color = "white", weight = 0 }) {
+  this.color = color;
+  this.weight = weight;
+}
+CarBuilder.prototype.buildType = function(type) {
+  switch (type) {
+    case "small":
+      this.tyreType = "小号轮胎";
+      this.tyreIntro = "正在使用小号轮胎";
+  }
+};
