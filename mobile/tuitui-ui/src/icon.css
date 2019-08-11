@@ -1,0 +1,14 @@
+/*
+ * @Author: 张奇
+ * @Date: 2019-08-11 21:24:29
+ * @LastEditors: 张奇
+ * @LastEditTime: 2019-08-11 21:46:44
+ * @Description: 
+ */
+/* 字体图标，依赖font-awesome */
+@import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+
+.fa {
+  display: inline-block;
+  text-align: center;
+}

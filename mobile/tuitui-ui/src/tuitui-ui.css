@@ -2,6 +2,18 @@
  * @Author: 张奇
  * @Date: 2019-08-10 21:37:42
  * @LastEditors: 张奇
- * @LastEditTime: 2019-08-10 21:46:06
+ * @LastEditTime: 2019-08-11 22:13:36
  * @Description: file content
  */
+/* css reset */
+@import "./reset.css";
+/* 公共样式 */
+@import "./common.css";
+/* 字体图标 */
+@import "./icon.css";
+/* 标题栏样式 */
+@import "./header.css";
+/* 内容区样式 */
+@import "./content.css";
+/* 导航条样式 */
+@import "./navbar.css";

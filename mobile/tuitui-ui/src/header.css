@@ -1,0 +1,18 @@
+/*
+ * @Author: 张奇
+ * @Date: 2019-08-11 22:09:49
+ * @LastEditors: 张奇
+ * @LastEditTime: 2019-08-11 22:16:19
+ * @Description: 
+ */
+/* 头部导航条 */
+.tt-header {
+  position: fixed;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 640px;
+  height: 2.3rem;
+  top: 0;
+  z-index: 200;
+  border-bottom: 1px solid #ddd;
+}

@@ -1,0 +1,18 @@
+/*
+ * @Author: 张奇
+ * @Date: 2019-08-11 22:09:49
+ * @LastEditors: 张奇
+ * @LastEditTime: 2019-08-11 22:19:24
+ * @Description: 
+ */
+/* 底部导航栏 */
+.tt-navbar {
+  position: fixed;
+  box-sizing: border-box;
+  bottom: 0;
+  width: 100%;
+  max-width: 640px;
+  height: 2.5rem;
+  border-top: 1px solid #ddd;
+  z-index: 200;
+}
