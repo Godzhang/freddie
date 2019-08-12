@@ -2,7 +2,7 @@
  * @Author: 张奇
  * @Date: 2019-08-10 21:37:42
  * @LastEditors: 张奇
- * @LastEditTime: 2019-08-11 22:13:36
+ * @LastEditTime: 2019-08-12 15:11:45
  * @Description: file content
  */
 /* css reset */
@@ -17,3 +17,7 @@
 @import "./content.css";
 /* 导航条样式 */
 @import "./navbar.css";
+/* 表单元素样式 */
+@import "./input.css";
+/* 按钮样式 */
+@import "./button.css";
