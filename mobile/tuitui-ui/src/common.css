@@ -1,6 +1,7 @@
 /* 屏幕宽度在340px至410px时的样式用作基础样式 */
 html {
   font-size: 20px;
+  height: 100%;
 }
 
 /* 屏幕宽度小于340px时的样式 */
@@ -19,6 +20,7 @@ html {
 
 body {
   max-width: 640px;
+  height: 100%;
   margin: 0 auto;
   background: #f8f8f8;
   overflow-x: hidden;
