@@ -2,7 +2,7 @@
  * @Author: 张奇
  * @Date: 2019-08-11 21:24:29
  * @LastEditors: 张奇
- * @LastEditTime: 2019-08-11 21:46:44
+ * @LastEditTime: 2019-08-14 09:44:45
  * @Description: 
  */
 /* 字体图标，依赖font-awesome */
@@ -11,4 +11,21 @@
 .fa {
   display: inline-block;
   text-align: center;
+}
+
+/* 垂直方向上振动 */
+.fa-vibrate-y {
+  animation: fa-vibrate-y 1.5s infinite ease-in;
+}
+/* 振动轨迹 */
+@keyframes fa-vibrate-y {
+  0% {
+    transform: translateY(-10%);
+  }
+  50% {
+    transform: translateY(10%);
+  }
+  100% {
+    transform: translateY(-10%);
+  }
 }
