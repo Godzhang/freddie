@@ -81,35 +81,89 @@
 // console.log(b1);
 
 // 模板方法模式
-class AbstractClass {
-  constructor() {
-    if (new.target === AbstractClass) {
-      throw new Error("抽象类不能直接实例化");
-    }
-  }
+// class AbstractClass {
+//   constructor() {
+//     if (new.target === AbstractClass) {
+//       throw new Error("抽象类不能直接实例化");
+//     }
+//   }
 
-  operate1() {
-    console.log("operate1");
-  }
+//   operate1() {
+//     console.log("operate1");
+//   }
 
-  operate2() {
-    console.log("抽象方法不能调用");
-  }
+//   operate2() {
+//     console.log("抽象方法不能调用");
+//   }
 
-  templateMethod() {
-    this.operate1();
-    this.operate2();
-  }
-}
+//   templateMethod() {
+//     this.operate1();
+//     this.operate2();
+//   }
+// }
 
-class ConcreteClass extends AbstractClass {
-  constructor() {
-    super();
-  }
-  operate2() {
-    console.log("operate2");
-  }
-}
+// class ConcreteClass extends AbstractClass {
+//   constructor() {
+//     super();
+//   }
+//   operate2() {
+//     console.log("operate2");
+//   }
+// }
 
-const instance = new ConcreteClass();
-instance.templateMethod();
+// const instance = new ConcreteClass();
+// instance.templateMethod();
+
+// 策略模式
+// const StragegyMap = {};
+
+// function context(type, ...rest) {
+//   return StragegyMap[type] && StragegyMap[type](...rest);
+// }
+
+// StragegyMap.minus100_30 = function(price) {
+//   return price - Math.floor(price / 100) * 30;
+// };
+// context("minus100_30", 270);
+
+// 发布订阅模式
+// class Publisher {
+//   constructor() {
+//     this._subsMap = {};
+//   }
+
+//   // 消息订阅
+//   subscribe(type, cb) {
+//     if (this._subsMap[type]) {
+//       if (!this._subsMap[type].includes(cb)) {
+//         this._subsMap[type].push(cb);
+//       }
+//     } else {
+//       this._subsMap[type] = [cb];
+//     }
+//   }
+
+//   // 消息退订
+//   unsubscribe(type, cb) {
+//     if (!this._subsMap[type] || !this._subsMap[type].includes(cb)) return;
+//     const idx = this._subsMap[type].indexOf(cb);
+//     this._subsMap[type].splice(idx, 1);
+//   }
+
+//   // 消息发布
+//   notify(type, ...payload) {
+//     if (!this._subsMap[type]) return;
+//     this._subsMap[type].forEach(cb => cb(...payload));
+//   }
+// }
+
+// const adadis = new Publisher();
+
+// adadis.subscribe("运动鞋", message => console.log("152xxx" + message)); // 订阅运动鞋
+// adadis.subscribe("运动鞋", message => console.log("138yyy" + message));
+// adadis.subscribe("帆布鞋", message => console.log("139zzz" + message)); // 订阅帆布鞋
+
+// adadis.notify("运动鞋", " 运动鞋到货了 ~"); // 打电话通知买家运动鞋消息
+// adadis.notify("帆布鞋", " 帆布鞋售罄了 T.T"); // 打电话通知买家帆布鞋消息
+
+// 状态模式
