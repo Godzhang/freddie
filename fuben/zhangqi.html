@@ -17,6 +17,39 @@
   <body>
     <div class="container"></div>
 
-    <script></script>
+    <script>
+      // `<img src="http://service-aa-dsj.inserv.testb.xinhua-news.cn/data/dataService/resAttchmentService/getAttachment?libId=3&attachId=200012019082296881474" style="display:block;margin-right:auto;margin-left:auto;max-width:100%" ></img>`
+      let searchStr = "span";
+      let str =
+        '<p class="">　　新华社长沙8月22日电（记者柳王敏）“遵从父亲的遗愿，将他的遗体捐献，用于医学教学和研究……”8月21日上午，“中国好人”钟挺华遗体捐赠仪式在湖南省永州职业技术学院医学实验实训中心举行，其子钟东述说着父亲钟挺华最后的心愿。</p><p style="text-align: center;" data-mce-style="text-align: center;"></p><p class="">　　<span style="color: #337fe5;" class="editor-desc editor-img-desc" data-mce-style="color: #337fe5;">钟挺华向记者展示自己参与制作的“家校德孝感恩喜报卡”（2018年11月15日摄）。新</span><span style="color: #337fe5;" class="editor-desc editor-img-desc" data-mce-style="color: #337fe5;">华社记者 万志云 摄</span></p><p class="">　　89岁的钟挺华老人，一生节俭朴素，以学习雷锋为目标，关爱和帮助未成年人健康成长，资助800余名贫困学生，为46所中小学校捐赠雷锋铜像，让雷锋精神永驻校园。钟挺华曾入选中央文明办发布的2016年12月“中国好人榜”，2017年被评为“第四届全国未成年人思想道德建设工作先进工作者”。</p><p class="">　　“父亲，我们完成您的遗愿，让您的爱在span医学事业中传递和延续。”钟挺华女儿钟红在灵柩前含泪说。依照钟挺华老人的遗愿，捐赠仪式现场没有花圈，仪式从简，肃穆安静。永州市侨联、永州市红十字会、永州市东安县有关部门和社会各界百余名代表参加捐赠仪式。</p><p class="">　　“自愿捐献的遗体都是医学生解剖课堂上‘无声’的老师，是铺筑医学进步的阶梯。”永州职业技术学院党委副书记李国春说，遗体捐献是一项奉献大爱的人道事业，对于服务医学教育和科研，救助器官衰竭患者具有十分重要的意义。</p><p class="">　　钟挺华1930年出生在印度尼西亚，父母是广东人，4岁时他回国后居住在广东梅州市的外婆家。19岁时钟挺华入伍参加解放战争，直到1954年从部队转业后到湖南，1958年到东安县工作，1986年离休。</p><p class="">　　2014年，钟挺华给家人和东安县委宣传部留书，并向永州市红十字会表达去世后捐献遗体用于研究的意愿。今年7月，钟挺华老人因病住院，期间在病房里填写了《中国人体器官捐献志愿登记表》，自愿将个人遗体捐献给永州市红十字会。8月18日晚23时，钟挺华老人安详地离开人间，将大爱留在了世间。</p><p class="">　　“我们将接过钟老学雷锋做好事的这面大旗，帮助更多需要帮助的人，让雷锋精神代代传承。”东安县志愿者服务促进会副秘书长贺新华表示，虽然钟挺华老人离开了，但他的无私奉献精神将永远激励志愿者们前行。</p>';
+      const addHighlight = val => {
+        //所有检索词是否在当前这个字段值value中，有就标注出来
+        if (searchStr.includes("(") || searchStr.includes(")")) {
+          //检索词中有括号的情况
+          var reg = new RegExp("[\u0028\u0029]", "g");
+          searchStr = searchStr.replace(reg, "");
+        }
+        searchStr = "(" + searchStr + ")";
+        var regExp = new RegExp(searchStr, "ig");
+        val = val.replace(regExp, '<span style="color:red">$1</span>');
+        return val;
+      };
+      str = str.replace(/>([^<]+)</g, (...arguments) => {
+        return ">" + addHighlight(arguments[1]) + "<";
+      });
+      // let reg = /(<(\w+)[^>]*>)(.*?)(<\/\2>)/g;
+
+      // function replaceTag(str) {
+      //   if (reg.test(str)) {
+      //     str = str.replace(reg, (...arguments) => {
+      //       return arguments[1] + replaceTag(arguments[3]) + arguments[4];
+      //     });
+      //   } else {
+      //     return addHighlight(str);
+      //   }
+      // }
+      // replaceTag(str);
+      document.querySelector(".container").innerHTML = str;
+    </script>
   </body>
 </html>
