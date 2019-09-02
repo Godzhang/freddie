@@ -3,6 +3,7 @@ import Router from "vue-router";
 import App from "./App.vue";
 import Home from "./page/Home.vue";
 import Rotary from "./page/Rotary.vue";
+import Queen from "./page/Queen.vue";
 
 Vue.use(Router);
 
@@ -23,6 +24,10 @@ export default new Router({
     {
       path: "/rotary",
       component: Rotary
+    },
+    {
+      path: "/queen",
+      component: Queen
     }
   ]
 });
