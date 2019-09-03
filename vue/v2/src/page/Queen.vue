@@ -6,8 +6,12 @@
       <p slot="item" slot-scope="props">item {{ props.value }}</p>
     </QueenChild>
     <h1>新语法</h1>
-    <QueenChild v-slot:title>slot-title</QueenChild>
-    <QueenChild v-slot:item="props">{{ props.value }}</QueenChild>
+    <QueenChild>
+      <template v-slot:title>slot-title</template>
+    </QueenChild>
+    <QueenChild>
+      <template v-slot:item="props">{{ props.value }}</template>
+    </QueenChild>
   </div>
 </template>
 <script>
