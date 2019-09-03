@@ -19,12 +19,13 @@
     <button id="btn">click</button>
 
     <script>
-      let o = {
-        handleEvent(event) {
-          console.log(event);
-        }
+      let push = Array.prototype.push;
+      Array.prototype.push = function(...args) {
+        console.log(1);
+        return push.apply(this, args);
       };
-      document.querySelector("#btn").addEventListener("click", o, false);
+      let arr = [1, 2, 3];
+      arr.push(4);
     </script>
   </body>
 </html>
