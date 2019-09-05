@@ -1,13 +1,16 @@
 import Vue from "vue";
 import Router from "vue-router";
 import App from "./App.vue";
-import Home from "./page/Home.vue";
-import Rotary from "./page/Rotary.vue";
-import Queen from "./page/Queen.vue";
+const Home = () => import(/* webpackChunkName:'home' */ "./page/Home.vue");
+const Queen = () => import(/* webpackChunkName:'queen' */ "./page/Queen.vue");
 
 Vue.use(Router);
 
+let base = `${process.env.BASE_URL}`;
+
 export default new Router({
+  mode: "history",
+  base,
   routes: [
     {
       path: "/",
@@ -20,10 +23,6 @@ export default new Router({
           component: Home
         }
       ]
-    },
-    {
-      path: "/rotary",
-      component: Rotary
     },
     {
       path: "/queen",

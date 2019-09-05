@@ -1,10 +1,12 @@
 <template>
   <div class="wrap">
-    <button @click="visible = true">show</button>
-    <Dialog width="75%" height="50%" :visible.sync="visible"></Dialog>
+    <button @click="$router.push('/queen')">queen</button>
+    <!-- <button @click="visible = true">show</button>
+    <Dialog width="75%" height="50%" :visible.sync="visible"></Dialog>-->
   </div>
 </template>
 <script>
+import { getTestData } from "../services/moduleA";
 import Dialog from "../components/dialog/Dialog";
 require("../components/dialog/index.js");
 
@@ -14,6 +16,12 @@ export default {
     return {
       visible: false
     };
+  },
+  mounted() {
+    console.log("env ", process.env);
+    getTestData().then(res => {
+      console.log(res);
+    });
   },
   methods: {},
   components: {
