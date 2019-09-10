@@ -1,7 +1,7 @@
 <template>
   <div class="queen">
-    <!-- <QueenChild></QueenChild>
-    <button @click="onClick()">click</button>-->
+    <QueenChild @handle="handleCustClick"></QueenChild>
+    <!-- <button @click="onClick()">click</button> -->
     <!-- <TempVar var1="var1" var2="var2">
       <template v-slot="props">
         <div>{{props.var1}}</div>
@@ -19,14 +19,6 @@
         <button v-bind="bookmarkButtonAttrs" v-on="bookmarkButtonEvents">binding</button>
       </template>
     </List>-->
-    <base-component>
-      <h2 slot="slot1">BaseComponent slot</h2>
-      <p>default slot</p>
-    </base-component>
-    <enhanced-com>
-      <h2 slot="slot1">EnhancedComponent slot</h2>
-      <p>default slot</p>
-    </enhanced-com>
   </div>
 </template>
 <script>
@@ -60,6 +52,7 @@ export default {
     };
   },
   mounted() {
+    console.log(this);
     // console.log(BaseComponent);
     // console.log(EnhancedCom);
   },
@@ -68,7 +61,9 @@ export default {
     log() {
       console.log("log");
     },
-    handleCustClick() {}
+    handleCustClick() {
+      console.log(1);
+    }
   },
   components: {
     QueenChild,
