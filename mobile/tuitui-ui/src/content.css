@@ -2,7 +2,7 @@
  * @Author: 张奇
  * @Date: 2019-08-11 22:09:49
  * @LastEditors: 张奇
- * @LastEditTime: 2019-08-13 14:40:15
+ * @LastEditTime: 2019-09-11 15:13:29
  * @Description: 
  */
 /* 内容区 */
@@ -31,6 +31,11 @@
   border-top: 1px solid #eee;
   font-size: 14px;
   font-weight: normal;
+}
+.tt-content .tt-panel-title > .tt-panel-link {
+  float: right;
+  margin-right: 1rem;
+  color: #aaa;
 }
 /* Panel 内容区 */
 .tt-content .tt-panel-body {

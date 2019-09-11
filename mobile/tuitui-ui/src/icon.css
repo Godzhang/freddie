@@ -2,11 +2,11 @@
  * @Author: 张奇
  * @Date: 2019-08-11 21:24:29
  * @LastEditors: 张奇
- * @LastEditTime: 2019-08-20 15:42:47
+ * @LastEditTime: 2019-09-11 15:22:40
  * @Description: 
  */
 /* 字体图标，依赖font-awesome */
-/* @import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"; */
+@import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
 
 .fa {
   display: inline-block;

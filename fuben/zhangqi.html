@@ -15,17 +15,8 @@
     <title>zhangqi</title>
   </head>
   <body>
-    <div class="container"></div>
-    <button id="btn">click</button>
+    <div id="container"></div>
 
-    <script>
-      let push = Array.prototype.push;
-      Array.prototype.push = function(...args) {
-        console.log(1);
-        return push.apply(this, args);
-      };
-      let arr = [1, 2, 3];
-      arr.push(4);
-    </script>
+    <script></script>
   </body>
 </html>

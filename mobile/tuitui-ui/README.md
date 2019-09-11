@@ -16,3 +16,15 @@ import 'tuitui-ui/css/tuitui-ui.min.css';
 同时，本插件已经使用 js 文件打包了两个 css 文件，在支持 CSS 模块的项目里也可以像下面这样直接引用插件：
 
 import 'tuitui-ui';
+
+## 变更记录
+
+0.1.1
+
+- 【Initial】初始版本
+
+  0.1.2
+
+- 【Add】Panel 组件的标题部分添加“查看更多”这种引导链接的样式。
+
+- 【Bug Fix】Search 组件指定 z-index，解决和有定位元素同时使用时的层级错乱问题。

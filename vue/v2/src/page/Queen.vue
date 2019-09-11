@@ -51,8 +51,12 @@ export default {
       ]
     };
   },
+  created() {
+    console.log("parent created");
+  },
   mounted() {
-    console.log(this);
+    console.log("parent mounted");
+    // console.log(this);
     // console.log(BaseComponent);
     // console.log(EnhancedCom);
   },
@@ -62,7 +66,7 @@ export default {
       console.log("log");
     },
     handleCustClick() {
-      console.log(1);
+      console.log(this);
     }
   },
   components: {

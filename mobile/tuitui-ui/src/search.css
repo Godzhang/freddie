@@ -1,7 +1,7 @@
 /*
  * @Author: 张奇
  * @Date: 2019-08-13 09:30:25
- * @LastEditTime: 2019-08-13 14:56:56
+ * @LastEditTime: 2019-09-11 15:25:18
  * @LastEditors: 张奇
  * @Description: ""
  */
@@ -10,6 +10,7 @@
   max-width: 640px;
   margin: 0 auto;
   background: #f8f8f8;
+  z-index: 110;
 }
 /* 搜索状态中，覆盖内容区 */
 .tt-search.on-focus {
