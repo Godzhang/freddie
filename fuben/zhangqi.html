@@ -18,13 +18,204 @@
     <div id="container"></div>
 
     <script>
-      function Animal() {
-        this.species = "animail";
+      class Shape {
+        constructor() {
+          if (new.target === Shape) {
+            throw new Error("本类不能实例化");
+          }
+        }
       }
-      function Cat(name, color) {
-        this.name = name;
-        this.color = color;
+      let bar = Symbol("bar");
+      class Foo {
+        _counter = 0;
+        foo = "bar";
+        static name = "zhangqi";
+
+        constructor() {
+          console.log(new.target === Foo);
+        }
+
+        foo(baz) {
+          this[bar](baz);
+        }
+        [bar](baz) {
+          return (this.snaf = baz);
+        }
       }
+      let foo = new Foo();
+      class Child extends Foo {
+        constructor() {
+          super();
+          console.log(new.target);
+        }
+      }
+      new Child();
+      // console.log(Object.keys(Foo.prototype));
+      // console.log(Reflect.ownKeys(Foo.prototype));
+      // class Foo {
+      //   static classMethod() {
+      //     return "hello";
+      //   }
+      //   classMethod() {
+      //     console.log("shili");
+      //   }
+      // }
+      // Foo.classMethod();
+      // let foo = new Foo();
+      // foo.classMethod();
+
+      // class Bar extends Foo {
+      //   static classMethod() {
+      //     return super.classMethod() + ", bar";
+      //   }
+      // }
+      // console.log(Bar.classMethod());
+    </script>
+    <script>
+      // function selfish(target) {
+      //   const cache = new WeakMap();
+      //   const handler = {
+      //     get(target, key) {
+      //       const value = Reflect.get(target, key);
+      //       if (typeof value !== "function") {
+      //         return value;
+      //       }
+      //       if (!cache.has(value)) {
+      //         cache.set(value, value.bind(target));
+      //       }
+      //       return cache.get(value);
+      //     }
+      //   };
+      //   const proxy = new Proxy(target, handler);
+      //   return proxy;
+      // }
+
+      // class Logger {
+      //   constructor() {}
+      //   printName(name = "there") {
+      //     this.print(`Hello ${name}`);
+      //   }
+      //   print(text) {
+      //     console.log(text);
+      //   }
+      // }
+      // let logger = selfish(new Logger());
+      // const { printName } = logger;
+      // printName();
+
+      // const init = new (class Me {
+      //   constructor(...args) {
+      //     this.args = args;
+      //   }
+      //   *[Symbol.iterator]() {
+      //     for (let arg of this.args) {
+      //       yield arg;
+      //     }
+      //   }
+      // })("hello", "world");
+      // for (let x of init) {
+      //   console.log(x);
+      // }
+      // let methodName = "getArea";
+      // class Parent {
+      //   constructor(x, y) {
+      //     this.x = x;
+      //     this.y = y;
+      //   }
+
+      //   say() {
+      //     console.log(this.x, this.y);
+      //   }
+
+      //   get prop() {
+      //     return "prop getter";
+      //   }
+
+      //   set prop(value) {
+      //     console.log("prop setter: " + value);
+      //   }
+
+      //   [methodName]() {
+      //     console.log("methodname getArea");
+      //   }
+      // }
+
+      // let p = new Parent(1, 2);
+      // console.log(p);
+
+      // class Child extends Parent {
+      //   constructor(x, y, z) {
+      //     super(x, y);
+      //     this.z = z;
+      //   }
+      // }
+
+      // let c = new Child(1, 2, 3);
+      // console.log(c);
+    </script>
+    <script>
+      // let Chinese = { nation: "中国" };
+      // // let Doctor = { career: "医生" };
+
+      // function object(o) {
+      //   function F() {}
+      //   F.prototype = o;
+      //   return new F();
+      // }
+      // // let Doctor = object(Chinese);
+      // let Doctor = Object.create(Chinese, {
+      //   color: {
+      //     writable: true,
+      //     configurable: true,
+      //     value: "yellow"
+      //   },
+      //   type: {
+      //     get() {
+      //       return "convertibal";
+      //     },
+      //     set(value) {
+      //       console.log("changed: " + "value");
+      //     }
+      //   }
+      // });
+      // Doctor.career = "医生";
+
+      // console.log(Doctor);
+      // console.log(Doctor.nation);
+      // Doctor.type = "zhangqi";
+
+      // function Animal() {}
+      // Animal.prototype.species = "动物";
+
+      // function Cat(name, color) {
+      //   Animal.apply(this, arguments);
+      //   this.name = name;
+      //   this.color = color;
+      // }
+
+      // function extend(child, parent) {
+      //   let F = function() {};
+      //   F.prototype = parent.prototype;
+      //   child.prototype = new F();
+      //   child.prototype.constructor = child;
+      // }
+
+      // function extend2(child, parent) {
+      //   let p = parent.prototype;
+      //   let c = child.prototype;
+
+      //   for (let i in p) {
+      //     c[i] = p[i];
+      //   }
+      // }
+
+      // extend2(Cat, Animal);
+
+      // let animail = new Animal();
+      // let cat = new Cat("huniu", "heibai");
+
+      // console.log(animail);
+      // console.log(cat);
     </script>
   </body>
 </html>

@@ -32,7 +32,36 @@ import Vue from "vue";
 
 const EnhancedCom = withconsole(BaseComponent);
 
+const extend = {
+  data() {
+    return { name: "extend name" };
+  },
+  created() {
+    console.log("extend created");
+  }
+};
+
+const mixin1 = {
+  data() {
+    return { name: "mixin1 name" };
+  },
+  created() {
+    console.log("mixin1 created");
+  }
+};
+
+const mixin2 = {
+  data() {
+    return { name: "mixin2 name" };
+  },
+  created() {
+    console.log("mixin2 created");
+  }
+};
+
 export default {
+  extends: extend,
+  mixins: [mixin1, mixin2],
   name: "",
   provide() {
     return {
@@ -41,6 +70,7 @@ export default {
   },
   data() {
     return {
+      name: "component name",
       color: "#f00",
       links: [
         { value: "1", bookmarked: false },
@@ -52,10 +82,14 @@ export default {
     };
   },
   created() {
-    console.log("parent created");
+    // console.log("parent created");
+    console.log("component created");
+    console.log(this.name);
+    console.log(this.$root);
   },
   mounted() {
-    console.log("parent mounted");
+    // console.log("parent mounted");
+    // console.log(QueenChild);
     // console.log(this);
     // console.log(BaseComponent);
     // console.log(EnhancedCom);

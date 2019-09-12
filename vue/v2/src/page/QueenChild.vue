@@ -13,10 +13,10 @@ export default {
     return {};
   },
   created() {
-    console.log("child created");
+    // console.log("child created");
   },
   mounted() {
-    console.log("child mounted");
+    // console.log("child mounted");
     // console.log(this.color);
   },
   methods: {}
