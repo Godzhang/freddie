@@ -3,6 +3,7 @@ import Router from "vue-router";
 import App from "./App.vue";
 const Home = () => import(/* webpackChunkName:'home' */ "./page/Home.vue");
 const Queen = () => import(/* webpackChunkName:'queen' */ "./page/Queen.vue");
+const Vuex = () => import(/* webpackChunkName:'vuex' */ "./page/Vuex.vue");
 
 Vue.use(Router);
 
@@ -27,6 +28,10 @@ export default new Router({
     {
       path: "/queen",
       component: Queen
+    },
+    {
+      path: "/vuex",
+      component: Vuex
     }
   ]
 });

@@ -1,6 +1,12 @@
 <template>
   <div class="queen">
-    <QueenChild @handle="handleCustClick"></QueenChild>
+    <div>{{$store.state.count}}</div>
+    <div>{{$store.getters.doubleCount}}</div>
+    <button @click="$store.commit('increment')">click</button>
+    <!-- <input type="text" v-model="message" />
+    <div>{{$store.state.msg}}</div>-->
+    <!-- <QueenChild @handle="onClick()"></QueenChild>
+    <button @click="onClick()">click</button>-->
     <!-- <button @click="onClick()">click</button> -->
     <!-- <TempVar var1="var1" var2="var2">
       <template v-slot="props">
@@ -19,6 +25,9 @@
         <button v-bind="bookmarkButtonAttrs" v-on="bookmarkButtonEvents">binding</button>
       </template>
     </List>-->
+    <!-- <div>{{ $store.state.count }}</div>
+    <div>{{ $store.getters.doubleCount }}</div>
+    <button @click="onClick()">click</button>-->
   </div>
 </template>
 <script>
@@ -29,48 +38,16 @@ import List from "./List";
 import BaseComponent from "./BaseComponent";
 import withconsole from "../utils/withconsole";
 import Vue from "vue";
+import { mapGetters, createNamespacedHelpers } from "vuex";
+
+const { mapActions } = createNamespacedHelpers("cart");
 
 const EnhancedCom = withconsole(BaseComponent);
 
-const extend = {
-  data() {
-    return { name: "extend name" };
-  },
-  created() {
-    console.log("extend created");
-  }
-};
-
-const mixin1 = {
-  data() {
-    return { name: "mixin1 name" };
-  },
-  created() {
-    console.log("mixin1 created");
-  }
-};
-
-const mixin2 = {
-  data() {
-    return { name: "mixin2 name" };
-  },
-  created() {
-    console.log("mixin2 created");
-  }
-};
-
 export default {
-  extends: extend,
-  mixins: [mixin1, mixin2],
   name: "",
-  provide() {
-    return {
-      foo: "bar"
-    };
-  },
   data() {
     return {
-      name: "component name",
       color: "#f00",
       links: [
         { value: "1", bookmarked: false },
@@ -81,27 +58,36 @@ export default {
       ]
     };
   },
-  created() {
-    // console.log("parent created");
-    console.log("component created");
-    console.log(this.name);
-    console.log(this.$root);
-  },
+  created() {},
   mounted() {
-    // console.log("parent mounted");
-    // console.log(QueenChild);
-    // console.log(this);
-    // console.log(BaseComponent);
-    // console.log(EnhancedCom);
+    // console.log(this.getTodoById(2));
+    // // console.log(this.someGetter);
+    // this.someActions();
+    // this.$store.dispatch("someActions");
   },
   methods: {
-    onClick() {},
-    log() {
-      console.log("log");
+    // onClick() {
+    //   this.someActions();
+    // },
+    updateMessage(e) {
+      this.$store.commit("updateMessage", e.target.value);
     },
-    handleCustClick() {
-      console.log(this);
-    }
+    ...mapActions(["someActions"])
+    // ...mapActions(["someActions"])
+  },
+  computed: {
+    message: {
+      get() {
+        return this.$store.state.msg;
+      },
+      set(value) {
+        this.$store.commit("updateMessage", value);
+      }
+    },
+    ...mapGetters(["getTodoById"]),
+    ...mapGetters({
+      someGetter: "cart/someGetter"
+    })
   },
   components: {
     QueenChild,

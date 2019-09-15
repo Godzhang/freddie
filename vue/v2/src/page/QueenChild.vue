@@ -1,6 +1,7 @@
 <template>
   <div>
-    <button @click="$emit('handle')">queenchild</button>
+    <span>child</span>
+    <!-- <button @click="$emit('handle')">queenchild</button> -->
     <!-- <div>zhangqi</div> -->
     <!-- <slot></slot>
     <slot name="title"></slot>
