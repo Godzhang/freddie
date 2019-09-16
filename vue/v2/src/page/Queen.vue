@@ -5,7 +5,8 @@
     <button @click="$store.commit('increment')">click</button>
     <!-- <input type="text" v-model="message" />
     <div>{{$store.state.msg}}</div>-->
-    <!-- <QueenChild @handle="onClick()"></QueenChild>
+    <QueenChild @handle="onClick()"></QueenChild>
+    <!--
     <button @click="onClick()">click</button>-->
     <!-- <button @click="onClick()">click</button> -->
     <!-- <TempVar var1="var1" var2="var2">
@@ -60,6 +61,7 @@ export default {
   },
   created() {},
   mounted() {
+    // console.log(this);
     // console.log(this.getTodoById(2));
     // // console.log(this.someGetter);
     // this.someActions();

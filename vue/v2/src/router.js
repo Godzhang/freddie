@@ -4,6 +4,8 @@ import App from "./App.vue";
 const Home = () => import(/* webpackChunkName:'home' */ "./page/Home.vue");
 const Queen = () => import(/* webpackChunkName:'queen' */ "./page/Queen.vue");
 const Vuex = () => import(/* webpackChunkName:'vuex' */ "./page/Vuex.vue");
+const Parent = () =>
+  import(/* webpackChunkName:'parent' */ "./page/Parent.vue");
 
 Vue.use(Router);
 
@@ -32,6 +34,10 @@ export default new Router({
     {
       path: "/vuex",
       component: Vuex
+    },
+    {
+      path: "/parent",
+      component: Parent
     }
   ]
 });

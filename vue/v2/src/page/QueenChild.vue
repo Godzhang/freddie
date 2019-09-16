@@ -17,6 +17,7 @@ export default {
     // console.log("child created");
   },
   mounted() {
+    // console.log(this);
     // console.log("child mounted");
     // console.log(this.color);
   },

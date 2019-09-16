@@ -7,27 +7,31 @@ import "./assets/styles/reset.css";
 import "./scss/index.scss";
 import "element-ui/lib/theme-chalk/index.css";
 // import store from "./store/index.js";
-import Vuex from "./common/min-vuex";
+// import Vuex from "./common/min-vuex";
+import Vuex from "./code-realize/store-1/store.js";
 
-Vue.use(Vuex);
+// Vue.use(Vuex);
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
-const store = new Vuex.Store({
-  state: {
-    count: 0
-  },
-  getters: {
-    doubleCount(state) {
-      return state.count * 2;
+const store = new Vuex.Store(
+  {
+    state: {
+      count: 1
+    },
+    getters: {
+      doubleCount(state) {
+        return state.count * 2;
+      }
     }
+    // mutations: {
+    //   increment(state) {
+    //     state.count++;
+    //   }
+    // }
   },
-  mutations: {
-    increment(state) {
-      state.count++;
-    }
-  }
-});
+  Vue
+);
 
 // Vue.prototype.$store = store;
 
