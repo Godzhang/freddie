@@ -14,8 +14,29 @@ import Vuex from "./code-realize/store-1/store.js";
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
+const pageA = {
+  state: {
+    count: 100
+  },
+  mutations: {
+    incrementA(state) {
+      state.count++;
+    }
+  },
+  actions: {
+    incrementAAction(context) {
+      setTimeout(() => {
+        context.commit("incrementA");
+      }, 1000);
+    }
+  }
+};
+
 const store = new Vuex.Store(
   {
+    modules: {
+      a: pageA
+    },
     state: {
       count: 1
     },
@@ -23,12 +44,19 @@ const store = new Vuex.Store(
       doubleCount(state) {
         return state.count * 2;
       }
+    },
+    mutations: {
+      increment(state) {
+        state.count++;
+      }
+    },
+    actions: {
+      addCount(context) {
+        setTimeout(() => {
+          context.commit("increment");
+        }, 1000);
+      }
     }
-    // mutations: {
-    //   increment(state) {
-    //     state.count++;
-    //   }
-    // }
   },
   Vue
 );

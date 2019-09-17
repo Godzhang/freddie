@@ -2,6 +2,10 @@
   <div>
     <Child1></Child1>
     <Child2></Child2>
+    <div>{{$store.state.count}}</div>
+    <div>{{$store.getters.doubleCount}}</div>
+    <button @click="$store.commit('increment')">mutations</button>
+    <button @click="$store.dispatch('addCount')">actions</button>
   </div>
 </template>
 <script>
@@ -13,8 +17,8 @@ export default {
     return {};
   },
   created() {
-    console.log(this.$store.state.count);
-    console.log(this.$store.getters.doubleCount);
+    // console.log(this.$store.state.count);
+    // console.log(this.$store.getters.doubleCount);
   },
   components: {
     Child1,

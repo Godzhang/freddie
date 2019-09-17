@@ -1,16 +1,46 @@
+import Vue from "vue";
+
 class Store {
   constructor(options = {}, Vue) {
+    Vue.mixin({ beforeCreate: vuexInit });
     this.options = options;
     this.getters = {};
+    this.mutations = {};
+    this.actions = {};
+
+    const { dispatch, commit } = this;
+    this.commit = (type, payload) => {
+      return commit.call(this, type, payload);
+    };
+    this.dispatch = (type, payload) => {
+      return dispatch.call(this, type, payload);
+    };
 
     forEachValue(options.getters, (getterFn, getterName) => {
       registerGetter(this, getterName, getterFn);
     });
+    forEachValue(options.mutations, (mutationFn, mutationName) => {
+      registerMutation(this, mutationFn, mutationName);
+    });
+    forEachValue(options.actions, (actionFn, actionName) => {
+      registerAction(this, actionFn, actionName);
+    });
 
-    Vue.mixin({ beforeCreate: vuexInit });
+    this._vm = new Vue({
+      data: {
+        state: options.state
+      }
+    });
   }
   get state() {
-    return this.options.state;
+    return this._vm._data.state;
+  }
+
+  commit(type, payload) {
+    this.mutations[type](payload);
+  }
+  dispatch(type, payload) {
+    return this.actions[type](payload);
   }
 }
 
@@ -37,6 +67,18 @@ function registerGetter(store, getterName, getterFn) {
       return getterFn(store.state);
     }
   });
+}
+
+function registerMutation(store, mutationFn, mutationName) {
+  store.mutations[mutationName] = () => {
+    return mutationFn.call(store, store.state);
+  };
+}
+
+function registerAction(store, actionFn, actionName) {
+  store.actions[actionName] = () => {
+    actionFn.call(store, store);
+  };
 }
 
 export default { Store };
