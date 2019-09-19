@@ -5,6 +5,11 @@
 export default {
   data() {
     return {};
+  },
+  mounted() {
+    setTimeout(() => {
+      this.$store.dispatch("incrementAAction");
+    }, 3000);
   }
 };
 </script>

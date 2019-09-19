@@ -7,6 +7,7 @@ class Store {
     this.getters = {};
     this.mutations = {};
     this.actions = {};
+    this._modules = new ModuleCollection(options);
 
     const { dispatch, commit } = this;
     this.commit = (type, payload) => {
@@ -26,6 +27,9 @@ class Store {
       registerAction(this, actionFn, actionName);
     });
 
+    const path = []; //初始路径给根路径为空
+    installModule(this, state, path, this._modules.root);
+
     this._vm = new Vue({
       data: {
         state: options.state
@@ -43,6 +47,14 @@ class Store {
     return this.actions[type](payload);
   }
 }
+
+class ModuleCollection {
+  constructor(rawRootModule) {
+    this.register([], rawRootModule);
+  }
+}
+
+function installModule(store, rootState, path, module) {}
 
 function vuexInit() {
   const options = this.$options;
@@ -71,7 +83,7 @@ function registerGetter(store, getterName, getterFn) {
 
 function registerMutation(store, mutationFn, mutationName) {
   store.mutations[mutationName] = () => {
-    return mutationFn.call(store, store.state);
+    mutationFn.call(store, store.state);
   };
 }
 
