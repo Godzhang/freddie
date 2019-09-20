@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import ElementUI from "element-ui";
+// import Vuex from "vuex";
 
 import "./assets/styles/reset.css";
 import "./scss/index.scss";
@@ -10,7 +11,7 @@ import "element-ui/lib/theme-chalk/index.css";
 // import Vuex from "./common/min-vuex";
 import Vuex from "./code-realize/store-1/store.js";
 
-// Vue.use(Vuex);
+Vue.use(Vuex);
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
@@ -21,6 +22,9 @@ const pageA = {
   mutations: {
     incrementA(state) {
       state.count++;
+    },
+    incrementD(state, num) {
+      state.count += num;
     }
   },
   actions: {
@@ -28,6 +32,61 @@ const pageA = {
       setTimeout(() => {
         context.commit("incrementA");
       }, 1000);
+    }
+  },
+  modules: {
+    b: {
+      state: {
+        count: 200
+      },
+      mutations: {
+        incrementB(state) {
+          state.count++;
+        }
+      },
+      actions: {
+        incrementBAction(context) {
+          setTimeout(() => {
+            context.commit("incrementB");
+          }, 1000);
+        }
+      },
+      modules: {
+        d: {
+          state: {
+            count: 300
+          },
+          mutations: {
+            incrementD(state, num) {
+              state.count += num;
+            }
+          },
+          actions: {
+            incrementDAction(context, num) {
+              setTimeout(() => {
+                context.commit("incrementD", num);
+              }, 1000);
+            }
+          }
+        }
+      }
+    },
+    c: {
+      state: {
+        count: 300
+      },
+      mutations: {
+        incrementC(state) {
+          state.count++;
+        }
+      },
+      actions: {
+        incrementCAction(context) {
+          setTimeout(() => {
+            context.commit("incrementC");
+          }, 1000);
+        }
+      }
     }
   }
 };

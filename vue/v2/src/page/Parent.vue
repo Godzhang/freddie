@@ -9,6 +9,8 @@
     <div>child - 1</div>
     <div>child1-count: {{countA}}</div>
     <Child1></Child1>
+    <hr />
+    <div>module - d count: {{ countD }}</div>
   </div>
 </template>
 <script>
@@ -23,9 +25,17 @@ export default {
     // console.log(this.$store.state.count);
     // console.log(this.$store.getters.doubleCount);
   },
+  mounted() {
+    setTimeout(() => {
+      this.$store.dispatch("incrementDAction", 10);
+    }, 1000);
+  },
   computed: {
     countA() {
       return this.$store.state.a.count;
+    },
+    countD() {
+      return this.$store.state.d.count;
     }
   },
   components: {
