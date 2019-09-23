@@ -7,9 +7,9 @@ export default {
     return {};
   },
   mounted() {
-    setTimeout(() => {
-      this.$store.dispatch("incrementAAction");
-    }, 3000);
+    // setTimeout(() => {
+    //   this.$store.dispatch("incrementAAction");
+    // }, 3000);
   }
 };
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div class="wrap">
+    <div>code: {{ $code }}</div>
     <button @click="$router.push('/queen')">queen</button>
     <!-- <button @click="visible = true">show</button>
     <Dialog width="75%" height="50%" :visible.sync="visible"></Dialog>-->
@@ -18,10 +19,11 @@ export default {
     };
   },
   mounted() {
-    console.log("env ", process.env);
-    getTestData().then(res => {
-      console.log(res);
-    });
+    // console.log(this);
+    // console.log("env ", process.env);
+    // getTestData().then(res => {
+    //   console.log(res);
+    // });
   },
   methods: {},
   components: {

@@ -2,16 +2,19 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import ElementUI from "element-ui";
-// import Vuex from "vuex";
+import Vuex from "vuex";
 
 import "./assets/styles/reset.css";
 import "./scss/index.scss";
 import "element-ui/lib/theme-chalk/index.css";
 // import store from "./store/index.js";
 // import Vuex from "./common/min-vuex";
-import Vuex from "./code-realize/store-1/store.js";
+// import Vuex from "./code-realize/store-1/store.js";
+import Code from "./utils/test";
+import VuexPlugin from "./utils/vuex-plugin";
 
 Vue.use(Vuex);
+Vue.use(Code);
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
@@ -93,9 +96,9 @@ const pageA = {
 
 const store = new Vuex.Store(
   {
-    modules: {
-      a: pageA
-    },
+    // modules: {
+    //   a: pageA
+    // },
     state: {
       count: 1
     },
@@ -115,15 +118,21 @@ const store = new Vuex.Store(
           context.commit("increment");
         }, 1000);
       }
-    }
+    },
+    plugins: [VuexPlugin]
   },
   Vue
 );
 
 // Vue.prototype.$store = store;
 
-new Vue({
+const vm = new Vue({
   router,
   store,
+  code: 1,
   render: h => h(App)
-}).$mount("#app");
+});
+
+// console.log(vm);
+
+vm.$mount("#app");
