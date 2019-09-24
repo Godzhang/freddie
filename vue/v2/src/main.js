@@ -12,7 +12,10 @@ import "element-ui/lib/theme-chalk/index.css";
 // import Vuex from "./code-realize/store-1/store.js";
 import Code from "./utils/test";
 import VuexPlugin from "./utils/vuex-plugin";
+import VueAwesomeSwiper from "vue-awesome-swiper";
+import "swiper/dist/css/swiper.css";
 
+Vue.use(VueAwesomeSwiper);
 Vue.use(Vuex);
 Vue.use(Code);
 Vue.use(ElementUI);

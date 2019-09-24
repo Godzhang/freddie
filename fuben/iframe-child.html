@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <title>iframe-child</title>
+  </head>
+  <body>
+    <button>iframe-child</button>
+
+    <script>
+      console.log(window.parent);
+      console.log(window.top);
+      console.log(window.self);
+    </script>
+  </body>
+</html>

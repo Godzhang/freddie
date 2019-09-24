@@ -17,24 +17,7 @@
   <body>
     <div id="container"></div>
 
-    <script>
-      class Foo {
-        constructor() {
-          const { dispatch, commit } = this;
-          console.log(this.dispatch);
-          this.dispatch = function boundDispatch(type, payload) {
-            console.log(dispatch);
-            return dispatch.call(store, type, payload);
-          };
-          this.commit = function boundCommit(type, payload, options) {
-            return commit.call(store, type, payload, options);
-          };
-          console.log(this.dispatch);
-        }
-      }
-      let foo = new Foo();
-      foo.dispatch("type", "payload");
-    </script>
+    <script></script>
     <script>
       // function mix(...mixins) {
       //   class Mix {
