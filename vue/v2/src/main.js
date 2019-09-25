@@ -7,6 +7,8 @@ import Vuex from "vuex";
 import "./assets/styles/reset.css";
 import "./scss/index.scss";
 import "element-ui/lib/theme-chalk/index.css";
+import VueHighlightJS from "vue-highlightjs";
+import "highlight.js/styles/github.css";
 // import store from "./store/index.js";
 // import Vuex from "./common/min-vuex";
 // import Vuex from "./code-realize/store-1/store.js";
@@ -19,6 +21,7 @@ Vue.use(VueAwesomeSwiper);
 Vue.use(Vuex);
 Vue.use(Code);
 Vue.use(ElementUI);
+Vue.use(VueHighlightJS);
 Vue.config.productionTip = false;
 
 const pageA = {

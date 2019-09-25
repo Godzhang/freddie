@@ -16,6 +16,8 @@ const RotaryChild2 = () =>
   import(
     /* webpackChunkName:'rotaryChild2' */ "./page/rotary/RotaryChild2.vue"
   );
+const CodeView = () =>
+  import(/* webpackChunkName:'codeView' */ "./page/CodeView.vue");
 
 Vue.use(Router);
 
@@ -60,6 +62,10 @@ export default new Router({
     {
       path: "/rotarychild2",
       component: RotaryChild2
+    },
+    {
+      path: "/codeview",
+      component: CodeView
     }
   ]
 });
