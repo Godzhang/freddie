@@ -18,32 +18,21 @@
     <div id="container"></div>
 
     <script>
-      let content = `<p>   BEIJING, Sept. 25 (Xinhua) -- "One Piece: Stampede," the 14th feature film of the "One Piece" film series, will hit the Chinese mainland big screens, the film's official Weibo account<img src="./images/queen-1.jpg"></img> announced.</p><p>   The film's plot follows an event called the Pirates Expo, where pirates from all over <img src="./images/queen-2.jpg"></img> the world gather to hunt for a lost treasure.</p><p>   Hitting screens in Japan on Aug. 9, the film has a current score of 8.9 out of 10 points on Chinese <img src="./images/you.jpg"></img> film rating site Douban.</p><p>   The film's opening date on the mainland has yet to be<img src="./images/flags/China.png"></img> announced.  Enditem</p>`;
-      let newContent = content.replace(/<p[^>]*?>(.*?)<\/p>/g, (...args) => {
-        return args[1] + "\n";
-      });
-      let arr = newContent.split("\n");
-      let infos = [];
-      let imgReg = /(<img[^>]*>(?:<\/img>)?)/g;
-
-      arr.forEach((value, index) => {
-        let m = value.match(imgReg);
-        if (m) {
-          m.forEach(v => {
-            infos.push({
-              pIndex: index,
-              elem: v
-            });
-          });
-        }
-      });
-      console.log(infos);
-      // let content = `北京，9月25日(新华社)——《海贼王》系列电影的第14部故事片《海贼王》将在中国大陆大银幕上映，该电影的官方微博账号宣布。↵电影的情节围绕着一个名为“海盗博览会”的活动展开，来自世界各地的海盗聚集在这里寻找丢失的宝藏。↵该片将于8月9日在日本上映，目前在中国电影评分网站豆瓣上的评分为8.9分(满分10分)。↵这部电影在大陆的上映日期尚未公布。最终产品`;
-      // let container = document.getElementById("container");
-      // container.innerHTML = content;
-      // console.log(content.split("\n"));
-      // let imgReg = /(<img[^>]*>(?:<\/img>)?)/;
-      // console.log(content.match(imgReg));
+      let arr = [1, 2, 3, 4, 5];
+      let obj = {
+        name: "zhangqi",
+        age: 30
+      };
+      let container = document.querySelector("#container");
+      console.table(arr);
+      console.table(obj);
+      console.log(container);
+      console.dir(container);
+      console.log(
+        "%c 请不要这样 %s",
+        "background: #222;color:#bada55;font-size:30px;",
+        ">>"
+      );
     </script>
     <script>
       // function mix(...mixins) {

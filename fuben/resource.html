@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="./js/public.js"></script>
+    <script src="./js/jquery.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <title>zhangqi</title>
+  </head>
+  <body>
+    <div id="container"></div>
+
+    <script>
+      let content = `<p class="">　　4月初，海南自由贸易试验区建设一周年之际，美联社、欧新社、葡萄牙卢萨通讯社等多家外媒来海南采风调研，以外媒视角看待海南当下的经济社会文化发展，寻找和分析海南自贸区建设中的独到之处。采风活动的消息还引发全球数百家媒体的转载发布，海南再一次迎来了国际社会聚焦的“高光时刻”。</p><p style="text-align: center;" data-mce-style="text-align: center;" class=""><img src="http://service-aa-dsj.inserv.testb.xinhua-news.cn/data/dataService/resAttchmentService/getAttachment?libId=3&attachId=200012019042385262928" style="display:block;margin-right:auto;margin-left:auto;max-width:92%" ></img></p><p class=""><span style="color: rgb(51, 127, 229);" data-mce-style="color: #337fe5;">　　↑美联社报道和欧新社发布海南采风期间拍摄的图片供合作媒体使用。</span></p><p style="text-align: center;" data-mce-style="text-align: center;"><img src="http://service-aa-dsj.inserv.testb.xinhua-news.cn/data/dataService/resAttchmentService/getAttachment?libId=3&attachId=200012019042385262927" style="display:block;margin-right:auto;margin-left:auto;max-width:92%" ></img></p><p class="">　　<span style="color: rgb(51, 127, 229);" data-mce-style="color: #337fe5;">↑哥伦比亚《观众》报发布欧新社记者拍摄的三亚凤凰岛夜景。图片说明称赞三亚堪称“中国的佛罗里达”，每年都吸引大量的候鸟”人群聚集。</span></p><p class="">　　<strong>小岛大视野，美联社关注海南的发展故事</strong></p><p class="">　　近日，美联社以《中国最小的陆地省受到了更广泛的关注》为题，聚焦海南自贸区建设一年来的旅游发展态势。</p><p class="">　　文章说，一年前，中国计划将国内陆地面积最小的省份海南发展成为中国第一个自由贸易港，如今海南正在实现吸引外国企业和游客的目标。</p><p class="">　　这个位于中国最南端的热带岛屿去年接待了126万国际游客，比2017年增长了近13%。与此同时，由于政府对国际企业的一系列激励措施，与2017年相比，2018年外国直接投资增加了一倍多。</p><p class="">　　海南还是中国最大的经济特区。在建省办经济特区成立30周年时，迪拜棕榈岛亚特兰蒂斯酒店的姊妹酒店——三亚·亚特兰蒂斯也对外开放了，一跃成为海棠湾黄金沙滩上最热门的度假酒店。</p><p class="">　　尽管该酒店的主要客户仍然是中国人，但公关总监海伦·宋表示，自去年夏天开通飞往新加坡和伦敦的直飞航班以来，国际游客大幅增加。“海南在吸引外国游客方面非常积极，59个国家的公民现在可以免签证来海南。过去上海长期以来一直是中国最热门的旅游景点，但现在每个人都开始关注三亚。”</p><p style="text-align: center;" data-mce-style="text-align: center;"><img src="http://service-aa-dsj.inserv.testb.xinhua-news.cn/data/dataService/resAttchmentService/getAttachment?libId=3&attachId=200012019042385262926" style="display:block;margin-right:auto;margin-left:auto;max-width:92%" ></img></p><p class="">　　<span style="color: rgb(51, 127, 229);" data-mce-style="color: #337fe5;">↑三亚·亚特兰蒂斯水族馆。</span></p><p class="">　　文章还提到，博鳌乐城国际医疗旅游试验区是海南又一个新增内容，它在一片20平方公里的郁郁葱葱的土地上开设了从癌症到整形手术的各种护理中心，这里遍布高端生活设施和豪华度假村。中央政府授予试验区几项特权，包括进口未经中国医疗当局批准的药品和设备的能力。</p><p class="">　　俄罗斯游客弗拉基米尔库德里亚夫采夫(Vladimir Kudriavtsev)和安娜纳西布略娃(Anna&nbsp; Nasibullova)正在博鳌中医超级医院度假，该医院于2018年12月开业，每年会员套餐价格从1万元人民币到100万元人民币不等。这对夫妇在圣彼得堡多年来饱受关节痛之苦，在一份飞行杂志上看到飞行员区的广告后，他们决定尝试一下中药。</p><p class="">　　“在圣彼得堡，环境、食物和天气对健康不是很好，”纳西布洛娃说。“我们通常去泰国或欧洲度假，但中医在世界各地有着巨大的影响力，我们想尝试一下。我们只在这里呆了几天，但已经感觉好多了。”</p><p style="text-align: center;" data-mce-style="text-align: center;" class=""><img src="http://service-aa-dsj.inserv.testb.xinhua-news.cn/data/dataService/resAttchmentService/getAttachment?libId=3&attachId=200012019042385262925" style="display:block;margin-right:auto;margin-left:auto;max-width:92%" ></img></p><p class="">　　<span style="color: rgb(51, 127, 229);" data-mce-style="color: #337fe5;">↑博鳌超级中医院导诊台</span></p><p style="text-align: center;" data-mce-style="text-align: center;"><img src="http://service-aa-dsj.inserv.testb.xinhua-news.cn/data/dataService/resAttchmentService/getAttachment?libId=3&attachId=200012019042385262924" style="display:block;margin-right:auto;margin-left:auto;max-width:92%" ></img></p><p class="">　　<span style="color: rgb(51, 127, 229);" data-mce-style="color: #337fe5;">↑奥森塞公司的首席执行官兼创始人金滕·范·杜恩展示一个壁挂式水培系统的原型。</span></p><p class="">　　文章还指出，近几年，得益于城市软硬环境的不断完善，海南互联网产业加速蓬勃发展。2018年底，复兴城·国际离岸创新大厦揭牌，入驻名单里不但有阿里巴巴、蚂蚁金服在内的国内重量级企业，还有几家外国初创企业。复兴城除了及时引导外国公司利用优惠政策开展业务，还向一些行业团体提供高达90%的办公室租赁补贴。</p><p class="">　　荷兰人昆腾·范·杜恩从这些激励措施中受益匪浅。Ozense的首席执行官和创始人每月只需为他的六人办公室支付120美元(800元人民币)，该公司的主打产品是智能壁挂式水培种植系统。他表示，与中国著名的东部商业中心上海、北京和广州相比，海南的劳动力和生活成本更低，同时海南通往中国大陆和更广阔世界的供应线也非常吸引人。</p><p class="">　　“作为一个小公司，我们的主要市场是中国大陆，但美国和欧洲也有这种产品的巨大潜力。海南与大陆的工厂有联系，并且正在向其他国家开放。范·杜恩说:“我们可以从这里做到一切。”</p><p class=""><strong>　　资源禀赋令外媒赞叹——海南是地球上的“天堂”</strong></p><p class="">　　蒙古国家通讯社日前发表文章《地球上的“天堂”——海南》，向国内外民众介绍充满活力的海南自贸区，并指出海南岛作为中国最南端的岛屿，过去的经济助力主要靠旅游业和农业，近年来互联网产业也在快速崛起，整体发展势头和前景十分明朗。</p><p class="">　　文章对海南生态软件园的发展进行了较为详细的描述，认为该软件园是一个“微型城市”，拥有工作、生活、贸易、教育和医疗服务的综合网络。它是海南省电子信息行业最重要的聚集地，有数千个企业在园区内运营，例如腾讯、百度等中国500百强企业也有项目落地在其中。成为国内外互联网企业异地办公，设立“第二办公室”的理想选择。</p><p class="">　　文章提到，海南生态软件园其中一家名为“闪易科技”的高新技术公司，成立不过4年的时间，已经研发推出一项重要的光通信技术，可取代中国和世界各地常用的二维码的技术，用于支付，开门和乘地铁、旅行等场景。这意味着用户将能够将他们的手机闪光灯传输数据信息到特殊机器上。用户可以在手机上安装公司的应用程序并获得闪光灯ID，实现一闪支付，一闪开门，一闪乘车、一闪取快递，与在闪光无人售货机上一闪秒购商品。或者也可以使用公司设计的特殊芯片。该公司已与支付宝，微信支付和银联公司等公司达成协议。目前，该技术正在中国杭州进行试点测试。</p><p style="text-align: center;" data-mce-style="text-align: center;"><img src="http://service-aa-dsj.inserv.testb.xinhua-news.cn/data/dataService/resAttchmentService/getAttachment?libId=3&attachId=200012019042385262923" style="display:block;margin-right:auto;margin-left:auto;max-width:92%" ></img></p><p class="">　　<span style="color: rgb(51, 127, 229);" data-mce-style="color: #337fe5;">↑蒙古国家通讯社网站发出的《地球上的“天堂”——海南》页面和配图。</span></p><p class="">　　除了蓬勃发展的互联网，海洋旅游对地处内陆的蒙古人而言也有着非凡的吸引力。文章指出，在海南，4-9月的游客相对较少，旅行舒适且开销便宜。当地山林湖海资源丰富旅游形式多样，是度假时间灵活的人群的旅游首选地。每年10月到3月之间，则是海南旅游的高峰期，旅游成本也相应增加。2018年，海南省接待了7600多万外国游客，旅游收入超过950亿元人民币。</p><p class="">　　文章还注意到海南岛最出名的旅游城市三亚的发展动向。2018年，全球第二家亚特兰蒂斯在三亚海棠海岸开业。亚特兰蒂斯酒店在全球以七星级、超豪华著称，第一家坐落在迪拜人工棕榈岛。三亚·亚特兰蒂斯占地54万平方米，拥有海棠湾最美丽的景致。文章还对酒店的海底客房、“失落的空间”水族馆和占地20万平方米的水世界乐园进行了描述，并详细介绍了淡旺季价格。</p><p class="">　　在海南丰富多样的旅游业态中，免税购物游独树一帜。文章说，自2011年4月起，海南省启动了免税政策，使免税购物中心已使成为海南最受欢迎的旅游目的地之一。例如位于三亚海棠湾的三亚国际免税店，是世界上最大的免税商店。拥有300个国际奢侈品牌和10000多种产品。现在每天有超过1.5万名顾客到访，在2018年的中国春节还接待了25.8万名顾客。国内消费者或前往中国其他地方的消费者现在可以享受价值3万元人民币商品最高35%的折扣，而直接前往外国的消费者则完全没有支出上限。</p><p style="text-align: center;" data-mce-style="text-align: center;" class=""><img src="http://service-aa-dsj.inserv.testb.xinhua-news.cn/data/dataService/resAttchmentService/getAttachment?libId=3&attachId=200012019042385262922" style="display:block;margin-right:auto;margin-left:auto;max-width:92%" ></img></p><p style="text-align: center;" data-mce-style="text-align: center;" class=""><img src="http://service-aa-dsj.inserv.testb.xinhua-news.cn/data/dataService/resAttchmentService/getAttachment?libId=3&attachId=200012019042385262921" style="display:block;margin-right:auto;margin-left:auto;max-width:92%" ></img></p><p class="">　　<span style="color: rgb(51, 127, 229);" data-mce-style="color: #337fe5;">　↑葡萄牙卢萨社网站采用欧新社记者拍摄的三亚水稻国家公园里游客参观巨型仿真恐龙的图片。在他们看来，这是非常新奇有趣的景色。</span></p><p style="text-align: center;" data-mce-style="text-align: center;" class=""><img src="http://service-aa-dsj.inserv.testb.xinhua-news.cn/data/dataService/resAttchmentService/getAttachment?libId=3&attachId=200012019042385262920" style="display:block;margin-right:auto;margin-left:auto;max-width:92%" ></img></p><p class=""><span style="color: rgb(51, 127, 229);" data-mce-style="color: #337fe5;">　　↑西班牙纳瓦拉日报采用欧新社记者拍摄的三亚水稻国家公园里游客与仿真恐龙合影的图片。在他们看来，这里是了解中国水稻文明和恐龙文明的研学旅游好去处。</span></p><p class="">　　4月16日，稿件《Focus of Reputed World Media: Unimaginable Development in&nbsp; Hainan》（世界知名媒体聚焦：海南的发展难以想象）在亚太地区、欧美地区以英语、日语、韩语、马来语、德语、俄语、法语等七种语言，在日本共同社、韩联社、马来西亚新社等国家通讯社，以及日本《每日新闻》、《朝日新闻》，日本门户网站Excite、Infoseek，韩国门户网站daum、NAVER、MSN韩国，亚太门户网站Asia&nbsp; One，俄塔社，德新社旗下news&nbsp; aktuell，美国雅虎、美国农业电视频道、美国全国广播公司（NBC）、美国广播公司（ABC）、哥伦比亚广播公司（CBS）、福克斯有线电视网（FOX）等主流媒体、门户网站及重点资讯网站广泛转载落地，至4月21日统计已有270家媒体刊登。</p><p style="text-align: center;" data-mce-style="text-align: center;"><img src="http://service-aa-dsj.inserv.testb.xinhua-news.cn/data/dataService/resAttchmentService/getAttachment?libId=3&attachId=200012019042385262919" style="display:block;margin-right:auto;margin-left:auto;max-width:92%" ></img></p><p class="">　　<span style="color: rgb(51, 127, 229);" data-mce-style="color: #337fe5;">↑全球发行量第二大的报刊日本《朝日新闻》、日本最大的通讯社日本共同社和日本产业经济新闻网聚焦海南。</span></p><p style="text-align: center;" data-mce-style="text-align: center;"><img src="http://service-aa-dsj.inserv.testb.xinhua-news.cn/data/dataService/resAttchmentService/getAttachment?libId=3&attachId=200012019042385262918" style="display:block;margin-right:auto;margin-left:auto;max-width:92%" ></img></p><p class="">　　<span style="color: rgb(51, 127, 229);" data-mce-style="color: #337fe5;">↑韩联社、马来西亚通讯社以及韩国最大的搜索引擎和门户网站NAVER网站发布外媒采风海南的消息。</span></p><p style="text-align: center;" data-mce-style="text-align: center;"><img src="http://service-aa-dsj.inserv.testb.xinhua-news.cn/data/dataService/resAttchmentService/getAttachment?libId=3&attachId=200012019042385262917" style="display:block;margin-right:auto;margin-left:auto;max-width:92%" ></img></p><p class="">　<span style="color: rgb(51, 127, 229);" data-mce-style="color: #337fe5;">　↑美国哥伦比亚广播公司、美国农业电视频道、福克斯有线电视网、匹兹堡邮报发布外媒采风海南的消息。</span></p>`;
+      let result = `In early April, on the first anniversary of the construction of hainan pilot free trade zone, a number of foreign media, including the Associated Press, europress and Portugal's lusa news agency, came to hainan to conduct research. Foreign media viewed the current economic, social and cultural development of hainan from the perspective of foreign media, and looked for and analyzed the unique features in the construction of hainan free trade zone. News of the mining activity also triggered hundreds of media around the world to republish the release, hainan once again ushered in the international community focus "highlight moment."↵Ap news agency and ouxin news agency released photos taken during the hainan mining season for the use of cooperative media.↵Colombia "the spectator" newspaper released the European press reporter's photo of sanya phoenix island night scene. Photo captions laud sanya as the "Florida of China" and draw huge crowds of migratory birds every year.↵Island view, the Associated Press looks at hainan's development story↵The Associated Press recently focused on the tourism development trend of hainan free trade zone in the past year under the title "China's smallest land province gets more attention".↵'a year ago, China planned to develop hainan, the country's smallest province by land area, into China's first free trade port, and now hainan is achieving its goal of attracting foreign companies and tourists,' the article said.↵The southernmost tropical island in China received 1.26 million international visitors last year, up nearly 13 percent from 2017. Meanwhile, foreign direct investment more than doubled in 2018 compared with 2017, thanks to a series of government incentives for international companies.↵Hainan is also China's largest special economic zone. On the 30th anniversary of the establishment of the special economic zone, sanya Atlantis, the sister hotel of Atlantis palm in dubai, opened to the public and became the most popular resort on the golden beach in haitang bay.↵While the hotel's main clientele is still Chinese, Helen song, director of public relations, said there had been a sharp increase in international visitors since the launch of direct flights to Singapore and London last summer. "Hainan has been very active in attracting foreign tourists, and citizens from 59 countries can now come to hainan visa-free. Shanghai used to be the hottest tourist destination in China for a long time, but now everyone is paying attention to sanya."↵Sanya Atlantis aquarium.↵The article also noted that the boao lecheng international medical tourism pilot zone is a new addition to hainan, with care centers for everything from cancer to plastic surgery, high-end living facilities and luxury resorts spread over 20 square kilometers of lush land. The central government granted the pilot area several privileges, including the ability to import drugs and equipment that have not been approved by Chinese medical authorities.↵Russian tourists Vladimir Kudriavtsev and Anna Nasibullova are vacationing at the boao TCM superhospital, which opened in December 2018 with annual membership packages ranging from 10,000 renminbi to 1 million renminbi. The couple, who had suffered from joint pain for years in st. Petersburg, decided to try Chinese medicine after seeing an advertisement for the pilot zone in a flying magazine.↵"In st. Petersburg, the environment, the food and the weather are not very good for health," Ms. Nassiblova said. "We usually go to Thailand or Europe for our holidays, but TCM has a huge influence around the world and we wanted to give it a try. We've only been here a few days, but we feel better already."↵Guide desk of boao super hospital of traditional Chinese medicine↵Ginten van dunn, CEO and founder of osense, shows a prototype of a wall-mounted hydroponic system.↵The article also points out that in recent years, thanks to the continuous improvement of the urban soft and hard environment, hainan's Internet industry has accelerated and flourished. At the end of 2018, fuxing city · international offshore innovation building was unveiled, and the list includes not only domestic heavyweights such as alibaba and ant financial, but also several foreign start-ups. In addition to timely guiding foreign companies to conduct business with preferential policies, fuxing city also provides subsidies of up to 90% for office leasing to some industry groups.↵Dutchman kunten van duen has benefited greatly from these incentives. The CEO and founder of Ozense pay just $120 a month for his six-person office, and the company's flagship product is a smart wall-mounted hydroponic farming system. Labour and living costs are lower than in China's famed eastern business centres of Shanghai, Beijing and guangzhou, and supply lines to mainland China and the wider world are attractive, he says.↵"As a small company, our main market is mainland China, but the us and Europe also have great potential for this product. Hainan is linked to factories in China and is opening up to other countries. "We can do everything from here," van dunn said.↵Hainan is a paradise on earth↵Mongolian national news agency has published an article "the" heaven "on earth - hainan, to the people at home and abroad to introduce dynamic hainan free trade area, and points out that as China's hainan island at the southernmost tip of the island, the past economic power mainly rely on tourism and agriculture, the Internet industry is rapidly rising in recent years, the overall momentum of development and foreground is very clear.↵This paper describes the development of hainan eco-software park in detail, and thinks that the software park is a "micro-city" with a comprehensive network of work, life, trade, education and medical services. It is the most important gathering place for the electronic information industry in hainan province. There are thousands of enterprises operating in the park, such as tencent, baidu and other top 500 Chinese enterprises. It is an ideal choice for domestic and foreign Internet enterprises to work in different places and set up a "second office".↵According to the article, one of the high-tech companies in hainan eco-software park, named "shuiyi technology", has developed and launched an important optical communication technology, which can replace qr codes commonly used in China and around the world, for payment, opening doors and taking the subway, travel and other scenes. This means that users will be able to transmit data from their phone's flash to special machines. Users can install the company's app on the phone and get a flash ID, which allows them to pay with a flash, open a door with a flash, drive with a flash, pick up a delivery, and buy goods with a flash on a flash vending machine. Or use a special chip designed by the company. The company has reached agreements with companies such as alipay, WeChat payment and unionpay. The technology is currently being tested on a pilot basis in hangzhou, China.↵"Heaven on earth -- hainan" page and pictures issued by the Mongolian state news agency website.↵In addition to the booming Internet, sea tourism is also a particular attraction for inland mongolians. The article points out that hainan has relatively few tourists from April to September, making travel comfortable and cheap. The local mountain, lake and sea resources are rich in various forms of tourism, which is the first choice for people with flexible vacation time. The peak period of hainan tourism is between October and march, and the tourism cost increases accordingly. In 2018, hainan received more than 76 million foreign tourists, generating more than 95 billion yuan in tourism revenue.↵The article also noted the development trend of sanya, the most famous tourist city on hainan island. In 2018, the world's second Atlantis opened on the sanya haitang coast. Atlantis hotel is famous for its seven-star luxury hotel in the world. The first hotel is located on an artificial palm island in dubai. Covering an area of 540,000 square meters, sanya Atlantis boasts the most beautiful scenery of haitang bay. The article also describes the hotel's undersea rooms, the "lost space" aquarium and the 200,000 square meters water world park, and details the off-peak and peak prices.↵Among hainan's rich and diverse tourism formats, duty-free shopping tour is unique. Since April 2011, hainan province has launched a tax exemption policy, making the duty-free shopping center one of the most popular tourist destinations in hainan, the article said. For example, sanya international duty-free shop located in sanya haitang bay is the largest duty-free shop in the world. It has 300 international luxury brands and more than 10,000 products. More than 15,000 customers now visit each day, and 258,000 were served during the 2018 Chinese New Year. Domestic shoppers or those travelling to other parts of China can now enjoy discounts of up to 35 per cent on goods worth rmb30,000, while those travelling directly abroad have no spending caps at all.↵Lussa Portugal website adopts the photos taken by a journalist from ouxin news agency of tourists visiting a giant replica dinosaur in sanya rice national park. To them, it was a very new and interesting sight.↵A photo taken by a journalist from Spanish daily navarre with a real dinosaur in sanya rice national park. In their opinion, it is a good place for research and tourism to learn about China's rice and dinosaur civilizations.↵Manuscripts on April 16, the Focus of Reputed World Media: Unimaginable Development in Hainan "(World famous Media Focus on: The development of hainan unimaginable) in Asia Pacific, Europe and the United States to English, Japanese, Korean and Malay, seven languages such as German, Russian, French, in Japan's kyodo news agency, yonhap news agency, Malaysia new clubs, such as the state news agency, as well as Japan's "daily news", the asahi shimbun, portal Excite, worked in Japan, South Korea portal website daum, NAVER, MSN, South Korea, Asia Pacific portal Asia One, itar-tass news agency, dpa news aktuell, Yahoo, agricultural television channel, NBC, ABC, CBS, FOX and other mainstream media, portals and key information sites widely reprint the site, as of April 21, statistics have 270 media published.↵Japan's asahi shimbun, the world's second largest newspaper by circulation, Japan's largest news agency kyodo and Japan's industrial economics news focus on hainan.↵Yonhap news agency, Malaysia news agency and NAVER, the largest search engine and portal in South Korea, released the news about hainan.↵CBS, ABC, fox cable, and the Pittsburgh post released the news about hainan.`;
+
+      let newContent = content.replace(/<p[^>]*?>(.*?)<\/p>/g, (...args) => {
+        return args[1] + "\n";
+      });
+      let arr = newContent.split("\n");
+      let infos = [];
+      let imgReg = /(<img[^>]*>(?:<\/img>)?)/g;
+
+      arr.forEach((value, index) => {
+        let m = value.match(imgReg);
+        if (m) {
+          m.forEach(v => {
+            infos.push({
+              pIndex: index,
+              elem: v
+            });
+          });
+        }
+      });
+      // console.log(infos);
+
+      // let resultArr = result.split("↵");
+      let resultArr = result.split("\u21B5");
+      for (let i = 0, l = infos.length; i < l; i++) {
+        let cur = infos[i];
+        resultArr.splice(cur.pIndex, 0, cur.elem);
+      }
+      let lastContent = resultArr.map(v => `<p>${v}</p>`);
+      console.log(lastContent);
+      document.getElementById("container").innerHTML = lastContent.join("");
+
+      // let content = `北京，9月25日(新华社)——《海贼王》系列电影的第14部故事片《海贼王》将在中国大陆大银幕上映，该电影的官方微博账号宣布。↵电影的情节围绕着一个名为“海盗博览会”的活动展开，来自世界各地的海盗聚集在这里寻找丢失的宝藏。↵该片将于8月9日在日本上映，目前在中国电影评分网站豆瓣上的评分为8.9分(满分10分)。↵这部电影在大陆的上映日期尚未公布。最终产品`;
+      // let container = document.getElementById("container");
+      // container.innerHTML = content;
+      // console.log(content.split("\n"));
+      // let imgReg = /(<img[^>]*>(?:<\/img>)?)/;
+      // console.log(content.match(imgReg));
+    </script>
+    <script>
+      // function mix(...mixins) {
+      //   class Mix {
+      //     constructor() {
+      //       for (let mixin of mixins) {
+      //         copyProperties(this, new mixin()); // 拷贝实例属性
+      //       }
+      //     }
+      //   }
+
+      //   for (let mixin of mixins) {
+      //     copyProperties(Mix, mixin);
+      //     copyProperties(Mix.prototype, mixin.prototype);
+      //   }
+
+      //   return Mix;
+      // }
+
+      // function copyProperties(target, source) {
+      //   for (let key of Reflect.ownKeys(source)) {
+      //     if (!["constructor", "prototype", "name"].includes(key)) {
+      //       let desc = Object.getOwnPropertyDescriptor(source, key);
+      //       Object.defineProperty(target, key, desc);
+      //     }
+      //   }
+      // }
+
+      // class A {
+      //   constructor() {
+      //     this.name = "a";
+      //   }
+      //   methodA() {
+      //     console.log("methodA");
+      //   }
+      // }
+      // class B {
+      //   constructor() {
+      //     this.name = "b";
+      //   }
+      //   methodB() {
+      //     console.log("methodB");
+      //   }
+      // }
+      // class C extends mix(A, B) {
+      //   constructor() {
+      //     super(...arguments);
+      //   }
+      // }
+      // let c = new C();
+      // console.log(c);
+      // c.methodA();
+    </script>
+    <script>
+      // class newObj extends Object {
+      //   constructor() {
+      //     super(...arguments);
+      //   }
+      // }
+      // let o = new newObj({ attr: true });
+      // console.log(o);
+      // class ExtendableError extends Error {
+      //   constructor(message) {
+      //     super();
+      //     this.message = message;
+      //     this.stack = new Error().stack;
+      //     this.name = this.constructor.name;
+      //   }
+      // }
+      // class MyError extends ExtendableError {
+      //   constructor(m) {
+      //     super(m);
+      //   }
+      // }
+      // let myerror = new MyError("ll");
+      // console.log(myerror.message);
+      // console.log(myerror instanceof Error);
+      // console.log(myerror.name);
+      // console.log(myerror.stack);
+    </script>
+    <script>
+      // function MyArray() {
+      //   Array.apply(this, arguments);
+      // }
+      // MyArray.prototype = Object.create(Array.prototype, {
+      //   constructor: {
+      //     value: MyArray,
+      //     writable: true,
+      //     configurable: true,
+      //     enumerable: true
+      //   }
+      // });
+      // class MyArray extends Array {
+      //   constructor(...args) {
+      //     super(...args);
+      //     this.history = [[]];
+      //   }
+      //   commit() {
+      //     this.history.push(this.slice());
+      //   }
+      //   revert() {
+      //     this.splice(0, this.length, ...this.history[this.history.length - 1]);
+      //   }
+      // }
+      // let x = new MyArray();
+      // x.push(1);
+      // x.push(2);
+      // console.log(x);
+      // console.log(x.history);
+
+      // x.commit();
+      // console.log(x.history);
+
+      // x.push(3);
+      // console.log(x);
+      // console.log(x.history);
+
+      // x.revert();
+      // console.log(x);
+
+      // let colors = new MyArray();
+      // colors[0] = "red";
+      // console.log(colors.length);
+
+      // colors.length = 0;
+      // console.log(colors[0]);
+
+      // let e = {};
+      // console.log(Object.getOwnPropertyNames(Error));
+      // console.log(Object.getOwnPropertyNames(Error.prototype));
+      // console.log(Object.getOwnPropertyNames(Error.call(e)));
+      // console.log(Object.getOwnPropertyNames(e));
+    </script>
+    <script>
+      // class Point {
+      //   constructor() {
+      //     this.x = 1;
+      //   }
+      //   init() {}
+      //   get y() {
+      //     return 2;
+      //   }
+      // }
+      // class ColorPoint extends Point {
+      //   constructor() {
+      //     super();
+      //     this.x = 2;
+      //   }
+      // }
+      // let p1 = new Point();
+      // let p2 = new ColorPoint();
+      // console.log(p2.__proto__.__proto__.y);
+      // console.log(p1.__proto__);
+      // class A {}
+      // console.log(A.__proto__ === Function.prototype);
+      // console.log(A.prototype.__proto__ === Object.prototype);
+
+      // class o extends Object {}
+      // let obj = new o();
+      // console.log(obj);
+      // class A {}
+      // // class B extends A {}
+      // class B {}
+      // Object.setPrototypeOf(B, A);
+      // Object.setPrototypeOf(B.prototype, A.prototype);
+      // console.log(B.__proto__ === A);
+      // console.log(B.prototype.__proto__ === A.prototype);
+    </script>
+    <script>
+      // let obj = {
+      //   toString() {
+      //     return "myObject: " + super.toString();
+      //   }
+      // };
+      // console.log(obj.toString());
+      // class Point {
+      //   constructor() {
+      //     this.x = 1;
+      //   }
+      //   init() {
+      //     // console.log(this.x);
+      //   }
+      //   static myMethod(msg) {
+      //     // console.log("instance", msg);
+      //   }
+      // }
+      // class ColorPoint extends Point {
+      //   constructor() {
+      //     super();
+      //     console.log(super.valueOf());
+      //     this.x = 2;
+      //     this.init();
+      //   }
+
+      //   init() {
+      //     console.log(super.valueOf());
+      //     super.init();
+      //     super.y = 3;
+      //     // console.log(super.y);
+      //     // console.log(this.y);
+      //     // console.log(super);
+      //   }
+
+      //   static myMethod(msg) {
+      //     // console.log(this);
+      //     super.myMethod(msg);
+      //   }
+      // }
+      // Point.myMethod(1);
+      // new Point();
+      // let cp = new ColorPoint();
+      // ColorPoint.myMethod(2);
+    </script>
+    <script>
+      // class Shape {
+      //   constructor() {
+      //     if (new.target === Shape) {
+      //       throw new Error("本类不能实例化");
+      //     }
+      //   }
+      // }
+      // let bar = Symbol("bar");
+      // class Foo {
+      //   _counter = 0;
+      //   foo = "bar";
+      //   static name = "zhangqi";
+
+      //   constructor() {
+      //     console.log(new.target === Foo);
+      //   }
+
+      //   foo(baz) {
+      //     this[bar](baz);
+      //   }
+      //   [bar](baz) {
+      //     return (this.snaf = baz);
+      //   }
+      // }
+      // let foo = new Foo();
+      // class Child extends Foo {
+      //   constructor() {
+      //     super();
+      //     console.log(new.target);
+      //   }
+      // }
+      // new Child();
+      // console.log(Object.keys(Foo.prototype));
+      // console.log(Reflect.ownKeys(Foo.prototype));
+      // class Foo {
+      //   static classMethod() {
+      //     return "hello";
+      //   }
+      //   classMethod() {
+      //     console.log("shili");
+      //   }
+      // }
+      // Foo.classMethod();
+      // let foo = new Foo();
+      // foo.classMethod();
+
+      // class Bar extends Foo {
+      //   static classMethod() {
+      //     return super.classMethod() + ", bar";
+      //   }
+      // }
+      // console.log(Bar.classMethod());
+    </script>
+    <script>
+      // function selfish(target) {
+      //   const cache = new WeakMap();
+      //   const handler = {
+      //     get(target, key) {
+      //       const value = Reflect.get(target, key);
+      //       if (typeof value !== "function") {
+      //         return value;
+      //       }
+      //       if (!cache.has(value)) {
+      //         cache.set(value, value.bind(target));
+      //       }
+      //       return cache.get(value);
+      //     }
+      //   };
+      //   const proxy = new Proxy(target, handler);
+      //   return proxy;
+      // }
+
+      // class Logger {
+      //   constructor() {}
+      //   printName(name = "there") {
+      //     this.print(`Hello ${name}`);
+      //   }
+      //   print(text) {
+      //     console.log(text);
+      //   }
+      // }
+      // let logger = selfish(new Logger());
+      // const { printName } = logger;
+      // printName();
+
+      // const init = new (class Me {
+      //   constructor(...args) {
+      //     this.args = args;
+      //   }
+      //   *[Symbol.iterator]() {
+      //     for (let arg of this.args) {
+      //       yield arg;
+      //     }
+      //   }
+      // })("hello", "world");
+      // for (let x of init) {
+      //   console.log(x);
+      // }
+      // let methodName = "getArea";
+      // class Parent {
+      //   constructor(x, y) {
+      //     this.x = x;
+      //     this.y = y;
+      //   }
+
+      //   say() {
+      //     console.log(this.x, this.y);
+      //   }
+
+      //   get prop() {
+      //     return "prop getter";
+      //   }
+
+      //   set prop(value) {
+      //     console.log("prop setter: " + value);
+      //   }
+
+      //   [methodName]() {
+      //     console.log("methodname getArea");
+      //   }
+      // }
+
+      // let p = new Parent(1, 2);
+      // console.log(p);
+
+      // class Child extends Parent {
+      //   constructor(x, y, z) {
+      //     super(x, y);
+      //     this.z = z;
+      //   }
+      // }
+
+      // let c = new Child(1, 2, 3);
+      // console.log(c);
+    </script>
+    <script>
+      // let Chinese = { nation: "中国" };
+      // // let Doctor = { career: "医生" };
+
+      // function object(o) {
+      //   function F() {}
+      //   F.prototype = o;
+      //   return new F();
+      // }
+      // // let Doctor = object(Chinese);
+      // let Doctor = Object.create(Chinese, {
+      //   color: {
+      //     writable: true,
+      //     configurable: true,
+      //     value: "yellow"
+      //   },
+      //   type: {
+      //     get() {
+      //       return "convertibal";
+      //     },
+      //     set(value) {
+      //       console.log("changed: " + "value");
+      //     }
+      //   }
+      // });
+      // Doctor.career = "医生";
+
+      // console.log(Doctor);
+      // console.log(Doctor.nation);
+      // Doctor.type = "zhangqi";
+
+      // function Animal() {}
+      // Animal.prototype.species = "动物";
+
+      // function Cat(name, color) {
+      //   Animal.apply(this, arguments);
+      //   this.name = name;
+      //   this.color = color;
+      // }
+
+      // function extend(child, parent) {
+      //   let F = function() {};
+      //   F.prototype = parent.prototype;
+      //   child.prototype = new F();
+      //   child.prototype.constructor = child;
+      // }
+
+      // function extend2(child, parent) {
+      //   let p = parent.prototype;
+      //   let c = child.prototype;
+
+      //   for (let i in p) {
+      //     c[i] = p[i];
+      //   }
+      // }
+
+      // extend2(Cat, Animal);
+
+      // let animail = new Animal();
+      // let cat = new Cat("huniu", "heibai");
+
+      // console.log(animail);
+      // console.log(cat);
+    </script>
+  </body>
+</html>
