@@ -11,13 +11,32 @@
         margin: 0;
         padding: 0;
       }
+      #container {
+        width: 640px;
+        background: #000;
+      }
+      #container img {
+        clip-path: circle(120px at 50% 50%);
+        transition: clip-path 1s ease-in-out;
+      }
+      #container img:hover {
+        clip-path: circle(640px at 50% 50%);
+      }
     </style>
     <title>zhangqi</title>
   </head>
   <body>
-    <div id="container"></div>
+    <div id="container">
+      <img src="./images/you.jpg" alt="" />
+    </div>
 
-    <script></script>
+    <script>
+      let container = document.getElementById("container");
+      let img = container.querySelector("img");
+      let radius = 120;
+      let imgWidth = 640;
+      let imgHeight = 480;
+    </script>
     <script>
       // let arr = [1, 2, 3, 4, 5];
       // let obj = {
