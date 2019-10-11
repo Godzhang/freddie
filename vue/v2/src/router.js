@@ -6,18 +6,10 @@ const Queen = () => import(/* webpackChunkName:'queen' */ "./page/Queen.vue");
 const Vuex = () => import(/* webpackChunkName:'vuex' */ "./page/Vuex.vue");
 const Parent = () =>
   import(/* webpackChunkName:'parent' */ "./page/Parent.vue");
-const Rotary = () =>
-  import(/* webpackChunkName:'rotary' */ "./page/rotary/Rotary.vue");
-const RotaryChild1 = () =>
-  import(
-    /* webpackChunkName:'rotaryChild1' */ "./page/rotary/RotaryChild1.vue"
-  );
-const RotaryChild2 = () =>
-  import(
-    /* webpackChunkName:'rotaryChild2' */ "./page/rotary/RotaryChild2.vue"
-  );
+
 const CodeView = () =>
   import(/* webpackChunkName:'codeView' */ "./page/CodeView.vue");
+const Test = () => import(/* webpackChunkName:'test' */ "./page/Test.vue");
 
 Vue.use(Router);
 
@@ -52,20 +44,12 @@ export default new Router({
       component: Parent
     },
     {
-      path: "/rotary",
-      component: Rotary
-    },
-    {
-      path: "/rotarychild1",
-      component: RotaryChild1
-    },
-    {
-      path: "/rotarychild2",
-      component: RotaryChild2
-    },
-    {
       path: "/codeview",
       component: CodeView
+    },
+    {
+      path: "/test",
+      component: Test
     }
   ]
 });
