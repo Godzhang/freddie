@@ -1,48 +1,43 @@
+<!--
+ * @Author: 张奇
+ * @Date: 2019-10-14 23:21:48
+ * @LastEditors: 张奇
+ * @LastEditTime: 2019-10-15 00:13:41
+ * @Description: file content
+ -->
 <template>
-  <div class="container">
-    <div class="content" style="height: 2024px;">
-      <div class="item item-1">
-        <img src="../images/history.png" style="width: 100%;" alt />
-      </div>
-    </div>
-    <div class="content">
-      <div class="item item-2">item-2</div>
-    </div>
-    <div class="content">
-      <div class="item item-3">item-3</div>
-    </div>
-    <!-- <div class="swiper-container">
-      <div class="swiper-bg"></div>
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">swiper-1</div>
-        <div class="swiper-slide">swiper-2</div>
-        <div class="swiper-slide">swiper-3</div>
-      </div>
-    </div>-->
+  <div id="wrapper">
+    <ul>
+      <li style="height: 100px;" v-for="i in 30" :key="i">{{ i }}</li>
+    </ul>
   </div>
 </template>
 <script>
 import BScroll from "better-scroll";
 import Swiper from "swiper";
+import IScroll from "iscroll";
 
 export default {
   data() {
     return {
-      swiper: null
+      swiper: null,
+      myScroll: null
     };
   },
   mounted() {
-    // this.swiper = new Swiper(".swiper-container", {
-    //   direction: "vertical",
-    //   freeMode: true,
-    //   nested: true,
-    //   parallax: true
-    // });
+    this.myScroll = new IScroll("#wrapper");
   },
   methods: {}
 };
 </script>
 <style lang="scss" scoped>
+#wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
 .container {
   position: relative;
   width: 100vw;
