@@ -30,48 +30,7 @@
     </div>
 
     <script>
-      let arr = [3, 2, 1];
-      let arr2 = [1, 2];
-      let arr3 = [2, 3, 2, 1];
-      let arr4 = [100, 43, 23, 93, 2, 3, 2, 1];
-      var thirdMax = function(nums) {
-        // nums = nums.sort((a, b) => a - b);
-        // nums = [...new Set(nums)];
-        // if (nums.length < 3) {
-        //   return nums[nums.length - 1];
-        // } else {
-        //   return nums[nums.length - 3];
-        // }
-        let arr = [];
-
-        nums = [...new Set(nums)];
-        if (nums.length < 3) {
-          arr = nums.sort((a, b) => a - b);
-          return arr[arr.length - 1];
-        } else {
-          arr = nums.slice(0, 3);
-        }
-
-        arr = arr.sort((a, b) => b - a);
-        for (let i = 3; i < nums.length; i++) {
-          let cur = nums[i];
-          if (cur > arr[0]) {
-            arr.unshift(cur);
-            arr.pop();
-          } else if (cur > arr[1]) {
-            arr.splice(1, 0, cur);
-            arr.pop();
-          } else if (cur > arr[2]) {
-            arr.pop();
-            arr.push(cur);
-          }
-        }
-        return arr.pop();
-      };
-      console.log(thirdMax(arr));
-      console.log(thirdMax(arr2));
-      console.log(thirdMax(arr3));
-      console.log(thirdMax(arr4));
+      const name = "zhangqi";
     </script>
     <script>
       // let arr = [1, 2, 3, 4, 5];
