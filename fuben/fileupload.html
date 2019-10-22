@@ -4,8 +4,86 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <script src="https://cdn.bootcss.com/fetch/3.0.0/fetch.js"></script>
+    <script src="https://cdn.bootcss.com/fetch/2.0.4/fetch.js"></script>
     <!-- <script src="./js/jquery.js"></script> -->
+    <style>
+      /* .progress {
+        height: 20px;
+        width: 70%;
+        position: relative;
+      }
+      .progress span {
+        display: block;
+        height: 20px;
+        width: 0;
+        color: #000;
+        font-size: 12px;
+      }
+      .progress button {
+        position: absolute;
+        top: 0;
+        right: -60px;
+      }
+      .red {
+        background-color: red;
+      }
+      .green {
+        background-color: green;
+      }
+      .img-box {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .img-box .item {
+        width: 200px;
+        height: 130px;
+        border: solid 1px #ccc;
+        margin-bottom: 20px;
+      }
+      .img-box .item img {
+        width: 100%;
+        height: 80%;
+      }
+      .addfile {
+        width: 60px;
+        height: 60px;
+        background: #000000;
+        color: #fff;
+        font-size: 14px;
+        text-align: center;
+        line-height: 50px;
+        cursor: pointer;
+        position: relative;
+      }
+      .addfile input {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        width: 100%;
+        opacity: 0;
+      } */
+      /* .drop-box {
+        height: 200px;
+        width: 400px;
+        background-color: #ccc;
+        margin-bottom: 30px;
+      }
+      .over {
+        background-color: green;
+      } */
+      .editor-box {
+        height: 200px;
+        width: 500px;
+        border: solid 1px #000;
+        margin-bottom: 30px;
+      }
+      .over {
+        background-color: green;
+      }
+    </style>
     <title>file-upload</title>
   </head>
   <body>
@@ -26,13 +104,417 @@
       <button type="submit" id="btn-0">上传</button>
     </form> -->
 
-    <div>
+    <!-- <div>
       选择文件(可多选)：
       <input type="file" id="f1" multiple /><br /><br />
-      <button type="button" id="btn-submit">上 传</button>
-    </div>
 
-    <script></script>
+      <div id="progress">
+        <span class="red"></span>
+      </div>
+
+      <button type="button" id="btn-submit">上 传</button>
+    </div> -->
+
+    <!-- <div>
+      选择文件(可多选):
+      <div class="addfile">
+        添加文件
+        <input type="file" id="f1" multiple />
+      </div>
+      <div class="img-box"></div>
+      <button type="button" id="btn-submit">上 传</button>
+    </div> -->
+
+    <!-- <div class="drop-box" id="drop-box">拖动文件到这里,开始上传</div>
+    <button type="button" id="btn-submit">上传</button> -->
+
+    <!-- <div class="editor-box" id="editor-box" contenteditable="true">
+      可以直接粘贴图片到这里直接上传
+    </div> -->
+
+    <input type="file" name="f1" id="f1" />
+    <button type="button" id="btn-submit">上传</button>
+
+    <script>
+      // 大文件分片上传
+      function submitUpload() {
+        let chunkSize = 2 * 1024 * 1024;
+        let file = document.getElementById("f1").files[0];
+        let chunks = [];
+        let token = +new Date();
+        let name = file.name;
+        let chunkCount = 0;
+        let sendChunkCount = 0;
+
+        // 拆分文件
+        if (file.size > chunkSize) {
+          let start = 0;
+          let end = 0;
+          while (true) {
+            end += chunkSize;
+            let blob = file.slice(start, end);
+            start += chunkSize;
+
+            if (!blob.size) {
+              // 截取的数据为空 则结束
+              break;
+            }
+
+            chunks.push(blob); // 保存分段数据
+          }
+        } else {
+          chunks.push(file.slice(0));
+        }
+        // 分片个数
+        chunkCount = chunks.length;
+
+        for (let i = 0; i < chunkCount; i++) {
+          let fd = new FormData();
+          fd.append("token", token);
+          fd.append("f1", chunks[i]);
+          fd.append("index", i);
+          xhrSend(fd, () => {
+            sendChunkCount += 1;
+            if (sendChunkCount === chunkCount) {
+              console.log("上传完成，发送合并请求");
+              let formD = new FormData();
+              formD.append("type", "merge");
+              formD.append("token", token);
+              formD.append("chunkCount", chunkCount);
+              formD.append("filename", name);
+              xhrSend(formD);
+            }
+          });
+        }
+      }
+
+      function xhrSend(fd, cb) {
+        var xhr = new XMLHttpRequest(); //创建对象
+        xhr.open("POST", "http://localhost:8100/", true);
+        xhr.onreadystatechange = function() {
+          console.log("state change", xhr.readyState);
+          if (xhr.readyState == 4) {
+            console.log(xhr.responseText);
+            cb && cb();
+          }
+        };
+        xhr.send(fd); //发送
+      }
+
+      //绑定提交事件
+      document
+        .getElementById("btn-submit")
+        .addEventListener("click", submitUpload);
+    </script>
+    <script>
+      // 剪贴板上传
+      // function insertNodeToEditor(editor, elem) {
+      //   let range; // 记录光标位置对象
+      //   let node = window.getSelection().anchorNode;
+      //   if (node != null) {
+      //     range = window.getSelection().getRangeAt(0); // 获取光标起始位置
+      //     range.insertNode(elem);
+      //   } else {
+      //     editor.append(elem);
+      //   }
+      // }
+
+      // let box = document.getElementById("editor-box");
+
+      // box.addEventListener("paste", e => {
+      //   let data = e.clipboardData || window.clipboardData;
+      //   let items = data.items;
+      //   let fileList = [];
+      //   if (items && items.length) {
+      //     for (let i = 0; i < items.length; i++) {
+      //       let item = items[i];
+      //       console.log(item.getAsFile());
+      //       fileList.push(item.getAsFile());
+      //     }
+      //   }
+
+      //   window.willUploadFileList = fileList;
+      //   e.preventDefault();
+
+      //   submitUpload();
+      // });
+
+      // function submitUpload() {
+      //   let fileList = window.willUploadFileList || [];
+      //   if (!fileList.length) {
+      //     console.log("请粘贴文件");
+      //     return;
+      //   }
+      //   var fd = new FormData(); //构造FormData对象
+
+      //   for (let i = 0; i < fileList.length; i++) {
+      //     fd.append("f1", fileList[i]); //支持多文件上传
+      //   }
+
+      //   var xhr = new XMLHttpRequest(); //创建对象
+      //   xhr.open("POST", "http://localhost:8100/", true);
+      //   xhr.onreadystatechange = function() {
+      //     if (xhr.readyState == 4) {
+      //       var obj = JSON.parse(xhr.responseText); //返回值
+      //       if (obj.length) {
+      //         let img = document.createElement("img");
+      //         img.src = obj[0];
+      //         img.style.width = "100px";
+      //         insertNodeToEditor(box, img);
+      //         console.log("上传成功");
+      //       }
+      //     }
+      //   };
+      //   xhr.send(fd); //发送
+      // }
+    </script>
+    <script>
+      // 拖拽上传
+      // let box = document.getElementById("drop-box");
+
+      // document.addEventListener("drop", e => {
+      //   console.log("document drop");
+      //   e.preventDefault();
+      // });
+
+      // function openDropEvent() {
+      //   box.addEventListener("dragover", e => {
+      //     console.log("element dragover");
+      //     box.classList.add("over");
+      //     e.preventDefault();
+      //   });
+      //   box.addEventListener("dragleave", e => {
+      //     console.log("element dragleave");
+      //     box.classList.remove("over");
+      //     e.preventDefault();
+      //   });
+      //   box.addEventListener(
+      //     "drop",
+      //     e => {
+      //       e.preventDefault();
+
+      //       let fileList = e.dataTransfer.files;
+      //       console.log(fileList);
+      //       let len = fileList.length;
+
+      //       if (!len) {
+      //         box.classList.remove("over");
+      //         return;
+      //       }
+
+      //       box.classList.add("over");
+
+      //       window.willUploadFileList = fileList;
+      //     },
+      //     false
+      //   );
+      // }
+      // openDropEvent();
+
+      // function submitUpload() {
+      //   let fileList = window.willUploadFileList || [];
+      //   if (!fileList.length) {
+      //     console.log("请选择文件");
+      //     return;
+      //   }
+      //   var fd = new FormData(); //构造FormData对象
+
+      //   for (let i = 0; i < fileList.length; i++) {
+      //     fd.append("f1", fileList[i]); //支持多文件上传
+      //   }
+
+      //   var xhr = new XMLHttpRequest(); //创建对象
+      //   xhr.open("POST", "http://localhost:8100/", true);
+      //   xhr.onreadystatechange = function() {
+      //     if (xhr.readyState == 4) {
+      //       var obj = JSON.parse(xhr.responseText); //返回值
+      //       if (obj.length) {
+      //         console.log("上传成功");
+      //       }
+      //     }
+      //   };
+      //   xhr.send(fd); //发送
+      // }
+      // document
+      //   .getElementById("btn-submit")
+      //   .addEventListener("click", submitUpload);
+    </script>
+    <script>
+      // 多文件上传+预览+取消
+      // let fileMaxCount = 6;
+      // let imgBox = document.querySelector(".img-box");
+      // let willUploadFile = [];
+      // document.getElementById("f1").addEventListener("change", e => {
+      //   let fileList = document.getElementById("f1").files;
+
+      //   if (
+      //     willUploadFile.length > fileMaxCount ||
+      //     fileList.length > fileMaxCount ||
+      //     willUploadFile.length + fileList.length > fileMaxCount
+      //   ) {
+      //     alert("最多只能上传" + fileMaxCount + "张图");
+      //     return;
+      //   }
+
+      //   for (let i = 0; i < fileList.length; i++) {
+      //     let f = fileList[i];
+
+      //     let img = document.createElement("img");
+      //     let item = document.createElement("div");
+      //     let progress = document.createElement("div");
+      //     progress.className = "progress";
+      //     progress.innerHTML =
+      //       '<span class="red"></span><button type="button">Abort</button>';
+      //     item.className = "item";
+      //     img.src = window.URL.createObjectURL(f);
+      //     img.onload = function() {
+      //       window.URL.revokeObjectURL(this.src);
+      //     };
+
+      //     item.appendChild(img);
+      //     item.appendChild(progress);
+      //     imgBox.appendChild(item);
+
+      //     willUploadFile.push({
+      //       file: f,
+      //       item,
+      //       progress
+      //     });
+      //   }
+      // });
+
+      // function xhrSend({ file, progress }) {
+      //   let progressSpan = progress.firstElementChild;
+      //   let btnCancel = progress.getElementsByTagName("button")[0];
+      //   btnCancel.removeEventListener("click", e => {});
+      //   btnCancel.addEventListener("click", e => {
+      //     if (xhr && xhr.readyState !== 4) {
+      //       xhr.abort();
+      //     }
+      //   });
+      //   progressSpan.style.width = "0";
+      //   progressSpan.classList.remove("green");
+
+      //   var fd = new FormData();
+      //   fd.append("f1", file);
+
+      //   var xhr = new XMLHttpRequest();
+      //   xhr.open("POST", "http://localhost:8100", true);
+      //   xhr.onreadystatechange = function() {
+      //     console.log("state change", xhr.readyState);
+      //     //调用 abort 后，state 立即变成了4,并不会变成0
+      //     //增加自定义属性  xhr.uploaded
+      //     if (this.readyState === 4 && xhr.uploaded) {
+      //       let obj = JSON.parse(xhr.responseText);
+      //       console.log(obj);
+      //       if (obj.length) {
+      //         console.log("上传成功");
+      //       }
+      //     }
+      //   };
+
+      //   xhr.onprogress = updateProgress;
+      //   xhr.upload.onprogress = updateProgress;
+      //   function updateProgress(event) {
+      //     if (event.lengthComputable) {
+      //       let completedPercent = ((event.loaded / event.total) * 100).toFixed(
+      //         2
+      //       );
+      //       progressSpan.style.width = completedPercent + "%";
+      //       progressSpan.innerHTML = completedPercent + "%";
+      //       if (completedPercent > 90) {
+      //         progressSpan.classList.add("green");
+      //       }
+      //       if (completedPercent >= 100) {
+      //         xhr.uploaded = true;
+      //         progressSpan.innerHTML = "上传完成";
+      //       }
+      //       console.log("已上传", completedPercent);
+      //     }
+      //   }
+      //   //注意 send 一定要写在最下面，否则 onprogress 只会执行最后一次 也就是100%的时候
+      //   xhr.send(fd);
+      //   return xhr;
+      // }
+
+      // function submitUpload(willFiles) {
+      //   if (!willFiles.length) {
+      //     return;
+      //   }
+      //   willFiles.forEach(item => {
+      //     xhrSend({
+      //       file: item.file,
+      //       progress: item.progress
+      //     });
+      //   });
+      // }
+      // document
+      //   .getElementById("btn-submit")
+      //   .addEventListener("click", function() {
+      //     submitUpload(willUploadFile);
+      //   });
+    </script>
+    <script>
+      // 单或多文件，单进度
+      // function submitUpload() {
+      //   let progressSpan = document.getElementById("progress")
+      //     .firstElementChild;
+      //   let fileList = document.getElementById("f1").files;
+
+      //   progressSpan.style.width = "0";
+      //   progressSpan.classList.remove("green");
+
+      //   if (!fileList.length) {
+      //     alert("请选择文件");
+      //     return;
+      //   }
+
+      //   let fd = new FormData();
+
+      //   for (let i = 0; i < fileList.length; i++) {
+      //     fd.append("f1", fileList[i]);
+      //   }
+
+      //   let xhr = new XMLHttpRequest();
+      //   console.log(xhr);
+      //   xhr.open("POST", "http://localhost:8100/", true);
+
+      //   xhr.onreadystatechange = function() {
+      //     console.log("state change", xhr.readyState);
+      //     if (this.readyState === 4 && this.status === 200) {
+      //       let obj = JSON.parse(xhr.responseText);
+      //       console.log(obj);
+      //       if (obj.length) {
+      //         console.log("上传成功");
+      //       }
+      //     }
+      //   };
+      //   xhr.onprogress = updateProgress;
+      //   xhr.upload.onprogress = updateProgress;
+      //   function updateProgress(event) {
+      //     if (event.lengthComputable) {
+      //       let completedPercent = ((event.loaded / event.total) * 100).toFixed(
+      //         2
+      //       );
+      //       progressSpan.style.width = completedPercent + "%";
+      //       progressSpan.innerHTML = completedPercent + "%";
+      //       if (completedPercent > 90) {
+      //         progressSpan.classList.add("green");
+      //       }
+      //       if (completedPercent === 100) {
+      //         progressSpan.innerHTML = "上传完成";
+      //       }
+      //       console.log("已上传", completedPercent);
+      //     }
+      //   }
+      //   //注意 send 一定要写在最下面，否则 onprogress 只会执行最后一次 也就是100%的时候
+      //   xhr.send(fd);
+      // }
+
+      // document
+      //   .getElementById("btn-submit")
+      //   .addEventListener("click", submitUpload);
+    </script>
     <script>
       // 无刷新提交
       // function submitUpload() {
