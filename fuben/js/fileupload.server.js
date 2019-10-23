@@ -97,9 +97,6 @@ app.use(async ctx => {
     let nextPath =
       path.slice(0, path.lastIndexOf("\\") + 1) + fileIndex + "-" + fileToken;
     if (file.size > 0 && path) {
-      // let extArr = fname.split(".");
-      // let ext = [...extArr].pop();
-      // nextPath = path + "." + ext;
       fs.renameSync(path, nextPath);
 
       result.push(
