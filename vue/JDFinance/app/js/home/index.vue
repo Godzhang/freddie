@@ -1,23 +1,26 @@
 <template>
   <div>
-    <Heador></Heador>
-    <Slider></Slider>
+    <Heador />
+    <Slider />
+    <Novice />
   </div>
 </template>
 
 <script>
-import Heador from "../public/header";
-import Slider from "./hslider.vue";
+import Heador from "../public/header.vue"
+import Slider from "./hslider.vue"
+import Novice from "./novice.vue"
 
 export default {
-  data() {
-    return {};
+    components: {
+        Heador,
+        Slider,
+        Novice,
+    },
+    data() {
+        return {}
   },
-  components: {
-    Heador,
-    Slider
-  }
-};
+}
 </script>
 
 <style lang="scss">

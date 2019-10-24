@@ -53,7 +53,7 @@
       "node/no-unpublished-import": "error",
       "vue/html-indent": [
         "error",
-        4
+        2
       ],
       "vue/max-attributes-per-line": "off"
     }
