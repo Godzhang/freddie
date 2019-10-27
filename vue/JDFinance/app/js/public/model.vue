@@ -20,5 +20,7 @@ export default {
 
 .panel {
   @include panel;
+  .content {
+  }
 }
 </style>
