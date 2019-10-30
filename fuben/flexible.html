@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,minimal-ui"
+    /> -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <title>flexible</title>
+  </head>
+  <body>
+    <script>
+      (function(win, lib) {
+        let doc = win.document;
+        let docEl = doc.documentElement;
+        let metaEl = doc.querySelector('meta[name="viewport"]');
+        let flexibleEl = doc.querySelector('meta[name="flexible"]');
+        let dpr = 0;
+        let scale = 0;
+        let tid;
+        let flexible = lib.flexible || (lib.flexible = {});
+
+        if (!dpr && !scale) {
+          let isAndroid = win.navigator.appVersion.match(/android/gi);
+          let isIPhone = win.navigator.appVersion.match(/iphone/gi);
+          let devicePixelRatio = win.devicePixelRatio;
+          if (isIPhone) {
+            if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+              dpr = 3;
+            } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)) {
+              dpr = 2;
+            } else {
+              dpr = 1;
+            }
+          } else {
+            dpr = 1;
+          }
+          scale = 1 / dpr;
+        }
+
+        docEl.setAttribute("data-dpr", dpr);
+        if (!metaEl) {
+          metaEl = document.createElement("meta");
+          metaEl.setAttribute("name", "viewport");
+          metaEl.setAttribute(
+            "content",
+            `initial-scale=${scale}, maximum-scale=${scale}, minimum-scale=${scale}, user-scalable=no`
+          );
+          if (docEl.firstElementChild) {
+            docEl.firstElementChild.appendChild(metaEl);
+          } else {
+            let wrap = doc.createElement("div");
+            wrap.appendChild(metaEl);
+            doc.write(wrap.innerHTML);
+          }
+        }
+
+        function refreshRem() {
+          let width = docEl.getBoundingClientRect().width;
+          if (width / dpr > 540) {
+            width = 540 * dpr;
+          }
+          let rem = width / 10;
+          docEl.style.fontSize = rem + "px";
+          flexible.rem = win.rem = rem;
+        }
+
+        win.addEventListener(
+          "resize",
+          function() {
+            clearTimeout(tid);
+            tid = setTimeout(refreshRem, 300);
+          },
+          false
+        );
+        win.addEventListener(
+          "pageshow",
+          function(e) {
+            // 页面是否来自缓存
+            if (e.persisted) {
+              clearTimeout(tid);
+              tid = setTimeout(refreshRem, 300);
+            }
+          },
+          false
+        );
+
+        if (doc.readyState === "complete") {
+          doc.body.style.fontSize = 12 * dpr + "px";
+        } else {
+          doc.addEventListener(
+            "DOMContentLoaded",
+            function(e) {
+              doc.body.style.fontSize = 12 * dpr + "px";
+            },
+            false
+          );
+        }
+
+        refreshRem();
+      })(window, window["lib"] || (window["lib"] = {}));
+    </script>
+  </body>
+</html>
