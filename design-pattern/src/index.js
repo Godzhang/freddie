@@ -1,34 +1,25 @@
-class Person {
-  constructor(name, age) {
-    this.name = name;
-    this.age = age;
+class jQuery {
+  constructor(selector) {
+    let slice = Array.prototype.slice;
+    let dom = slice.call(document.querySelectorAll(selector));
+    let len = dom ? dom.length : 0;
+    for (let i = 0; i < len; i++) {
+      this[i] = dom[i];
+    }
+    this.length = len;
+    this.selector = selector || "";
   }
 
-  eat() {
-    console.log(`${this.name} eat something`);
-  }
+  append(node) {}
 
-  speak() {
-    console.log(`My name is ${this.name}, age is ${this.age}`);
-  }
+  addClass(name) {}
+
+  html(data) {}
 }
 
-let p = new Person("zhangqi", 30);
-p.eat();
-p.speak();
-
-class Student extends Person {
-  constructor(name, age, number) {
-    super(name, age);
-    this.number = number;
-  }
-
-  study() {
-    console.log(`${this.name} is studying`);
-  }
-}
-
-let xiaoming = new Student("xiaoming", 2, "A1");
-xiaoming.speak();
-xiaoming.study();
-console.log(xiaoming.number);
+window.$ = function(selector) {
+  // 工厂模式
+  return new jQuery(selector);
+};
+console.log($("p"));
+console.log($("p").addClass);
