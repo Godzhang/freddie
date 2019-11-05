@@ -376,3 +376,176 @@
 // *********************************************************************** //
 
 // 装饰器模式
+// class Circle {
+//   draw() {
+//     console.log("画一个圆形");
+//   }
+// }
+
+// class Decorator {
+//   constructor(circle) {
+//     this.circle = circle;
+//   }
+//   draw() {
+//     this.circle.draw();
+//     this.setRedBorder(circle);
+//   }
+//   setRedBorder(circle) {
+//     console.log("设置红色边框");
+//   }
+// }
+
+// let circle = new Circle();
+// circle.draw();
+
+// let decorator = new Decorator(circle);
+// decorator.draw();
+
+// 示例一
+// function testDec(target) {
+//   target.isDec = true;
+// }
+
+// @testDec
+// class Demo {
+//   constructor() {}
+// }
+// console.log(Demo.isDec);
+
+// 示例二
+// function mixin(...list) {
+//   return function(target) {
+//     Object.assign(target.prototype, ...list);
+//   };
+// }
+// const Foo = {
+//   foo() {
+//     console.log("foo");
+//   }
+// };
+// @mixin(Foo)
+// class MyClass {}
+
+// new MyClass().foo();
+
+// 示例三
+// function readonly(target, name, descriptor) {
+//   descriptor.writable = false;
+//   return descriptor;
+// }
+
+// class Person {
+//   constructor() {
+//     this.first = "zhang";
+//     this.last = "qi";
+//   }
+
+//   @readonly
+//   name() {
+//     return `${this.first} ${this.last}`;
+//   }
+// }
+// let p = new Person();
+// // 不能更改
+// // p.name = function() {
+// //   return this.first;
+// // };
+// console.log(p.name());
+
+// 示例四
+// function log(target, name, descriptor) {
+//   let oldValue = descriptor.value;
+
+//   descriptor.value = function() {
+//     console.log(`Calling ${name} with`, [...arguments].join(", "));
+//     return oldValue.apply(this, arguments);
+//   };
+// }
+
+// class Math {
+//   @log
+//   add(a, b) {
+//     return a + b;
+//   }
+// }
+
+// const math = new Math();
+// let result = math.add(2, 4);
+// console.log(result);
+
+// 示例五 (core-decorators)
+// import {
+//   readonly,
+//   deprecate,
+//   autobind,
+//   override,
+//   suppressWarnings
+// } from "core-decorators";
+
+// class Meal {
+//   @readonly
+//   entree() {
+//     console.log("entree");
+//   }
+// }
+
+// let dinner = new Meal();
+// dinner.entree = "zhangqi";
+
+// --------------------- //
+
+// class Person {
+//   @deprecate
+//   faceplam() {}
+
+//   @deprecate("We stopped facepalming")
+//   faceplamHard() {}
+
+//   @deprecate("We stopped facepalming", {
+//     url: "http://knowyourmeme.com/memes/facepalm"
+//   })
+//   faceplamHarder() {}
+// }
+// let p = new Person();
+// p.faceplam();
+// p.faceplamHard();
+// p.faceplamHarder();
+
+// --------------------- //
+
+// class Person {
+//   @autobind
+//   getPerson() {
+//     return this;
+//   }
+// }
+// let person = new Person();
+// let getPerson = person.getPerson;
+// console.log(getPerson() === person);
+
+// *********************************************************************** //
+
+// 代理模式
+// class RealImg {
+//   constructor(fileName) {
+//     this.fileName = fileName;
+//     this.loadFromDisk();
+//   }
+//   display() {
+//     console.log("display... " + this.fileName);
+//   }
+//   loadFromDisk() {
+//     console.log("loading... " + this.fileName);
+//   }
+// }
+// class ProxyImg {
+//   constructor(fileName) {
+//     this.realImg = new RealImg(fileName);
+//   }
+//   display() {
+//     this.realImg.display();
+//   }
+// }
+
+// let proxyImg = new ProxyImg("1.jpg");
+// proxyImg.display();
