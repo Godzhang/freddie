@@ -549,3 +549,149 @@
 
 // let proxyImg = new ProxyImg("1.jpg");
 // proxyImg.display();
+
+// ------------------ //
+// let star = {
+//   name: "zhangqi",
+//   age: 33,
+//   phone: "15900243148"
+// };
+
+// let agent = new Proxy(star, {
+//   get: function(target, key) {
+//     if (key === "phone") {
+//       return "18611112222";
+//     }
+//     if (key === "price") {
+//       return Math.pow(2, 18);
+//     }
+//     return target[key];
+//   },
+//   set: function(target, key, val) {
+//     if (key === "customPrice") {
+//       if (val < 100000) {
+//         console.warn("价格太低");
+//         return true;
+//       } else {
+//         target[key] = val;
+//         return true;
+//       }
+//     }
+//   }
+// });
+
+// console.log(agent.phone);
+// console.log(agent.price);
+// agent.customPrice = 10000;
+
+// ---------虚拟代理--------- //
+// let myImage = (function() {
+//   let imgNode = document.createElement("img");
+//   document.body.appendChild(imgNode);
+
+//   return {
+//     setSrc: function(src) {
+//       imgNode.src = src;
+//     }
+//   };
+// })();
+
+// let proxyImg = (function() {
+//   let img = new Image();
+//   img.onload = function() {
+//     myImage.setSrc(this.src);
+//   };
+//   return {
+//     setSrc: function(src) {
+//       myImage.setSrc("http://localhost:3000/images/you.jpg");
+//       img.src = src;
+//     }
+//   };
+// })();
+
+// proxyImg.setSrc(
+//   "http://img0.imgtn.bdimg.com/it/u=3726334667,3439228823&fm=26&gp=0.jpg"
+// );
+
+// ---------缓存代理--------- //
+// let mult = function() {
+//   console.log("开始计算乘积");
+//   let a = 1;
+//   for (let i = 0, l = arguments.length; i < l; i++) {
+//     a *= arguments[i];
+//   }
+//   return a;
+// };
+// let proxyMult = (function() {
+//   let cache = {};
+//   return function() {
+//     let args = [].join.call(arguments, ", ");
+//     if (args in cache) {
+//       return cache[args];
+//     }
+//     return (cache[args] = mult.apply(this, arguments));
+//   };
+// })();
+
+// console.log(proxyMult(1, 2, 3, 4));
+// console.log(proxyMult(1, 2, 3, 4));
+
+// ---------高阶函数动态创建代理--------- //
+// let createProxyFactory = function(fn) {
+//   let cache = {};
+//   return function() {
+//     let args = [].join.call(arguments, ", ");
+//     if (args in cache) {
+//       return cache[args];
+//     }
+//     return (cache[args] = fn.apply(this, arguments));
+//   };
+// };
+
+// *********************************************************************** //
+
+// 观察者模式
+// 主题，保存状态，状态变化之后触发所有观察者对象
+// class Subject {
+//   constructor() {
+//     this.state = 0;
+//     this.observers = [];
+//   }
+//   getState() {
+//     return this.state;
+//   }
+//   setState(state) {
+//     this.state = state;
+//     this.notifyAllObservers();
+//   }
+//   notifyAllObservers() {
+//     for (let i = 0, l = this.observers.length; i < l; i++) {
+//       this.observers[i].update();
+//     }
+//   }
+//   attach(observer) {
+//     this.observers.push(observer);
+//   }
+// }
+// // 观察者
+// class Observer {
+//   constructor(name, subject) {
+//     this.name = name;
+//     this.subject = subject;
+//     this.subject.attach(this);
+//   }
+//   update() {
+//     console.log(`${this.name} update, state: ${this.subject.getState()}`);
+//   }
+// }
+
+// let subject = new Subject();
+// let ob1 = new Observer("o1", subject);
+// let ob2 = new Observer("o2", subject);
+// let ob3 = new Observer("o3", subject);
+
+// subject.setState(1);
+// subject.setState(2);
+// subject.setState(3);
+
+// ------------------ //
