@@ -695,3 +695,143 @@
 // subject.setState(3);
 
 // ------------------ //
+
+// *********************************************************************** //
+// 迭代器模式
+// 1. 顺序遍历有序集合
+// 2. 使用者不必知道集合的内部结构
+// class Iterator {
+//   constructor(container) {
+//     this.list = container.list;
+//     this.index = 0;
+//   }
+//   next() {
+//     if (this.hasNext()) {
+//       return this.list[this.index++];
+//     }
+//     return null;
+//   }
+//   hasNext() {
+//     return this.index < this.list.length;
+//   }
+// }
+
+// class Container {
+//   constructor(list) {
+//     this.list = list;
+//   }
+
+//   getIterator() {
+//     return new Iterator(this);
+//   }
+// }
+
+// let arr = [1, 2, 3, 4, 5];
+// let c = new Container(arr);
+// let it = c.getIterator();
+// while (it.hasNext()) {
+//   console.log(it.next());
+// }
+
+// -------------------------------------- //
+// for...of
+// function each(data) {
+//   let iterator = data[Symbol.iterator]();
+
+//   let item = { done: false };
+//   while (!item.done) {
+//     item = iterator.next();
+//     if (!item.done) {
+//       console.log(item);
+//     }
+//   }
+// }
+// each([1, 2, 3, 4]);
+// each("abcd");
+// let m = new Map();
+// m.set("a", 100);
+// m.set("b", 200);
+// each(m);
+
+// *********************************************************************** //
+// 状态模式
+// 状态
+// class State {
+//   constructor(color) {
+//     this.color = color;
+//   }
+//   handle(context) {
+//     console.log(`turn to ${this.color} light`);
+//     context.setState(this);
+//   }
+// }
+
+// // 主体
+// class Context {
+//   constructor() {
+//     this.state = null;
+//   }
+//   getState() {
+//     return this.state;
+//   }
+//   setState(state) {
+//     this.state = state;
+//   }
+// }
+
+// let context = new Context();
+// let green = new State("green");
+// let yellow = new State("yellow");
+// let red = new State("red");
+
+// green.handle(context);
+// console.log(context.getState());
+// yellow.handle(context);
+// console.log(context.getState());
+// red.handle(context);
+// console.log(context.getState());
+
+// -------------------------------------- //
+// 有限状态机
+import StateMachine from "javascript-state-machine";
+
+let btn = document.getElementById("btn");
+
+const fsm = new StateMachine({
+  init: "收藏",
+  transitions: [
+    {
+      name: "doStore",
+      from: "收藏",
+      to: "取消收藏"
+    },
+    {
+      name: "deleteStore",
+      from: "取消收藏",
+      to: "收藏"
+    }
+  ],
+  methods: {
+    onDoStore() {
+      console.log("收藏成功");
+      updateText();
+    },
+    onDeleteStore() {
+      console.log("取消收藏成功");
+      updateText();
+    }
+  }
+});
+
+function updateText() {
+  btn.innerHTML = fsm.state;
+}
+
+btn.onclick = function() {
+  if (fsm.is("收藏")) {
+    fsm.doStore();
+  } else {
+    fsm.deleteStore();
+  }
+};
+updateText();

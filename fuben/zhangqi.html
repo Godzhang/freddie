@@ -32,31 +32,35 @@
     <script>
       const name = "zhangqi";
 
-      const sub = str => {
-        let result = [];
-
-        // 给定任意输入都返回第一个符合条件的子串
-        const match = str => {
-          let j = str.match(/^(0+|1+)/)[0];
-          let o = (j[0] ^ 1).toString().repeat(j.length);
-          let reg = new RegExp(`^(${j}${o})`);
-          if (reg.test(str)) {
-            return RegExp.$1;
+      let ha = arr => {
+        // 卡牌排序
+        let str = arr.sort().join("");
+        // 分组
+        let group = str.match(/(\d)\1+|\d/g);
+        // 求最大公约数
+        let gcd = (a, b) => {
+          if (b === 0) {
+            return a;
           } else {
-            return "";
+            return gcd(b, a % b);
           }
         };
 
-        for (let i = 0, len = str.length - 1; i < len; i++) {
-          let sub = match(str.slice(i));
-          if (sub) {
-            result.push(sub);
+        while (group.length > 1) {
+          let a = group.shift().length;
+          let b = group.shift().length;
+          let v = gcd(a, b);
+          if (v === 1) {
+            return false;
+          } else {
+            group.unshift("0".repeat(v));
           }
         }
 
-        return result;
+        return group.length ? group[0].length > 1 : false;
       };
-      console.log(sub("00110011"));
+      console.log(ha([1, 1]));
+      console.log(ha([1, 1, 1, 2, 2, 2, 3, 3]));
     </script>
     <script>
       // let arr = [1, 2, 3, 4, 5];
