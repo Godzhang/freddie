@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "JS 面试题",
+    "price": 149,
+    "discount": 0.9
+  },
+  {
+    "id": 2,
+    "name": "JS 高级面试题",
+    "price": 450,
+    "discount": 0.9
+  },
+  {
+    "id": 3,
+    "name": "JS 超高级面试题",
+    "price": 2450,
+    "discount": 1
+  },
+  {
+    "id": 4,
+    "name": "JS 究极高级面试题",
+    "price": 12450,
+    "discount": 0.8
+  }
+]

@@ -793,45 +793,335 @@
 
 // -------------------------------------- //
 // 有限状态机
-import StateMachine from "javascript-state-machine";
+// import StateMachine from "javascript-state-machine";
 
-let btn = document.getElementById("btn");
+// let btn = document.getElementById("btn");
 
-const fsm = new StateMachine({
-  init: "收藏",
-  transitions: [
-    {
-      name: "doStore",
-      from: "收藏",
-      to: "取消收藏"
-    },
-    {
-      name: "deleteStore",
-      from: "取消收藏",
-      to: "收藏"
-    }
-  ],
-  methods: {
-    onDoStore() {
-      console.log("收藏成功");
-      updateText();
-    },
-    onDeleteStore() {
-      console.log("取消收藏成功");
-      updateText();
-    }
-  }
-});
+// const fsm = new StateMachine({
+//   init: "收藏",
+//   transitions: [
+//     {
+//       name: "doStore",
+//       from: "收藏",
+//       to: "取消收藏"
+//     },
+//     {
+//       name: "deleteStore",
+//       from: "取消收藏",
+//       to: "收藏"
+//     }
+//   ],
+//   methods: {
+//     onDoStore() {
+//       console.log("收藏成功");
+//       updateText();
+//     },
+//     onDeleteStore() {
+//       console.log("取消收藏成功");
+//       updateText();
+//     }
+//   }
+// });
 
-function updateText() {
-  btn.innerHTML = fsm.state;
-}
+// function updateText() {
+//   btn.innerHTML = fsm.state;
+// }
 
-btn.onclick = function() {
-  if (fsm.is("收藏")) {
-    fsm.doStore();
-  } else {
-    fsm.deleteStore();
-  }
-};
-updateText();
+// btn.onclick = function() {
+//   if (fsm.is("收藏")) {
+//     fsm.doStore();
+//   } else {
+//     fsm.deleteStore();
+//   }
+// };
+// updateText();
+
+// -------------------------------------- //
+// promise
+// import StateMachine from "javascript-state-machine";
+
+// const fsm = new StateMachine({
+//   init: "pending",
+//   transitions: [
+//     {
+//       name: "resolve",
+//       from: "pending",
+//       to: "fullfilled"
+//     },
+//     {
+//       name: "reject",
+//       from: "pending",
+//       to: "rejected"
+//     }
+//   ],
+//   methods: {
+//     onResolve(state, data) {
+//       // state 当前状态
+//       // data 传递参数
+//       data.successList.forEach(fn => fn());
+//     },
+//     onReject(state, data) {
+//       data.failList.forEach(fn => fn());
+//     }
+//   }
+// });
+
+// class MyPromise {
+//   constructor(fn) {
+//     this.successList = [];
+//     this.failList = [];
+
+//     fn(
+//       () => {
+//         fsm.resolve(this);
+//       },
+//       () => {
+//         fsm.reject(this);
+//       }
+//     );
+//   }
+
+//   then(successFn, failFn) {
+//     this.successList.push(successFn);
+//     this.failList.push(failFn);
+//   }
+// }
+
+// function fn() {
+//   return new MyPromise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve();
+//       // reject();
+//     }, 1000);
+//   });
+// }
+// let res = fn();
+// res.then(
+//   () => {
+//     console.log("then success");
+//   },
+//   () => {
+//     console.log("then fail");
+//   }
+// );
+// res.then(
+//   () => {
+//     console.log("then success 2");
+//   },
+//   () => {
+//     console.log("then fail 2");
+//   }
+// );
+
+// *********************************************************************** //
+// 原型模式
+// 克隆自己，生成一个新对象
+// let prototype = {
+//   getName() {
+//     console.log(this.first + " " + this.last);
+//   },
+//   say() {
+//     console.log("hello");
+//   }
+// };
+
+// let x = Object.create(prototype);
+// x.first = "zhang";
+// x.last = "qi";
+// x.getName();
+// x.say();
+
+// let y = Object.create(prototype);
+// x.first = "zhao";
+// x.last = "jinge";
+// x.getName();
+// x.say();
+
+// *********************************************************************** //
+// 桥接模式
+
+// *********************************************************************** //
+// 组合模式
+
+// *********************************************************************** //
+// 享元模式
+// 共享内存 | 相同数据，共享使用
+
+// *********************************************************************** //
+// 策略模式
+
+// *********************************************************************** //
+// 模板方法模式
+
+// *********************************************************************** //
+// 职责链模式
+// class Action {
+//   constructor(name) {
+//     this.name = name;
+//     this.nextAction = null;
+//   }
+//   setNextAction(action) {
+//     this.nextAction = action;
+//   }
+//   handle() {
+//     console.log(`${this.name} 审批`);
+//     if (this.nextAction != null) {
+//       this.nextAction.handle();
+//     }
+//   }
+// }
+// let a1 = new Action("组长");
+// let a2 = new Action("经理");
+// let a3 = new Action("总监");
+// a1.setNextAction(a2);
+// a2.setNextAction(a3);
+// a1.handle();
+
+// *********************************************************************** //
+// 命令模式
+// 接受者
+// class Receiver {
+//   exec() {
+//     console.log("执行");
+//   }
+// }
+// // 命令者
+// class Command {
+//   constructor(receiver) {
+//     this.receiver = receiver;
+//   }
+//   cmd() {
+//     console.log("触发命令");
+//     this.receiver.exec();
+//   }
+// }
+// // 触发者
+// class Invoke {
+//   constructor(command) {
+//     this.command = command;
+//   }
+//   invoke() {
+//     console.log("开始");
+//     this.command.cmd();
+//   }
+// }
+// let solider = new Receiver();
+// let trumpeter = new Command(solider);
+// let general = new Invoke(trumpeter);
+// general.invoke();
+
+// *********************************************************************** //
+// 备忘录模式
+// 状态备忘
+// class Memento {
+//   constructor(content) {
+//     this.content = content;
+//   }
+//   getContent() {
+//     return this.content;
+//   }
+// }
+// // 备忘列表
+// class CareTaker {
+//   constructor() {
+//     this.list = [];
+//   }
+//   add(memento) {
+//     this.list.push(memento);
+//   }
+//   get(index) {
+//     return this.list[index];
+//   }
+// }
+// // 编辑器
+// class Editor {
+//   constructor() {
+//     this.content = null;
+//   }
+//   setContent(content) {
+//     this.content = content;
+//   }
+//   getContent() {
+//     return this.content;
+//   }
+//   saveContentToMemento() {
+//     return new Memento(this.content);
+//   }
+//   getContentFromMemento(memento) {
+//     this.content = memento.getContent();
+//   }
+// }
+
+// let editor = new Editor();
+// let careTaker = new CareTaker();
+// editor.setContent("111");
+// editor.setContent("222");
+// careTaker.add(editor.saveContentToMemento());
+// editor.setContent("333");
+// careTaker.add(editor.saveContentToMemento());
+// editor.setContent("444");
+
+// console.log(editor.getContent());
+// editor.getContentFromMemento(careTaker.get(1));
+// console.log(editor.getContent());
+// editor.getContentFromMemento(careTaker.get(0));
+// console.log(editor.getContent());
+
+// *********************************************************************** //
+// 中介者模式
+// class Mediator {
+//   constructor(a, b) {
+//     this.a = a;
+//     this.b = b;
+//   }
+//   setA() {
+//     let { number } = this.b;
+//     this.a.setNumber(number * 100);
+//   }
+//   setB() {
+//     let { number } = this.a;
+//     this.b.setNumber(number / 100);
+//   }
+// }
+// class A {
+//   constructor() {
+//     this.number = 0;
+//   }
+//   setNumber(num, m) {
+//     this.number = num;
+//     if (m) {
+//       m.setB();
+//     }
+//   }
+// }
+// class B {
+//   constructor() {
+//     this.number = 0;
+//   }
+//   setNumber(num, m) {
+//     this.number = num;
+//     if (m) {
+//       m.setA();
+//     }
+//   }
+// }
+// let a = new A();
+// let b = new B();
+// let m = new Mediator(a, b);
+// a.setNumber(100, m);
+// console.log(a.number, b.number);
+// b.setNumber(100, m);
+// console.log(a.number, b.number);
+
+// *********************************************************************** //
+// 访问者模式
+
+// *********************************************************************** //
+// 解释器模式
+
+// *********************************************************************** //
+// 实例
+import App from "./demo/app.js";
+
+let app = new App("app");
+app.init();
