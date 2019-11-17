@@ -1121,7 +1121,7 @@
 
 // *********************************************************************** //
 // 实例
-import App from "./demo/app.js";
+// import App from "./demo/app.js";
 
-let app = new App("app");
-app.init();
+// let app = new App("app");
+// app.init();
