@@ -19,30 +19,41 @@
 
     <script>
       //
-      let fn = prices => {
-        // 保存利润
-        let count = 0;
+    </script>
+    <script>
+      //
+      // let fn = str => {
+      //   let len = str.length;
+      //   let dp = Array(len);
+      //   let max = -1;
+      //   let s = "";
+      //   for (let k = 0; k < len; k++) {
+      //     // k为所遍历的子串长度 - 1，即左下标到右下标的距离
+      //     for (let i = 0; i < len - k; i++) {
+      //       let j = i + k;
+      //       // i为子串开始的左下标，j为子串开始的右下标
+      //       if (k === 0) {
+      //         // 当子串长度为1时，必定是回文
+      //         dp[i][j] = true;
+      //       } else if (k <= 2) {
+      //         // 当子串长度为2时，两字符相同则符合回文，长度为3，首位字符相同则符合回文
+      //         dp[i][j] = s[i] === s[j];
+      //       } else {
+      //         // 当子串长度超过3，取决于去掉头尾之后的子串是否回文并且首位字符是否相同
+      //         dp[i][j] = dp[i + 1][j - 1] && s[i] === s[j];
+      //       }
 
-        for (let i = 0, len = prices.length; i < len; i++) {
-          for (let j = i; j < len - 1; j++) {
-            console.log(prices[j + 1], prices[j]);
-            if (prices[j + 1] > prices[j]) {
-              count += prices[j + 1] - prices[j];
-              i = j;
-            } else {
-              i = j;
-              break;
-            }
-            console.log(i);
-            console.log("----------------");
-          }
-        }
-
-        return count;
-      };
-      console.log(fn([7, 1, 5, 3, 6, 4]));
-      // console.log(fn([1, 2, 3, 4, 5]));
-      // console.log(fn([7, 6, 4, 3, 1]));
+      //       if (dp[i][j] && k > max) {
+      //         max = k;
+      //         s = str.substring(i, j + 1);
+      //       }
+      //     }
+      //   }
+      //   return s;
+      // };
+      // let str =
+      //   "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
+      // console.log(fn(str));
     </script>
     <script>
       // 最大矩形

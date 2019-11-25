@@ -1,0 +1,76 @@
+import addTwoNumbers from "../../code/chain/addTwoNumbers";
+
+test("addTwoNumbers", () => {
+  expect(addTwoNumbers([5], [5])).toEqual([0, 1]);
+  expect(addTwoNumbers([2, 4, 3], [5, 6, 4])).toEqual([7, 0, 8]);
+  expect(
+    addTwoNumbers(
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [5, 6, 4]
+    )
+  ).toEqual([
+    6,
+    6,
+    4,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+  ]);
+});
