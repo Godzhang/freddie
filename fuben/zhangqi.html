@@ -19,6 +19,54 @@
 
     <script>
       //
+      let fn = heights => {
+        // let total = 0;
+        // let arr = [].concat(heights);
+        // arr.sort((a, b) => a - b);
+        // arr.forEach((item, index) => {
+        //   if (item !== heights[index]) total++;
+        // });
+        // return total;
+        let total = 0;
+        let s1 = 0;
+        let s2 = 1;
+        let swap = (a, b) => {
+          let tmp = heights[a];
+          heights[a] = heights[b];
+          heights[b] = tmp;
+        };
+        while (s2 < heights.length) {
+          if (heights[s1] > heights[s2]) {
+            total++;
+            swap(s1, s2);
+          }
+          s1++;
+          s2++;
+        }
+        return total;
+      };
+      console.log(fn([1, 1, 4, 2, 1, 3]));
+    </script>
+    <script>
+      // 括号生成
+      // let fn = n => {
+      //   let res = [];
+      //   let helper = (ps, l, r) => {
+      //     if (l === n && r === n) {
+      //       res.push(ps);
+      //       return;
+      //     }
+      //     if (l < n) {
+      //       helper(ps + "(", l + 1, r);
+      //     }
+      //     if (l > r) {
+      //       helper(ps + ")", l, r + 1);
+      //     }
+      //   };
+      //   helper("", 0, 0);
+      //   return res;
+      // };
+      // console.log(JSON.stringify(fn(3)));
     </script>
     <script>
       //
