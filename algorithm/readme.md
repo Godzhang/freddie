@@ -4,5 +4,4 @@
 
 leetcode 第 4 题 ./code/array/findMedianSortedArrays
 leetcode 第 5 题 ./code/string/longestPalindrome
-leetcode 第 34 题 ./code/array/searchRange 理解二分查找法后用二分查找写
 leetcode 1268 ./code/array/suggestedProducts 有些情况不通过
