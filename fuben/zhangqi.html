@@ -19,6 +19,30 @@
 
     <script>
       //
+      let fn = num => {
+        if (num === 1) return 1;
+        let start = 2;
+        let end = Math.floor(num / 2);
+        let mid;
+        let ride;
+        while (start <= end) {
+          mid = Math.floor((start + end) / 2);
+          ride = mid * mid;
+          if (ride === num) {
+            return mid;
+          }
+          if (start === end) return start;
+          if (ride > num) {
+            end = mid - 1;
+          } else {
+            start = mid + 1;
+          }
+        }
+      };
+      console.log(fn(4));
+      console.log(fn(8));
+      console.log(fn(49));
+      console.log(fn(100));
     </script>
     <script>
       // let ride = (n1, n2) => {
