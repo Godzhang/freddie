@@ -1,4 +1,4 @@
-// 基础算法
+// 基础算法 (分而治之)
 // export default arr => {
 //   let quickSort = arr => {
 //     let len = arr.length;
