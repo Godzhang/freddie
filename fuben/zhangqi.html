@@ -18,31 +18,21 @@
     <div class="container"></div>
 
     <script>
-      //
-      let fn = num => {
-        if (num === 1) return 1;
-        let start = 2;
-        let end = Math.floor(num / 2);
-        let mid;
-        let ride;
-        while (start <= end) {
-          mid = Math.floor((start + end) / 2);
-          ride = mid * mid;
-          if (ride === num) {
-            return mid;
-          }
-          if (start === end) return start;
-          if (ride > num) {
-            end = mid - 1;
-          } else {
-            start = mid + 1;
-          }
+      // 238
+      let fn = arr => {
+        let result = [];
+        let getRide = arr => {
+          return arr.reduce((ride, cur) => ride * cur, 1);
+        };
+
+        for (let i = 0, len = arr.length; i < len; i++) {
+          let r = [].concat(arr);
+          r.splice(i, 1);
+          result[i] = getRide(r);
         }
+        return result;
       };
-      console.log(fn(4));
-      console.log(fn(8));
-      console.log(fn(49));
-      console.log(fn(100));
+      console.log(fn([1, 2, 3, 4]));
     </script>
     <script>
       // let ride = (n1, n2) => {
