@@ -18,21 +18,67 @@
     <div class="container"></div>
 
     <script>
-      // 238
-      let fn = arr => {
-        let result = [];
-        let getRide = arr => {
-          return arr.reduce((ride, cur) => ride * cur, 1);
-        };
+      //
+    </script>
+    <script>
+      // 集合覆盖问题（贪婪算法）
+      // let states = ["mt", "wa", "or", "id", "nv", "ut", "ca", "az"];
+      // let stations = {};
+      // stations["kone"] = ["id", "nv", "ut"];
+      // stations["ktwo"] = ["wa", "id", "mt"];
+      // stations["kthree"] = ["or", "nv", "ca"];
+      // stations["kfour"] = ["nv", "ut"];
+      // stations["kfive"] = ["ca", "az"];
+      // let final = [];
+      // let hasCompared = {};
+      // while (states.length) {
+      //   let bestStation = "";
+      //   let stateCovered = [];
+      //   for (let key in stations) {
+      //     if (hasCompared[key]) continue;
+      //     let covered = states.filter(item => stations[key].includes(item));
+      //     if (covered.length > stateCovered.length) {
+      //       bestStation = key;
+      //       stateCovered = covered;
+      //       hasCompared[key] = true;
+      //     }
+      //   }
+      //   final.push(bestStation);
+      //   states = states.filter(item => !stateCovered.includes(item));
+      // }
+      // console.log(final);
+    </script>
+    <script>
+      // 图，广度优先搜索
+      // let graph = {};
+      // graph["you"] = ["baiyang", "zhaojinge", "lixiang"];
+      // graph["baiyang"] = ["shenxia"];
+      // graph["zhaojinge"] = ["zhangqi"];
+      // graph["lixiang"] = ["pipi", "dalu"];
+      // graph["shenxia"] = [];
+      // graph["zhangqi"] = ["zhaojinge"];
+      // graph["pipi"] = ["dalu"];
+      // graph["dalu"] = ["pipi"];
 
-        for (let i = 0, len = arr.length; i < len; i++) {
-          let r = [].concat(arr);
-          r.splice(i, 1);
-          result[i] = getRide(r);
-        }
-        return result;
-      };
-      console.log(fn([1, 2, 3, 4]));
+      // let find = (graph, target) => {
+      //   let arr = graph["you"];
+      //   let map = {};
+      //   while (arr.length) {
+      //     let cur = arr.shift();
+      //     if (!map[cur]) {
+      //       if (cur === target) {
+      //         return true;
+      //       } else {
+      //         if (graph[cur]) {
+      //           arr.push(...graph[cur]);
+      //         }
+      //         map[cur] = true;
+      //       }
+      //     }
+      //   }
+      //   return false;
+      // };
+      // console.log(find(graph, ""));
     </script>
     <script>
       // let ride = (n1, n2) => {

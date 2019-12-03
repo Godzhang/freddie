@@ -1,7 +1,9 @@
 export default input => {
   // 钱箱 存储零钱
   let hand = [];
+  // 判断是否有顾客还在
   while (input.length) {
+    // 取出排在最前面顾客的钱
     let money = input.shift();
     // 不需要找零钱
     if (money === 5) {
