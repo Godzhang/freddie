@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <div v-if="flag">{{ msg }}</div>
-    <div v-else>{{ msg1 }}</div>
     <button @click="change">change</button>
-    <button @click="toggle">toggle</button>
   </div>
 </template>
 <script>
@@ -12,19 +10,19 @@ export default {
   data() {
     return {
       flag: true,
-      msg: "hello world",
-      msg1: "hello vue"
+      msg: "hello world"
     };
   },
-  mounted() {
-    // console.log(this);
+  mounted() {},
+  watch: {
+    flag:'showFlag'
   },
   methods: {
-    change(f) {
-      this.msg = Math.random();
+    change(){
+      this.flag = !this.flag
     },
-    toggle() {
-      this.flag = !this.flag;
+    showFlag(v){
+      console.log(v)
     }
   },
   components: {}
