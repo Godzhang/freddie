@@ -37,8 +37,6 @@
 //   return -1;
 // };
 
-//
-//
 export default (gas, cost) => {
   let curr_tank = 0;
   let total_tank = 0;
