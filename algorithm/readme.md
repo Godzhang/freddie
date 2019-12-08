@@ -4,4 +4,5 @@
 
 leetcode 第 4 题 ./code/array/findMedianSortedArrays
 leetcode 第 5 题 ./code/string/longestPalindrome
+leetcode 137 ./code/array/singleNumber.js 加强理解
 leetcode 1268 ./code/array/suggestedProducts 有些情况不通过
