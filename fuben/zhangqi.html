@@ -6,19 +6,44 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <script src="./js/public.js"></script>
     <script src="./js/jquery.js"></script>
+    <script src="./css/iconfont/iconfont.js"></script>
+    <link rel="stylesheet" href="./css/iconfont/iconfont.css" />
     <style>
       * {
         margin: 0;
         padding: 0;
       }
+      .icon {
+        width: 5em;
+        height: 5em;
+        vertical-align: -0.15em;
+        fill: currentColor;
+        overflow: hidden;
+      }
+      .iconFontSize {
+        font-size: 30px;
+        /* width: 50px;
+        height: 50px; */
+      }
     </style>
-    <link rel="stylesheet" href="./css/iconfont/style.css" />
+    <!-- <link rel="stylesheet" href="./css/icomoon/style.css" /> -->
     <title>zhangqi</title>
   </head>
   <body>
     <div class="container">
-      <span class="icon-spades" style="color: #08c;font-size: 130px;"></span>
-      <span class="icon-">&#xe919;</span>
+      <!-- <span class="icon-spades" style="color: #08c;font-size: 130px;"></span>
+      <span class="icon-">&#xe919;</span> -->
+      <!-- <span class="xh-iconfont xh-icon-tixingx1"></span>
+      <span class="xh-iconfont">&#58900;</span>
+      <span class="xh-iconfont">&#xe614;</span> -->
+
+      <span class="iconfont iconFontSize icon-icon-test"></span>
+      <svg class="icon iconFontSize" aria-hidden="true">
+        <use xlink:href="#icon-icon-test"></use>
+      </svg>
+      <svg class="icon iconFontSize" aria-hidden="true">
+        <use xlink:href="#icon-jiaoseguanli"></use>
+      </svg>
     </div>
 
     <script>
