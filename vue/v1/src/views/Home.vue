@@ -6,6 +6,9 @@
       <i-checkbox label="sdofsdf">sdofsdf</i-checkbox>
       <i-checkbox label="sdfsd">sdfsd</i-checkbox>
     </i-checkbox-group>-->
+    <div style="display: flex;justify-content:center;">
+      <ColorPicker v-model="color"></ColorPicker>
+    </div>
   </div>
 </template>
 <script>
@@ -21,6 +24,7 @@ import iRadio from "../components/radio/Radio";
 import iRadioGroup from "../components/radio/RadioGroup";
 import iDisplay from "../components/display/Display";
 import TableRender from "../components/table-render/Table";
+import ColorPicker from "../components/colorpicker/ColorPicker";
 import A from "./A";
 import B from "./B";
 import C from "./C";
@@ -41,7 +45,8 @@ export default {
           { required: true, message: "邮箱不能为空", trigger: "blur" },
           { type: "email", message: "邮箱格式不正确", trigger: "blur" }
         ]
-      }
+      },
+      color: "#f00"
     };
   },
   mounted() {
@@ -72,6 +77,7 @@ export default {
     iRadioGroup,
     iDisplay,
     TableRender,
+    ColorPicker,
     A,
     B,
     C
