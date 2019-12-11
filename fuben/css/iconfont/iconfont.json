@@ -1,107 +1,65 @@
 {
-  "id": "",
-  "name": "",
+  "id": "1555621",
+  "name": "vue-component",
   "font_family": "iconfont",
   "css_prefix_text": "icon-",
   "description": "",
   "glyphs": [
     {
-      "icon_id": "12162110",
-      "name": "01",
-      "font_class": "icon-test",
-      "unicode": "e79c",
-      "unicode_decimal": 59292
+      "icon_id": "1001279",
+      "name": "down",
+      "font_class": "down",
+      "unicode": "e639",
+      "unicode_decimal": 58937
     },
     {
-      "icon_id": "12162111",
-      "name": "03",
-      "font_class": "icon-test1",
-      "unicode": "e79d",
-      "unicode_decimal": 59293
+      "icon_id": "6664144",
+      "name": "close",
+      "font_class": "close",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
     },
     {
-      "icon_id": "12162112",
-      "name": "04",
-      "font_class": "icon-test2",
-      "unicode": "e79e",
-      "unicode_decimal": 59294
+      "icon_id": "12256835",
+      "name": "diamonds",
+      "font_class": "diamonds",
+      "unicode": "e601",
+      "unicode_decimal": 58881
     },
     {
-      "icon_id": "12162113",
-      "name": "06",
-      "font_class": "icon-test3",
-      "unicode": "e79f",
-      "unicode_decimal": 59295
+      "icon_id": "12256836",
+      "name": "folder",
+      "font_class": "folder",
+      "unicode": "e602",
+      "unicode_decimal": 58882
     },
     {
-      "icon_id": "12162114",
-      "name": "09",
-      "font_class": "icon-test4",
-      "unicode": "e7a0",
-      "unicode_decimal": 59296
+      "icon_id": "12256837",
+      "name": "pencil",
+      "font_class": "pencil",
+      "unicode": "e603",
+      "unicode_decimal": 58883
     },
     {
-      "icon_id": "12162115",
-      "name": "08",
-      "font_class": "icon-test5",
-      "unicode": "e7a1",
-      "unicode_decimal": 59297
+      "icon_id": "12256838",
+      "name": "clubs",
+      "font_class": "clubs",
+      "unicode": "e604",
+      "unicode_decimal": 58884
     },
     {
-      "icon_id": "12162116",
-      "name": "13",
-      "font_class": "icon-test6",
-      "unicode": "e7a2",
-      "unicode_decimal": 59298
+      "icon_id": "12256845",
+      "name": "lifebuoy",
+      "font_class": "lifebuoy",
+      "unicode": "e605",
+      "unicode_decimal": 58885
     },
     {
-      "icon_id": "12162117",
-      "name": "12",
-      "font_class": "icon-test7",
-      "unicode": "e7a3",
-      "unicode_decimal": 59299
-    },
-    {
-      "icon_id": "12162118",
-      "name": "10",
-      "font_class": "icon-test8",
-      "unicode": "e7a4",
-      "unicode_decimal": 59300
-    },
-    {
-      "icon_id": "12163475",
-      "name": "菜单管理",
-      "font_class": "caidanguanli",
-      "unicode": "e658",
-      "unicode_decimal": 58968
-    },
-    {
-      "icon_id": "12163476",
-      "name": "工具拓展",
-      "font_class": "gongjutuozhan",
-      "unicode": "e659",
-      "unicode_decimal": 58969
-    },
-    {
-      "icon_id": "12163477",
-      "name": "角色管理",
-      "font_class": "jiaoseguanli",
-      "unicode": "e65a",
-      "unicode_decimal": 58970
-    },
-    {
-      "icon_id": "12163478",
-      "name": "会议列表",
-      "font_class": "huiyiliebiao",
-      "unicode": "e65b",
-      "unicode_decimal": 58971
-    },
-    {
-      "icon_id": "12163479",
-      "name": "密码",
-      "font_class": "mima",
-      "unicode": "e65c",
-      "unicode_decimal": 58972
+      "icon_id": "12256851",
+      "name": "spades",
+      "font_class": "spades",
+      "unicode": "e606",
+      "unicode_decimal": 58886
     }
   ]
 }
