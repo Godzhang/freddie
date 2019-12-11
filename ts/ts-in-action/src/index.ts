@@ -175,10 +175,96 @@
 //   return x + y;
 // };
 
-class A {
-  type: string;
+// class A {
+//   type: string;
 
-  onClickBad = (e: Event) => {
-    this.type = "jdfio";
-  };
-}
+//   onClickBad = (e: Event) => {
+//     this.type = "jdfio";
+//   };
+// }
+
+// 泛型变量
+// function identity<T>(arg: T): T {
+//   return arg;
+// }
+// let output = identity<string>('zhangxiaoke')
+// let output = identity("zhangxiaoke");
+
+// function loggingIdentity<T>(arg: T[]): T[] {
+//   console.log(arg.length);
+//   return arg;
+// }
+
+// 泛型类型
+// function identity<T>(arg: T): T {
+//   return arg;
+// }
+// let myIdentity: <T>(arg: T) => T = identity;
+// 泛型接口
+// interface GenericIdentityFn<T> {
+//   (arg: T): T;
+// }
+// let myIdentity: GenericIdentityFn<number> = identity;
+// 泛型类
+// class GenericNumber<T> {
+//   zeroValue: T;
+//   add: (x: T, y: T) => T;
+// }
+// let myGenericNumber = new GenericNumber<number>();
+// myGenericNumber.zeroValue = 23;
+// myGenericNumber.add = (x, y) => x + y;
+// 泛型约束
+// interface Lengthwise {
+//   length: number;
+// }
+// function loggingIdentity<T extends Lengthwise>(arg: T): T {
+//   console.log(arg.length);
+//   return arg;
+// }
+
+// function getProperty<T, K extends keyof T>(obj: T, key: K) {
+//   return obj[key];
+// }
+// getProperty([123], 1);
+// getProperty([123], "length");
+// getProperty({ name: "zhangxiaoke" }, "name");
+
+// function create<T>(c: { new (): T }): T {
+//   return new c();
+// }
+
+// class BeeKeeper {
+//   hasMask: boolean;
+// }
+// class LionKeeper {
+//   nametag: string;
+// }
+// class Animal {
+//   numLengs: number;
+// }
+// class Bee extends Animal {
+//   keeper: BeeKeeper;
+// }
+// class Lion extends Animal {
+//   keeper: LionKeeper;
+// }
+// function createInstance<T extends Animal>(c: new () => T): T {
+//   return new c();
+// }
+// createInstance(Lion).keeper.nametag;
+// createInstance(Bee).keeper.hasMask;
+
+// 类型推断
+// let x = [1, 2, null];
+// x[2] = 3;
+
+// class Animal {
+//   numLengs: number;
+// }
+// class Bee extends Animal {}
+// class Lion extends Animal {}
+// let zoo: Animal[] = [new Bee(), new Lion()];
+
+window.onmousedown = function(e: any) {
+  console.log(e.clickTime);
+};

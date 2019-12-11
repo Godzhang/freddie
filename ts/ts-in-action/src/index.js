@@ -118,25 +118,62 @@
 // let department: Department;
 // department = new AccountingDepartment();
 // department.printMeeting();
-var Greeter = /** @class */ (function () {
-    function Greeter(message) {
-        this.greeting = message;
+// class Greeter {
+//   static standardGreeting = "hello, there";
+//   greeting: string | undefined;
+//   constructor(message?: string) {
+//     this.greeting = message;
+//   }
+//   greet() {
+//     if (this.greeting) {
+//       return `hello, ${this.greeting}`;
+//     } else {
+//       return Greeter.standardGreeting;
+//     }
+//   }
+// }
+// let greeter: Greeter;
+// greeter = new Greeter();
+// console.log(greeter.greet());
+// let greeterMaker: typeof Greeter = Greeter;
+// greeterMaker.standardGreeting = "hey there";
+// let g2: Greeter = new greeterMaker();
+// console.log(g2.greet());
+// let add: (baseValue: number, increment: number) => number = function(x, y) {
+//   return x + y;
+// };
+// class A {
+//   type: string;
+//   onClickBad = (e: Event) => {
+//     this.type = "jdfio";
+//   };
+// }
+// 泛型变量
+// function identity<T>(arg: T): T {
+//   return arg;
+// }
+// let output = identity<string>('zhangxiaoke')
+// let output = identity("zhangxiaoke");
+// function loggingIdentity<T>(arg: T[]): T[] {
+//   console.log(arg.length);
+//   return arg;
+// }
+// 泛型类型
+// function identity<T>(arg: T): T {
+//   return arg;
+// }
+// let myIdentity: <T>(arg: T) => T = identity;
+// 泛型接口
+// interface GenericIdentityFn<T> {
+//   (arg: T): T;
+// }
+// let myIdentity: GenericIdentityFn<number> = identity;
+// 泛型类
+var GenericNumber = /** @class */ (function () {
+    function GenericNumber() {
     }
-    Greeter.prototype.greet = function () {
-        if (this.greeting) {
-            return "hello, " + this.greeting;
-        }
-        else {
-            return Greeter.standardGreeting;
-        }
-    };
-    Greeter.standardGreeting = "hello, there";
-    return Greeter;
+    return GenericNumber;
 }());
-var greeter;
-greeter = new Greeter();
-console.log(greeter.greet());
-var greeterMaker = Greeter;
-greeterMaker.standardGreeting = "hey there";
-var g2 = new greeterMaker();
-console.log(g2.greet());
+var myGenericNumber = new GenericNumber();
+myGenericNumber.zeroValue = 23;
+myGenericNumber.add = function (x, y) { return x + y; };
