@@ -114,3 +114,71 @@
 //   readonly [index: number]: string;
 // }
 // let myArray: ReadonlyStringArray = ["alice", "bob"];
+
+// abstract class Department {
+//   name: string;
+
+//   constructor(name: string) {
+//     this.name = name;
+//   }
+
+//   printName(): void {
+//     console.log("Deparntment name " + this.name);
+//   }
+
+//   abstract printMeeting(): void;
+// }
+
+// class AccountingDepartment extends Department {
+//   constructor() {
+//     super("Accounting ad Auditing");
+//   }
+//   printMeeting(): void {
+//     console.log("the accounting department meets each Monday at 10am");
+//   }
+//   genterateReports(): void {
+//     console.log("reports.......");
+//   }
+// }
+
+// let department: Department;
+// department = new AccountingDepartment();
+// department.printMeeting();
+
+// class Greeter {
+//   static standardGreeting = "hello, there";
+
+//   greeting: string | undefined;
+
+//   constructor(message?: string) {
+//     this.greeting = message;
+//   }
+//   greet() {
+//     if (this.greeting) {
+//       return `hello, ${this.greeting}`;
+//     } else {
+//       return Greeter.standardGreeting;
+//     }
+//   }
+// }
+// let greeter: Greeter;
+// greeter = new Greeter();
+// console.log(greeter.greet());
+
+// let greeterMaker: typeof Greeter = Greeter;
+// greeterMaker.standardGreeting = "hey there";
+
+// let g2: Greeter = new greeterMaker();
+// console.log(g2.greet());
+
+// let add: (baseValue: number, increment: number) => number = function(x, y) {
+//   return x + y;
+// };
+
+class A {
+  type: string;
+
+  onClickBad = (e: Event) => {
+    this.type = "jdfio";
+  };
+}
