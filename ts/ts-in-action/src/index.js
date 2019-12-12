@@ -169,11 +169,160 @@
 // }
 // let myIdentity: GenericIdentityFn<number> = identity;
 // 泛型类
-var GenericNumber = /** @class */ (function () {
-    function GenericNumber() {
+// class GenericNumber<T> {
+//   zeroValue: T;
+//   add: (x: T, y: T) => T;
+// }
+// let myGenericNumber = new GenericNumber<number>();
+// myGenericNumber.zeroValue = 23;
+// myGenericNumber.add = (x, y) => x + y;
+// 泛型约束
+// interface Lengthwise {
+//   length: number;
+// }
+// function loggingIdentity<T extends Lengthwise>(arg: T): T {
+//   console.log(arg.length);
+//   return arg;
+// }
+// function getProperty<T, K extends keyof T>(obj: T, key: K) {
+//   return obj[key];
+// }
+// getProperty([123], 1);
+// getProperty([123], "length");
+// getProperty({ name: "zhangxiaoke" }, "name");
+// function create<T>(c: { new (): T }): T {
+//   return new c();
+// }
+// class BeeKeeper {
+//   hasMask: boolean;
+// }
+// class LionKeeper {
+//   nametag: string;
+// }
+// class Animal {
+//   numLengs: number;
+// }
+// class Bee extends Animal {
+//   keeper: BeeKeeper;
+// }
+// class Lion extends Animal {
+//   keeper: LionKeeper;
+// }
+// function createInstance<T extends Animal>(c: new () => T): T {
+//   return new c();
+// }
+// createInstance(Lion).keeper.nametag;
+// createInstance(Bee).keeper.hasMask;
+// 类型推断
+// let x = [1, 2, null];
+// x[2] = 3;
+// class Animal {
+//   numLengs: number;
+// }
+// class Bee extends Animal {}
+// class Lion extends Animal {}
+// let zoo: Animal[] = [new Bee(), new Lion()];
+// window.onmousedown = function(e: any) {
+//   console.log(e.clickTime);
+// };
+// 交叉类型
+// function extend<T, U>(first: T, second: U): T & U {
+//   let result = {} as T & U;
+//   for (let key in first) {
+//     result[key] = first[key] as any;
+//   }
+//   for (let key in second) {
+//     if (!result.hasOwnProperty(key)) {
+//       result[key] = second[key] as any;
+//     }
+//   }
+//   return result;
+// }
+// class Person {
+//   constructor(public name: string) {}
+// }
+// interface Loggable {
+//   log(): void;
+// }
+// class ConsoleLogger implements Loggable {
+//   log() {}
+// }
+// let jim = extend(new Person("zhangqi"), new ConsoleLogger());
+// 联合类型
+// function padLeft(value: string, padding: string | number) {
+//   if (typeof padding === "number") {
+//     return Array(padding + 1).join(" ") + value;
+//   }
+//   if (typeof padding === "string") {
+//     return padding + value;
+//   }
+//   throw new Error("expected string or number");
+// }
+// padLeft("hello world", 123);
+// 类型保护
+// interface Bird {
+//   fly();
+//   layEggs();
+// }
+// interface Fish {
+//   swim();
+//   layEggs();
+// }
+// function getSmallPet(): Fish | Bird {}
+// let pet = getSmallPet();
+// if (isFish(pet)) {
+//   pet.swim();
+// } else {
+//   pet.fly();
+// }
+// function isFish(pet: Fish | Brid): pet is Fish {
+//   return (pet as Fish).swim !== undefined;
+// }
+// function isNumber(x: any): x is number {
+//   return typeof x === "number";
+// }
+// function isString(x: any): x is string {
+//   return typeof x === "string";
+// }
+// function padLeft(value: string, padding: string | number) {
+//   if (isNumber(padding)) {
+//     return Array(padding + 1).join(" ") + value;
+//   }
+//   if (isString(padding)) {
+//     return padding + value;
+//   }
+//   throw new Error("expected string or number");
+// }
+// class Bird {
+//   fly() {
+//     console.log("brid fly");
+//   }
+//   layEggs() {
+//     console.log("bird lay eggs");
+//   }
+// }
+// class Fish {
+//   swim() {
+//     console.log("fish swim");
+//   }
+//   layEggs() {
+//     console.log("fish lay eggs");
+//   }
+// }
+// function getSmallPet(): Fish | Bird {
+//   return Math.random() > 0.5 ? new Bird() : new Fish();
+// }
+// let pet = getSmallPet();
+// if (pet instanceof Bird) {
+//   pet.fly();
+// }
+// if (pet instanceof Fish) {
+//   pet.swim();
+// }
+function broken(name) {
+    function postfix(epither) {
+        return name.charAt(0) + ". the " + epither;
     }
-    return GenericNumber;
-}());
-var myGenericNumber = new GenericNumber();
-myGenericNumber.zeroValue = 23;
-myGenericNumber.add = function (x, y) { return x + y; };
+    name = name || "Bob";
+    return postfix(name);
+}

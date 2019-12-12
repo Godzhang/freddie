@@ -265,6 +265,139 @@
 // class Lion extends Animal {}
 // let zoo: Animal[] = [new Bee(), new Lion()];
 
-window.onmousedown = function(e: any) {
-  console.log(e.clickTime);
-};
+// window.onmousedown = function(e: any) {
+//   console.log(e.clickTime);
+// };
+
+// 交叉类型
+// function extend<T, U>(first: T, second: U): T & U {
+//   let result = {} as T & U;
+
+//   for (let key in first) {
+//     result[key] = first[key] as any;
+//   }
+//   for (let key in second) {
+//     if (!result.hasOwnProperty(key)) {
+//       result[key] = second[key] as any;
+//     }
+//   }
+
+//   return result;
+// }
+// class Person {
+//   constructor(public name: string) {}
+// }
+
+// interface Loggable {
+//   log(): void;
+// }
+
+// class ConsoleLogger implements Loggable {
+//   log() {}
+// }
+
+// let jim = extend(new Person("zhangqi"), new ConsoleLogger());
+
+// 联合类型
+// function padLeft(value: string, padding: string | number) {
+//   if (typeof padding === "number") {
+//     return Array(padding + 1).join(" ") + value;
+//   }
+//   if (typeof padding === "string") {
+//     return padding + value;
+//   }
+//   throw new Error("expected string or number");
+// }
+// padLeft("hello world", 123);
+
+// 类型保护
+// interface Bird {
+//   fly();
+//   layEggs();
+// }
+// interface Fish {
+//   swim();
+//   layEggs();
+// }
+// function getSmallPet(): Fish | Bird {}
+// let pet = getSmallPet();
+
+// if (isFish(pet)) {
+//   pet.swim();
+// } else {
+//   pet.fly();
+// }
+
+// function isFish(pet: Fish | Brid): pet is Fish {
+//   return (pet as Fish).swim !== undefined;
+// }
+
+// function isNumber(x: any): x is number {
+//   return typeof x === "number";
+// }
+// function isString(x: any): x is string {
+//   return typeof x === "string";
+// }
+
+// function padLeft(value: string, padding: string | number) {
+//   if (isNumber(padding)) {
+//     return Array(padding + 1).join(" ") + value;
+//   }
+//   if (isString(padding)) {
+//     return padding + value;
+//   }
+//   throw new Error("expected string or number");
+// }
+
+// class Bird {
+//   fly() {
+//     console.log("brid fly");
+//   }
+//   layEggs() {
+//     console.log("bird lay eggs");
+//   }
+// }
+// class Fish {
+//   swim() {
+//     console.log("fish swim");
+//   }
+//   layEggs() {
+//     console.log("fish lay eggs");
+//   }
+// }
+// function getSmallPet(): Fish | Bird {
+//   return Math.random() > 0.5 ? new Bird() : new Fish();
+// }
+// let pet = getSmallPet();
+
+// if (pet instanceof Bird) {
+//   pet.fly();
+// }
+// if (pet instanceof Fish) {
+//   pet.swim();
+// }
+
+// function broken(name: string | null): string {
+//   function postfix(epither: string) {
+//     return name!.charAt(0) + ". the " + epither;
+//   }
+//   name = name || "Bob";
+//   return postfix(name);
+// }
+
+// 字符串字面量类型
+// type Easing = "ease-in" | "ease-out" | "ease-in-out";
+
+// class UIElement {
+//   animate(dx: number, dy: number, easing: Easing) {
+//     if (easing === "ease-in") {
+//     } else if (easing === "ease-out") {
+//     } else if (easing === "ease-in-out") {
+//     } else {
+//     }
+//   }
+// }
+
+// let button = new UIElement();
+// button.animate(0, 0, "ease-in");
+// button.animate(0, 0, null);
