@@ -319,10 +319,44 @@
 // if (pet instanceof Fish) {
 //   pet.swim();
 // }
-function broken(name) {
-    function postfix(epither) {
-        return name.charAt(0) + ". the " + epither;
-    }
-    name = name || "Bob";
-    return postfix(name);
-}
+// function broken(name: string | null): string {
+//   function postfix(epither: string) {
+//     return name!.charAt(0) + ". the " + epither;
+//   }
+//   name = name || "Bob";
+//   return postfix(name);
+// }
+// 字符串字面量类型
+// type Easing = "ease-in" | "ease-out" | "ease-in-out";
+// class UIElement {
+//   animate(dx: number, dy: number, easing: Easing) {
+//     if (easing === "ease-in") {
+//     } else if (easing === "ease-out") {
+//     } else if (easing === "ease-in-out") {
+//     } else {
+//     }
+//   }
+// }
+// let button = new UIElement();
+// button.animate(0, 0, "ease-in");
+// button.animate(0, 0, null);
+// 常量枚举，编译后会消失
+// const enum Month {
+//   Jan,
+//   Feb,
+//   Mar
+// }
+// let month = [Month.Jan, Month.Feb, Month.Mar];
+var E;
+(function (E) {
+    E[E["a"] = 0] = "a";
+    E[E["b"] = 1] = "b";
+})(E || (E = {}));
+var F;
+(function (F) {
+    F[F["a"] = 0] = "a";
+    F[F["b"] = 1] = "b";
+})(F || (F = {}));
+var e = 3;
+var f = 3;
+console.log(E);

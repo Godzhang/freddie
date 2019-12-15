@@ -401,3 +401,39 @@
 // let button = new UIElement();
 // button.animate(0, 0, "ease-in");
 // button.animate(0, 0, null);
+
+// 常量枚举，编译后会消失
+// const enum Month {
+//   Jan,
+//   Feb,
+//   Mar
+// }
+
+// let month = [Month.Jan, Month.Feb, Month.Mar];
+// interface StringArray {
+//   [index: number]: string;
+// }
+// let chars: StringArray = ["a", "b"];
+// interface Names {
+//   [x: string]: string;
+// }
+// let names: Names = { key: "zhanqi" };
+
+// interface Add {
+//   (x: number, y: number): number;
+// }
+// 类型别名
+// type Add = (x: number, y: number) => number;
+// let add: Add = (x, y) => x + y;
+
+// 混合类型接口
+// interface Lib {
+//   (): void;
+//   version: string;
+//   doSomething(): void;
+// }
+// let lib: Lib = (() => {}) as Lib;
+// (lib.version = "12"),
+//   (lib.doSomething = function() {
+//     console.log(1);
+//   });
