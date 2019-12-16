@@ -587,12 +587,326 @@
 // log2.run(["jfoid"]);
 
 // 泛型约束
-interface Length {
-  length: number;
-}
-// T 必须是拥有 length 属性的
-function log<T extends Length>(value: T): T {
-  console.log(value, value.length);
-  return value;
-}
-log("string");
+// interface Length {
+//   length: number;
+// }
+// // T 必须是拥有 length 属性的
+// function log<T extends Length>(value: T): T {
+//   console.log(value, value.length);
+//   return value;
+// }
+// log("string");
+
+// interface Foo {
+//   bar: number;
+// }
+
+// let foo = {} as Foo;
+// foo.bar = 1;
+
+// window.onkeydown = (event: KeyboardEvent) => {
+//   console.log(event.AT_TARGET);
+// };
+
+// 类型兼容性
+// strictNullChecks 为 false 不会提示报错
+
+// 字符型兼容null, null 是字符型的子类型
+// let s: string = "a";
+// s = null;
+
+// 接口兼容性
+// 原类型必须具备目标类型的必要属性，就可以进行赋值
+// 成员少的兼容成员多的
+// interface X {
+//   a: any;
+//   b: any;
+// }
+// interface Y {
+//   a: any;
+//   b: any;
+//   c: any;
+// }
+// let x: X = { a: 1, b: 2 };
+// let y: Y = { a: 1, b: 2, c: 3 };
+// x = y
+// y = x;
+
+// 函数兼容性(一般发生在两个函数相互赋值的情况下，例如作为参数)
+// type Handler = (a: number, b: number) => void;
+// function hof(handler: Handler) {
+//   return handler;
+// }
+//*********/ 一)参数个数（目标函数参数个数要多于原函数参数个数）
+// let handler1 = (a: number) => {};
+// hof(handler1)
+// let handler2 = (a:number,b:number,c:number) => {}
+// hof(handler2)
+
+// 可选参数和剩余参数
+// let a = (p1: number, p2: number) => {};
+// let b = (p1?: number, p2?: number) => {};
+// let c = (...args: number[]) => {};
+// 1)固定参数可以兼容可选参数和剩余参数
+// a = b
+// a = c
+// 2)可选参数不兼容固定参数和剩余参数
+// b = a
+// b = c
+// 3)剩余参数可以兼容固定参数和可选参数
+// c = a
+// c = b
+
+//*********/ 二)参数类型必须匹配
+// let handler3 = (a: string) => {};
+// hof(handler3);
+
+// 如果是对象类型比较复杂
+// interface Point3D {
+//   x: number;
+//   y: number;
+//   z: number;
+// }
+// interface Point2D {
+//   x: number;
+//   y: number;
+// }
+// let p3d = (point: Point3D) => {};
+// let p2d = (point: Point2D) => {};
+// 参数个数多的兼容参数个数少的
+// p3d = p2d;
+// p2d = p3d;
+
+//*********/ 三)返回值类型
+// 目标函数返回值类型必须与原函数返回值类型相同 或为其子类型
+// let f = () => ({ name: "alice" });
+// let g = () => ({ name: "alice", location: "beijing" });
+// 成员个数少的兼容成员个数多的
+// f = g;
+// g = f;
+
+// 函数重载也要满足以上3点
+// function overload(a: number, b: number): number;
+// function overload(a: string, b: string): string;
+// function overload(a: any, b: any): any {}
+
+//*********************** */
+// 枚举兼容
+// 枚举兼容和数值类型完全可以互相兼容
+// enum Fruit {
+//   Apple,
+//   Banana
+// }
+// enum Color {
+//   Red,
+//   Yelloe
+// }
+// let fruit: Fruit.Apple = 3;
+// let no: number = Fruit.Banana;
+// 枚举之间完全不兼容
+// let color: Color.Red = Fruit.Apple;
+
+// 类兼容性
+// 静态成员和构造函数不参与比较
+// 如果都含有私有成员，就不能兼容了
+// 如果只有一方有私有成员，没有的兼容有的
+// class A {
+//   constructor(p: number, q: number) {}
+//   id: number = 1;
+//   private name: string = "zhangqi";
+// }
+// class B {
+//   static s = 1;
+//   constructor(p: number) {}
+//   id: number = 2;
+//   private name: string = "zhangqi";
+// }
+// let aa = new A(1, 2);
+// let bb = new B(1);
+// aa = bb;
+// bb = aa;
+// 父类和子类实例可以兼容
+// class C extends A {}
+// let cc = new C(1, 2);
+// aa = cc;
+// cc = aa;
+
+// 泛型兼容性
+// 只有 T 被使用的时候，才会影响兼容性
+// interface Empty<T> {
+//   value: T;
+// }
+// let obj1: Empty<number> = {};
+// let obj2: Empty<string> = {};
+// obj1 = obj2;
+// obj2 = obj1;
+
+// 泛型函数兼容性
+// 定义相同，没有指定具体类型参数，可以兼容
+// let log1 = <T>(x: T): T => {
+//   console.log("x");
+//   return x;
+// };
+// let log2 = <U>(y: U): U => {
+//   console.log("y");
+//   return y;
+// };
+// log1 = log2;
+// log2 = log1;
+
+// 口诀
+// 结构之间兼容：成员少的兼容成员多的
+// 函数之间兼容：参数多的兼容参数少的
+
+// 类型保护
+// enum Type {
+//   Strong,
+//   Week
+// }
+
+// class Java {
+//   helloJava() {
+//     console.log("hello Java");
+//   }
+//   java: any;
+// }
+// class JavaScript {
+//   helloJavaScript() {
+//     console.log("hello JavaScript");
+//   }
+//   javascript: any;
+// }
+
+// 类型位词
+// function isJava(lang: Java | JavaScript): lang is Java {
+//   return (lang as Java).helloJava !== undefined;
+// }
+
+// function getLanguage(type: Type, x: string | number) {
+//   let lang = type === Type.Strong ? new Java() : new JavaScript();
+// if (lang.helloJava) {
+//   lang.helloJava();
+// } else {
+//   lang.helloJavaScript();
+// }
+
+// 第一种 instanceof
+// if (lang instanceof Java) {
+//   lang.helloJava();
+// } else {
+//   lang.helloJavaScript();
+// }
+
+// 第二种 in
+// if ("java" in lang) {
+//   lang.helloJava();
+// } else {
+//   lang.helloJavaScript();
+// }
+
+// 第三种 typeof
+// if(typeof x === 'string') {
+//   x.length
+// } else {
+//   x.toFixed()
+// }
+
+// 第四种 创建类型保护函数
+//   if (isJava(lang)) {
+//     lang.helloJava();
+//   } else {
+//     lang.helloJavaScript();
+//   }
+// }
+// getLanguage(Type.Strong);
+
+// 高级类型
+// 交叉类型 - 将多个类型合为一个类型
+// interface DogInterface {
+//   run(): void;
+// }
+// interface CatInterface {
+//   jump(): void;
+// }
+// let pet: DogInterface & CatInterface = {
+//   run() {},
+//   jump() {}
+// };
+
+// 下面为联合类型演示
+// class Dog implements DogInterface {
+//   run() {}
+//   eat() {}
+// }
+// class Cat implements CatInterface {
+//   jump() {}
+//   eat() {}
+// }
+
+// enum Master {
+//   Boy,
+//   Girl
+// }
+// function getPet(master: Master) {
+//   let pet = master === Master.Boy ? new Dog() : new Cat();
+//   pet.eat();
+//   return pet;
+// }
+
+// 联合类型使用公有属性做类型保护
+// interface Square {
+//   kind: "square";
+//   size: number;
+// }
+// interface Rectangle {
+//   kind: "rectangle";
+//   width: number;
+//   height: number;
+// }
+// interface Cirle {
+//   kind: "cirle";
+//   r: number;
+// }
+// type Shape = Square | Rectangle | Cirle;
+// function area(s: Shape) {
+//   switch (s.kind) {
+//     case "square":
+//       return s.size * s.size;
+//     case "rectangle":
+//       return s.height * s.width;
+//     case "cirle":
+//       return Math.PI * Math.pow(s.r, 2);
+//     default:
+//       return ((e: never) => {
+//         throw new Error(e);
+//       })(s);
+//   }
+// }
+// area({ kind: "cirle", r: 1 });
+
+// 索引类型
+// keyof T
+// interface Obj {
+//   a: number;
+//   b: string;
+// }
+// let key: keyof Obj;
+// key = "a";
+
+// 索引访问操作符 T[K]
+// let value: Obj["a"];
+// T extends U
+
+// 索引类型实例
+// let obj = {
+//   a: 1,
+//   b: 2,
+//   c: 3
+// };
+// function getValues<T, K extends keyof T>(obj: T, keys: K[]): T[K][] {
+//   return keys.map(key => obj[key]);
+// }
+// console.log(getValues(obj, ["a", "b"]));
+// console.log(getValues(obj, ["d"]));
+
+// 映射类型
