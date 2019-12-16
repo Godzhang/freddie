@@ -437,3 +437,162 @@
 //   (lib.doSomething = function() {
 //     console.log(1);
 //   });
+
+// abstract class Animal {
+//   eat() {
+//     console.log("eat");
+//   }
+//   abstract sleep(): void;
+// }
+
+// class Dog extends Animal {
+//   name: string;
+//   constructor(name: string) {
+//     super();
+//     this.name = name;
+//   }
+//   run() {}
+//   sleep() {
+//     console.log("dog sleep");
+//   }
+// }
+
+// let dog = new Dog("wangwang");
+// dog.eat();
+// dog.sleep();
+
+// class Cat extends Animal {
+//   sleep() {
+//     console.log("cat sleep");
+//   }
+// }
+// let cat = new Cat();
+
+// let animals: Animal[] = [dog, cat];
+// animals.forEach(i => {
+//   i.sleep();
+// });
+
+// class WorkFlow {
+//   step1() {
+//     console.log(this);
+//     return this;
+//   }
+//   step2() {
+//     console.log(this);
+//     return this;
+//   }
+// }
+// // new WorkFlow().step1().step2();
+
+// class MyFlow extends WorkFlow {
+//   next() {
+//     console.log(this);
+//     return this;
+//   }
+// }
+// new MyFlow()
+//   .next()
+//   .step1()
+//   .next()
+//   .step2();
+
+// 类类型接口, 约束类成员有哪些属性, 只能约束公有成员，也不能约束构造函数
+// interface Human {
+//   name: string;
+//   eat(): void;
+// }
+// class Asian implements Human {
+//   name: string;
+//   constructor(name: string) {
+//     this.name = name;
+//   }
+//   eat() {}
+//   sleep() {}
+// }
+//-----------------------------/
+// interface Human {
+//   name: string;
+//   eat(): void;
+// }
+// interface Man extends Human {
+//   run(): void;
+// }
+// interface Child extends Human {
+//   cry(): void;
+// }
+// interface Boy extends Man, Child {}
+
+// let boy: Boy = {
+//   name: "zhangqi",
+//   eat() {},
+//   run() {},
+//   cry() {}
+// };
+
+// 接口继承类
+// class Auto {
+//   state = 1;
+//   private pri = "pri";
+//   protected pro = "pro";
+// }
+// interface AutoInterface extends Auto {}
+// // class C implements AutoInterface {
+// //   state = 3;
+// // }
+// class Bus extends Auto implements AutoInterface {
+//   show() {
+//     console.log(this.pro);
+//   }
+// }
+
+// new Bus().show();
+
+// 泛型函数
+// function logs<T>(value: T): T {
+//   console.log(value);
+//   return value;
+// }
+// logs<string>("zhangqi");
+// logs<number>(123);
+// logs<string[]>([""]);
+// logs([""]);
+
+// type Log = <T>(value: T) => T;
+// let myLog: Log = value => {
+//   console.log(value);
+//   return value;
+// };
+
+// 泛型接口
+// interface Log<T = string> {
+//   (value: T): T;
+// }
+// let myLog: Log = value => {
+//   console.log(value);
+//   return value;
+// };
+// myLog("1");
+
+// 泛型约束类，不能约束静态成员
+// class Log<T> {
+//   run(value: T) {
+//     console.log(value);
+//     return value;
+//   }
+// }
+// let log1 = new Log<number>();
+// log1.run(1);
+// let log2 = new Log();
+// log2.run(["jfoid"]);
+
+// 泛型约束
+interface Length {
+  length: number;
+}
+// T 必须是拥有 length 属性的
+function log<T extends Length>(value: T): T {
+  console.log(value, value.length);
+  return value;
+}
+log("string");
