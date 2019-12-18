@@ -35,3 +35,23 @@
 // b();
 
 // import { util } from "./util";
+
+// interface ILink {
+//   description?: string;
+//   id?: number;
+//   url: string;
+// }
+// interface IPost extends ILink {
+//   title: string;
+//   body: string;
+// }
+
+// let post: IPost = {
+//   title: "title",
+//   body: "body",
+//   url: "url"
+// };
+
+// function getLength(s: string | null) {
+//   return s ? s.length : 0;
+// }

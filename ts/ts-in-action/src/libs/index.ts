@@ -2,8 +2,8 @@
 
 // $(".app").css({ color: "red" });
 
-globalLib({ x: 1 });
-globalLib.doSomething();
+// globalLib({ x: 1 });
+// globalLib.doSomething();
 
 // import moduleLib from "./module-lib";
 
@@ -21,10 +21,10 @@ globalLib.doSomething();
 
 // m.myFunction = () => {};
 
-export {};
-declare global {
-  namespace globalLib {
-    function doAnything(): void;
-  }
-}
-globalLib.doAnything = () => {};
+// export {};
+// declare global {
+//   namespace globalLib {
+//     function doAnything(): void;
+//   }
+// }
+// globalLib.doAnything = () => {};
