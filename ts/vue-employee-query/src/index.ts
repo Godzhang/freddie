@@ -3,7 +3,7 @@
 
 import Vue from "vue";
 
-import Hello from "./components/Hello.vue";
+import EmployeeQuery from "./components/EmployeeQuery.vue";
 
 // let app1 = new Vue({
 //   el: ".app",
@@ -13,7 +13,11 @@ import Hello from "./components/Hello.vue";
 
 let app2 = new Vue({
   el: ".app",
-  data: { name: "TypeScript" },
-  template: `<Hello />`,
-  components: { Hello }
+  data: {
+    name: "EmployeeQuery",
+    selected: 1,
+    department: [{ department: "zhangqi", departmentId: 1 }]
+  },
+  template: `<EmployeeQuery @query="getParam" :department="department" />`,
+  components: { EmployeeQuery }
 });

@@ -1,13 +1,9 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const path = require("path");
 const VueloaderPlugin = require("vue-loader/lib/plugin");
 
 module.exports = {
-  entry: {
-    app: path.resolve(__dirname, "../src/index.ts")
-  },
-  output: { filename: "[name].[chunkhash:8].js" },
+  output: { filename: "employee-query.js" },
   resolve: {
     extensions: [".js", ".ts", ".tsx", ".vue"],
     alias: {
@@ -38,13 +34,7 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "../public/index.html")
-    }),
-    new ForkTsCheckerWebpackPlugin(),
-    new VueloaderPlugin()
-  ],
+  plugins: [new ForkTsCheckerWebpackPlugin(), new VueloaderPlugin()],
   optimization: {
     splitChunks: {
       // 默认把项目中使用的 node_modules 中的包抽离出来
