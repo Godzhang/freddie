@@ -1051,19 +1051,78 @@
 // let g = new Greeter("djfi");
 
 // 访问器装饰器
-class Point {
-  private _x: number;
-  private _y: number;
-  constructor(x: number, y: number) {
-    this._x = x;
-    this._y = y;
-  }
+// class Point {
+//   private _x: number;
+//   private _y: number;
+//   constructor(x: number, y: number) {
+//     this._x = x;
+//     this._y = y;
+//   }
 
-  get x() {
-    return this._x;
-  }
+//   @configurable(false)
+//   get x() {
+//     return this._x;
+//   }
 
-  get y() {
-    return this._y;
-  }
-}
+//   @configurable(false)
+//   get y() {
+//     return this._y;
+//   }
+// }
+// function configurable(value: boolean) {
+//   return function(
+//     target: any,
+//     propertyKey: string,
+//     descriptor: PropertyDescriptor
+//   ) {
+//     descriptor.configurable = value;
+//   };
+// }
+
+// 混入
+// class Disposable {
+//   isDisposed: boolean;
+//   dispose() {
+//     this.isDisposed = true;
+//   }
+// }
+// class Activatable {
+//   isActive: boolean;
+//   activate() {
+//     this.isActive = true;
+//   }
+//   deactivate() {
+//     this.isActive = false;
+//   }
+// }
+// class SmartObject implements Disposable, Activatable {
+//   constructor() {
+//     setInterval(() => {
+//       console.log(`${this.isActive} : ${this.isDisposed}`, 500);
+//     });
+//   }
+
+//   interact() {
+//     this.activate();
+//   }
+
+//   isDisposed: boolean = false;
+//   dispose: () => void;
+
+//   isActive: boolean = false;
+//   activate: () => void;
+//   deactivate: () => void;
+// }
+
+// applyMixin(SmartObject, [Disposable, Activatable]);
+
+// let smart = new SmartObject();
+// setTimeout(() => smart.interact(), 1000);
+
+// function applyMixin(derivedCtor: any, baseCtors: any[]) {
+//   baseCtors.forEach(baseCtor => {
+//     Object.getOwnPropertyNames(baseCtor.prototype).forEach(name => {
+//       derivedCtor.prototype[name] = baseCtor.prototype[name];
+//     });
+//   });
+// }
