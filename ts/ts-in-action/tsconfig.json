@@ -57,7 +57,7 @@
     // "typeRoots": [],                       /* 声明文件目录，默认 node_modules/@types List of folders to include type definitions from. */
     // "types": [],                           /* 声明文件包 Type declaration files to be included in compilation. */
     // "allowSyntheticDefaultImports": true,  /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
-    "esModuleInterop": true /* 允许 export = 方式导出， 由 import from 导入，或者由 import = require 导入 Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    "esModuleInterop": true /* 允许 export = 方式导出， 由 import from 导入，或者由 import = require 导入 Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
     // "allowUmdGlobalAccess": true /* 允许在模块中访问 UMD 全局变量 */
     /* Source Map Options */
@@ -67,7 +67,7 @@
     // "inlineSources": true,                 /* Emit the source alongside the sourcemaps within a single file; requires '--inlineSourceMap' or '--sourceMap' to be set. */
 
     /* Experimental Options */
-    // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
+    "experimentalDecorators": true /* 启用装饰器特性 Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
     // "listEmittedFiles": true /* 打印输出的文件 */,
     // "listFiles": true /* 打印编译的文件 (包括引用的声明文件) */

@@ -967,3 +967,103 @@
 
 // ReturnType<T>
 // type T7 = ReturnType<() => string>;
+
+// 装饰器
+// function f() {
+//   console.log("f(): evluated");
+//   return function(target, propertyKey: string, descriptor: PropertyDecorator) {
+//     console.log("f(): called");
+//   };
+// }
+// function g() {
+//   console.log("g(): evluated");
+//   return function(target, propertyKey: string, descriptor: PropertyDecorator) {
+//     console.log("g(): called");
+//   };
+// }
+
+// class C {
+//   @f()
+//   @g()
+//   method() {}
+// }
+
+// 类装饰器
+// function sealed(constructor: Function) {
+//   Object.seal(constructor);
+//   Object.seal(constructor.prototype);
+// }
+// @sealed
+// class Greeter {
+//   greeting: string;
+//   constructor(message: string) {
+//     this.greeting = message;
+//   }
+//   greet() {
+//     return `Hello ${this.greeting}`;
+//   }
+// }
+
+// function classDecorator<T extends { new (...args: any[]): {} }>(
+//   constructor: T
+// ) {
+//   return class extends constructor {
+//     newProperty = "new property";
+//     hello = "override";
+//   };
+// }
+
+// @classDecorator
+// class Greeter {
+//   property = "property";
+//   hello: string;
+//   constructor(m: string) {
+//     this.hello = m;
+//   }
+// }
+// console.log(new Greeter("world"));
+
+// 方法装饰器
+// function enumerable(value: boolean) {
+//   return function(
+//     target: any,
+//     propertyKey: string,
+//     descriptor: PropertyDescriptor
+//   ) {
+//     console.log(target);
+//     console.log(propertyKey);
+//     console.log(descriptor);
+//     descriptor.enumerable = value;
+//   };
+// }
+
+// class Greeter {
+//   greeting: string;
+//   constructor(message: string) {
+//     this.greeting = message;
+//   }
+
+//   @enumerable(false)
+//   greet() {
+//     return `Hello ${this.greeting}`;
+//   }
+// }
+// let g = new Greeter("djfi");
+
+// 访问器装饰器
+class Point {
+  private _x: number;
+  private _y: number;
+  constructor(x: number, y: number) {
+    this._x = x;
+    this._y = y;
+  }
+
+  get x() {
+    return this._x;
+  }
+
+  get y() {
+    return this._y;
+  }
+}

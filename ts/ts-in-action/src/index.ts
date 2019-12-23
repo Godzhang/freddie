@@ -55,3 +55,4 @@
 // function getLength(s: string | null) {
 //   return s ? s.length : 0;
 // }
+import "./practice";
