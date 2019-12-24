@@ -4,7 +4,6 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-// import { State, Getter } from "vuex-class";
 import HelloWorld from "../components/HelloWorld.vue";
 
 const name = "zhangqi";
@@ -14,13 +13,13 @@ const name = "zhangqi";
 })
 export default class Test extends Vue {
   @Prop(Number)
-  readonly propA!: number | undefined;
+  private readonly propA!: number | undefined;
   @Prop({ default: "default value" })
-  readonly propB!: string;
+  private readonly propB!: string;
   @Prop([String, Boolean])
-  readonly propC!: string | boolean | undefined;
+  private readonly propC!: string | boolean | undefined;
 
-  message = "hello";
+  private message = "hello";
 
   private get reversedMessage(): string {
     return this.message
