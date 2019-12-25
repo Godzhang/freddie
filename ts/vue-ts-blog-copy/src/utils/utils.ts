@@ -4,3 +4,8 @@ export const formatDateTimer = (
 ): string => {
   return "";
 };
+
+export const isMobileOrPc = () => {
+  const reg = /Android|webOS|iPhone|iPad|BlackBerry/i;
+  return reg.test(navigator.userAgent);
+};
