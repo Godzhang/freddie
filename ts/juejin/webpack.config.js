@@ -4,6 +4,8 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const TsImportPlugin = require("ts-import-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 const pkg = require("./package.json");
 const Mock = require("./mock");
@@ -26,6 +28,30 @@ const config = {
       vue$: "vue/dist/vue.esm.js",
       "@": resolve("./src")
     }
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: "initial",
+          test: resolve("./node_modules"),
+          name: "vendor",
+          enforce: true
+        }
+        // styles: {
+        //   name: "styles",
+        //   test: /\.css$/,
+        //   chunks: "all",
+        //   enforce: true
+        // }
+      }
+    }
+    // minimizer: [
+    //   new OptimizeCSSAssetsPlugin({
+    //     assetNameRegExp: /\.css$/g,
+    //     cssProcessor: require("cssnano")
+    //   })
+    // ]
   },
   module: {
     rules: [
@@ -53,16 +79,26 @@ const config = {
         test: /\.(jpg|png|gif|svg|ttf|woff|woff2)$/,
         loader: "file-loader",
         options: {
-          name: "[name].[ext]?[hash]"
+          name: "[name].[ext]?[hash]",
+          outputPath: "assets/"
         }
       },
       {
         test: /\.css$/,
-        use: ["vue-style-loader", "css-loader"]
+        use: [
+          isDev ? "vue-style-loader" : MiniCssExtractPlugin.loader,
+          "css-loader",
+          "postcss-loader"
+        ]
       },
       {
         test: /\.scss$/,
-        use: ["vue-style-loader", "css-loader", "sass-loader"]
+        use: [
+          isDev ? "vue-style-loader" : MiniCssExtractPlugin.loader,
+          "css-loader",
+          "sass-loader",
+          "postcss-loader"
+        ]
       }
     ]
   },
@@ -97,7 +133,13 @@ const config = {
 };
 
 if (!isDev) {
-  config.plugins = config.plugins.concat([new CleanWebpackPlugin()]);
+  config.plugins = config.plugins.concat([
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "[name].[chunkhash:8].css"
+      // chunkFilename: "[id].[chunkhash:8].css"
+    })
+  ]);
 }
 
 module.exports = config;

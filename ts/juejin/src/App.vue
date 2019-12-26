@@ -11,4 +11,5 @@ export default class App extends Vue {
   mounted() {}
 }
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+</style>
