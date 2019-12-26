@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { Urls } from "./utils/urls";
+import { Urls } from "../utils/urls";
 import VueRouter, { Route } from "vue-router";
 import Vue from "vue";
 
