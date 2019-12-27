@@ -2,12 +2,16 @@
   "include": ["./src/**/*"],
   "compilerOptions": {
     "target": "es5",
-    "module": "es6",
+    "module": "esnext",
     "sourceMap": true,
     "outDir": "./built/",
     "strict": true,
     "noImplicitReturns": true,
     "moduleResolution": "node",
     "experimentalDecorators": true
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@/*": ["src/*"]
+    // }
   }
 }

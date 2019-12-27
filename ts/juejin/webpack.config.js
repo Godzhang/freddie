@@ -1,4 +1,5 @@
 const path = require("path");
+const glob = require("glob");
 const webpack = require("webpack");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -13,6 +14,15 @@ const Mock = require("./mock");
 const isDev = process.env.NODE_ENV === "development";
 const resolve = pathname => path.resolve(__dirname, pathname);
 const port = 3000;
+
+let files = glob.sync("./src/styles/var/*.less");
+let globalVarFiles = files
+  .filter(file => {
+    let reg = /(\w+)\.less$/;
+    let filename = file.match(reg)[1];
+    return filename !== "index";
+  })
+  .map(filename => resolve(filename));
 
 const config = {
   mode: process.env.NODE_ENV,
@@ -78,9 +88,18 @@ const config = {
       {
         test: /\.(jpg|png|gif|svg|ttf|woff|woff2)$/,
         loader: "file-loader",
+        exclude: [resolve("./src/icons/svg")],
         options: {
           name: "[name].[ext]?[hash]",
           outputPath: "assets/"
+        }
+      },
+      {
+        test: /\.svg$/,
+        loader: "svg-sprite-loader",
+        include: [resolve("./src/icons/svg")],
+        options: {
+          symbolId: "icon-[name]"
         }
       },
       {
@@ -92,12 +111,23 @@ const config = {
         ]
       },
       {
-        test: /\.scss$/,
+        test: /\.less$/,
         use: [
           isDev ? "vue-style-loader" : MiniCssExtractPlugin.loader,
           "css-loader",
-          "sass-loader",
-          "postcss-loader"
+          "postcss-loader",
+          {
+            loader: "less-loader",
+            options: {
+              javascriptEnabled: true
+            }
+          },
+          {
+            loader: "sass-resources-loader",
+            options: {
+              resources: globalVarFiles
+            }
+          }
         ]
       }
     ]
