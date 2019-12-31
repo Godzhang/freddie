@@ -41,12 +41,17 @@
 //   return /^1{1}0*$/.test(n.toString(2));
 // };
 
+// export default n => {
+//   if (n < 1) return false;
+
+//   while (n % 2 === 0) {
+//     n /= 2;
+//   }
+
+//   return n === 1;
+// };
+
 export default n => {
-  if (n < 1) return false;
-
-  while (n % 2 === 0) {
-    n /= 2;
-  }
-
-  return n === 1;
+  const power = Math.log(n) / Math.log(2);
+  return Number.isInteger(power);
 };
