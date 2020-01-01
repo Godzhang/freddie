@@ -19,6 +19,18 @@
 
     <script>
       //
+      const fn = n => {
+        let sum = 1;
+        for (let i = n; i > 0; i--) {
+          sum *= i;
+        }
+        return sum;
+      };
+      console.log(fn(3));
+      console.log(fn(5));
+      console.log(fn(10));
+      console.log(fn(20));
+      console.log(fn(25));
     </script>
     <script>
       //
