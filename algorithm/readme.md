@@ -2,7 +2,7 @@
 堆
 二分查找法 开闭区间的细节
 
-leetcode 67 题 二进制求和，了解多种解法，~~的用法
+leetcode 67 题 二进制求和，了解多种解法，~~等位运算符的用法
 
 leetcode 第 4 题 ./code/array/findMedianSortedArrays
 leetcode 第 5 题 ./code/string/longestPalindrome
