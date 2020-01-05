@@ -203,3 +203,19 @@
 
 //   return sum.toString(2);
 // };
+
+export default (a, b) => {
+  let result = "";
+  let carry = 0;
+
+  for (let i = a.length - 1, j = b.length - 1; i >= 0 || j >= 0; i--, j--) {
+    let res = carry;
+    res += i >= 0 ? +a[i] : 0;
+    res += j >= 0 ? +b[j] : 0;
+    result = (res % 2) + result;
+    carry = ~~(res / 2);
+  }
+  if (carry) result = carry + result;
+
+  return result;
+};
