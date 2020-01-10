@@ -24,19 +24,33 @@
 //   return true;
 // };
 
+// export default (s, t) => {
+//   if (s.length !== t.length) return false;
+//   let map = {};
+//   for (let i = 0, slen = s.length; i < slen; i++) {
+//     if (!map[s[i]]) map[s[i]] = 0;
+//     if (!map[t[i]]) map[t[i]] = 0;
+//     map[s[i]]++;
+//     map[t[i]]--;
+//   }
+//   for (let r in map) {
+//     if (map[r]) {
+//       return false;
+//     }
+//   }
+//   return true;
+// };
+
 export default (s, t) => {
   if (s.length !== t.length) return false;
-  let map = {};
+  let arr = Array(26).fill(0);
   for (let i = 0, slen = s.length; i < slen; i++) {
-    if (!map[s[i]]) map[s[i]] = 0;
-    if (!map[t[i]]) map[t[i]] = 0;
-    map[s[i]]++;
-    map[t[i]]--;
+    let skey = s[i].charCodeAt() - 97;
+    let tkey = t[i].charCodeAt() - 97;
+
+    arr[skey]++;
+    arr[tkey]--;
   }
-  for (let r in map) {
-    if (map[r]) {
-      return false;
-    }
-  }
-  return true;
+
+  return arr.every(item => item === 0);
 };
