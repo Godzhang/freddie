@@ -19,6 +19,181 @@
 
     <script>
       //
+      class Node {
+        constructor(key) {
+          this.key = key;
+          this.left = null;
+          this.right = null;
+        }
+      }
+      const insertNode = (root, node) => {
+        if (node.key < root.key) {
+          if (root.left === null) {
+            root.left = node;
+          } else {
+            insertNode(root.left, node);
+          }
+        } else {
+          if (root.right === null) {
+            root.right = node;
+          } else {
+            insertNode(root.right, node);
+          }
+        }
+      };
+      const inOrderTraverse = (node, callback) => {
+        if (node !== null) {
+          inOrderTraverse(node.left, callback);
+          callback(node.key);
+          inOrderTraverse(node.right, callback);
+        }
+      };
+      const preOrderTraverse = (node, callback) => {
+        if (node !== null) {
+          callback(node.key);
+          preOrderTraverse(node.left, callback);
+          preOrderTraverse(node.right, callback);
+        }
+      };
+      const postOrderTraverse = (node, callback) => {
+        if (node !== null) {
+          postOrderTraverse(node.left, callback);
+          postOrderTraverse(node.right, callback);
+          callback(node.key);
+        }
+      };
+      const minNode = node => {
+        if (node) {
+          while (node && node.left !== null) {
+            node = node.left;
+          }
+          return node.key;
+        }
+      };
+      const maxNode = node => {
+        if (node) {
+          while (node && node.right !== null) {
+            node = node.right;
+          }
+          return node.key;
+        }
+      };
+      const findMinNode = node => {
+        if (node) {
+          while (node && node.left !== null) {
+            node = node.left;
+          }
+          return node;
+        }
+      };
+      const searchNode = (node, key) => {
+        if (node === null) return false;
+        if (key < node.key) {
+          return searchNode(node.left, key);
+        } else if (key > node.key) {
+          return searchNode(node.right, key);
+        } else {
+          return true;
+        }
+      };
+      const removeNode = (node, key) => {
+        if (node === null) {
+          return null;
+        }
+        if (key < node.key) {
+          node.left = removeNode(node.left, key);
+          return node;
+        } else if (key > node.key) {
+          node.right = removeNode(node.right, key);
+          return node;
+        } else {
+          // 叶子结点
+          if (node.left === null && node.right === null) {
+            node = null;
+            return node;
+          }
+          // 只有一个子节点
+          if (node.left === null) {
+            node = node.right;
+            return node;
+          } else if (node.right === null) {
+            node = node.left;
+            return node;
+          }
+          // 有两个子节点
+          // 先找到右侧节点的最小值，将key值赋给node，等于删除了原节点
+          let minNode = findMinNode(node.right);
+          node.key = minNode.key;
+          node.right = removeNode(node.right, minNode.key);
+          return node;
+        }
+      };
+
+      class BinaryTree {
+        constructor() {
+          this.root = null;
+        }
+
+        insert(key) {
+          let newNode = new Node(key);
+
+          if (this.root === null) {
+            this.root = newNode;
+          } else {
+            insertNode(this.root, newNode);
+          }
+        }
+
+        search(key) {
+          return searchNode(this.root, key);
+        }
+        // 中序遍历
+        inOrderTraverse(callback) {
+          inOrderTraverse(this.root, callback);
+        }
+        // 先序遍历
+        preOrderTraverse(callback) {
+          preOrderTraverse(this.root, callback);
+        }
+        // 后续便利
+        postOrderTraverse(callback) {
+          postOrderTraverse(this.root, callback);
+        }
+        min() {
+          return minNode(this.root);
+        }
+        max() {
+          return maxNode(this.root);
+        }
+        remove(key) {
+          this.root = removeNode(this.root, key);
+        }
+      }
+
+      let tree = new BinaryTree();
+      tree.insert(11);
+      tree.insert(7);
+      tree.insert(15);
+      tree.insert(5);
+      tree.insert(3);
+      tree.insert(9);
+      tree.insert(8);
+      tree.insert(10);
+      tree.insert(13);
+      tree.insert(12);
+      tree.insert(14);
+      tree.insert(20);
+      tree.insert(18);
+      tree.insert(25);
+      tree.insert(6);
+
+      console.log(tree);
+      // tree.inOrderTraverse(node => console.log(node));
+      // tree.preOrderTraverse(node => console.log(node));
+      // tree.postOrderTraverse(node => console.log(node));
+      // console.log(tree.min());
+      // console.log(tree.max());
+      // console.log(tree.search(6));
     </script>
     <script>
       //
