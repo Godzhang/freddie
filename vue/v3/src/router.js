@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import App from "./App.vue";
 const Home = () => import(/* webpackChunkName:'home' */ "./page/Home.vue");
+const Layout = () => import(/* webpackChunkName:'home' */ "./page/Layout.vue");
 
 Vue.use(Router);
 
@@ -20,6 +21,10 @@ export default new Router({
         {
           path: "home",
           component: Home
+        },
+        {
+          path: "layout",
+          component: Layout
         }
       ]
     }
