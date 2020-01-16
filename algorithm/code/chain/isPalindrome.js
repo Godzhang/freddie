@@ -24,19 +24,3 @@ export default head => {
   }
   return true;
 };
-
-// 反转链表
-const reverseChain = head => {
-  if (!head || !head.next) return head;
-  let prev = null;
-  let temp = head;
-
-  while (head) {
-    head = head.next;
-    temp.next = prev;
-    prev = temp;
-    temp = head;
-  }
-
-  return prev;
-};
