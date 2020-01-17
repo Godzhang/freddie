@@ -16,16 +16,25 @@
 // };
 
 export default (nums1, nums2) => {
-  let len2 = nums2.length;
+  let len = nums2.length;
   let map = {};
+  let last = nums2[0];
+  let stack = [last];
 
-  for (let i = 0; i < len2 - 1; i++) {
-    for (let j = i + 1; j < len2; j++) {
-      if (nums2[j] > nums2[i]) {
-        map[nums2[i]] = nums2[j];
-        break;
+  for (let i = 1; i < len; i++) {
+    if (nums2[i] > last) {
+      while (stack.length) {
+        let tmp = stack.pop();
+        if (tmp < nums2[i]) {
+          map[tmp] = nums2[i];
+        } else {
+          stack.push(tmp);
+          break;
+        }
       }
     }
+    last = nums2[i];
+    stack.push(last);
   }
 
   return nums1.map(num => {
