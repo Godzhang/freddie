@@ -10,5 +10,5 @@ leetcode 第 5 题 ./code/string/longestPalindrome
 leetcode 第 647 题 ./code/string/countSubstrings
 leetcode 137 ./code/array/singleNumber.js 加强理解
 leetcode 1268 ./code/array/suggestedProducts 有些情况不通过
-./code/dp.rob.js 此题未解
-./code/sort/insertSort.js 未写
+./code/dp/rob.js 此题未解
+shellSort 希尔排序加强理解
