@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>math</title>
+  </head>
+  <body>
+    <script>
+      //
+      // let n = 53;
+      // console.log(n << 1); // 左移
+      // console.log(n << 2); // 左移
+      // console.log(n << 3); // 左移
+      // console.log(n >> 1); // 右移
+      // console.log(n >> 2); // 右移
+      // console.log(n >> 3); // 右移
+
+      // let m = -53;
+      // console.log(m << 1); // 左移
+      // console.log(m << 2); // 左移
+      // console.log(m << 3); // 左移
+      // console.log(m >> 1); // 右移
+      // console.log(m >> 2); // 右移
+      // console.log(m >> 3); // 右移
+    </script>
+    <script>
+      // 等额本金
+      const equivalentPrincipal = (money, months, rate /* 年利率 */) => {
+        let everyMonthPrincipal = money / months; // 每月还款本金
+        let monthRate = rate / 12; // 月利率
+        let sum = 0;
+        for (let i = 0; i < months; i++) {
+          let currentMonthInterest = money * monthRate;
+          console.log(
+            `第${i + 1}个月需要还的利息为 ${currentMonthInterest} 元`
+          );
+          console.log(
+            `第${i + 1}个月需要还的总额为 ${everyMonthPrincipal +
+              currentMonthInterest} 元`
+          );
+          console.log("-----------------------------");
+          sum += everyMonthPrincipal + currentMonthInterest;
+          money -= everyMonthPrincipal;
+        }
+        console.log(`最终还款总额 ${sum} 元`);
+        return sum;
+      };
+      // console.log(equivalentPrincipal(500000, 240, 0.059));
+      console.log(equivalentPrincipal(120000, 12, 0.06));
+      // 等额本息
+      const equivalentPrincipalAndInterest = (money, months, interest) => {};
+      // 计算个税
+      const personTax = (money, interest) => {};
+    </script>
+    <script>
+      // 十进制转为其他进制，暂不支持16进制
+      // const decimalToBinary = (n, b = 2) => {
+      //   let result = "";
+      //   let isNegative = n < 0 ? true : false;
+      //   let remainder = 0;
+
+      //   if (isNegative) n = Math.abs(n);
+
+      //   while (n !== 0) {
+      //     remainder = n % b;
+      //     n = ~~(n / b);
+      //     result = remainder + result;
+      //   }
+
+      //   return isNegative ? "-" + result : result;
+      // };
+      // console.log(decimalToBinary(2));
+      // console.log(decimalToBinary(3));
+      // console.log(decimalToBinary(5));
+      // console.log(decimalToBinary(53));
+      // console.log(decimalToBinary(53, 8));
+      // console.log(decimalToBinary(-53));
+    </script>
+  </body>
+</html>
