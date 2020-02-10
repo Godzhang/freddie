@@ -1,36 +1,32 @@
-class Node {
-  constructor(value) {
-    this.val = value;
-    this.next = undefined;
-  }
-}
-class NodeList {
-  constructor(arr) {
-    let head = new Node(arr.shift());
-    let next = head;
-    arr.forEach(item => {
-      next.next = new Node(item);
-      next = next.next;
-    });
-    return head;
-  }
-}
+// export default head => {
+//   if (!head || !head.next) return false;
 
-export default function isCircle(head) {
-  // 慢指针
-  let slow = head;
-  // 快指针
-  let fast = head.next;
-  while (1) {
-    if (!fast || !fast.next) {
-      return false;
-    } else if (fast === slow || fast.next === slow) {
+//   let slow = head;
+//   let fast = head.next;
+
+//   while (fast && fast.next) {
+//     if (slow === fast || fast.next === slow) {
+//       return true;
+//     }
+//     slow = slow.next;
+//     fast = fast.next.next;
+//   }
+//   return false;
+// };
+
+//
+export default head => {
+  if (!head || !head.next) return false;
+  let set = new Set();
+  let curr = head;
+
+  while (curr) {
+    if (set.has(curr)) {
       return true;
-    } else {
-      slow = slow.next;
-      fast = fast.next.next;
     }
+    set.add(curr);
+    curr = curr.next;
   }
-}
 
-export { Node, NodeList };
+  return false;
+};

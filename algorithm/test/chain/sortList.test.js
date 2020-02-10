@@ -1,13 +1,9 @@
-import sort, { NodeList } from "../../code/chain/sortList";
+import sortList from "../../code/chain/sortList";
+import { getStringResult } from "../../helper/chain/utils";
 
-test("sort: 1", () => {
-  let head = new NodeList([4, 1, 3, 2, 7, 9, 10, 12, 6]);
-  sort(head);
-  let res = [];
-  let next = head;
-  while (next) {
-    res.push(next.val);
-    next = next.next;
-  }
-  expect(res).toEqual([1, 2, 3, 4, 6, 7, 9, 10, 12]);
+test("sortList", () => {
+  expect(getStringResult(sortList, [4, 3])).toBe("3,4");
+  expect(getStringResult(sortList, [4, 2, 1])).toBe("1,2,4");
+  expect(getStringResult(sortList, [4, 2, 1, 3])).toBe("1,2,3,4");
+  expect(getStringResult(sortList, [-1, 5, 3, 4, 0])).toBe("-1,0,3,4,5");
 });

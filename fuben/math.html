@@ -8,6 +8,45 @@
   </head>
   <body>
     <script>
+      // 从10个人中抽1个一等奖，2个二等奖，3个三等将 #???#
+      const draw = () => {
+        let arr = new Array(10).fill(0).map((item, index) => index + 1);
+        const results = [];
+        return results;
+      };
+      // console.log(draw());
+    </script>
+    <script>
+      // 4位密码，范围 a-e,找出所有可能(含重复字符和不含重复字符)
+      const crackPassword = (allowContainRepeat = false) => {
+        let words = ["a", "b", "c", "d", "e"];
+        let count = 4;
+        let result = [];
+        const helper = arr => {
+          if (arr.length === count) {
+            result.push(arr.join(""));
+          } else {
+            for (let i = 0, len = words.length; i < len; i++) {
+              let newArr = null;
+              if (allowContainRepeat && arr.includes(words[i])) {
+                continue;
+              } else {
+                newArr = arr.concat(words[i]);
+              }
+              helper(newArr);
+            }
+          }
+        };
+        helper([]);
+        return result;
+      };
+      // console.log(crackPassword());
+      // console.log(crackPassword(true));
+    </script>
+    <script>
+      //
+    </script>
+    <script>
       //
       // let n = 53;
       // console.log(n << 1); // 左移
@@ -28,55 +67,131 @@
     <script>
       // 等额本金
       const equivalentPrincipal = (money, months, rate /* 年利率 */) => {
+        console.log(
+          `等额本金：总还款额：${money}元，共分${months}期，年利率：${rate *
+            100}%`
+        );
+
         let everyMonthPrincipal = money / months; // 每月还款本金
         let monthRate = rate / 12; // 月利率
         let sum = 0;
         for (let i = 0; i < months; i++) {
           let currentMonthInterest = money * monthRate;
+
           console.log(
-            `第${i + 1}个月需要还的利息为 ${currentMonthInterest} 元`
+            `第${i + 1}个月需要还的利息为 ${~~currentMonthInterest} 元`
           );
           console.log(
-            `第${i + 1}个月需要还的总额为 ${everyMonthPrincipal +
-              currentMonthInterest} 元`
+            `第${i + 1}个月需要还的总额为 ${~~(
+              everyMonthPrincipal + currentMonthInterest
+            )} 元`
           );
           console.log("-----------------------------");
+
           sum += everyMonthPrincipal + currentMonthInterest;
           money -= everyMonthPrincipal;
         }
-        console.log(`最终还款总额 ${sum} 元`);
+        console.log(`最终还款总额 ${~~sum} 元`);
         return sum;
       };
       // console.log(equivalentPrincipal(500000, 240, 0.059));
-      console.log(equivalentPrincipal(120000, 12, 0.06));
-      // 等额本息
-      const equivalentPrincipalAndInterest = (money, months, interest) => {};
-      // 计算个税
-      const personTax = (money, interest) => {};
+      // console.log(equivalentPrincipal(120000, 12, 0.06));
+      // console.log(equivalentPrincipal(2430000, 300, 0.053));
     </script>
     <script>
-      // 十进制转为其他进制，暂不支持16进制
-      // const decimalToBinary = (n, b = 2) => {
-      //   let result = "";
-      //   let isNegative = n < 0 ? true : false;
-      //   let remainder = 0;
+      // 等额本息,每个月还的本金和利息不变
+      const equivalentPrincipalAndInterest = (money, months, rate) => {
+        console.log(
+          `等额本息：总还款额：${money}元，共分${months}期，年利率：${rate *
+            100}%`
+        );
+        let everyMonthPrincipal = money / months; // 每月还款本金
+        let monthRate = rate / 12; // 月利率
+        let everyMonthRepay = Math.ceil(
+          (money * monthRate * Math.pow(1 + monthRate, months)) /
+            (Math.pow(1 + monthRate, months) - 1)
+        );
+        let sum = everyMonthRepay * months;
+        console.log(`每月还款额为${everyMonthRepay}元`);
+        console.log(`最终总还款额 ${sum} 元`);
+        return sum;
+      };
+      // console.log(equivalentPrincipalAndInterest(120000, 12, 0.06));
+      // console.log(equivalentPrincipalAndInterest(500000, 240, 0.059));
+      // console.log(equivalentPrincipalAndInterest(2430000, 300, 0.053));
+    </script>
+    <script>
+      // 找到所有乘法的解
+      const findMultiSolution = n => {
+        let results = [];
+        const helper = (num, arr) => {
+          if (num === 1) {
+            if (!arr.includes(1)) arr.push(1);
+            results.push(arr);
+          } else {
+            for (let i = 1; i <= n; i++) {
+              if (i === 1 && arr.includes(1)) continue;
+              let newArr = arr.concat(i);
+              if (num % i !== 0) continue;
+              helper(num / i, newArr);
+            }
+          }
+        };
+        helper(n, []);
+        return results;
+      };
+      // console.log(findMultiSolution(4));
+      // console.log(findMultiSolution(8));
+    </script>
+    <script>
+      // 找到能组成面值的所有组合
+      const findCombination = n => {
+        const results = [];
+        const ms = [1, 2, 5, 10];
+        const helper = (n, arr) => {
+          if (n === 0) {
+            results.push(arr);
+            return;
+          } else if (n < 0) {
+            return;
+          } else {
+            for (let i = 0, len = ms.length; i < len; i++) {
+              let newArr = arr.concat(ms[i]);
+              helper(n - ms[i], newArr);
+            }
+          }
+        };
+        helper(n, []);
+        return results;
+      };
+      // console.log(findCombination(10));
+    </script>
+    <script>
+      // 十6转为其他进制
+      const decimalToBinary = (n, base = 2) => {
+        if (base < 2 || base > 36) return "";
 
-      //   if (isNegative) n = Math.abs(n);
+        let result = "";
+        let digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let remainder;
 
-      //   while (n !== 0) {
-      //     remainder = n % b;
-      //     n = ~~(n / b);
-      //     result = remainder + result;
-      //   }
+        while (n > 0) {
+          remainder = n % base;
+          n = ~~(n / base);
+          result = digits[remainder] + result;
+        }
 
-      //   return isNegative ? "-" + result : result;
-      // };
+        return result;
+      };
       // console.log(decimalToBinary(2));
       // console.log(decimalToBinary(3));
       // console.log(decimalToBinary(5));
       // console.log(decimalToBinary(53));
       // console.log(decimalToBinary(53, 8));
-      // console.log(decimalToBinary(-53));
+
+      // for (let i = 2; i < 37; i++) {
+      //   console.log(`${i}进制`, decimalToBinary(100, i));
+      // }
     </script>
   </body>
 </html>

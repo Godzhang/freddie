@@ -1,3 +1,12 @@
+/**
+ * 时间复杂度：
+ *    最优：O(nlogn)
+ *    平均：O(nlogn)
+ *    最坏：O(nlogn)
+ * 空间复杂度：O(n)
+ * 是否稳定：稳定
+ */
+
 // export default arr => {
 //   let merge = (left, right) => {
 //     let result = [];

@@ -1,49 +1,86 @@
-class Node {
-  constructor(value) {
-    this.val = value;
-    this.next = undefined;
-  }
-}
-class NodeList {
-  constructor(arr) {
-    let head = new Node(arr.shift());
-    let next = head;
-    arr.forEach(item => {
-      next.next = new Node(item);
-      next = next.next;
-    });
-    return head;
-  }
-}
+// 递归归并
+// 4 --> 2 --> 1 --> 3 --> null
+// 4 --> 2 --> 1 --> 3 --> 5 --> null
+// import ListNode from "../../helper/chain/Node";
 
-let swap = (p, q) => {
-  let val = p.val;
-  p.val = q.val;
-  q.val = val;
-};
-// 寻找基准元素的节点
-let partion = (begin, end) => {
-  let val = begin.val;
-  let p = begin;
-  let q = begin.next;
-  while (q !== end) {
-    if (q.val < val) {
-      swap(p.next, q);
-      p = p.next;
+// export default head => {
+//   if (!head || !head.next) return head;
+
+//   const mergeSort = head => {
+//     if (!head.next) return head;
+
+//     let mid = head;
+//     let fast = head.next;
+
+//     while (fast && fast.next) {
+//       mid = mid.next;
+//       fast = fast.next.next;
+//     }
+//     let midNext = mid.next;
+//     mid.next = null;
+
+//     return merge(mergeSort(head), mergeSort(midNext));
+//   };
+
+//   const merge = (left, right) => {
+//     let head = new ListNode(null);
+//     let curr = head;
+
+//     while (left && right) {
+//       if (left.val < right.val) {
+//         curr.next = left;
+//         left = left.next;
+//       } else {
+//         curr.next = right;
+//         right = right.next;
+//       }
+//       curr = curr.next;
+//     }
+
+//     if (left) curr.next = left;
+//     if (right) curr.next = right;
+
+//     return head.next;
+//   };
+
+//   return mergeSort(head);
+// };
+
+import ListNode from "../../helper/chain/Node";
+
+const sortList = head => {
+  if (!head || !head.next) return head;
+
+  let mid = head;
+  let fast = head.next;
+
+  while (fast && fast.next) {
+    mid = mid.next;
+    fast = fast.next.next;
+  }
+  let midNext = mid.next;
+  mid.next = null;
+  let left = sortList(head);
+  let right = sortList(midNext);
+
+  let tmp = new ListNode(null);
+  let curr = tmp;
+
+  while (left && right) {
+    if (left.val < right.val) {
+      curr.next = left;
+      left = left.next;
+    } else {
+      curr.next = right;
+      right = right.next;
     }
-    q = q.next;
+    curr = curr.next;
   }
-  // 将基准元素换到中间
-  swap(p, begin);
-  return p;
+
+  if (left) curr.next = left;
+  if (right) curr.next = right;
+
+  return tmp.next;
 };
 
-export default function sort(begin, end) {
-  if (begin !== end) {
-    let part = partion(begin, end);
-    sort(begin, part);
-    sort(part.next, end);
-  }
-}
-
-export { Node, NodeList };
+export default sortList;

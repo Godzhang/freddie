@@ -1,12 +1,13 @@
-import hasCycle, { NodeList } from "../../code/chain/hasCycle";
+import hasCycle from "../../code/chain/hasCycle";
+import { ArrayToLinkedList, makeCircle } from "../../helper/chain/utils";
 
 test("hasCycle", () => {
-  let head = new NodeList([6, 1, 2, 5, 7, 9]);
-  head.next.next.next.next.next.next = head.next;
-  expect(hasCycle(head)).toBe(true);
-});
+  let head1 = makeCircle([6, 1, 2, 5, 7, 9]);
+  expect(hasCycle(head1)).toBe(true);
 
-test("hasCycle：单链表", () => {
-  let head = new NodeList([6, 1, 2, 5, 7, 9]);
-  expect(hasCycle(head)).toBe(false);
+  let head2 = ArrayToLinkedList([6, 1, 2, 5, 7, 9]);
+  expect(hasCycle(head2)).toBe(false);
+
+  let head3 = ArrayToLinkedList([1]);
+  expect(hasCycle(head3)).toBe(false);
 });

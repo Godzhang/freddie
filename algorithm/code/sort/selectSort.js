@@ -1,26 +1,23 @@
+/**
+ * 时间复杂度：
+ *    最优：O(n^2)
+ *    平均：O(n^2)
+ *    最坏：O(n^2)
+ * 空间复杂度：O(1)
+ * 是否稳定：不稳定 [2, 2, 1]
+ */
+
 export default arr => {
-  // for (let i = 0, len = arr.length, min; i < len; i++) {
-  //   min = arr[i];
-  //   for (let j = i + 1; j < len; j++) {
-  //     if (min > arr[j]) {
-  //       let c = min;
-  //       min = arr[j];
-  //       arr[j] = c;
-  //     }
-  //   }
-  //   arr[i] = min;
-  // }
-  for (let i = 0, len = arr.length, min, minIndex; i < len; i++) {
-    min = arr[i];
+  for (let i = 0, len = arr.length, minIndex; i < len - 1; i++) {
     minIndex = i;
     for (let j = i + 1; j < len; j++) {
-      if (min > arr[j]) {
-        min = arr[j];
+      if (arr[minIndex] > arr[j]) {
         minIndex = j;
       }
     }
-    arr[minIndex] = arr[i];
-    arr[i] = min;
+    if (i !== minIndex) {
+      [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+    }
   }
   return arr;
 };

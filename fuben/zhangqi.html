@@ -18,12 +18,646 @@
     <div class="container"></div>
 
     <script>
-      //
-      // const fn = arr => {};
-      // console.log(fn([2, 5, 4, 3, 6, 1, 8, 7]));
+      // 生成乱序的随机数组
+      const makeArr = (len, min = 0, max) => {};
+      // console.log(makeArr(100, 0, 10000));
+
+      // 打印实时对象
+      const logRealData = obj => {
+        console.log(JSON.parse(JSON.stringify(obj)));
+      };
     </script>
     <script>
       //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      // 鸡尾酒排序
+      // const cocktailSort = arr => {
+      //   let len = arr.length;
+      //   for (let i = 0, l = ~~(len / 2); i < l; i++) {
+      //     // 奇数轮，从左向右比较交换
+      //     let isSorted = true;
+      //     for (let j = i; j < len - 1 - i; j++) {
+      //       if (arr[j] > arr[j + 1]) {
+      //         [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+      //         isSorted = false;
+      //       }
+      //     }
+      //     if (isSorted) {
+      //       break;
+      //     }
+
+      //     // 偶数轮，从右向左比较交换
+      //     isSorted = true;
+      //     for (let j = len - 1 - i; j > i; j--) {
+      //       if (arr[j] < arr[j - 1]) {
+      //         [arr[j], arr[j - 1]] = [arr[j - 1], arr[j]];
+      //         isSorted = false;
+      //       }
+      //     }
+      //     if (isSorted) {
+      //       break;
+      //     }
+      //   }
+      //   return arr;
+      // };
+      // console.log(cocktailSort([21, 6, 4, 10, 7, 1, 5, 3, 11, 9, 8]));
+    </script>
+    <script>
+      // 冒泡排序进一步优化
+      // const fn = arr => {
+      //   let len = arr.length;
+      //   let lastExchangeIndex = 0; // 记录最后一次交换的位置
+      //   let sortBorder = len - 1; // 无序数列的边界，每次比较只需要比到这里为止
+
+      //   for (let i = 0; i < len; i++) {
+      //     let isSorted = true;
+      //     for (let j = 0; j < sortBorder; j++) {
+      //       if (arr[j] > arr[j + 1]) {
+      //         [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+      //         isSorted = false;
+      //         lastExchangeIndex = j;
+      //       }
+      //     }
+      //     sortBorder = lastExchangeIndex;
+      //     if (isSorted) break;
+      //   }
+      //   return arr;
+      // };
+      // console.log(fn([3, 4, 2, 1, 5, 6, 7, 8]));
+    </script>
+    <script>
+      // 冒泡排序优化，优化后最优时间复杂度 O(n)
+      // const bubbleSort = arr => {
+      //   let flag = 1;
+      //   for (let i = arr.length - 1, tmp; i > 0; i--) {
+      //     for (let j = 0; j < i; j++) {
+      //       tmp = arr[j];
+      //       if (tmp > arr[j + 1]) {
+      //         arr[j] = arr[j + 1];
+      //         arr[j + 1] = tmp;
+      //         flag = 0;
+      //       }
+      //     }
+      //     if (flag) break;
+      //   }
+      //   return arr;
+      // };
+
+      // console.log(bubbleSort([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 21]));
+      // console.log(bubbleSort([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]));
+    </script>
+    <script>
+      // 希尔排序 2
+      // const getGaps = len => {
+      //   let result = [0];
+      //   let start = 1;
+      //   let curr = Math.pow(2, start) - 1;
+      //   while (curr <= len) {
+      //     result.push(curr);
+      //     curr = Math.pow(2, ++start) - 1;
+      //   }
+      //   return result;
+      // };
+
+      // const shellSort = arr => {
+      //   let len = arr.length;
+      //   let gaps = getGaps(len / 2);
+      //   let gap = gaps.pop();
+
+      //   while (gap !== 0) {
+      //     for (let i = gap; i < len; i++) {
+      //       let cur = arr[i];
+      //       let j = i - gap;
+      //       for (; j >= 0 && cur < arr[j]; j -= gap) {
+      //         arr[j + gap] = arr[j];
+      //       }
+      //       arr[j + gap] = cur;
+      //     }
+      //     gap = gaps.pop();
+      //   }
+
+      //   return arr;
+      // };
+      // console.log(shellSort([21, 6, 4, 10, 7, 1, 5, 3, 11, 9, 8, 2]));
+    </script>
+    <script>
+      // 希尔排序
+      // const shellSort = arr => {
+      //   let len = arr.length;
+      //   let gap = ~~(len / 2);
+
+      //   while (gap >= 1) {
+      //     for (let i = gap; i < len; i++) {
+      //       let cur = i;
+      //       let prev = i - gap;
+      //       while (prev >= 0 && arr[cur] < arr[prev]) {
+      //         [arr[cur], arr[prev]] = [arr[prev], arr[cur]];
+      //         cur = prev;
+      //         prev -= gap;
+      //       }
+      //     }
+      //     gap = ~~(gap / 2);
+      //   }
+
+      //   return arr;
+      // };
+      // console.log(shellSort([21, 6, 4, 10, 7, 1, 5, 3, 11, 9, 8, 2]));
+    </script>
+    <script>
+      // 堆排序
+      // const maxHeapify = (arr, index, heapSize) => {
+      //   let iMax = index;
+      //   let iLeft = 2 * index + 1;
+      //   let iRight = 2 * (index + 1);
+
+      //   // 左节点是否比当前结点大
+      //   if (iLeft < heapSize && arr[index] < arr[iLeft]) {
+      //     iMax = iLeft;
+      //   }
+
+      //   // 右节点是否比当前结点大
+      //   if (iRight < heapSize && arr[iMax] < arr[iRight]) {
+      //     iMax = iRight;
+      //   }
+
+      //   // 如果当前节点不是三者中最大的
+      //   if (iMax !== index) {
+      //     [arr[iMax], arr[index]] = [arr[index], arr[iMax]];
+      //     maxHeapify(arr, iMax, heapSize);
+      //   }
+      // };
+      // const buildMaxHeap = (arr, heapSize) => {
+      //   // 找到最后一个非叶子结点
+      //   let iParent = ~~(heapSize / 2 - 1);
+      //   // 调整至大顶堆
+      //   for (let i = iParent; i >= 0; i--) {
+      //     maxHeapify(arr, i, heapSize);
+      //   }
+      // };
+      // const heapSort = arr => {
+      //   let heapSize = arr.length;
+
+      //   buildMaxHeap(arr, heapSize);
+
+      //   // 将堆顶元素和末尾元素互换，使末尾元素最大，继续调整堆
+      //   for (let i = heapSize - 1; i > 0; i--) {
+      //     [arr[0], arr[i]] = [arr[i], arr[0]];
+      //     maxHeapify(arr, 0, i);
+      //   }
+
+      //   return arr;
+      // };
+      // console.log(heapSort([3, 4, 10, 2, 1, 5, 6, 9, 8, 7]));
+    </script>
+    <script>
+      // 基数排序 + 桶排序
+      // const bucketSortForRadix = (arr, significantDigit, radixBase) => {
+      //   let buckets = [];
+      //   let aux = [];
+      //   let len = arr.length;
+      //   // 初始化桶
+      //   for (let i = 0; i < radixBase; i++) {
+      //     buckets[i] = [];
+      //   }
+      //   for (let i = 0; i < len; i++) {
+      //     let bucketIndex = ~~(arr[i] / significantDigit) % radixBase;
+      //     buckets[bucketIndex].push(arr[i]);
+      //   }
+      //   for (let i = 0; i < radixBase; i++) {
+      //     aux.push(...buckets[i]);
+      //   }
+      //   for (let i = 0; i < len; i++) {
+      //     arr[i] = aux[i];
+      //   }
+      //   return arr;
+      // };
+      // const radixSort = arr => {
+      //   if (arr.length < 2) return arr;
+
+      //   let significantDigit = 1; // 有效位，先基于个位数
+      //   let radixBase = 10; // 排序十进制数，基数为 10,使用 10 个桶分布元素
+
+      //   // 找出最大值
+      //   let maxValue = arr[0];
+      //   for (let i = 1, len = arr.length; i < len; i++) {
+      //     if (arr[i] > maxValue) {
+      //       maxValue = arr[i];
+      //     }
+      //   }
+      //   // 从个位开始排序
+      //   while (maxValue / significantDigit >= 1) {
+      //     arr = bucketSortForRadix(arr, significantDigit, radixBase);
+      //     significantDigit *= radixBase;
+      //   }
+
+      //   return arr;
+      // };
+      // console.log(radixSort([3, 4, 2, 100, 1, 35, 6, 9, 8, 7]));
+    </script>
+    <script>
+      // 基数排序
+      // const countingSortForRadix = (arr, radixBase, significantDigit) => {
+      //   let bucketIndex = 0;
+      //   let buckets = new Array(radixBase).fill(0);
+      //   let aux = [];
+      //   let len = arr.length;
+
+      //   for (let i = 0; i < len; i++) {
+      //     bucketIndex = ~~(arr[i] / significantDigit) % radixBase;
+      //     buckets[bucketIndex]++;
+      //   }
+
+      //   for (let i = 1; i < radixBase; i++) {
+      //     buckets[i] += buckets[i - 1];
+      //   }
+
+      //   for (let i = len - 1; i >= 0; i--) {
+      //     bucketIndex = ~~(arr[i] / significantDigit) % radixBase;
+      //     aux[--buckets[bucketIndex]] = arr[i];
+      //   }
+
+      //   for (let i = 0; i < len; i++) {
+      //     arr[i] = aux[i];
+      //   }
+      //   return arr;
+      // };
+
+      // const radixSort = (arr, radixBase = 10) => {
+      //   if (arr.length < 2) return arr;
+      //   let maxValue = arr[0];
+      //   for (let i = 1, len = arr.length; i < len; i++) {
+      //     if (arr[i] > maxValue) {
+      //       maxValue = arr[i];
+      //     }
+      //   }
+
+      //   let significantDigit = 1;
+      //   while (maxValue / significantDigit >= 1) {
+      //     arr = countingSortForRadix(arr, radixBase, significantDigit);
+      //     significantDigit *= radixBase;
+      //   }
+      //   return arr;
+      // };
+      // console.log(radixSort([3, 4, 2, 100, 1, 35, 6, 9, 8, 7, 5]));
+    </script>
+    <script>
+      // 桶排序 2
+      // const insertSort = arr => {
+      //   for (let i = 1, len = arr.length, tmp; i < len; i++) {
+      //     let j = i;
+      //     tmp = arr[i];
+      //     while (j > 0 && arr[j - 1] > tmp) {
+      //       arr[j] = arr[j - 1];
+      //       j--;
+      //     }
+      //     arr[j] = tmp;
+      //   }
+      //   return arr;
+      // };
+      // const bucketSort = (arr, bucketCount) => {
+      //   if (arr.length < 2) return arr;
+
+      //   let len = arr.length;
+      //   let min = arr[0];
+      //   let max = arr[0];
+      //   let buckets = [];
+      //   let result = [];
+
+      //   for (let i = 1; i < len; i++) {
+      //     if (arr[i] > max) {
+      //       max = arr[i];
+      //     } else if (arr[i] < min) {
+      //       min = arr[i];
+      //     }
+      //   }
+      //   // 求出每一个桶的数值范围
+      //   let space = (max - min + 1) / bucketCount;
+      //   for (let i = 0; i < len; i++) {
+      //     // 找到相应的桶排序
+      //     let index = ~~((arr[i] - min) / space);
+      //     if (buckets[index]) {
+      //       buckets[index].push(arr[i]);
+      //     } else {
+      //       buckets[index] = [arr[i]];
+      //     }
+      //   }
+
+      //   buckets.forEach(bucket => result.push(...insertSort(bucket)));
+      //   return result;
+      // };
+      // console.log(bucketSort([3, 4, 2, 1, 5, 6, 9, 8, 7], 4));
+    </script>
+    <script>
+      // 桶排序
+      // 使用插入排序排序桶中的元素
+      // const insertSort = arr => {
+      //   for (let i = 1, len = arr.length, tmp; i < len; i++) {
+      //     let j = i;
+      //     tmp = arr[i];
+      //     while (j > 0 && arr[j - 1] > tmp) {
+      //       arr[j] = arr[j - 1];
+      //       j--;
+      //     }
+      //     arr[j] = tmp;
+      //   }
+      //   return arr;
+      // };
+      // const sortBuckets = buckets => {
+      //   const sortArr = [];
+      //   for (let i = 0, len = buckets.length; i < len; i++) {
+      //     let bucket = buckets[i];
+      //     if (bucket) {
+      //       insertSort(bucket);
+      //       sortArr.push(...bucket);
+      //     }
+      //   }
+      //   return sortArr;
+      // };
+      // // bucketSize 应为桶中的元素个数，bucketCount 为桶的个数
+      // const createBuckets = (arr, bucketSize) => {
+      //   // 找到最大值和最小值
+      //   let maxValue = arr[0];
+      //   let minValue = arr[0];
+      //   for (let i = 1, len = arr.length; i < len; i++) {
+      //     if (arr[i] > maxValue) {
+      //       maxValue = arr[i];
+      //     } else if (arr[i] < minValue) {
+      //       minValue = arr[i];
+      //     }
+      //   }
+      //   // 计算需要多少个桶
+      //   const bucketCount = ~~((maxValue - minValue) / bucketSize) + 1;
+      //   // 创建桶
+      //   const buckets = [];
+      //   for (let i = 0; i < bucketCount; i++) {
+      //     buckets[i] = [];
+      //   }
+      //   // 将元素分布到不同的桶中
+      //   // 0: [3,4,2,1,5]
+      //   // 1: [6,9,8,7]
+      //   for (let i = 0, len = arr.length; i < len; i++) {
+      //     const bucketIndex = ~~((arr[i] - minValue) / bucketSize);
+      //     buckets[bucketIndex].push(arr[i]);
+      //   }
+      //   console.log(buckets);
+      //   return buckets;
+      // };
+      // const bucketSort = (arr, bucketSize = 5) => {
+      //   if (arr.length < 2) return arr;
+      //   const buckets = createBuckets(arr, bucketSize);
+      //   return sortBuckets(buckets);
+      // };
+      // console.log(bucketSort([3, 4, 2, 1, 5, 6, 9, 8, 7], 2));
+      // console.log(
+      //   bucketSort(
+      //     [
+      //       63,
+      //       157,
+      //       189,
+      //       51,
+      //       101,
+      //       47,
+      //       141,
+      //       121,
+      //       157,
+      //       156,
+      //       194,
+      //       117,
+      //       98,
+      //       139,
+      //       67,
+      //       133,
+      //       181,
+      //       13,
+      //       28,
+      //       109
+      //     ],
+      //     5
+      //   )
+      // );
+    </script>
+    <script>
+      // 计数排序 2 稳定排序
+      // const countingSort = arr => {
+      //   if (arr.length < 1) return arr;
+
+      //   let len = arr.length;
+      //   let max = arr[0];
+      //   let min = arr[0];
+      //   for (let i = 1; i < len; i++) {
+      //     max = Math.max(arr[i], max);
+      //     min = Math.min(arr[i], min);
+      //   }
+      //   let countArr = new Array(max - min + 1).fill(0);
+      //   let result = [];
+
+      //   for (let i = 0; i < len; i++) {
+      //     countArr[arr[i] - min]++;
+      //   }
+
+      //   // 存储当前元素值的最后位置
+      //   // 最小的值肯定在第一位，第二小在第二位，以此类推
+      //   for (let i = 1, l = countArr.length; i < l; i++) {
+      //     countArr[i] += countArr[i - 1];
+      //   }
+
+      //   // 倒序遍历数组
+      //   // 对于两个相同的值，[3,5,5,4]
+      //   // 排序后， 后面的5在第4个位置，也就是索引为3，前面的5在第3个位置，索引为2，这样实现了稳定排序
+      //   for (let i = len - 1; i >= 0; i--) {
+      //     result[--countArr[arr[i] - min]] = arr[i];
+      //   }
+
+      //   return result;
+      // };
+      // console.log(countingSort([3, 4, 2, 1, 46, 5, 6, 9, 8, 7]));
+    </script>
+    <script>
+      // 计数排序
+      // const findMaxValue = arr => {
+      //   let max = arr[0];
+      //   for (let i = 1, len = arr.length; i < len; i++) {
+      //     if (arr[i] > max) {
+      //       max = arr[i];
+      //     }
+      //   }
+      //   return max;
+      // };
+      // const countingSort = arr => {
+      //   if (arr.length < 2) return arr;
+
+      //   let maxValue = findMaxValue(arr);
+      //   let countArr = new Array(maxValue + 1);
+      //   arr.forEach(val => {
+      //     if (!countArr[val]) {
+      //       countArr[val] = 0;
+      //     }
+      //     countArr[val]++;
+      //   });
+
+      //   for (let i = 0, j = 0, l = countArr.length; i < l; i++) {
+      //     while (countArr[i]--) arr[j++] = i;
+      //   }
+
+      //   return arr;
+      // };
+      // console.log(countingSort([1, 2, 3, 4, 5, 6, 9, 8, 7]));
+    </script>
+    <script>
+      // 快排 2
+      // [ 1, 2, 3, 4, 5, 6, 9, 8, 7 ]
+      // const partition = (arr, left, right) => {
+      //   const pivot = arr[~~((left + right) / 2)];
+      //   let i = left;
+      //   let j = right;
+
+      //   while (i <= j) {
+      //     while (arr[i] < pivot) {
+      //       i++;
+      //     }
+      //     while (arr[j] > pivot) {
+      //       j--;
+      //     }
+      //     if (i <= j) {
+      //       [arr[i], arr[j]] = [arr[j], arr[i]];
+      //       i++;
+      //       j--;
+      //     }
+      //   }
+      //   return i;
+      // };
+      // const quick = (arr, left, right) => {
+      //   if (arr.length > 1) {
+      //     let index = partition(arr, left, right);
+      //     if (left < index - 1) {
+      //       quick(arr, left, index - 1);
+      //     }
+      //     if (index < right) {
+      //       quick(arr, index, right);
+      //     }
+      //   }
+      //   return arr;
+      // };
+      // const quickSort = arr => {
+      //   return quick(arr, 0, arr.length - 1);
+      // };
+      // console.log(quickSort([3, 6, 4, 5, 1, 2, 9, 8, 7]));
+    </script>
+    <script>
+      // 快排 1
+      // const quickSort = arr => {
+      //   if (arr.length < 2) return arr;
+      //   let len = arr.length;
+      //   let mid = ~~(len / 2);
+      //   let pivot = arr[mid];
+      //   let left = [];
+      //   let right = [];
+      //   for (let i = 0; i < len; i++) {
+      //     if (i === mid) continue;
+      //     let curr = arr[i];
+      //     if (curr <= pivot) {
+      //       left.push(curr);
+      //     } else {
+      //       right.push(curr);
+      //     }
+      //   }
+      //   return quickSort(left).concat(pivot, quickSort(right));
+      // };
+      // console.log(quickSort([3, 6, 4, 5, 1, 2, 9, 8, 7]));
+    </script>
+    <script>
+      // 归并
+      // const mergeSort = arr => {
+      //   const merge = (left, right) => {
+      //     if (left[left.length - 1] <= right[0]) {
+      //       return left.concat(right);
+      //     }
+
+      //     let result = [];
+      //     while (left.length && right.length) {
+      //       let l = left[0];
+      //       let r = right[0];
+      //       if (l < r) {
+      //         result.push(left.shift());
+      //       } else {
+      //         result.push(right.shift());
+      //       }
+      //     }
+
+      //     if (left.length) result.push(...left);
+      //     if (right.length) result.push(...right);
+
+      //     return result;
+      //   };
+      //   const mergeSort = arr => {
+      //     let len = arr.length;
+      //     if (len === 1) {
+      //       return arr;
+      //     }
+      //     let mid = ~~(len / 2);
+      //     let res = merge(
+      //       mergeSort(arr.slice(0, mid)),
+      //       mergeSort(arr.slice(mid))
+      //     );
+      //     return res;
+      //   };
+      //   return mergeSort(arr);
+      // };
+      // console.log(mergeSort([3, 6, 4, 5, 1, 2, 9, 8, 7]));
+    </script>
+    <script>
+      // 插入
+      // const insertSort = arr => {
+      //   for (let i = 1, len = arr.length, tmp; i < len; i++) {
+      //     let j = i;
+      //     tmp = arr[i];
+      //     while (j > 0 && arr[j - 1] > tmp) {
+      //       arr[j] = arr[j - 1];
+      //       j--;
+      //     }
+      //     arr[j] = tmp;
+      //   }
+      //   return arr;
+      // };
+      // console.log(insertSort([3, 6, 4, 5, 1, 2, 9, 8, 7]));
+    </script>
+    <script>
+      // 选择
+      // const selectSort = arr => {
+      //   for (let i = 0, len = arr.length, minIndex; i < len - 1; i++) {
+      //     minIndex = i;
+      //     for (let j = i + 1; j < len; j++) {
+      //       if (arr[minIndex] > arr[j]) {
+      //         minIndex = j;
+      //       }
+      //     }
+      //     if (i !== minIndex) {
+      //       [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+      //     }
+      //   }
+      //   return arr;
+      // };
+      // console.log(selectSort([3, 2, 4, 5, 1, 6, 9, 8, 7]));
+    </script>
+    <script>
+      // 冒泡
+      // const bubbleSort = arr => {
+      //   for (let i = arr.length, tmp; i > 0; i--) {
+      //     for (let j = 0; j < i; j++) {
+      //       tmp = arr[j];
+      //       if (tmp > arr[j + 1]) {
+      //         arr[j] = arr[j + 1];
+      //         arr[j + 1] = tmp;
+      //       }
+      //     }
+      //   }
+      //   return arr;
+      // };
+      // console.log(bubbleSort([3, 2, 4, 5, 1]));
     </script>
     <script>
       //
