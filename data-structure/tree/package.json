@@ -1,0 +1,12 @@
+{
+  "name": "tree",
+  "version": "1.0.0",
+  "description": "有关《树》研究资料：",
+  "main": "BinarySearchTree.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

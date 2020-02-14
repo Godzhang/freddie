@@ -1,4 +1,4 @@
-import TreeNode from "./TreeNode";
+const TreeNode = require("./TreeNode");
 
 class BinarySearchTree {
   constructor() {
@@ -149,6 +149,110 @@ class BinarySearchTree {
     arr.forEach(val => val != null && binarySearchTree.insert(val));
     return binarySearchTree;
   }
+
+  preOrderTraverseByStack(callback) {
+    let node = this.root;
+    const stack = [];
+
+    while (node || stack.length) {
+      // 迭代访问结点左子树，并入栈
+      while (node) {
+        stack.push(node);
+        callback(node.val);
+        node = node.left;
+      }
+      // 如果没有左子树，弹出栈顶元素，访问右子树
+      if (stack.length) {
+        node = stack.pop();
+        node = node.right;
+      }
+    }
+  }
+
+  inOrderTraverseByStack(callback) {
+    let node = this.root;
+    const stack = [];
+
+    while (node || stack.length) {
+      while (node) {
+        stack.push(node);
+        node = node.left;
+      }
+      if (stack.length) {
+        node = stack.pop();
+        callback(node.val);
+        node = node.right;
+      }
+    }
+  }
+
+  // postOrderTraverseStack(callback) {
+  //   let node = this.root;
+  //   const stack = [];
+  //   const visitedNodes = {};
+
+  //   while (node || stack.length) {
+  //     while (node) {
+  //       stack.push(node);
+  //       node = node.left;
+  //     }
+  //     if (stack.length) {
+  //       let last = stack[stack.length - 1];
+  //       // 如果没有右子树 或 已经访问过右子树，出栈
+  //       if (!last.right || visitedNodes[last.right.val]) {
+  //         node = stack.pop();
+  //         callback(node.val);
+  //         node = null;
+  //       } else {
+  //         // 否则，继续遍历右子树，并将右子树记录为已访问状态
+  //         node = last.right;
+  //         visitedNodes[node.val] = true;
+  //       }
+  //     }
+  //   }
+  // }
+
+  postOrderTraverseStack(callback) {
+    let node = this.root;
+    const stack = [];
+    let lastNode = null;
+
+    while (node || stack.length) {
+      while (node) {
+        stack.push(node);
+        node = node.left;
+      }
+      if (stack.length) {
+        let peek = stack[stack.length - 1];
+        // lastNode 记录上一个出栈的结点，如果它是栈顶元素的右子结点，说明已访问过
+        if (!peek.right || peek.right === lastNode) {
+          node = stack.pop();
+          callback(node.val);
+          lastNode = node;
+          node = null;
+        } else {
+          node = peek.right;
+        }
+      }
+    }
+  }
+
+  // 层序遍历(广度优先遍历) 借助队列实现
+  breadthFirstTraverse(callback) {
+    let node = this.root;
+    const queue = [node];
+
+    while (queue.length) {
+      node = queue.shift();
+      callback(node.val);
+      if (node.left) {
+        queue.push(node.left);
+      }
+      if (node.right) {
+        queue.push(node.right);
+      }
+    }
+  }
 }
 
-export default BinarySearchTree;
+module.exports = BinarySearchTree;
