@@ -17,9 +17,6 @@
   </head>
   <body>
     <div class="container"></div>
-    <ul id="list">
-      <li></li>
-    </ul>
 
     <script>
       // 生成乱序的随机数组
@@ -36,6 +33,185 @@
     </script>
     <script>
       //
+    </script>
+    <script>
+      //
+      const numRescueBoats = (people, limit) => {
+        if (people.length === 0) return 0;
+        let counts = new Array(limit + 1).fill(0);
+        people.forEach(p => counts[p]++);
+        let k = 0;
+        for (let i = 0; i < limit + 1; i++) {
+          while (counts[i] > 0) {
+            people[k++] = i;
+            counts[i]--;
+          }
+        }
+        let res = 0;
+        let curr = 0;
+        for (let i = people.length - 1; i >= curr; i--) {
+          if (people[i] + people[curr] <= limit) curr++;
+          res++;
+        }
+        return res;
+      };
+      // console.log(numRescueBoats([1, 2], 3)); //.toBe(1)
+      // console.log(numRescueBoats([1, 2, 3], 8)); //.toBe(2)
+      // console.log(numRescueBoats([3, 2, 2, 1], 3)); //.toBe(3)
+      // console.log(numRescueBoats([3, 5, 3, 4], 5)); //.toBe(4)
+      // console.log(numRescueBoats([5, 1, 4, 2], 6)); //.toBe(2)
+      // console.log(
+      //   numRescueBoats(
+      //     [
+      //       2,
+      //       49,
+      //       10,
+      //       7,
+      //       11,
+      //       41,
+      //       47,
+      //       2,
+      //       22,
+      //       6,
+      //       13,
+      //       12,
+      //       33,
+      //       18,
+      //       10,
+      //       26,
+      //       2,
+      //       6,
+      //       50,
+      //       10
+      //     ],
+      //     50
+      //   )
+      // ); //.toBe(11)
+    </script>
+    <script>
+      //
+      // const maxProfit = (prices, fee) => {
+      //   let buy = -prices[0];
+      //   let sell = 0;
+      //   for (let i = 1, len = prices.length; i < len; i++) {
+      //     buy = Math.max(buy, sell - prices[i]);
+      //     sell = Math.max(buy + prices[i] - fee, sell);
+      //   }
+      //   return sell;
+      // };
+      // console.log(maxProfit([1, 3, 2, 8, 4, 9], 2));
+    </script>
+    <script>
+      //
+      // const maxProfit = prices => {
+      //   let min = Number.MAX_SAFE_INTEGER;
+      //   let max = 0;
+      //   for (let i = 0, len = prices.length; i < len; i++) {
+      //     if (prices[i] < min) {
+      //       min = prices[i];
+      //     } else if (prices[i] - min > max) {
+      //       max = prices[i] - min;
+      //     }
+      //   }
+      //   return max;
+      // };
+      // console.log(maxProfit([7, 2, 10, 1, 8]));
+      // console.log(maxProfit([7, 1, 5, 3, 6, 4]));
+      // console.log(maxProfit([7, 6, 4, 3, 1]));
+    </script>
+    <script>
+      // 摆动序列
+      // const wiggleMaxLength = nums => {
+      //   if (nums.length < 2) return nums.length;
+      //   let up = 1;
+      //   let down = 1;
+      //   for (let i = 1, len = nums.length; i < len; i++) {
+      //     if (nums[i] > nums[i - 1]) {
+      //       up = down + 1;
+      //     }
+      //     if (nums[i] < nums[i - 1]) {
+      //       down = up + 1;
+      //     }
+      //   }
+      //   return Math.max(up, down);
+      // };
+      // 贪心算法
+      // const wiggleMaxLength = nums => {
+      //   if (nums.length < 2) return nums.length;
+      //   let prevDiff = nums[1] - nums[0];
+      //   let count = prevDiff !== 0 ? 2 : 1;
+      //   for (let i = 2, len = nums.length; i < len; i++) {
+      //     let diff = nums[i] - nums[i - 1];
+      //     if ((diff < 0 && prevDiff >= 0) || (diff > 0 && prevDiff <= 0)) {
+      //       count++;
+      //       prevDiff = diff;
+      //     }
+      //   }
+      //   return count;
+      // };
+      // console.log(wiggleMaxLength([1, 7, 4, 9, 2, 5])); //.toBe(6)
+      // console.log(wiggleMaxLength([1, 17, 5, 10, 13, 15, 10, 5, 16, 8])); //.toBe(7)
+      // console.log(wiggleMaxLength([1, 2, 3, 4, 5, 6, 7, 8, 9])); //.toBe(2)
+      // console.log(wiggleMaxLength([])); //.toBe(0)
+      // console.log(wiggleMaxLength([1])); //.toBe(1)
+    </script>
+    <script>
+      // 硬币找零3
+      // const minCoinChange = (coins, amount) => {
+      //   const change = [];
+      //   let total = 0;
+      //   for (let i = coins.length - 1; i >= 0; i--) {
+      //     let coin = coins[i];
+      //     while (total + coin <= amount) {
+      //       change.push(coin);
+      //       total += coin;
+      //     }
+      //   }
+      //   return change;
+      // };
+      // console.log(minCoinChange([1, 5, 10, 25], 37));
+    </script>
+    <script>
+      // 获取指定正整数 n 的质因数
+      // const getPrimes = n => {
+      //   const prime = n => {
+      //     const arr = [];
+      //     for (let i = 2, len = n / 2 + 1; i < len; i++) {
+      //       // 能整除 并且 i是质数
+      //       if (n % i === 0 && !prime(i).length) {
+      //         arr.push(i);
+      //       }
+      //     }
+      //     return arr;
+      //   };
+      //   return prime(n);
+      // };
+      // console.log(getPrimes(6));
+      // console.log(getPrimes(8));
+      // console.log(getPrimes(180));
+    </script>
+    <script>
+      // 超级丑数
+      // const nthSuperUglyNumber = (n, primes) => {
+      //   const dp = [1];
+      //   const point = new Array(primes.length).fill(0);
+      //   for (let i = 1; i < n; i++) {
+      //     let min = Math.min(
+      //       ...primes.map((val, index) => {
+      //         return dp[point[index]] * val;
+      //       })
+      //     );
+
+      //     dp.push(min);
+      //     for (let i = 0, len = point.length; i < len; i++) {
+      //       if (min === dp[point[i]] * primes[i]) {
+      //         point[i]++;
+      //       }
+      //     }
+      //   }
+      //   return dp[n - 1];
+      // };
+      // console.log(nthSuperUglyNumber(12, [2, 7, 13, 19]));
     </script>
     <script>
       // 鸡尾酒排序

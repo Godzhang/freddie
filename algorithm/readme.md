@@ -6,6 +6,7 @@ leetcode 67 题 二进制求和，了解多种解法，~~等位运算符的用�
 leetcode 147 只会一种接发，待继续研究...
 leetcode 560 不会解
 leetcode 445 addTwoNumbers-445 研究递归方法(暂时不会)
+leetcode 347 尝试使用堆解决，现在不会
 
 leetcode 第 4 题 ./code/array/findMedianSortedArrays
 leetcode 第 5 题 ./code/string/longestPalindrome

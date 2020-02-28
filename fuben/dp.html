@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="./js/data-structure.js"></script>
+    <title>dp</title>
+  </head>
+  <body>
+    <div class="container">动态规划</div>
+    <script>
+      // 动态规划解题步骤
+      // 1. 定义数组元素的含义
+      // 2. 找出数组元素间的关系式
+      // 3. 找出初始值
+    </script>
+    <script>
+      //
+      const logRealData = obj => {
+        console.log(JSON.parse(JSON.stringify(obj)));
+      };
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      // leetcode 376
+      const wiggleMaxLength = nums => {
+        if (nums.length < 2) return nums.length;
+        let prevDiff = nums[0] - nums[1];
+        let count = prevDiff === 0 ? 1 : 2;
+        for (let i = 0, len = nums.length - 1; i < len; i++) {
+          let diff = nums[i] - nums[i + 1];
+          if ((diff > 0 && prevDiff <= 0) || (diff < 0 && prevDiff >= 0)) {
+            count++;
+            prevDiff = diff;
+          }
+        }
+        return count;
+      };
+      // console.log(wiggleMaxLength([1, 7, 4, 9, 2, 5])); //.toBe(6)
+      // console.log(wiggleMaxLength([1, 17, 5, 10, 13, 15, 10, 5, 16, 8])); //.toBe(7)
+      // console.log(wiggleMaxLength([1, 2, 3, 4, 5, 6, 7, 8, 9])); //.toBe(2)
+      // console.log(wiggleMaxLength([5, 5, 5, 5, 5])); //.toBe(1)
+    </script>
+    <script>
+      // leetcode 650
+      // dp[i] 代表输出i个A的最少次数
+      // const minSteps = n => {
+      //   const dp = [0, 0, 2, 3];
+      //   if (n <= 3) return dp[n];
+
+      //   for (let i = 4; i <= n; i++) {
+      //     for (let j = ~~(i / 2); j > 0; j--) {
+      //       if (i % j === 0) {
+      //         dp[i] = dp[j] + i / j;
+      //         break;
+      //       }
+      //     }
+      //   }
+      //   return dp[n];
+      // };
+
+      // 优化，使用递归，只计算需要的对应值，减少操作次数
+      // const minSteps = n => {
+      //   const dp = [0, 0, 2, 3];
+
+      //   const helper = k => {
+      //     if (dp[k] != undefined) return dp[k];
+      //     for (let i = ~~(k / 2); i > 0; i--) {
+      //       if (k % i === 0) {
+      //         return (dp[k] = helper(i) + k / i);
+      //       }
+      //     }
+      //   };
+      //   helper(n);
+      //   return dp[n];
+      // };
+
+      // const minSteps = n => {
+      //   if (n === 1) return 0;
+
+      //   for (let i = ~~(n / 2); i > 0; i--) {
+      //     if (n % i === 0) {
+      //       return minSteps(i) + n / i;
+      //     }
+      //   }
+      // };
+
+      const minSteps = n => {
+        let res = 0;
+
+        for (let i = 2; i <= n; i++) {
+          if (n % i === 0) {
+            res += i;
+            n /= i;
+            i = 1;
+          }
+        }
+
+        return res;
+      };
+
+      // console.log(minSteps(2)); //.toBe(2)
+      // console.log(minSteps(3)); //.toBe(3)
+      // console.log(minSteps(4)); //.toBe(4)
+      // console.log(minSteps(5)); //.toBe(5)
+      // console.log(minSteps(6)); //.toBe(5)
+      // console.log(minSteps(10)); //.toBe(7)
+      // console.log(minSteps(30)); //.toBe()
+    </script>
+    <script>
+      // 是否能由 arr 中任意的数相加结果为sum
+      // 动态规划 递归
+      // const hasPlus = (arr, sum) => {
+      //   const helper = (arr, i, sum) => {
+      //     if (sum === 0) {
+      //       return true;
+      //     }
+      //     if (i === 0) {
+      //       return arr[0] === sum;
+      //     }
+      //     // 如果当前值大于sum，则直接不选(此处应该限制值都为正数)
+      //     if (arr[i] > sum) {
+      //       return helper(arr, i - 1, sum);
+      //     } else {
+      //       return helper(arr, i - 1, sum - arr[i]) || helper(arr, i - 1, sum);
+      //     }
+      //   };
+      //   return helper(arr, arr.length - 1, sum);
+      // };
+
+      // dp[i][s] i代表第几个数的索引,s代表剩余的sum
+      const hasPlus = (arr, sum) => {
+        let len = arr.length;
+        const dp = Array(len);
+        for (let i = 0; i < len; i++) {
+          dp[i] = Array(sum + 1);
+        }
+        // 如果 s === arr[0] 结果为true,否则 false
+        for (let i = 0; i <= sum; i++) {
+          dp[0][i] = arr[0] === i;
+        }
+        // 如果 s === 0 结果为true
+        for (let i = 0; i < len; i++) {
+          dp[i][0] = true;
+        }
+
+        for (let i = 1; i < len; i++) {
+          for (let j = 1; j <= sum; j++) {
+            if (arr[i] > j) {
+              dp[i][j] = dp[i - 1][j];
+            } else {
+              dp[i][j] = dp[i - 1][j - arr[i]] || dp[i - 1][j];
+            }
+          }
+        }
+
+        return dp[len - 1][sum];
+      };
+      // console.log(hasPlus([3, 34, 4, 12, 5, 2], 9));
+      // console.log(hasPlus([3, 34, 4, 12, 5, 2], 13));
+    </script>
+    <script>
+      // leetcode 1025
+      // dp[n] 爱丽丝能不能赢
+      // dp[10] = dp[10 - 所有能被整除的数] false 就是true
+      // const divisorGame = N => {
+      //   const dp = Array(N + 1).fill(false);
+      //   dp[2] = true;
+      //   for (let i = 3; i <= N; i++) {
+      //     for (let j = 1, len = ~~(i / 2); j <= len; j++) {
+      //       if (i % j === 0 && !dp[i - j]) {
+      //         dp[i] = true;
+      //         break;
+      //       }
+      //     }
+      //   }
+      //   return dp[N];
+      // };
+
+      // 数学归纳法
+      // const divisorGame = N => {
+      //   return N % 2 === 0;
+      // };
+
+      // console.log(divisorGame(1)); //.toBeFalsy()
+      // console.log(divisorGame(2)); //.toBeTruthy()
+      // console.log(divisorGame(3)); //.toBeFalsy()
+      // console.log(divisorGame(4)); //.toBeTruthy()
+      // console.log(divisorGame(5)); //.toBeFalsy()
+      // console.log(divisorGame(6)); //.toBeTruthy()
+      // console.log(divisorGame(9)); //.toBeFalsy()
+      // console.log(divisorGame(10)); //.toBeTruthy()
+    </script>
+    <script>
+      // leetcode 337
+      // const rob = root => {
+      //   const map = new Map();
+
+      //   const helper = root => {
+      //     if (!root) return 0;
+      //     if (map.get(root)) return map.get(root);
+
+      //     let tou =
+      //       root.val +
+      //       (root.left ? helper(root.left.left) + helper(root.left.right) : 0) +
+      //       (root.right
+      //         ? helper(root.right.left) + helper(root.right.right)
+      //         : 0);
+      //     let butou = helper(root.left) + helper(root.right);
+      //     let max = Math.max(tou, butou);
+      //     map.set(root, max);
+      //     return max;
+      //   };
+
+      //   return helper(root);
+      // };
+
+      const rob = root => {
+        // 返回一个长度为2的数组
+        // arr[0] 代表不偷root，得到的最大钱数
+        // arr[1] 代表抢root，得到的最大钱数
+        const helper = root => {
+          if (!root) return [0, 0];
+          let left = helper(root.left);
+          let right = helper(root.right);
+          // 如果偷，就不能加相邻两个偷的值
+          let rob = root.val + left[0] + right[0];
+          // 如果不偷，就取相邻两个子结点的最大值
+          let no_rob =
+            Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+          return [no_rob, rob];
+        };
+        let res = helper(root);
+        return Math.max(res[0], res[1]);
+      };
+      // console.log(rob(getBinaryTree([3, 2, 3, null, 3, null, 1]))); //.toBe(7)
+      // console.log(rob(getBinaryTree([3, 4, 5, 1, 3, null, 1]))); //.toBe(9)
+    </script>
+    <script>
+      // leetcode 213
+      // 对于一个房子，只有抢和不抢两个选择，如果比抢前一个屋子的金钱要多，就抢，否则不抢
+      // const rob = nums => {
+      //   let len = nums.length;
+      //   if (nums.length === 0) return 0;
+      //   if (nums.length === 1) return nums[0];
+      //   if (nums.length === 2) return Math.max(nums[0], nums[1]);
+
+      //   const dp1 = [nums[0], Math.max(nums[0], nums[1])];
+      //   const dp2 = [nums[1], Math.max(nums[1], nums[2])];
+
+      //   for (let i = 2; i < len; i++) {
+      //     dp1[i] = Math.max(dp1[i - 2] + nums[i], dp1[i - 1]);
+      //     dp2[i] = Math.max(dp2[i - 2] + nums[i + 1], dp2[i - 1]);
+      //   }
+
+      //   return Math.max(dp1[len - 2], dp1[len - 2]);
+      // };
+      // console.log(rob([2, 3, 2])); //.toBe(3)
+      // console.log(rob([1, 2, 3, 1])); //.toBe(4)
+      // console.log(rob([3, 1, 2, 5, 4])); //.toBe(8)
+    </script>
+    <script>
+      // leetcode 303
+      // dp[i][j] 代表索引从i到j 的元素和
+      // dp[i][j] = dp[i][j-1] + nums[j]
+      // dp 二维数组
+      // class NumArray {
+      //   constructor(nums) {
+      //     let len = nums.length;
+      //     const dp = Array(len);
+      //     for (let i = 0; i < len; i++) {
+      //       dp[i] = Array(len);
+      //     }
+      //     for (let i = 0; i < len; i++) {
+      //       for (let j = 0; j < len; j++) {
+      //         if (i === j) {
+      //           dp[i][j] = nums[i];
+      //         } else {
+      //           dp[i][j] = dp[i][j - 1] + nums[j];
+      //         }
+      //       }
+      //     }
+      //     this.dp = dp;
+      //   }
+
+      //   sumRange(i, j) {
+      //     return this.dp[i][j];
+      //   }
+      // }
+
+      // dp 一维数组
+      const NumArray = function(nums) {
+        let len = nums.length;
+        this.sums = Array(len + 1).fill(0);
+
+        for (let i = 0; i < len; i++) {
+          this.sums[i + 1] = this.sums[i] + nums[i];
+        }
+      };
+      NumArray.prototype.sumRange = function(i, j) {
+        return this.sums[j + 1] - this.sums[i];
+      };
+      let sumRange = new NumArray([-2, 0, 3, -5, 2, -1]);
+      // console.log(sumRange.sumRange(0, 2)); //.toBe(1)
+      // console.log(sumRange.sumRange(2, 5)); //.toBe(-1)
+      // console.log(sumRange.sumRange(0, 5)); //.toBe(-3)
+    </script>
+    <script>
+      // leetcode 300
+      // dp[i] 代表以第i个数为末尾的最大子序列数
+      // dp[i] = 小于第i个数的最近数的子序列数 + 1
+      // dp[0] = 1
+      // const lengthOfLIS = nums => {
+      //   if (!nums.length) return 0;
+      //   let len = nums.length;
+      //   let dp = Array(len).fill(1);
+      //   let max = 1;
+      //   for (let i = 1; i < len; i++) {
+      //     for (let j = 0; j < i; j++) {
+      //       if (nums[i] > nums[j]) {
+      //         dp[i] = Math.max(dp[i], dp[j] + 1);
+      //       }
+      //     }
+      //     max = Math.max(max, dp[i]);
+      //   }
+      //   return max;
+      // };
+
+      // 动态规划 + 二分查找
+      const binaryInsert = (arr, target) => {
+        let start = 0;
+        let end = arr.length - 1;
+        while (start <= end) {
+          let mid = ~~((start + end) / 2);
+          if (target <= arr[mid]) {
+            end = mid - 1;
+          } else {
+            start = mid + 1;
+          }
+        }
+        arr[end + 1] = target;
+      };
+      const lengthOfLIS = nums => {
+        if (!nums.length) return 0;
+        const tails = [];
+        for (let i = 0, len = nums.length; i < len; i++) {
+          if (!tails.length || nums[i] > tails[tails.length - 1]) {
+            tails.push(nums[i]);
+          } else {
+            binaryInsert(tails, nums[i]);
+          }
+        }
+        return tails.length;
+      };
+      // console.log(lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18])); //.toBe(4)
+      // console.log(lengthOfLIS([1, 2, 3, 4, 5, 1, 2, 10])); //.toBe(6)
+      // console.log(lengthOfLIS([2, 2])); //.toBe(1)
+    </script>
+    <script>
+      // leetcode 198
+      // dp[i] 代表偷到第i个房屋的最大金额
+      // dp[i] = dp[i] + Math.max(dp[i-2], dp[i-3])
+      // 初始值 dp[0] dp[1] dp[2]
+      // const rob = nums => {
+      //   if (nums.length === 0) return 0;
+      //   if (nums.length === 1) return nums[0];
+      //   if (nums.length === 2) return Math.max(nums[0], nums[1]);
+      //   let len = nums.length;
+      //   nums[2] += nums[0];
+      //   for (let i = 3; i < len; i++) {
+      //     nums[i] += Math.max(nums[i - 2], nums[i - 3]);
+      //   }
+      //   return Math.max(nums[len - 1], nums[len - 2]);
+      // };
+
+      // dp[i] = Math.max(dp[i-1], dp[i-2] + nums[i])
+      // const rob = nums => {
+      //   let len = nums.length;
+      //   if (len === 0) return 0;
+      //   if (len === 1) return nums[0];
+      //   if (len === 2) return Math.max(nums[0], nums[1]);
+
+      //   nums[1] = Math.max(nums[0], nums[1]);
+      //   for (let i = 2; i < len; i++) {
+      //     nums[i] = Math.max(nums[i - 1], nums[i - 2] + nums[i]);
+      //   }
+      //   return nums[len - 1];
+      // };
+
+      // const rob = nums => {
+      //   let prevMax = 0;
+      //   let currMax = 0;
+      //   for (let i = 0, len = nums.length; i < len; i++) {
+      //     nums[i] = Math.max(currMax, prevMax + nums[i]);
+      //     prevMax = currMax;
+      //     currMax = nums[i];
+      //   }
+      //   return currMax;
+      // };
+      // console.log(rob([2, 1, 1, 2])); //.toBe(4)
+      // console.log(rob([1, 2, 3, 1])); //.toBe(4)
+      // console.log(rob([2, 7, 9, 3, 1])); //.toBe(12)
+    </script>
+    <script>
+      // 凑零钱问题
+      // 给你 k 种面值的硬币，面值分别为 c1, c2 ... ck，每种硬币的数量无限，再给一个总金额 amount，问你最少需要几枚硬币凑出这个金额，如果不可能凑出，返回 -1
+      // dp函数方式
+      // const coinChange = (coins, amount) => {
+      //   // 备忘录去除重复子问题
+      //   const cache = {};
+      //   const dp = amount => {
+      //     if (cache[amount]) return cache[amount];
+      //     if (amount === 0) return 0;
+      //     if (amount < 0) return -1;
+      //     let result = Number.MAX_SAFE_INTEGER;
+      //     for (let i = coins.length - 1; i >= 0; i--) {
+      //       let sub = dp(amount - coins[i]);
+      //       // 子问题无解，跳过
+      //       if (sub === -1) continue;
+      //       result = Math.min(result, sub + 1);
+      //     }
+      //     // 如果 result 未变，说明无解
+      //     cache[amount] = result === Number.MAX_SAFE_INTEGER ? -1 : result;
+      //     return cache[amount];
+      //   };
+      //   return dp(amount);
+      // };
+
+      // dp数组方式 自底向上
+      const coinChange = (coins, amount) => {
+        const dp = Array(amount + 1).fill(amount + 1);
+        dp[0] = 0;
+        for (let i = 1; i < dp.length; i++) {
+          for (let j = 0, len = coins.length; j < len; j++) {
+            if (i - coins[j] < 0) continue;
+            dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+          }
+        }
+        return dp[amount] === amount + 1 ? -1 : dp[amount];
+      };
+      // console.log(coinChange([1, 5, 10, 25], 36)); //.toBe(3)
+      // console.log(coinChange([1, 9, 10], 18)); //.toBe(2)
+      // console.log(coinChange([5, 10], 18)); //.toBe(-1)
+    </script>
+    <script>
+      // 斐波那契数列 动态规划 自底向上
+      // const fib = n => {
+      //   const dp = [1, 1];
+      //   for (let i = 2; i <= n; i++) {
+      //     dp[i] = dp[i - 1] + dp[i - 2];
+      //   }
+      //   return dp[n - 1];
+      // };
+
+      // 上例优化 当前状态只和之前两个状态有关，不需要维护DP数组，只需要两个状态变量
+      const fib = n => {
+        if (n === 1 || n === 2) return 1;
+        let prev = 1;
+        let curr = 1;
+        for (let i = 3; i <= n; i++) {
+          curr += prev;
+          prev = curr - prev;
+        }
+        return curr;
+      };
+    </script>
+    <script>
+      // leetcode 72题
+      const minDistance = (word1, word2) => {
+        let m = word1.length;
+        let n = word2.length;
+        // dp[i][j] 为当word1长度为i，word2长度为j时，word1转化为word2所使用的最少操作数
+        const dp = Array(m + 1);
+        for (let i = 0; i < m + 1; i++) {
+          dp[i] = Array(n + 1);
+        }
+        // 初始值
+        // 当有一个长度为0时，只能进行插入或删除
+        dp[0][0] = 0;
+        // dp[0][0 ~ n] 只能不断插入
+        for (let i = 1; i <= n; i++) {
+          dp[0][i] = dp[0][i - 1] + 1;
+        }
+        // dp[0 ~ m][0] 只能不断删除
+        for (let i = 1; i <= m; i++) {
+          dp[i][0] = dp[i - 1][0] + 1;
+        }
+        // 关系式 dp[i][j] = Math.min(dp[i-1][j-1], dp[i][j-1], dp[i-1][j]) + 1
+        for (let i = 1; i <= m; i++) {
+          for (let j = 1; j <= n; j++) {
+            // 如果 word1[i] 与 word2[j] 相等
+            if (word1[i - 1] === word2[j - 1]) {
+              dp[i][j] = dp[i - 1][j - 1];
+            } else {
+              dp[i][j] =
+                Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1;
+            }
+          }
+        }
+        return dp[m][n];
+      };
+      // console.log(minDistance("horse", "ros")); //.toBe(3)
+      // console.log(minDistance("intention", "execution")); //.toBe(5)
+      // console.log(minDistance("", "")); //.toBe(5)
+    </script>
+    <script>
+      // leetcode 64题
+      // 使用二维数组
+      // const minPathSum = grid => {
+      //   let rows = grid.length;
+      //   let cols = grid[0].length;
+      //   // 1. dp[i][j]代表走到[i,j]的最小路径和
+      //   const dp = Array(rows);
+      //   for (let i = 0, len = rows; i < len; i++) {
+      //     dp[i] = Array(cols);
+      //   }
+      //   // 3. 找出初始值
+      //   dp[0][0] = grid[0][0];
+      //   // 2. 使用关系式计算出最小路径和 dp[i][j] = Math.min(dp[i-1][j], dp[i][j-1])
+      //   for (let i = 0; i < rows; i++) {
+      //     for (let j = 0; j < cols; j++) {
+      //       if (i === 0 && j > 0) {
+      //         dp[i][j] = dp[i][j - 1] + grid[i][j];
+      //       } else if (j === 0 && i > 0) {
+      //         dp[i][j] = dp[i - 1][j] + grid[i][j];
+      //       } else if (i > 0 && j > 0) {
+      //         dp[i][j] = Math.min(dp[i][j - 1], dp[i - 1][j]) + grid[i][j];
+      //       }
+      //     }
+      //   }
+      //   return dp[rows - 1][cols - 1];
+      // };
+
+      // 不使用额外空间
+      // const minPathSum = grid => {
+      //   let rows = grid.length;
+      //   let cols = grid[0].length;
+
+      //   for (let i = 0; i < rows; i++) {
+      //     for (let j = 0; j < cols; j++) {
+      //       if (i === 0 && j > 0) {
+      //         grid[i][j] = grid[i][j - 1] + grid[i][j];
+      //       } else if (j === 0 && i > 0) {
+      //         grid[i][j] = grid[i - 1][j] + grid[i][j];
+      //       } else if (i > 0 && j > 0) {
+      //         grid[i][j] =
+      //           Math.min(grid[i][j - 1], grid[i - 1][j]) + grid[i][j];
+      //       }
+      //     }
+      //   }
+      //   return grid[rows - 1][cols - 1];
+      // };
+
+      // 一维数组 dp
+      const minPathSum = grid => {
+        const rows = grid.length;
+        const cols = grid[0].length;
+        const dp = Array(cols).fill(0);
+
+        for (let i = 0; i < rows; i++) {
+          for (let j = 0; j < cols; j++) {
+            if (i === 0 && j > 0) {
+              dp[j] = dp[j - 1] + grid[i][j];
+            } else if (j === 0) {
+              dp[j] += grid[i][j];
+            } else if (i > 0 && j > 0) {
+              dp[j] = Math.min(dp[j], dp[j - 1]) + grid[i][j];
+            }
+          }
+        }
+        return dp[cols - 1];
+      };
+
+      // console.log(
+      //   minPathSum([
+      //     [1, 3, 1],
+      //     [1, 5, 1],
+      //     [4, 2, 1]
+      //   ])
+      // ); // 7
+    </script>
+    <script>
+      // leetcode 62题
+      // const uniquePaths = (m, n) => {
+      //   // 1. dp[i][j]代表走到[i,j]有多少种可能路径
+      //   const dp = Array(n);
+      //   for (let i = 0; i < n; i++) {
+      //     dp[i] = Array(m);
+      //   }
+      //   // 3. 找出初始值
+      //   // 由于横向和纵向都只有1种路径，可在下面关系式计算中直接赋值
+
+      //   // 2. 使用关系式计算出dp[n][m]
+      //   for (let i = 0; i < n; i++) {
+      //     for (let j = 0; j < m; j++) {
+      //       // 横向和纵向都只有1种路径
+      //       if (i === 0 || j === 0) {
+      //         dp[i][j] = 1;
+      //       } else {
+      //         dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+      //       }
+      //     }
+      //   }
+      //   return dp[n - 1][m - 1];
+      // };
+
+      // 使用一维数组dp实现
+      // 计算一行(或一列)数据的时候，直接把上面一行(或一列)的数据搬下来，然后每个格子就等于前一个格子的数据加上当前格子的数据。
+      const uniquePaths = (m, n) => {
+        const memo = new Array(n).fill(1);
+        for (let i = 1; i < m; i++) {
+          for (let j = 1; j < n; j++) {
+            memo[j] += memo[j - 1];
+          }
+        }
+        return memo[n - 1];
+      };
+
+      // console.log(uniquePaths(3, 2)); // 3
+      // console.log(uniquePaths(7, 3)); // 28
+    </script>
+    <script>
+      // 问题描述：一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法。
+      // 1. 定义数组元素：跳上第i级台阶共有dp[i]种跳法
+      // 2. 找出数组元素间的关联式：dp[n] = dp[n - 1] + dp[n - 2]
+      const skipStep = n => {
+        if (n <= 2) return n;
+        // 先创建一个数组保存历史数据，因为要访问到n，所以要长度为n+1的数组
+        const dp = Array(n + 1);
+        // 给出初始值
+        dp[1] = 1;
+        dp[2] = 2;
+        // 通过关系式计算出 dp[n]
+        for (let i = 3; i <= n; i++) {
+          dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n];
+      };
+      // console.log(skipStep(5));
+      // console.log(skipStep(10));
+    </script>
+  </body>
+</html>
