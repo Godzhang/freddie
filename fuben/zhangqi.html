@@ -33,6 +33,105 @@
     </script>
     <script>
       //
+      const generateParenthesis = n => {
+        const dp = Array(n + 1).fill(0);
+      };
+      console.log(generateParenthesis(3));
+    </script>
+    <script>
+      // leetcode 47 方法需继续优化
+      const permuteUnique = nums => {
+        if (nums.length === 1) return [nums];
+        const map = {};
+        const result = [];
+
+        const helper = (curr, arr) => {
+          if (!arr.length && !map[curr.join()]) {
+            result.push(curr);
+            map[curr.join()] = true;
+            return;
+          }
+          arr.forEach((item, i) => {
+            helper([...curr, item], arr.slice(0, i).concat(arr.slice(i + 1)));
+          });
+        };
+        helper([], nums);
+
+        return result;
+      };
+      // console.log(permuteUnique([1, 1, 2]));
+    </script>
+    <script>
+      //
+      const fac = n => {
+        if (n <= 1) return 1;
+        return n * fac(n - 1);
+      };
+      const getPermutation = (n, k) => {
+        let result = "";
+        let arr = Array.from({ length: n }).map((v, i) => i + 1);
+        let len = n;
+        while (result.length < len) {
+          let ni = fac(n - 1);
+          let num = ~~((k - 1) / ni);
+          k -= num * ni;
+          result += arr[num];
+          arr.splice(num, 1);
+          n--;
+        }
+        return result;
+      };
+      // console.log(getPermutation(3, 3)); //.toBe('213')
+      // console.log(getPermutation(4, 9)); //.toBe('2314')
+    </script>
+    <script>
+      //
+      const permute = arr => {
+        let result = [];
+
+        let dp = (arr, res) => {
+          if (!res.length) return result.push(arr);
+          for (let i = 0, len = res.length; i < len; i++) {
+            dp([...arr, res[i]], res.slice(0, i).concat(res.slice(i + 1)));
+          }
+        };
+        dp([], arr);
+
+        return result;
+      };
+      // console.log(permute([1, 2, 3]));
+      // console.log(permute([1, 2, 3, 4]));
+    </script>
+    <script>
+      // 获取 1 ～ n 的全排列
+      const swap = (arr, i, j) => {
+        let tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+      };
+      const getFullPermutation = n => {
+        if (n === 1) return [[1]];
+        const nums = Array.from({ length: n }).map((v, i) => i + 1);
+        const result = [];
+        const backtrack = (arr, p, q) => {
+          // 触发结束条件
+          if (p === q) {
+            result.push(arr.slice());
+            return;
+          }
+          for (let i = p; i <= q; i++) {
+            swap(arr, p, i);
+            backtrack(arr, p + 1, q);
+            swap(arr, p, i);
+          }
+        };
+        backtrack(nums, 0, nums.length - 1);
+        return result;
+      };
+      // console.log(getFullPermutation(1));
+      // console.log(getFullPermutation(2));
+      // console.log(getFullPermutation(3));
+      // console.log(getFullPermutation(4));
     </script>
     <script>
       //
