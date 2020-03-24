@@ -1,8 +1,0 @@
-@import "./color.css";
-
-#app {
-  text-align: center;
-}
-.box {
-  display: flex;
-}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./js/fp.js"></script>
+    <title>fp</title>
+  </head>
+  <body>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+      // const sub_curry = function(fn) {
+      //   let args = [].slice.call(arguments, 1);
+      //   return function() {
+      //     return fn.apply(this, args.concat([].slice.call(arguments)));
+      //   };
+      // };
+      // const curry = function(fn, length) {
+      //   length = length || fn.length;
+      //   let slice = Array.prototype.slice;
+
+      //   return function() {
+      //     if (arguments.length < length) {
+      //       return curry(
+      //         sub_curry.call(this, fn, ...arguments),
+      //         length - arguments.length
+      //       );
+      //     } else {
+      //       return fn.apply(this, arguments);
+      //     }
+      //   };
+      // };
+      const curry = function(fn, ...args) {
+        args = args || [];
+        let length = fn.length;
+
+        return function() {
+          let _args = args;
+          for (let i = 0, len = arguments.length; i < len; i++) {
+            _args.push(arguments[i]);
+          }
+          if (_args.length < length) {
+            return curry(fn, ..._args);
+          } else {
+            return fn.apply(null, _args);
+          }
+        };
+      };
+      // let fn = curry(function(a, b, c) {
+      //   return [a, b, c];
+      // });
+      // let f1 = fn(1);
+      // let f2 = f1(2);
+      // let f3 = f2(3);
+      // console.log(f3);
+      // console.log(fn(1, 2, 3));
+      // console.log(fn(1, 2)(3));
+      // console.log(fn(1)(2)(3));
+      // console.log(fn(1)(2, 3));
+
+      // function add(x, y) {
+      //   return x + y;
+      // }
+      // let addCurry = curry1(add, 1, 2);
+      // console.log(addCurry());
+      // addCurry = curry1(add, 1);
+      // console.log(addCurry(2));
+      // addCurry = curry1(add);
+      // console.log(addCurry(1, 2));
+    </script>
+    <script>
+      //
+      const composeByRecersion = (...args) => {
+        let length = args.length;
+        let count = length - 1;
+        let result;
+        return function f1(...arg1) {
+          result = args[count].apply(this, arg1);
+          if (count === 0) {
+            return result;
+          }
+          count--;
+          return f1.call(null, result);
+        };
+      };
+    </script>
+    <script>
+      // compose
+      // const strSplit = str => {
+      //   return str.split("");
+      // };
+      // const strUpperCase = str => {
+      //   return str.toUpperCase();
+      // };
+      // const fn = compose(strSplit, strUpperCase);
+      // console.log(fn("zhangqi"));
+    </script>
+  </body>
+</html>
