@@ -3,40 +3,648 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./js/lodash.js"></script>
+    <script src="./js/moment.js"></script>
     <title>zhangqi</title>
   </head>
   <body>
     <script>
-      const graph = {
-        "./src/index.js": {
-          dependencies: { "./message.js": "./src/message.js" },
-          code:
-            '"use strict";\n\nvar _message = _interopRequireDefault(require("./message.js"));\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }\n\nconsole.log(_message["default"]);'
-        },
-        "./src/message.js": {
-          dependencies: { "./word.js": "./src/word.js" },
-          code:
-            '"use strict";\n\nObject.defineProperty(exports, "__esModule", {\n  value: true\n});\nexports["default"] = void 0;\n\nvar _word = require("./word.js");\n\nvar message = "say ".concat(_word.word);\nvar _default = message;\nexports["default"] = _default;'
-        },
-        "./src/word.js": {
-          dependencies: {},
-          code:
-            '"use strict";\n\nObject.defineProperty(exports, "__esModule", {\n  value: true\n});\nexports.word = void 0;\nvar word = "word";\nexports.word = word;'
-        }
-      };
-      (function(graph) {
-        function require(module) {
-          function localRequire(relativePath) {
-            return require(graph[module].dependencies[relativePath]);
-          }
-          var exports = {};
-          (function(require, exports, code) {
-            eval(code);
-          })(localRequire, exports, graph[module].code);
-          return exports;
-        }
-        require("./src/index.js");
-      })(graph);
+      //
+    </script>
+    <script>
+      // 二叉树
+      // class Node {
+      //   constructor(value) {
+      //     this.value = value;
+      //     this.left = null;
+      //     this.right = null;
+      //   }
+
+      //   toString(join = true) {
+      //     let parts = [this.value];
+      //     let children = [];
+
+      //     if (this.left) {
+      //       children.push(this.left);
+      //     }
+      //     if (this.right) {
+      //       children.push(this.right);
+      //     }
+
+      //     if (children.length) {
+      //       parts = parts.concat(
+      //         children
+      //           .map(child => child.toString(false))
+      //           .reduce((left, right) => {
+      //             return left.concat(right);
+      //           })
+      //           .map(line => "  " + line)
+      //       );
+      //     }
+
+      //     if (join) {
+      //       return parts.join("\n");
+      //     } else {
+      //       return parts;
+      //     }
+      //   }
+      // }
+      // class Tree {
+      //   constructor(root = null) {
+      //     this.root = root;
+      //   }
+
+      //   insert(value) {
+      //     if (!this.root) {
+      //       this.root = new Node(value);
+      //     } else {
+      //       this.insertNode(this.root, value);
+      //     }
+      //   }
+
+      //   insertNode(node, value) {
+      //     if (value < node.value) {
+      //       if (node.left) {
+      //         this.insertNode(node.left, value);
+      //       } else {
+      //         node.left = new Node(value);
+      //       }
+      //     } else {
+      //       if (node.right) {
+      //         this.insertNode(node.right, value);
+      //       } else {
+      //         node.right = new Node(value);
+      //       }
+      //     }
+      //   }
+      //   // 使用深度优先遍历 - 前序遍历
+      //   get size() {
+      //     const queue = [this.root];
+      //     let size = 0;
+
+      //     while (queue.length) {
+      //       let node = queue.shift();
+      //       size++;
+      //       if (node.right) {
+      //         queue.unshift(node.right);
+      //       }
+      //       if (node.left) {
+      //         queue.unshift(node.left);
+      //       }
+      //     }
+      //     return size;
+      //   }
+      // }
+      // const tree = new Tree();
+      // tree.insert(5);
+      // tree.insert(3);
+      // tree.insert(4);
+      // tree.insert(4.5);
+      // tree.insert(1);
+      // tree.insert(7);
+      // tree.insert(6);
+      // console.log(tree.root);
+      // console.log(tree.root.toString());
+      // console.log(tree.size);
+    </script>
+    <script>
+      // 树形结构
+      // class Node {
+      //   constructor(value) {
+      //     this.value = value;
+      //     this.children = [];
+      //     this.parent = null;
+      //   }
+
+      //   addChild(node) {
+      //     node.parent = this;
+      //     this.children.push(node);
+      //     return this;
+      //   }
+
+      //   siblings() {
+      //     if (this.parent) {
+      //       return this.parent.children.filter(child => child !== this);
+      //     } else {
+      //       return [];
+      //     }
+      //   }
+
+      //   get degree() {
+      //     return this.children.length;
+      //   }
+
+      //   getDepthByRoot(root) {
+      //     let depth = 0;
+      //     let node = this;
+      //     // console.log(node);
+      //     while (node.parent !== root) {
+      //       depth++;
+      //       node = node.parent;
+      //     }
+
+      //     return depth + 1;
+      //   }
+
+      //   get depth() {
+      //     return this.getDepthByRoot(null) - 1;
+      //   }
+
+      //   get height() {
+      //     const queue = [this];
+      //     let depthestNode = this;
+
+      //     if (!this.children.length) return 0;
+
+      //     while (queue.length) {
+      //       const len = queue.length;
+
+      //       for (let i = 0; i < len; i++) {
+      //         const currNode = queue.shift();
+
+      //         depthestNode = currNode;
+
+      //         if (currNode.children.length > 0) {
+      //           queue.push(...currNode.children);
+      //         }
+      //       }
+      //     }
+
+      //     return depthestNode.getDepthByRoot(this);
+      //   }
+
+      //   toString(join = true) {
+      //     let parts = [this.value];
+
+      //     if (this.children.length > 0) {
+      //       parts = parts.concat(
+      //         this.children
+      //           .map(child => {
+      //             return child.toString(false);
+      //           })
+      //           .reduce((left, right) => {
+      //             return left.concat(right);
+      //           })
+      //           .map(line => {
+      //             return "  " + line;
+      //           })
+      //       );
+      //     }
+
+      //     if (join) {
+      //       return parts.join("\n");
+      //     } else {
+      //       return parts;
+      //     }
+      //   }
+      // }
+
+      // class Tree {
+      //   constructor(root) {
+      //     this.root = root;
+      //   }
+
+      //   addNode(node, parent = this.root) {
+      //     parent.addChild(node);
+      //   }
+
+      //   search(validator) {
+      //     const queue = [this.root];
+      //     const result = [];
+
+      //     while (queue.length) {
+      //       let currNode = queue.shift();
+
+      //       if (validator(currNode)) {
+      //         result.push(currNode);
+      //         continue;
+      //       }
+
+      //       if (currNode.children.length) {
+      //         queue.unshift(...currNode.children);
+      //       }
+      //     }
+
+      //     return result;
+      //   }
+
+      //   get size() {
+      //     const queue = [this.root];
+      //     let size = 0;
+
+      //     while (queue.length) {
+      //       let currNode = queue.shift();
+
+      //       size++;
+
+      //       if (currNode.children.length) {
+      //         queue.push(...currNode.children);
+      //       }
+      //     }
+
+      //     return size;
+      //   }
+      // }
+      // const root = new Node("root");
+      // const node1 = new Node("node 1");
+      // const node2 = new Node("node 2");
+      // const node3 = new Node("node 3");
+      // const node4 = new Node("node 4");
+      // const node5 = new Node("node 5");
+      // const node6 = new Node("node 6");
+
+      // const tree = new Tree(root);
+      // tree.addNode(node1);
+      // tree.addNode(node2);
+      // tree.addNode(node3, node1);
+      // tree.addNode(node4, node1);
+      // tree.addNode(node5, node2);
+      // tree.addNode(node6, node5);
+      // console.log(tree.size);
+      // console.log(root.toString());
+      // console.log(
+      //   tree.search(function(node) {
+      //     return node.value == "node 4";
+      //   })
+      // );
+    </script>
+    <script>
+      // 记账记录统计
+      // let transactions = [
+      //   {
+      //     timestamp: 1519864292535,
+      //     category: "餐饮",
+      //     price: 6.0
+      //   },
+      //   {
+      //     timestamp: 1519874872261,
+      //     category: "餐饮",
+      //     price: 12.0
+      //   },
+      //   {
+      //     timestamp: 1519899849526,
+      //     category: "餐饮",
+      //     price: 52.5
+      //   },
+      //   {
+      //     timestamp: 1519953249020,
+      //     category: "餐饮",
+      //     price: 4.5
+      //   },
+      //   {
+      //     timestamp: 1519963102270,
+      //     category: "餐饮",
+      //     price: 13.5
+      //   },
+      //   {
+      //     timestamp: 1519999849526,
+      //     category: "餐饮",
+      //     price: 104.25
+      //   }
+      // ];
+      // function createTimeSeries(transactions) {
+      //   const caches = {};
+
+      //   const timeSeries = {
+      //     array: transactions.map(function(data) {
+      //       data.moment = moment(data.timestamp);
+      //       return data;
+      //     }),
+      //     groupByFormat(stamp) {
+      //       if (caches[stamp]) return caches[stamp];
+      //       const result = _.groupBy(timeSeries.array, data => {
+      //         return data.moment.format(stamp);
+      //       });
+      //       caches[stamp] = result;
+      //       return result;
+      //     },
+      //     groupByDate() {
+      //       const groupedResult = {
+      //         map: timeSeries.groupByFormat("YYYY-MM-DD"),
+      //         dates() {
+      //           return _.keys(groupedResult.map);
+      //         },
+      //         sum(date) {
+      //           return _.sumBy(groupedResult.map[date], "price");
+      //         }
+      //       };
+      //       return groupedResult;
+      //     },
+      //     groupByWeek() {
+      //       const groupedByDate = timeSeries.groupByDate();
+
+      //       const groupedResult = {
+      //         map: _.groupBy(groupedByDate.dates(), date =>
+      //           moment(date).format("YYYY-WW")
+      //         ),
+      //         weeks() {
+      //           return _.keys(groupedResult.map);
+      //         },
+      //         sum(week) {
+      //           const dates = groupedResult.map[week];
+
+      //           return _.sumBy(dates, date => {
+      //             return groupedByDate.sum(date);
+      //           });
+      //         },
+      //         avarage(week) {
+      //           const dates = groupedResult.map[week];
+      //           const sum = groupedResult.sum(week);
+
+      //           return sum / dates.length;
+      //         }
+      //       };
+      //       return groupedResult;
+      //     },
+      //     groupByMonth() {
+      //       const groupedByDate = timeSeries.groupByDate();
+
+      //       const groupedResult = {
+      //         map: _.groupBy(groupedByDate.dates(), date => {
+      //           return moment(date).format("YYYY-MM");
+      //         }),
+      //         months() {
+      //           return _.keys(groupedResult.map);
+      //         },
+      //         sum(month) {
+      //           const dates = groupedResult.map[month];
+
+      //           return _.sumBy(dates, date => {
+      //             return groupedByDate.sum(date);
+      //           });
+      //         },
+      //         // 当月平均每天花销
+      //         avarage(month) {
+      //           const dates = groupedResult.map[month];
+      //           const sum = groupedResult.sum(month);
+
+      //           return sum / dates.length;
+      //         }
+      //       };
+
+      //       return groupedResult;
+      //     },
+      //     groupByYear() {
+      //       const groupedByDate = timeSeries.groupByDate();
+
+      //       const groupedResult = {
+      //         map: _.groupBy(groupedByDate.dates(), date => {
+      //           return moment(date).format("YYYY");
+      //         }),
+      //         years() {
+      //           return _.keys(groupedResult.map);
+      //         },
+      //         sum(year) {
+      //           const dates = groupedResult.map[year];
+
+      //           return _.sumBy(dates, date => {
+      //             return groupedByDate.sum(date);
+      //           });
+      //         },
+      //         // 当月平均每天花销
+      //         avarage(year) {
+      //           const dates = groupedResult.map[year];
+      //           const sum = groupedResult.sum(year);
+
+      //           return sum / dates.length;
+      //         }
+      //       };
+      //       return groupedResult;
+      //     },
+      //     dates() {
+      //       return timeSeries.groupByDate().dates();
+      //     },
+      //     weeks() {
+      //       return timeSeries.groupByWeek().weeks();
+      //     },
+      //     months() {
+      //       return timeSeries.groupByMonth().months();
+      //     },
+      //     years() {
+      //       return timeSeries.groupByYear().years();
+      //     },
+      //     sum(unit, point) {
+      //       switch (unit) {
+      //         case "date":
+      //           return timeSeries.groupByDate().sum(point);
+      //           break;
+      //         case "week":
+      //           return timeSeries.groupByWeek().sum(point);
+      //           break;
+      //         case "month":
+      //           return timeSeries.groupByMonth().sum(point);
+      //           break;
+      //         case "year":
+      //           return timeSeries.groupByYear().sum(point);
+      //           break;
+      //       }
+      //     },
+      //     avarage(unit, point) {
+      //       switch (unit) {
+      //         case "week":
+      //           return timeSeries.groupByWeek().avarage(point);
+      //           break;
+      //         case "month":
+      //           return timeSeries.groupByMonth().avarage(point);
+      //           break;
+      //         case "year":
+      //           return timeSeries.groupByYear().avarage(point);
+      //           break;
+      //       }
+      //     }
+      //   };
+      //   return timeSeries;
+      // }
+      // const timeSeries = createTimeSeries(transactions);
+
+      // // console.log("按天分组", timeSeries.groupByDate());
+      // console.log("-----date grouped-----");
+      // const groupedByDateSeries = timeSeries.groupByDate();
+      // console.log(timeSeries.sum("date", timeSeries.dates()[0]));
+      // console.log(timeSeries.sum("date", timeSeries.dates()[1]));
+      // console.log("-----date grouped end-----");
+
+      // console.log("-----week grouped-----");
+      // const groupedByWeekSeries = timeSeries.groupByWeek();
+      // console.log(timeSeries.weeks());
+      // console.log(timeSeries.sum("week", timeSeries.weeks()[0]));
+      // console.log(timeSeries.avarage("week", timeSeries.weeks()[0]));
+      // console.log("-----week grouped end-----");
+
+      // // console.log("按周分组", timeSeries.groupByWeek());
+      // console.log("-----month grouped-----");
+      // const groupedByMonthSeris = timeSeries.groupByMonth();
+      // console.log(timeSeries.months());
+      // console.log(timeSeries.sum("month", timeSeries.months()[0]));
+      // console.log(timeSeries.avarage("month", timeSeries.months()[0]));
+      // console.log("-----month grouped end-----");
+
+      // console.log("-----year grouped-----");
+      // const groupedByYearSeris = timeSeries.groupByYear();
+      // console.log(timeSeries.years());
+      // console.log(timeSeries.sum("year", timeSeries.years()[0]));
+      // console.log(timeSeries.avarage("year", timeSeries.years()[0]));
+      // console.log("-----year grouped end-----");
+    </script>
+    <script>
+      //
+      // const status = [
+      //   1,
+      //   1,
+      //   1,
+      //   1,
+      //   1,
+      //   1,
+      //   1,
+      //   1,
+      //   6,
+      //   7,
+      //   8,
+      //   4,
+      //   3,
+      //   7,
+      //   8,
+      //   8,
+      //   6,
+      //   6,
+      //   4,
+      //   3,
+      //   3,
+      //   3,
+      //   1,
+      //   1
+      // ];
+      // let statusArr = status.map((s, i) => [s, i + 1]);
+      // let lowProduct = [];
+      // let midProduct = [];
+      // let highProduct = [];
+      // statusArr.forEach(s => {
+      //   if (s[0] <= 3) {
+      //     lowProduct.push(s);
+      //   } else if (s[0] >= 6) {
+      //     highProduct.push(s);
+      //   } else {
+      //     midProduct.push(s);
+      //   }
+      // });
+      // const getHour = p => p.map(s => s[1]).join(",");
+      // console.log(`每天在第 ${getHour(lowProduct)} 时生产力低`);
+      // console.log(`每天在第 ${getHour(midProduct)} 时生产力一般`);
+      // console.log(`每天在第 ${getHour(highProduct)} 时生产力高`);
+    </script>
+    <script>
+      //
+      // let tuples = [1, 2, 3, 2, 2, 3, 1, 4, 4, 1, 2, 1, 1, 3, 4];
+      // const map = {};
+      // tuples.forEach(val => {
+      //   if (!map[val]) map[val] = 0;
+      //   map[val]++;
+      // });
+      // const pairs = [];
+      // for (let v in map) {
+      //   pairs.push([+v, map[v]]);
+      // }
+      // pairs.sort((a, b) => b[1] - a[1]);
+      // const most = pairs[0][0];
+    </script>
+    <script>
+      // 统计词频
+      //       _.reduceByKey = function(tuples, reduceCallback) {
+      //         const grouped = _.groupBy(tuples, function(tuple) {
+      //           return tuple[0];
+      //         });
+
+      //         return _.toPairs(
+      //           _.mapValues(grouped, function(tuples) {
+      //             return _.chain(tuples)
+      //               .map(function(tuple) {
+      //                 return tuple[1];
+      //               })
+      //               .reduce(reduceCallback)
+      //               .value();
+      //           })
+      //         );
+      //       };
+
+      //       const mit = `Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+      // The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+      // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.`;
+      //       const words = mit.toLowerCase().match(/\w+/g);
+      //       const tuples = words.map(word => [word, 1]);
+      //       const wordCountResult = _.reduceByKey(tuples, (left, right) => {
+      //         return left + right;
+      //       });
+      //       const sorted = wordCountResult.sort(function(leftTuple, rightTuple) {
+      //         return rightTuple[1] - leftTuple[1];
+      //       });
+
+      //       console.log(sorted);
+      //       const top5 = _.take(sorted, 5).map(function(tuple) {
+      //         return tuple[0];
+      //       });
+
+      //       console.log(top5);
+      //       const minimal5 = _.takeRight(sorted, 5).map(function(tuple) {
+      //         return tuple[0];
+      //       });
+
+      //       console.log(minimal5);
+    </script>
+    <script>
+      // 以base为底计算对数
+      // function getBaseLog(base, n) {
+      //   return ~~(Math.log(n) / Math.log(base));
+      // }
+      // console.log(getBaseLog(2, 1024));
+      // console.log(getBaseLog(3, 9));
+      // console.log(getBaseLog(10, 10000));
+
+      // let str = "Hello World";
+      // let result = "";
+      // for (let i = 0, len = str.length; i < len; i++) {
+      //   let curr = str[i];
+      //   let code = curr.charCodeAt();
+      //   if (code >= 97 && code <= 122) {
+      //     result += String.fromCharCode(code - 32);
+      //   } else {
+      //     result += curr;
+      //   }
+      // }
+      // console.log(result);
+    </script>
+    <script>
+      // const graph = {
+      //   "./src/index.js": {
+      //     dependencies: { "./message.js": "./src/message.js" },
+      //     code:
+      //       '"use strict";\n\nvar _message = _interopRequireDefault(require("./message.js"));\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }\n\nconsole.log(_message["default"]);'
+      //   },
+      //   "./src/message.js": {
+      //     dependencies: { "./word.js": "./src/word.js" },
+      //     code:
+      //       '"use strict";\n\nObject.defineProperty(exports, "__esModule", {\n  value: true\n});\nexports["default"] = void 0;\n\nvar _word = require("./word.js");\n\nvar message = "say ".concat(_word.word);\nvar _default = message;\nexports["default"] = _default;'
+      //   },
+      //   "./src/word.js": {
+      //     dependencies: {},
+      //     code:
+      //       '"use strict";\n\nObject.defineProperty(exports, "__esModule", {\n  value: true\n});\nexports.word = void 0;\nvar word = "word";\nexports.word = word;'
+      //   }
+      // };
+      // (function(graph) {
+      //   function require(module) {
+      //     function localRequire(relativePath) {
+      //       return require(graph[module].dependencies[relativePath]);
+      //     }
+      //     var exports = {};
+      //     (function(require, exports, code) {
+      //       eval(code);
+      //     })(localRequire, exports, graph[module].code);
+      //     return exports;
+      //   }
+      //   require("./src/index.js");
+      // })(graph);
     </script>
   </body>
 </html>

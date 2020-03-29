@@ -1,0 +1,25 @@
+{
+  "name": "vue-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --experimental-scope-hoisting"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@vue/component-compiler-utils": "^3.1.1",
+    "parcel": "^1.12.4",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "dependencies": {
+    "iview": "^3.5.4",
+    "view-design": "^4.1.3",
+    "vue": "^2.6.11",
+    "vue-hot-reload-api": "^2.3.4",
+    "vue-router": "^3.1.6"
+  }
+}

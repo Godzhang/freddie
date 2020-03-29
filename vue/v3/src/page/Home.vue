@@ -15,14 +15,17 @@ export default {
   },
   mounted() {},
   watch: {
-    flag:'showFlag'
+    flag: "showFlag",
+    $route() {
+      console.log("route change");
+    }
   },
   methods: {
-    change(){
-      this.flag = !this.flag
+    change() {
+      this.flag = !this.flag;
     },
-    showFlag(v){
-      console.log(v)
+    showFlag(v) {
+      console.log(v);
     }
   },
   components: {}
