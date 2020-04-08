@@ -43,48 +43,47 @@
     </script>
     <script>
       //
-      function aPromise(excutor) {
-        this.onResolvedCallback = []
+      // function aPromise(excutor) {
+      //   this.onResolvedCallback = []
 
-        const resolve = value => {
-          setTimeout(() => {
-            this.data = value
-            this.onResolvedCallback.forEach(cb => cb(value))
-          })
-        }
+      //   const resolve = value => {
+      //     setTimeout(() => {
+      //       this.data = value
+      //       this.onResolvedCallback.forEach(cb => cb(value))
+      //     })
+      //   }
         
-        excutor(resolve.bind(this))
-      }
-      aPromise.prototype.then = function(onResolvedFn) {
-        return new aPromise(resolve => {
-          this.onResolvedCallback.push(() => {
-            let result = onResolvedFn(this.data)
-            if (result instanceof aPromise) {
-              result.then(resolve)
-            } else {
-              resolve(result)
-            }
-          })
-        })
-      }
+      //   excutor(resolve.bind(this))
+      // }
+      // aPromise.prototype.then = function(onResolvedFn) {
+      //   return new aPromise(resolve => {
+      //     this.onResolvedCallback.push(() => {
+      //       let result = onResolvedFn(this.data)
+      //       if (result instanceof aPromise) {
+      //         result.then(resolve)
+      //       } else {
+      //         resolve(result)
+      //       }
+      //     })
+      //   })
+      // }
 
-      function fn() {
-        return new aPromise(resolve =>{
-          setTimeout(() => {
-            resolve(1)
-          }, 500)
-        })
-      }
-      fn().then(n => {
-        console.log(n)
-        return new aPromise(resolve => {
-          setTimeout(() =>{
-            resolve(n+1)
-          }, 500)
-        })
-      }).then(n => {
-        console.log(n)
-      })
+      // const promise1 = new aPromise(resolve =>{
+      //   setTimeout(() => {
+      //     resolve(1)
+      //   }, 500)
+      // })
+      
+      // promise1.then(n => {
+      //   console.log(n)
+      //   return new aPromise(resolve => {
+      //     setTimeout(() =>{
+      //       resolve(n+1)
+      //     }, 500)
+      //   })
+      // }).then(n => {
+      //   console.log(n)
+      // })
     </script>
     <script>
       // 关系图谱
