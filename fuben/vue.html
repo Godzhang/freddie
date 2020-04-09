@@ -4,28 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="./js/vue.js"></script>
     <title>Vue</title>
   </head>
   <body>
-    <!-- <div id="app">{{msg}}</div> -->
-    <div id="app"></div>
+    <div id="app">
+      <div>
+        <input type="text" v-model.trim="title">
+        <button @click="add">submit</button>
+      </div>
+      <ul>
+        <li v-for="(item, index) in list" :key="index">{{ item }}</li>
+      </ul>
+    </div>
 
-    <script src="./js/vue.js"></script>
+    
     <script>
-      console.dir(Vue);
       let vm = new Vue({
         el: "#app",
-        render(createElement) {
-          return createElement(
-            "div",
-            {
-              attrs: { id: "app" }
-            },
-            this.msg
-          );
-        },
         data: {
-          msg: "zhangqi"
+          title: '',
+          list:[]
+        },
+        methods:{
+          add() {
+            if (!this.title) return
+            this.list.push(this.title)
+            this.title = ''
+          }
         }
       });
       console.log(vm);

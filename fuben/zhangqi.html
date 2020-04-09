@@ -3,13 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./js/jquery.js"></script>
     <script src="./js/lodash.js"></script>
     <script src="./js/moment.js"></script>
     <title>zhangqi</title>
   </head>
   <body>
+    <div>
+      <input type="text" id="txt-title">
+      <button id="btn-submit">submit</button>
+    </div>
+    <div>
+      <ul id="ul-list"></ul>
+    </div>
     <script>
       //
+      let $txtTitle = $('#txt-title')
+      let $ulList = $("#ul-list")
+      let $btnSubmit = $("#btn-submit")
+      $btnSubmit.click(function(){
+        let title = $txtTitle.val().trim()
+        if (!title) return
+        let $li = $("<li>"+ title +"</li>")
+        $ulList.append($li)
+        $txtTitle.val('')
+      })
     </script>
     <script>
       //
