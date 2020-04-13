@@ -9,25 +9,46 @@
     <title>zhangqi</title>
   </head>
   <body>
-    <div>
-      <input type="text" id="txt-title">
-      <button id="btn-submit">submit</button>
-    </div>
-    <div>
-      <ul id="ul-list"></ul>
-    </div>
+    <div id="app"></div>
     <script>
       //
-      let $txtTitle = $('#txt-title')
-      let $ulList = $("#ul-list")
-      let $btnSubmit = $("#btn-submit")
-      $btnSubmit.click(function(){
-        let title = $txtTitle.val().trim()
-        if (!title) return
-        let $li = $("<li>"+ title +"</li>")
-        $ulList.append($li)
-        $txtTitle.val('')
-      })
+      class Observer{
+        constructor() {
+          this.subNode = []
+        }
+        addSubNode(node) {
+          this.subNode.push(node)
+        }
+        update(newVal) {
+          this.subNode.forEach(node => {
+            node.innerHTML = newVal
+          })
+        }
+      }
+
+      class Vue {
+        constructor(opt) {
+          this.opt = opt
+          this.observe(opt.data)
+        }
+
+        observe(data) {
+          Object.keys(data).forEach(key => {
+            let obv = new Observer()
+            data[`_${key}`] = data[key]
+            Object.defineProperty(data, key, {
+              get() {
+                Observer.target && obv.addSubNode(Observer.target)
+                return data[`_${key}`]
+              },
+              set(newVal) {
+                obv.update(newVal)
+                data[`_${key}`] = newVal
+              }
+            })
+          })
+        }
+      }
     </script>
     <script>
       //
