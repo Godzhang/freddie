@@ -14,73 +14,204 @@
       <span>{{age}}</span>
     </div>
     <script>
-      //
-      class Observer {
-        constructor() {
-          this.subNode = [];
-        }
-        addSubNode(node) {
-          this.subNode.push(node);
-        }
-        update(newVal) {
-          this.subNode.forEach((node) => {
-            node.innerHTML = newVal;
-          });
-        }
-      }
+      // https://juejin.im/post/5db6433b51882564912fc30f
+      // function isObject(obj) {
+      //   return Object.prototype.toString.call(obj) === "[object Object]";
+      // }
 
-      class Vue {
-        constructor(opt) {
-          this.opt = opt;
-          this.observe(opt.data);
-          let root = document.querySelector(opt.el);
-          this.compile(root);
-        }
-        // 为响应式对象 data 里的每一个 key 绑定一个观察者对象
-        observe(data) {
-          Object.keys(data).forEach((key) => {
-            let obv = new Observer();
-            data[`_${key}`] = data[key];
-            Object.defineProperty(data, key, {
-              get() {
-                Observer.target && obv.addSubNode(Observer.target);
-                return data[`_${key}`];
-              },
-              set(newVal) {
-                obv.update(newVal);
-                data[`_${key}`] = newVal;
-              },
-            });
-          });
-        }
-        // 初始化页面，遍历 DOM，收集每一个key变化时，随之调整的位置，以观察者方法存放起来
-        compile(node) {
-          [].forEach.call(node.childNodes, (child) => {
-            if (
-              !child.firstElementChild &&
-              /\{\{(.*)\}\}/.test(child.innerHTML)
-            ) {
-              let key = RegExp.$1.trim();
-              child.innerHTML = child.innerHTML.replace(
-                new RegExp("\\{\\{\\s*" + key + "\\s*\\}\\}", "gm"),
-                this.opt.data[key]
-              );
-              Observer.target = child;
-              this.opt.data[key];
-              Observer.target = null;
-            } else if (child.firstElementChild) {
-              this.compile(child);
-            }
-          });
-        }
-      }
-      new Vue({
-        el: "#app",
-        data: {
-          name: "zhangqi",
-          age: 24,
-        },
-      });
+      // class Dep {
+      //   constructor() {
+      //     this.deps = new Set();
+      //   }
+
+      //   depend() {
+      //     if (Dep.target) {
+      //       this.deps.add(Dep.target);
+      //     }
+      //   }
+
+      //   notify() {
+      //     this.deps.forEach((watcher) => watcher.update());
+      //   }
+      // }
+      // Dep.target = null; // 一定是一个Watcher实例
+
+      // const targetStack = [];
+
+      // function pushTarget(_target) {
+      //   if (Dep.target) targetStack.push(Dep.target);
+      //   Dep.target = _target;
+      // }
+      // function popTarget() {
+      //   Dep.target = targetStack.pop();
+      // }
+
+      // class Watcher {
+      //   constructor(getter, options = {}) {
+      //     const {computed, watch, callback} = options
+      //     this.getter = getter;
+      //     this.computed = computed
+      //     this.watch = watch
+      //     this.callback = callback
+      //     this.value = undefined
+
+      //     if (computed) {
+      //       this.dep = new Dep()
+      //     } else {
+      //       this.get();
+      //     }
+      //   }
+      //   get() {
+      //     pushTarget(this);
+      //     this.value = this.getter();
+      //     popTarget();
+      //     return this.value;
+      //   }
+      //   // 仅为computed使用
+      //   depend() {
+      //     this.dep.depend()
+      //   }
+      //   update() {
+      //     if(this.computed) {
+      //       this.get();
+      //       this.dep.notify()
+      //     } else if (this.watch) {
+      //       const oldValue = this.value
+      //       this.get()
+      //       this.callback(this.value, oldValue)
+      //     } else {
+      //       this.get();
+      //     }
+      //   }
+      // }
+
+      // function reactive(data) {
+      //   if (isObject(data)) {
+      //     Object.keys(data).forEach((key) => {
+      //       defineReactive(data, key);
+      //     });
+      //   }
+      //   return data;
+      // }
+      // function defineReactive(data, key) {
+      //   let val = data[key];
+      //   const dep = new Dep();
+
+      //   Object.defineProperty(data, key, {
+      //     get() {
+      //       dep.depend();
+      //       return val;
+      //     },
+      //     set(newVal) {
+      //       val = newVal;
+      //       dep.notify();
+      //     },
+      //   });
+
+      //   if (isObject(val)) {
+      //     reactive(val);
+      //   }
+      // }
+      // function computed(getter) {
+      //   let def = {}
+      //   const computedWatcher = new Watcher(getter, {computed: true})
+      //   Object.defineProperty(def, 'value', {
+      //     get() {
+      //       // 先让computedWatcher收集渲染watcher作为自己的依赖。
+      //       computedWatcher.depend()
+      //       // 在这次执行用户传入的函数中，又会让响应式的值收集到`computedWatcher`
+      //       return computedWatcher.get()
+      //     }
+      //   })
+      //   return def 
+      // }
+      // function watch(getter, callback) {
+      //   new Watcher(getter, { watch: true, callback })
+      // }
+
+      // const data = reactive({ msg: "hello world", number: 1 });
+      // const numberPlusOne = computed(() => data.number + 1)
+      // watch(() => data.msg, (newVal, oldVal) => {
+      //   console.log('newVal: ', newVal)
+      //   console.log('old: ', oldVal)
+      // })
+      // new Watcher(() => {
+      //   // document.getElementById("app").innerHTML = `msg is ${data.msg}`;
+      //   document.getElementById("app").innerHTML = `computed: 1 + number 是 ${numberPlusOne.value}`
+      // });
+      // setTimeout(() => {
+      //   data.msg = 'zhangqi'
+      //   data.number = 2
+      // }, 2000)  
+    </script>
+    <script>
+      //
+      // class Observer {
+      //   constructor() {
+      //     this.subNode = [];
+      //   }
+      //   addSubNode(node) {
+      //     this.subNode.push(node);
+      //   }
+      //   update(newVal) {
+      //     this.subNode.forEach((node) => {
+      //       node.innerHTML = newVal;
+      //     });
+      //   }
+      // }
+
+      // class Vue {
+      //   constructor(opt) {
+      //     this.opt = opt;
+      //     this.observe(opt.data);
+      //     let root = document.querySelector(opt.el);
+      //     this.compile(root);
+      //   }
+      //   // 为响应式对象 data 里的每一个 key 绑定一个观察者对象
+      //   observe(data) {
+      //     Object.keys(data).forEach((key) => {
+      //       let obv = new Observer();
+      //       data[`_${key}`] = data[key];
+      //       Object.defineProperty(data, key, {
+      //         get() {
+      //           Observer.target && obv.addSubNode(Observer.target);
+      //           return data[`_${key}`];
+      //         },
+      //         set(newVal) {
+      //           obv.update(newVal);
+      //           data[`_${key}`] = newVal;
+      //         },
+      //       });
+      //     });
+      //   }
+      //   // 初始化页面，遍历 DOM，收集每一个key变化时，随之调整的位置，以观察者方法存放起来
+      //   compile(node) {
+      //     [].forEach.call(node.childNodes, (child) => {
+      //       if (
+      //         !child.firstElementChild &&
+      //         /\{\{(.*)\}\}/.test(child.innerHTML)
+      //       ) {
+      //         let key = RegExp.$1.trim();
+      //         child.innerHTML = child.innerHTML.replace(
+      //           new RegExp("\\{\\{\\s*" + key + "\\s*\\}\\}", "gm"),
+      //           this.opt.data[key]
+      //         );
+      //         Observer.target = child;
+      //         this.opt.data[key];
+      //         Observer.target = null;
+      //       } else if (child.firstElementChild) {
+      //         this.compile(child);
+      //       }
+      //     });
+      //   }
+      // }
+      // new Vue({
+      //   el: "#app",
+      //   data: {
+      //     name: "zhangqi",
+      //     age: 24,
+      //   },
+      // });
     </script>
     <script>
       //
