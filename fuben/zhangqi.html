@@ -15,6 +15,175 @@
     </div>
     <script>
       //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      // https://github.com/xieranmaya/blog/issues/3
+      function resolvePromise(promise2, x, resolve, reject) {
+        let then;
+        let thenCalledOrThrow = false;
+
+        if (promise2 === x) {
+          return reject(new TypeError("Chaining cycle detected for promise!"));
+        }
+
+        if (x instanceof pPromise) {
+          if (x.status === "pending") {
+            x.then(
+              (value) => resolvePromise(promise2, value, resolve, reject),
+              reject
+            );
+          } else {
+            x.then(resolve, reject);
+          }
+          return;
+        }
+      }
+
+      class pPromise {
+        constructor(executor) {
+          this.status = "pending";
+          this.data = undefined;
+          this.onResolvedCallbacks = [];
+          this.onRejectedCallbacks = [];
+
+          const resolve = (value) => {
+            if (this.status !== "pending") return;
+            this.status = "resolved";
+            this.data = value;
+            this.onResolvedCallbacks.forEach((cb) => cb(value));
+          };
+
+          const reject = (reason) => {
+            if (this.status !== "pending") return;
+            this.status = "rejected";
+            this.data = reason;
+            this.onRejectedCallbacks.forEach((cb) => cb(reason));
+          };
+
+          try {
+            executor(resolve, reject);
+          } catch (e) {
+            reject(e);
+          }
+        }
+
+        then(onResolved, onRejected) {
+          let promise2;
+
+          onResolved = typeof onResolved === "function" ? onResolved : (v) => v;
+          onRejected =
+            typeof onRejected === "function"
+              ? onRejected
+              : (r) => {
+                  throw r;
+                };
+
+          if (this.status === "resolved") {
+            return (promise2 = new pPromise((resolve, reject) => {
+              try {
+                let x = onResolved(this.data);
+                if (x instanceof pPromise) {
+                  x.then(resolve, reject);
+                } else {
+                  resolve(x);
+                }
+              } catch (e) {
+                reject(e);
+              }
+            }));
+          }
+
+          if (this.status === "rejected") {
+            return (promise2 = new pPromise((resolve, reject) => {
+              try {
+                let x = onRejected(this.data);
+                if (x instanceof pPromise) {
+                  x.then(resolve, reject);
+                }
+              } catch (e) {
+                reject(e);
+              }
+            }));
+          }
+
+          if (this.status === "pending") {
+            return (promise2 = new pPromise((resolve, reject) => {
+              this.onResolvedCallbacks.push((value) => {
+                try {
+                  let x = onResolved(this.data);
+                  if (x instanceof pPromise) {
+                    x.then(resolve, reject);
+                  } else {
+                    resolve(x);
+                  }
+                } catch (e) {
+                  reject(e);
+                }
+              });
+              this.onRejectedCallbacks.push((reason) => {
+                try {
+                  let x = onRejected(this.data);
+                  if (x instanceof pPromise) {
+                    x.then(resolve, reject);
+                  }
+                } catch (e) {
+                  reject(e);
+                }
+              });
+            }));
+          }
+        }
+
+        catch(onRejected) {
+          return this.then(null, onRejected);
+        }
+      }
+
+      // new pPromise((resolve) => resolve(8))
+      //   .then()
+      //   .catch()
+      //   .then((val) => console.log(val));
+
+      // new Promise((resolve) => {
+      //   setTimeout(() => {
+      //     resolve(8);
+      //   }, 2000);
+      // })
+      //   .then((n) => {
+      //     return new pPromise((resolve) => {
+      //       setTimeout(() => {
+      //         resolve(n * n);
+      //       }, 2000);
+      //     });
+      //   })
+      //   .then((res) => console.log(res));
+    </script>
+    <script>
+      //
       // let channel = new MessageChannel();
       // let { port1, port2 } = channel;
       // port1.onmessage = function (event) {
@@ -252,36 +421,6 @@
       //     age: 24,
       //   },
       // });
-    </script>
-    <script>
-      //
-    </script>
-    <script>
-      //
-    </script>
-    <script>
-      //
-    </script>
-    <script>
-      //
-    </script>
-    <script>
-      //
-    </script>
-    <script>
-      //
-    </script>
-    <script>
-      //
-    </script>
-    <script>
-      //
-    </script>
-    <script>
-      //
-    </script>
-    <script>
-      //
     </script>
     <script>
       //
