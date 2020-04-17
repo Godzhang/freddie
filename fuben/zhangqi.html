@@ -36,132 +36,213 @@
     </script>
     <script>
       //
+      // function shuffle(a) {
+      //   let j, x, i;
+      //   for (i = a.length; i; i--) {
+      //     j = Math.floor(Math.random() * i);
+      //     x = a[i - 1];
+      //     a[i - 1] = a[j];
+      //     a[j] = x;
+      //   }
+      //   return a;
+      // }
     </script>
     <script>
-      //
+      // async await
+      // const getData = () =>
+      //   new Promise((resolve) => setTimeout(() => resolve("data"), 1000));
+
+      // function asyncToGenerator(generateFunc) {
+      //   return function () {
+      //     const gen = generateFunc.apply(this, arguments);
+      //     return new Promise((resolve, reject) => {
+      //       function step(key, arg) {
+      //         let generateResult;
+      //         try {
+      //           generateResult = gen[key](arg);
+      //         } catch (error) {
+      //           return reject(error);
+      //         }
+      //         const { value, done } = generateResult;
+      //         if (done) {
+      //           return resolve(value);
+      //         } else {
+      //           return Promise.resolve(value).then(
+      //             (val) => step("next", val),
+      //             (err) => step("throw", err)
+      //           );
+      //         }
+      //       }
+      //       step("next");
+      //     });
+      //   };
+      // }
+
+      // let test = asyncToGenerator(function* testG() {
+      //   const data = yield getData();
+      //   console.log("data: ", data);
+      //   const data2 = yield getData();
+      //   console.log("data2: ", data2);
+      //   return "success";
+      // });
+      // test().then((res) => console.log(res));
     </script>
     <script>
       // https://github.com/xieranmaya/blog/issues/3
-      function resolvePromise(promise2, x, resolve, reject) {
-        let then;
-        let thenCalledOrThrow = false;
+      // function resolvePromise(promise2, x, resolve, reject) {
+      //   let then;
+      //   let thenCalledOrThrow = false;
 
-        if (promise2 === x) {
-          return reject(new TypeError("Chaining cycle detected for promise!"));
-        }
+      //   if (promise2 === x) {
+      //     // 标准2.3.1
+      //     return reject(new TypeError("Chaining cycle detected for promise!"));
+      //   }
 
-        if (x instanceof pPromise) {
-          if (x.status === "pending") {
-            x.then(
-              (value) => resolvePromise(promise2, value, resolve, reject),
-              reject
-            );
-          } else {
-            x.then(resolve, reject);
-          }
-          return;
-        }
-      }
+      //   if (x instanceof pPromise) {
+      //     // 标准2.3.2
+      //     if (x.status === "pending") {
+      //       x.then(
+      //         (value) => resolvePromise(promise2, value, resolve, reject),
+      //         reject
+      //       );
+      //     } else {
+      //       x.then(resolve, reject);
+      //     }
+      //     return;
+      //   }
 
-      class pPromise {
-        constructor(executor) {
-          this.status = "pending";
-          this.data = undefined;
-          this.onResolvedCallbacks = [];
-          this.onRejectedCallbacks = [];
+      //   if (x != null && (typeof x === "object" || typeof x === "function")) {
+      //     // 标准2.3.3
+      //     try {
+      //       // 2.3.3.1 因为x.then有可能是一个getter，这种情况下多次读取就有可能产生副作用
+      //       // 即要判断它的类型，又要调用它，这就是两次读取
+      //       then = x.then;
+      //       if (typeof then === "function") {
+      //         // 2.3.3.3
+      //         then.call(
+      //           x,
+      //           (y) => {
+      //             // 2.3.3.3.1
+      //             if (thenCalledOrThrow) return; // 2.3.3.3.3 即这三处谁选执行就以谁的结果为准
+      //             thenCalledOrThrow = true;
+      //             return resolvePromise(promise2, y, resolve, reject);
+      //           },
+      //           (r) => {
+      //             // 2.3.3.3.2
+      //             if (thenCalledOrThrow) return; // 2.3.3.3.3 即这三处谁选执行就以谁的结果为准
+      //             thenCalledOrThrow = true;
+      //             return reject(r);
+      //           }
+      //         );
+      //       } else {
+      //         // 2.3.3.4
+      //         resolve(x);
+      //       }
+      //     } catch (e) {
+      //       if (thenCalledOrThrow) return; // 2.3.3.3.3 即这三处谁选执行就以谁的结果为准
+      //       thenCalledOrThrow = true;
+      //       return reject(e);
+      //     }
+      //   } else {
+      //     // 2.3.4
+      //     resolve(x);
+      //   }
+      // }
 
-          const resolve = (value) => {
-            if (this.status !== "pending") return;
-            this.status = "resolved";
-            this.data = value;
-            this.onResolvedCallbacks.forEach((cb) => cb(value));
-          };
+      // class pPromise {
+      //   constructor(executor) {
+      //     this.status = "pending";
+      //     this.data = undefined;
+      //     this.onResolvedCallbacks = [];
+      //     this.onRejectedCallbacks = [];
 
-          const reject = (reason) => {
-            if (this.status !== "pending") return;
-            this.status = "rejected";
-            this.data = reason;
-            this.onRejectedCallbacks.forEach((cb) => cb(reason));
-          };
+      //     const resolve = (value) => {
+      //       if (value instanceof pPromise) {
+      //         return value.then(resolve, reject)
+      //       }
+      //       setTimeout(() => {
+      //         if (this.status !== "pending") return;
+      //         this.status = "resolved";
+      //         this.data = value;
+      //         this.onResolvedCallbacks.forEach((cb) => cb(value));
+      //       })
+      //     };
 
-          try {
-            executor(resolve, reject);
-          } catch (e) {
-            reject(e);
-          }
-        }
+      //     const reject = (reason) => {
+      //       setTimeout(() => {
+      //         if (this.status !== "pending") return;
+      //         this.status = "rejected";
+      //         this.data = reason;
+      //         this.onRejectedCallbacks.forEach((cb) => cb(reason));
+      //       })
+      //     };
 
-        then(onResolved, onRejected) {
-          let promise2;
+      //     try {
+      //       executor(resolve, reject);
+      //     } catch (e) {
+      //       reject(e);
+      //     }
+      //   }
 
-          onResolved = typeof onResolved === "function" ? onResolved : (v) => v;
-          onRejected =
-            typeof onRejected === "function"
-              ? onRejected
-              : (r) => {
-                  throw r;
-                };
+      //   then(onResolved, onRejected) {
+      //     let promise2;
 
-          if (this.status === "resolved") {
-            return (promise2 = new pPromise((resolve, reject) => {
-              try {
-                let x = onResolved(this.data);
-                if (x instanceof pPromise) {
-                  x.then(resolve, reject);
-                } else {
-                  resolve(x);
-                }
-              } catch (e) {
-                reject(e);
-              }
-            }));
-          }
+      //     onResolved = typeof onResolved === "function" ? onResolved : (v) => v;
+      //     onRejected =
+      //       typeof onRejected === "function"
+      //         ? onRejected
+      //         : (r) => {
+      //             throw r;
+      //           };
 
-          if (this.status === "rejected") {
-            return (promise2 = new pPromise((resolve, reject) => {
-              try {
-                let x = onRejected(this.data);
-                if (x instanceof pPromise) {
-                  x.then(resolve, reject);
-                }
-              } catch (e) {
-                reject(e);
-              }
-            }));
-          }
+      //     if (this.status === "resolved") {
+      //       return (promise2 = new pPromise((resolve, reject) => {
+      //         try {
+      //           let x = onResolved(this.data);
+      //           resolvePromise(promise2, x, resolve, reject);
+      //         } catch (e) {
+      //           reject(e);
+      //         }
+      //       }));
+      //     }
 
-          if (this.status === "pending") {
-            return (promise2 = new pPromise((resolve, reject) => {
-              this.onResolvedCallbacks.push((value) => {
-                try {
-                  let x = onResolved(this.data);
-                  if (x instanceof pPromise) {
-                    x.then(resolve, reject);
-                  } else {
-                    resolve(x);
-                  }
-                } catch (e) {
-                  reject(e);
-                }
-              });
-              this.onRejectedCallbacks.push((reason) => {
-                try {
-                  let x = onRejected(this.data);
-                  if (x instanceof pPromise) {
-                    x.then(resolve, reject);
-                  }
-                } catch (e) {
-                  reject(e);
-                }
-              });
-            }));
-          }
-        }
+      //     if (this.status === "rejected") {
+      //       return (promise2 = new pPromise((resolve, reject) => {
+      //         try {
+      //           let x = onRejected(this.data);
+      //           resolvePromise(promise2, x, resolve, reject);
+      //         } catch (e) {
+      //           reject(e);
+      //         }
+      //       }));
+      //     }
 
-        catch(onRejected) {
-          return this.then(null, onRejected);
-        }
-      }
+      //     if (this.status === "pending") {
+      //       return (promise2 = new pPromise((resolve, reject) => {
+      //         this.onResolvedCallbacks.push((value) => {
+      //           try {
+      //             let x = onResolved(this.data);
+      //             resolvePromise(promise2, x, resolve, reject);
+      //           } catch (e) {
+      //             reject(e);
+      //           }
+      //         });
+      //         this.onRejectedCallbacks.push((reason) => {
+      //           try {
+      //             let x = onRejected(this.data);
+      //             resolvePromise(promise2, x, resolve, reject);
+      //           } catch (e) {
+      //             reject(e);
+      //           }
+      //         });
+      //       }));
+      //     }
+      //   }
+
+      //   catch(onRejected) {
+      //     return this.then(null, onRejected);
+      //   }
+      // }
 
       // new pPromise((resolve) => resolve(8))
       //   .then()
