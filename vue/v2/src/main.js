@@ -1,21 +1,25 @@
-import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
+import MessageBox from "@/components/messageBox/index.js";
+import toast from "@/components/toast/index.js";
 import ElementUI from "element-ui";
-import Vuex from "vuex";
-
-import "./assets/styles/reset.css";
-import "./scss/index.scss";
 import "element-ui/lib/theme-chalk/index.css";
-import VueHighlightJS from "vue-highlightjs";
 import "highlight.js/styles/github.css";
+import "swiper/dist/css/swiper.css";
+import Vue from "vue";
+import VueAwesomeSwiper from "vue-awesome-swiper";
+import VueHighlightJS from "vue-highlightjs";
+import Vuex from "vuex";
+import App from "./App.vue";
+import "./assets/styles/reset.css";
+import router from "./router";
+import "./scss/index.scss";
 // import store from "./store/index.js";
 // import Vuex from "./common/min-vuex";
 // import Vuex from "./code-realize/store-1/store.js";
 import Code from "./utils/test";
 import VuexPlugin from "./utils/vuex-plugin";
-import VueAwesomeSwiper from "vue-awesome-swiper";
-import "swiper/dist/css/swiper.css";
+
+Vue.use(toast);
+Vue.use(MessageBox);
 
 Vue.use(VueAwesomeSwiper);
 Vue.use(Vuex);

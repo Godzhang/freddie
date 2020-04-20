@@ -1,31 +1,31 @@
 <template>
-  <div class="wrap">
-    <div :class="['sidebar-container', {hide: isHide}]">
-      <div class="sidebar">
-        <ul>
-          <li>111111111111111111111</li>
-          <li>2</li>
-          <li>3</li>
-          <li>4</li>
-          <li>5</li>
-        </ul>
-      </div>
-      <div class="arrow" @click="toggleSide()"></div>
-    </div>
-    <div class="content"></div>
+  <div id="wrap">
+    <button @click="onClick">click</button>
   </div>
 </template>
 <script>
+// import Vue from "vue";
+// import SeamLessScroll from "../components/seam-less-scroll.vue";
+
 export default {
   data() {
-    return {
-      isHide: false
-    };
+    return {};
   },
   mounted() {},
   methods: {
-    toggleSide() {
-      this.isHide = !this.isHide;
+    onClick() {
+      // this.$toast.show("abc", 2000);
+      this.$msgBox
+        .showMsgBox({
+          title: "提示",
+          content: "确定要删除吗？"
+        })
+        .then(async val => {
+          console.log("确认");
+        })
+        .catch(err => {
+          console.log("取消");
+        });
     }
   },
   components: {}
