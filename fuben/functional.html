@@ -17,6 +17,15 @@
     </script>
     <script>
       //
+      function negate(func) {
+        return function () {
+          return !func.apply(null, arguments);
+        };
+      }
+      const isNull = (val) => val === null;
+      const isNotNull = negate(isNull);
+      console.log(isNotNull(1));
+      console.log(isNotNull(null));
     </script>
     <script>
       //
