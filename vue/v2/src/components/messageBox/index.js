@@ -25,7 +25,8 @@ MessageBox.install = function(Vue, options) {
         .showMsgBox()
         .then(val => {
           currentMsg = null;
-          return Promise.resolve(val);
+          // return Promise.resolve(val);
+          return val;
         })
         .catch(err => {
           currentMsg = null;
