@@ -3,6 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./js/lodash.js"></script>
+    <script src="./js/functional.js"></script>
+    <script>
+      const createPerson = function (
+        firstname,
+        lastname,
+        ssn,
+        address,
+        birthYear
+      ) {
+        let p = new Person(firstname, lastname, ssn);
+        p.address = new Address(address);
+        p.birthYear = birthYear;
+        return p;
+      };
+      const p1 = createPerson("Haskell", "Curry", "111-11-1111", "US", 1900);
+      const p2 = createPerson(
+        "Barkley",
+        "Rosser",
+        "222-22-2222",
+        "Greece",
+        1907
+      );
+      const p3 = createPerson(
+        "John",
+        "von Neumann",
+        "333-33-3333",
+        "Hungary",
+        1903
+      );
+      const p4 = createPerson("Alonzo", "Church", "444-44-4444", "US", 1903);
+      const p5 = createPerson(
+        "David",
+        "Hilbert",
+        "555-55-5555",
+        "Germany",
+        1903
+      );
+      const p6 = createPerson("Alan", "Turing", "666-66-6666", "England", 1912);
+      const p7 = createPerson("Stephen", "Kleene", "777-77-7777", "US", 1909);
+      const persons = [p1, p2, p3, p4, p5, p6, p7];
+    </script>
     <title>functional</title>
   </head>
   <body>
@@ -17,15 +59,122 @@
     </script>
     <script>
       //
-      function negate(func) {
-        return function () {
-          return !func.apply(null, arguments);
-        };
-      }
-      const isNull = (val) => val === null;
-      const isNotNull = negate(isNull);
-      console.log(isNotNull(1));
-      console.log(isNotNull(null));
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+      // function sum(arr) {
+      //   if (_.isEmpty(arr)) {
+      //     return 0;
+      //   }
+      //   return _.first(arr) + sum(_.tail(arr));
+      // }
+      // function sum(arr, acc = 0) {
+      //   if (_.isEmpty(arr)) {
+      //     return acc;
+      //   }
+      //   return sum(_.tail(arr), acc + _.first(arr));
+      // }
+      // console.log(sum([]));
+      // console.log(sum([1, 2, 3, 4]));
+    </script>
+    <script>
+      //
+      // const pluck = function (obj, key) {
+      //   return _.map(obj, _.property(key));
+      // };
+      // _.mixin({
+      //   select: pluck,
+      //   from: _.chain,
+      //   where: _.filter,
+      //   groupBy: _.sortBy,
+      // });
+      // let r = _.from(persons)
+      //   .where((p) => p.birthYear > 1900 && p.address.country !== "US")
+      //   .groupBy(["firstname", "birthYear"])
+      //   .select("firstname", "birthYear")
+      //   .value();
+      // console.log(r);
+    </script>
+    <script>
+      //
+      // const getCountry = (person) => person.address.country;
+      // const gatherStats = function (stat, country) {
+      //   if (!isValid(stat[country])) {
+      //     stat[country] = { name: country, count: 0 };
+      //   }
+      //   stat[country].count++;
+      //   return stat;
+      // };
+      // const result = _(persons).map(getCountry).reduce(gatherStats, {});
+      // console.log(result);
+
+      // const res = _.chain(persons)
+      //   .filter(isValid)
+      //   .map(_.property("address.country"))
+      //   .reduce(gatherStats, {})
+      //   .values()
+      //   .sortBy("count")
+      //   .reverse()
+      //   .first()
+      //   .value().name;
+      // console.log(res);
+    </script>
+    <script>
+      //
+      // const names = [
+      //   "alonzo church",
+      //   "Haskell curry",
+      //   "stephen_kleene",
+      //   "Joho Von Neumann",
+      //   "stephen_kleene",
+      // ];
+
+      // const isValid = (val) => !_.isUndefined(val) && !_.isNull(val);
+
+      // let result = _.chain(names)
+      //   .filter(isValid)
+      //   .map((s) => s.replace(/_/, " "))
+      //   .uniq()
+      //   .map(_.startCase)
+      //   .sort()
+      //   .value();
+      // console.log(result);
+
+      // let result = [];
+      // for (let i = 0; i < names.length; i++) {
+      //   let n = names[i];
+      //   if (n) {
+      //     let ns = n.replace(/_/, " ").split(" ");
+      //     for (let j = 0; j < ns.length; j++) {
+      //       let p = ns[j];
+      //       p = p.charAt(0).toUpperCase() + p.slice(1);
+      //       ns[j] = p;
+      //     }
+      //     if (result.indexOf(ns.join(" ")) < 0) {
+      //       result.push(ns.join(" "));
+      //     }
+      //   }
+      // }
+      // result.sort();
+      // console.log(result);
+    </script>
+    <script>
+      //
+      // function negate(func) {
+      //   return function () {
+      //     return !func.apply(null, arguments);
+      //   };
+      // }
+      // const isNull = (val) => val === null;
+      // const isNotNull = negate(isNull);
+      // console.log(isNotNull(1));
+      // console.log(isNotNull(null));
     </script>
     <script>
       //
