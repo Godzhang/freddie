@@ -6,6 +6,34 @@
     <script src="./js/lodash.js"></script>
     <script src="./js/functional.js"></script>
     <script>
+      const curry = function (fn, ...args) {
+        return function (..._args) {
+          _args = args.concat(_args);
+
+          if (_args.length < fn.length) {
+            return curry(fn, ..._args);
+          } else {
+            return fn.apply(null, _args);
+          }
+        };
+      };
+      const compose = function (...callbacks) {
+        return function (args) {
+          return callbacks.reduceRight((result, curr) => {
+            return curr.call(this, result);
+          }, args);
+        };
+      };
+      const pipe = function (...callbacks) {
+        return function (args) {
+          return callbacks.reduce((result, curr) => {
+            return curr.call(this, result);
+          }, args);
+        };
+      };
+      const identity = (v) => v;
+    </script>
+    <script>
       const createPerson = function (
         firstname,
         lastname,
@@ -48,6 +76,7 @@
     <title>functional</title>
   </head>
   <body>
+    <div id="app"></div>
     <script>
       //
     </script>
@@ -55,10 +84,23 @@
       //
     </script>
     <script>
-      //
+      // tap K-组合子
+      // const tap = curry(function (fn, params) {
+      //   fn.call(null, params);
+      //   return params;
+      // });
+      // const clog = (s) => console.log(s);
+      // const debug = tap(clog);
+      // const split = (s) => s.split("");
+      // const join = (arr) => arr.join(",");
+      // const reverse = (arr) => arr.reverse();
+      // const show = (id, s) => (document.getElementById(id).innerHTML = s);
+      // const output = curry(show);
+      // let logReversedWord = pipe(split, reverse, join, debug, output("app"));
+      // logReversedWord("zhangqi");
     </script>
     <script>
-      //
+      // identity
     </script>
     <script>
       // has error
