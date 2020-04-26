@@ -5,34 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./js/lodash.js"></script>
     <script src="./js/functional.js"></script>
-    <script>
-      const curry = function (fn, ...args) {
-        return function (..._args) {
-          _args = args.concat(_args);
-
-          if (_args.length < fn.length) {
-            return curry(fn, ..._args);
-          } else {
-            return fn.apply(null, _args);
-          }
-        };
-      };
-      const compose = function (...callbacks) {
-        return function (args) {
-          return callbacks.reduceRight((result, curr) => {
-            return curr.call(this, result);
-          }, args);
-        };
-      };
-      const pipe = function (...callbacks) {
-        return function (args) {
-          return callbacks.reduce((result, curr) => {
-            return curr.call(this, result);
-          }, args);
-        };
-      };
-      const identity = (v) => v;
-    </script>
+    <script src="./js/functional-public.js"></script>
     <script>
       const createPerson = function (
         firstname,
@@ -84,6 +57,38 @@
       //
     </script>
     <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      // fork(join) 组合子
+      // const divide = (total, n) => total / n;
+      // const sum = (arr) => {
+      //   return arr.reduce((sum, curr) => sum + curr, 0);
+      // };
+      // const len = (arr) => arr.length;
+      // const avarage = fork(divide, sum, len);
+      // console.log(avarage([1, 2, 30]));
+    </script>
+    <script>
+      // seq S-组合子
+      // const logType = (val) => console.log(typeof val);
+      // const bianli = seq(logType);
+      // console.log(tap(bianli)("1"));
+    </script>
+    <script>
+      // alt OR-组合子
+      // const isString = (s) => typeof s === "string";
+      // const logType = tap((val) => console.log(typeof val));
+      // const isTrueElseShow = alt(isString, logType);
+      // console.log(isTrueElseShow(123));
+    </script>
+    <script>
       // tap K-组合子
       // const tap = curry(function (fn, params) {
       //   fn.call(null, params);
@@ -101,32 +106,6 @@
     </script>
     <script>
       // identity
-    </script>
-    <script>
-      // has error
-      // function partical(fn) {
-      //   let boundArgs = [].slice.call(arguments, 1);
-      //   let placeholder = "_";
-      //   let bound = function () {
-      //     let position = 0,
-      //       length = arguments.length,
-      //       args = Array(length);
-      //     for (let i = 0; i < length; i++) {
-      //       args[i] =
-      //         boundArgs[i] === placeholder
-      //           ? arguments[position++]
-      //           : boundArgs[i];
-      //     }
-      //     while (position < arguments.length) {
-      //       args.push(arguments[position++]);
-      //     }
-      //     return fn.apply(this, args);
-      //   };
-      //   return bound;
-      // }
-      // String.prototype.first = partical(String.prototype.substring, 0, "_");
-      // let str = "zhangqi";
-      // console.log(str.first());
     </script>
     <script>
       //

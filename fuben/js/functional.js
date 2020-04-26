@@ -79,5 +79,3 @@ class Address {
     return this;
   }
 }
-
-const isValid = (val) => !_.isUndefined(val) && !_.isNull(val);
