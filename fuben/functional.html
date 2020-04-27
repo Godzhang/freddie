@@ -64,6 +64,47 @@
     </script>
     <script>
       //
+      class Wrapper {
+        constructor(value) {
+          this._value = value;
+        }
+        map(f) {
+          return f(this._value);
+        }
+        toString() {
+          return `Wrapper (${this._value})`;
+        }
+        fmap(f) {
+          return new Wrapper(f(this._value));
+        }
+      }
+      const wrap = (val) => new Wrapper(val);
+
+      const Empty = function () {};
+      Empty.prototype.map = function () {
+        return this;
+      };
+      const empty = new Empty();
+
+      const isEven = (n) => Number.isFinite(n) && n % 2 === 0;
+      const half = (val) => (isEven(val) ? wrap(val / 2) : empty);
+      console.log(half(4));
+      console.log(half(3));
+
+      // const wrap = (val) => new Wrapper(val);
+
+      // const plus = curry((a, b) => a + b);
+      // const plus3 = plus(3);
+      // const plus10 = plus(10);
+      // const two = wrap(2);
+      // const five = two.fmap(plus3);
+      // five.fmap(plus10).fmap(console.log);
+
+      // const wrappedValue = wrap("get functional");
+      // console.log(wrappedValue.map(identity));
+      // wrappedValue.map((v) => console.log(v, typeof v));
+      // const wrappedNull = wrap(null);
+      // wrappedNull.map((v) => console.log(v, typeof v));
     </script>
     <script>
       // fork(join) 组合子
