@@ -60,36 +60,39 @@
       //
     </script>
     <script>
-      //
+      // lodash study
+      const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      const result = _.drop(arr, 3);
+      console.log(_.zipObjectDeep(["a1.c", "a2[0].b"], [1, 2]));
     </script>
     <script>
       //
-      class Wrapper {
-        constructor(value) {
-          this._value = value;
-        }
-        map(f) {
-          return f(this._value);
-        }
-        toString() {
-          return `Wrapper (${this._value})`;
-        }
-        fmap(f) {
-          return new Wrapper(f(this._value));
-        }
-      }
-      const wrap = (val) => new Wrapper(val);
+      // class Wrapper {
+      //   constructor(value) {
+      //     this._value = value;
+      //   }
+      //   map(f) {
+      //     return f(this._value);
+      //   }
+      //   toString() {
+      //     return `Wrapper (${this._value})`;
+      //   }
+      //   fmap(f) {
+      //     return new Wrapper(f(this._value));
+      //   }
+      // }
+      // const wrap = (val) => new Wrapper(val);
 
-      const Empty = function () {};
-      Empty.prototype.map = function () {
-        return this;
-      };
-      const empty = new Empty();
+      // const Empty = function () {};
+      // Empty.prototype.map = function () {
+      //   return this;
+      // };
+      // const empty = new Empty();
 
-      const isEven = (n) => Number.isFinite(n) && n % 2 === 0;
-      const half = (val) => (isEven(val) ? wrap(val / 2) : empty);
-      console.log(half(4));
-      console.log(half(3));
+      // const isEven = (n) => Number.isFinite(n) && n % 2 === 0;
+      // const half = (val) => (isEven(val) ? wrap(val / 2) : empty);
+      // console.log(half(4));
+      // console.log(half(3));
 
       // const wrap = (val) => new Wrapper(val);
 
