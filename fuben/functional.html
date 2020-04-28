@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./js/lodash.js"></script>
+    <script src="./js/ramda.js"></script>
     <script src="./js/functional.js"></script>
     <script src="./js/functional-public.js"></script>
     <script>
@@ -60,10 +61,27 @@
       //
     </script>
     <script>
-      // lodash study
-      const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-      const result = _.drop(arr, 3);
-      console.log(_.zipObjectDeep(["a1.c", "a2[0].b"], [1, 2]));
+      //
+      Function.prototype.memoized = function () {
+        let key = JSON.stringify(arguments);
+        this._cache = this._cache || {};
+        console.log(this._cache);
+        this._cache[key] = this._cache[key] || this.apply(this, arguments);
+        return this._cache[key];
+      };
+      Function.prototype.memoize = function () {
+        let fn = this;
+        if (fn.length === 0) {
+          return fn;
+        }
+        return function () {
+          return fn.memoized.apply(fn, arguments);
+        };
+      };
+      const increment = (a, b) => a + b;
+      let inc = increment.memoize();
+      console.log(inc(1, 2));
+      console.log(inc(1, 2));
     </script>
     <script>
       //
