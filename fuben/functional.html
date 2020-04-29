@@ -62,26 +62,37 @@
     </script>
     <script>
       //
-      Function.prototype.memoized = function () {
-        let key = JSON.stringify(arguments);
-        this._cache = this._cache || {};
-        console.log(this._cache);
-        this._cache[key] = this._cache[key] || this.apply(this, arguments);
-        return this._cache[key];
-      };
-      Function.prototype.memoize = function () {
-        let fn = this;
-        if (fn.length === 0) {
-          return fn;
-        }
-        return function () {
-          return fn.memoized.apply(fn, arguments);
-        };
-      };
-      const increment = (a, b) => a + b;
-      let inc = increment.memoize();
-      console.log(inc(1, 2));
-      console.log(inc(1, 2));
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+      // Function.prototype.memoized = function () {
+      //   let key = JSON.stringify(arguments);
+      //   this._cache = this._cache || {};
+      //   this._cache[key] = this._cache[key] || this.apply(this, arguments);
+      //   return this._cache[key];
+      // };
+      // Function.prototype.memoize = function () {
+      //   let fn = this;
+      //   if (fn.length === 0) {
+      //     return fn;
+      //   }
+      //   return function () {
+      //     return fn.memoized.apply(fn, arguments);
+      //   };
+      // };
+      // const increment = (a, b) => a + b;
+      // let inc = increment.memoize();
+      // console.log(inc(1, 2));
+      // console.log(inc(1, 2));
     </script>
     <script>
       //
