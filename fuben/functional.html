@@ -68,9 +68,60 @@
     </script>
     <script>
       //
+      function* range(
+        specification,
+        start = 0,
+        finish = Number.POSITIVE_INFINITY
+      ) {
+        for (let i = start; i < finish; i++) {
+          yield specification ? specification(i) : i;
+        }
+      }
+      function take(amount, generator) {
+        let result = [];
+        for (let n of generator) {
+          result.push(n);
+          if (n === amount) {
+            break;
+          }
+        }
+        return result;
+      }
+
+      console.log(take(2, range(null, 1, 9)));
     </script>
     <script>
       //
+      // const find = (db, ssn) => {
+      //   return new Promise((resolve, reject) => {
+      //     setTimeout(() => {
+      //       resolve("result");
+      //     });
+      //   }, 2000);
+      // };
+      // const db = "db";
+      // const fetchStudentDBAsync = R.curry(function (db, ssn) {
+      //   return find(db, ssn);
+      // });
+      // const findStudentAsync = fetchStudentDBAsync(db);
+      // const then = R.curry(function (f, thenable) {
+      //   return thenable.then(f);
+      // });
+      // const catchP = R.curry(function (f, promise) {
+      //   return promise.catch(f);
+      // });
+      // const errorLog = (err) => console.error(err);
+
+      // const findStudent = R.compose(catchP(errorLog), then(res => {
+      //   console.log('then3')
+      //   return res;
+      // }), then(res => {
+      //   console.log('then2')
+      //   return res;
+      // }), then(res => {
+      //   console.log('then1')
+      //   return res;
+      // }))
     </script>
     <script>
       //
