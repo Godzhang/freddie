@@ -9,7 +9,7 @@ export default {
   name: "iForm",
   props: {
     model: { type: Object }, // 表单数据
-    rules: { type: Object } // 验证规则
+    rules: { type: Object }, // 验证规则
   },
   data() {
     return {};
@@ -17,7 +17,7 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss" scoped></style>
