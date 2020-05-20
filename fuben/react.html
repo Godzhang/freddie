@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./js/react.production.min.js"></script>
+    <script src="./js/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <title>react</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      //
+      // ReactDOM.render(<h1>hello world</h1>, document.getElementById("root"));
+      const root = document.getElementById("root");
+      const name = "zhangqi";
+      const obj = { name: "zhaojinge" };
+      const fn = (obj) => obj.name;
+      const arr = [1, 2, <span>3</span>];
+      const style = {
+        color: "#f00",
+      };
+      // const h3 = React.createElement("h3", {}, "h3");
+      // const p = React.createElement("p", {}, "p");
+      // const span = React.createElement("span", {}, h3, p);
+      const span = (
+        <span>
+          <h3>h3</h3>
+          <p>3+6 = {3 + 6}</p>
+          <p>can use if ? {false ? "true" : "false"}</p>
+          <p>name: {name}</p>
+          <p>obj.name: {fn(obj)}</p>
+          <p>arr: {arr}</p>
+          {/* zhushi */}
+          <div style={style}>style</div>
+        </span>
+      );
+      ReactDOM.render(span, root);
+
+      // function updateTime() {
+      //   const div = (
+      //     <div>
+      //       <h3>react</h3>
+      //       <p>现在时间是{new Date().toLocaleTimeString()}</p>
+      //     </div>
+      //   );
+      //   ReactDOM.render(div, root);
+      // }
+      // setInterval(() => {
+      //   updateTime();
+      // }, 1000);
+    </script>
+  </body>
+</html>
