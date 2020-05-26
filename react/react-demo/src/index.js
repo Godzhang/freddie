@@ -1,8 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import "./index.css";
+import "./index.scss";
 import { createStore } from "redux";
+import App from "./pages/App/App";
+import Chart from "./pages/Chart/Chart";
+
+ReactDOM.render(
+  <Router>
+    <Route exact path="/" component={App}></Route>
+    <Route path="/chart" component={Chart}></Route>
+  </Router>,
+  document.getElementById("root")
+);
 
 // class App extends React.Component {
 //   render() {
@@ -76,39 +86,39 @@ import { createStore } from "redux";
 //   document.getElementById("root")
 // );
 
-const Counter = ({ value, onIncrement, onDecrement }) => {
-  return (
-    <div>
-      <h1>{value}</h1>
-      <button onClick={onIncrement}>+</button>
-      <button onClick={onDecrement}>-</button>
-    </div>
-  );
-};
+// const Counter = ({ value, onIncrement, onDecrement }) => {
+//   return (
+//     <div>
+//       <h1>{value}</h1>
+//       <button onClick={onIncrement}>+</button>
+//       <button onClick={onDecrement}>-</button>
+//     </div>
+//   );
+// };
 
-const reducer = (state = 0, action) => {
-  switch (action.type) {
-    case "INCREMENT":
-      return state + 1;
-    case "DECREMENT":
-      return state - 1;
-    default:
-      return state;
-  }
-};
+// const reducer = (state = 0, action) => {
+//   switch (action.type) {
+//     case "INCREMENT":
+//       return state + 1;
+//     case "DECREMENT":
+//       return state - 1;
+//     default:
+//       return state;
+//   }
+// };
 
-const store = createStore(reducer);
+// const store = createStore(reducer);
 
-const render = () => {
-  ReactDOM.render(
-    <Counter
-      value={store.getState()}
-      onIncrement={() => store.dispatch({ type: "INCREMENT" })}
-      onDecrement={() => store.dispatch({ type: "DECREMENT" })}
-    />,
-    document.getElementById("root")
-  );
-};
+// const render = () => {
+//   ReactDOM.render(
+//     <Counter
+//       value={store.getState()}
+//       onIncrement={() => store.dispatch({ type: "INCREMENT" })}
+//       onDecrement={() => store.dispatch({ type: "DECREMENT" })}
+//     />,
+//     document.getElementById("root")
+//   );
+// };
 
-render();
-store.subscribe(render);
+// render();
+// store.subscribe(render);
