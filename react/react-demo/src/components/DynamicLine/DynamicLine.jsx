@@ -1,5 +1,6 @@
 import React from "react";
 import { Chart, registerAnimation } from "@antv/g2";
+import DataSet from "@antv/data-set";
 
 const data = [];
 function createRandomNum(min, max) {
@@ -23,6 +24,7 @@ class DynamicLine extends React.Component {
   constructor(props) {
     super(props);
     this.chart = null;
+    this.ds = null;
     this.chartId = "dynamic-chart";
     this.interval = null;
     this.state = {};
@@ -34,7 +36,12 @@ class DynamicLine extends React.Component {
       // this.updateChart();
     }, 3000);
   }
-  registerAnimation() {}
+  registerAnimation() {
+    registerAnimation("line-appear", (shape, animateCfg, cfg) => {
+      console.log(shape, animateCfg, cfg);
+      console.log(shape.getChildren);
+    });
+  }
   initChart() {
     this.chart = new Chart({
       container: this.chartId,
@@ -57,17 +64,25 @@ class DynamicLine extends React.Component {
 
     this.chart
       .line()
+      .animate({
+        appear: {
+          animation: "line-appear",
+          delay: 0,
+          duration: 10000,
+          easing: "easeLinear",
+        },
+      })
       .position("date*blockchain")
       .color("##1890ff")
       .shape("smooth");
     this.chart.line().position("date*nlp").color("#2fc25b").shape("smooth");
 
-    const lines = this.chart.geometries;
-    lines.forEach((line) => {
-      line.animate({
-        appear: { duration: 10000 },
-      });
-    });
+    // const lines = this.chart.geometries;
+    // lines.forEach((line) => {
+    //   line.animate({
+    //     appear: { duration: 10000 },
+    //   });
+    // });
 
     this.chart.render();
   }
