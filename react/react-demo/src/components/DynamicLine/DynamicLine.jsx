@@ -1,6 +1,5 @@
 import React from "react";
 import { Chart, registerAnimation } from "@antv/g2";
-import DataSet from "@antv/data-set";
 
 const data = [];
 function createRandomNum(min, max) {
@@ -39,7 +38,7 @@ class DynamicLine extends React.Component {
   registerAnimation() {
     registerAnimation("line-appear", (shape, animateCfg, cfg) => {
       console.log(shape, animateCfg, cfg);
-      console.log(shape.getChildren);
+      console.log(shape.get("element"));
     });
   }
   initChart() {
