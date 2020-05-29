@@ -1,0 +1,19 @@
+.chart-box {
+  position: relative;
+  // width: 50%;
+  height: 500px;
+  .chart-animate,
+  #dynamic-chart-2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .chart-animate {
+    left: 55px;
+    width: 1000px;
+    overflow: hidden;
+  }
+  #dynamic-chart {
+    transform: translateX(0px);
+  }
+}

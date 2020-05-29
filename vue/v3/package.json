@@ -12,7 +12,7 @@
   "dependencies": {
     "better-scroll": "^1.15.2",
     "core-js": "^2.6.5",
-    "element-ui": "^2.8.2",
+    "element-ui": "^2.13.2",
     "highlight.js": "^9.15.10",
     "iscroll": "^5.2.0",
     "raw-loader": "^3.1.0",

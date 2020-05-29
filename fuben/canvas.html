@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>canvas</title>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      //
+      const data = [
+        ["2017/01", 50],
+        ["2017/02", 60],
+        ["2017/03", 100],
+        ["2017/04", 200],
+        ["2017/05", 350],
+        ["2017/06", 600],
+      ];
+      function initLineChart(dataArr) {
+        let canvas, ctx;
+        // 图表属性
+        let cWidth, cHeight, cMargin, cSpace;
+        let originX, originY;
+        // 折线图属性
+        let tobalDots, dotSpace, maxValue;
+        let totalYNomber;
+        // 运动相关变量
+        let ctr, numctr, speed;
+
+        canvas = document.getElementById("canvas");
+        ctx = canvas.getContext("2d");
+
+        initChart();
+        function initChart() {
+          cMargin = 60;
+          cSpace = 80;
+
+          canvas.width = Math.floor((window.innerWidth - 100) / 2) * 2;
+          canvas.height = 740;
+          canvas.style.height = canvas.height / 2 + "px";
+          canvas.style.width = canvas.width / 2 + "px";
+          cHeight = canvas.height - cMargin - cSpace;
+          cWidth = canvas.width - cMargin - cSpace;
+          originX = cMargin + cSpace;
+          originY = cMargin + cHeight;
+
+          // 折线图信息
+          tobalDots = dataArr.length;
+          dotSpace = parseInt(cWidth / tobalDots);
+          maxValue = 0;
+          for (let i = 0, len = dataArr.length; i < len; i++) {
+            let dotVal = parseInt(dataArr[i][1]);
+            if (dotVal > maxValue) {
+              maxValue = dotVal;
+            }
+          }
+          maxValue += 50;
+          totalYNomber = 10;
+
+          // 运动相关
+          ctr = 1;
+          numctr = 100;
+          speed = 6;
+
+          // 当只绘制1像素的线的时候，坐标点需要偏移，这样才能画出1像素实线
+          ctx.translate(0.5, 0.5);
+        }
+
+        // 绘制图表轴，标签和标记
+        drawLineLableMarkers();
+        function drawLineLableMarkers() {
+          ctx.font = "24px Arial";
+          ctx.lineWidth = 2;
+          ctx.fillStyle = "#566a80";
+          ctx.strokeStyle = "#566a80";
+          // y轴
+          drawLine(originX, originY, originX, cMargin);
+          // x轴
+          drawLine(originX, originY, originX + cWidth, originY);
+          // 绘制标记
+          drawMarkers();
+        }
+
+        function drawLine(startX, startY, endX, endY) {
+          ctx.beginPath();
+          ctx.moveTo(startX, startY);
+          ctx.lineTo(endX, endY);
+          ctx.stroke();
+          ctx.closePath();
+        }
+
+        function drawMarkers() {
+          ctx.strokeStyle = "#E0E0E0";
+          // 绘制y轴及中间横线
+          let oneVal = parseInt(maxValue / totalYNomber);
+          ctx.textAlign = "right";
+          for (let i = 0; i < totalYNomber; i++) {
+            let markerVal = i * oneVal;
+            let xMarker = originX - 5;
+            let yMarker =
+              parseInt(cHeight * (1 - markerVal / maxValue)) + cMargin;
+            ctx.fillText(markerVal, xMarker, yMarker + 5, cSpace);
+            if (i > 0) {
+              drawLine(originX + 2, yMarker, originX + cWidth, yMarker);
+            }
+          }
+          // 绘制x轴及中间竖线
+          ctx.textAlign = "center";
+          for (let i = 0; i < tobalDots; i++) {
+            let markerVal = dataArr[i][0];
+            let xMarker = originX + i * dotSpace;
+            let yMarker = originY + 30;
+            ctx.fillText(markerVal, xMarker, yMarker, cSpace);
+            if (i > 0) {
+              drawLine(xMarker, originY - 2, xMarker, cMargin);
+            }
+          }
+          // 绘制标题y
+          ctx.save();
+          ctx.rotate(-Math.PI / 2);
+          ctx.fillText("访问量", -canvas.height / 2, cSpace - 10);
+          ctx.restore();
+          // 绘制标题x
+          ctx.fillText("月份", originX + cWidth / 2, originY + cSpace / 2 + 20);
+        }
+
+        // 绘制折线图的动画
+        drawLineAnimate();
+        function drawLineAnimate() {
+          ctx.strokeStyle = "#566a80";
+          // 连线
+          ctx.beginPath();
+          for (let i = 0; i < tobalDots; i++) {
+            let dotVal = dataArr[i][1];
+            // 计算x轴到值点的高度
+            let barH = parseInt((cHeight * dotVal) / maxValue);
+            let y = originY - barH;
+            let x = originX + dotSpace * i;
+            if (i === 0) {
+              ctx.moveTo(x, y);
+            } else {
+              ctx.lineTo(x, y);
+            }
+          }
+          ctx.stroke();
+          // 背景
+          // ctx.lineTo(originX + dotSpace * (tobalDots - 1), originY);
+          // ctx.lineTo(originX, originY);
+          // const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+          // gradient.addColorStop(0, "rgba(133,171,212,0.6)");
+          // gradient.addColorStop(1, "rgba(133,171,212,0.1)");
+          // ctx.fillStyle = gradient;
+          // ctx.fill();
+          // ctx.closePath();
+
+          // 绘制点
+          ctx.fillStyle = "#566a80";
+          for (let i = 0; i < tobalDots; i++) {
+            let dotVal = dataArr[i][1];
+            let barH = parseInt((cHeight * dotVal) / maxValue);
+            let y = originY - barH;
+            let x = originX + dotSpace * i;
+            drawArc(x, y);
+            // ctx.fillText(parseInt(dotVal), x + 15, y - 20);
+          }
+        }
+
+        function drawArc(x, y) {
+          ctx.beginPath();
+          ctx.arc(x, y, 3, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.closePath();
+        }
+
+        canvas.onclick = function () {
+          initChart();
+          drawLineLableMarkers();
+          drawLineAnimate();
+        };
+      }
+
+      initLineChart(data);
+    </script>
+  </body>
+</html>

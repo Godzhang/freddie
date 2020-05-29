@@ -2,7 +2,13 @@ import React from "react";
 import { registerAnimation } from "@antv/g2";
 import { Line } from "@antv/g2plot";
 import { isNil } from "@antv/util";
+import DataSet from "@antv/data-set";
+import Slider from "@antv/g2/lib/chart/controller/slider";
+import { registerComponentController } from "@antv/g2/lib/core";
+
 import data from "./data-2.json";
+
+registerComponentController("slider", Slider);
 
 let initData = data.slice(0, 10);
 let lastData = data.slice(10);
@@ -49,6 +55,7 @@ class DynamicLine extends React.Component {
   }
   initChart() {
     this.chart = new Line(document.getElementById(this.chartId), {
+      width: 1920,
       title: {
         visible: true,
         text: "2000 ~ 2018 年各国家 GDP 趋势对比",
@@ -59,8 +66,8 @@ class DynamicLine extends React.Component {
           "图形标签 (label) 位于折线尾部，用于标注整根折线，并有带有排名的含义在其中。",
       },
       padding: [20, 100, 30, 80],
-      forceFit: true,
-      data: data.slice(0, 10),
+      forceFit: false,
+      data: data,
       xField: "year",
       yField: "gdp",
       seriesField: "name",
@@ -82,19 +89,26 @@ class DynamicLine extends React.Component {
         type: "line",
       },
       animation: {
-        enter: {
-          animation: "line-fade-in-appear",
-        },
         appear: {
           // animation: "clipingWithData",
-          // duration: 10000,
+          duration: 1000,
           // animation: "line-appear",
-          animation: "line-fade-in-appear",
+          // animation: "line-fade-in-appear",
         },
       },
       smooth: true,
     });
+    console.log(this.chart);
+    // this.chart.option("slider", {
+    //   end: 0.8,
+    // });
     this.chart.render();
+    setTimeout(() => {
+      this.chart.updateConfig({
+        width: 500,
+      });
+      this.chart.render();
+    }, 2000);
   }
   // updateChart() {
   //   const update = () => {
