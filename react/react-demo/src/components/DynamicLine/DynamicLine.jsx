@@ -52,11 +52,8 @@ class DynamicLine extends React.Component {
     this.initChart();
     this.initChart2();
     setTimeout(() => {
-      this.chart.updateChart({
-        width: 1000,
-      });
       // this.chart.updateOptions();
-      this.chart.render();
+      // this.chart.render();
       // this.chart.destroy();
       // this.chart.updateOptions({ width: 1000 });
       // this.chart.render();
