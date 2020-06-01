@@ -5,11 +5,13 @@ import "./index.scss";
 import { createStore } from "redux";
 import App from "./pages/App/App";
 import Chart from "./pages/Chart/Chart";
+import LifeCycle from "./pages/LifeCycle/LifeCycle";
 
 ReactDOM.render(
   <Router>
     <Route exact path="/" component={App}></Route>
     <Route path="/chart" component={Chart}></Route>
+    <Route path="/lifecycle" component={LifeCycle}></Route>
   </Router>,
   document.getElementById("root")
 );

@@ -9,6 +9,11 @@ function App() {
       <Link to="/chart">
         <Button type="primary">chart page</Button>
       </Link>
+      <br />
+      <br />
+      <Link to="/lifecycle">
+        <Button type="primary">lifecycle page</Button>
+      </Link>
     </div>
   );
 }
