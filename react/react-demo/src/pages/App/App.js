@@ -14,6 +14,16 @@ function App() {
       <Link to="/lifecycle">
         <Button type="primary">lifecycle page</Button>
       </Link>
+      <br />
+      <br />
+      <Link to="/hook">
+        <Button type="primary">hook page</Button>
+      </Link>
+      <br />
+      <br />
+      <Link to="/demo">
+        <Button type="primary">demo test page</Button>
+      </Link>
     </div>
   );
 }

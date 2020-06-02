@@ -3,7 +3,7 @@ import "./Chart.scss";
 import loadable from "@loadable/component";
 import LineChart from "../../components/LineChart/LineChart.jsx";
 import DynamicChart from "../../components/DynamicChart/DynamicChart.jsx";
-import DynamicLine from "../../components/DynamicLine/DynamicLine.jsx";
+import DynamicLine from "../../components/DynamicLine/DynamicLine-2.jsx";
 
 class ChartDetail extends React.Component {
   constructor(props) {
