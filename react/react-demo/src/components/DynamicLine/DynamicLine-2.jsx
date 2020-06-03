@@ -40,8 +40,6 @@ class DynamicLine extends React.Component {
         cfg.coordinate,
         20
       );
-      console.log(startState);
-      console.log(endState);
       const clipShape = element.setClip({
         type,
         attrs: startState,
@@ -52,10 +50,10 @@ class DynamicLine extends React.Component {
         callback: () => {
           // endState.width = cfg.coordinate.getWidth() + 40;
           // clipShape.animate(endState, { ...animateCfg });
-          // if (element && !element.get("destroyed")) {
-          //   element.set("clipShape", null);
-          // }
-          // clipShape.remove(true); // 动画结束需要将剪切图形销毁
+          if (element && !element.get("destroyed")) {
+            element.set("clipShape", null);
+          }
+          clipShape.remove(true); // 动画结束需要将剪切图形销毁
         },
       });
     });
@@ -96,7 +94,7 @@ class DynamicLine extends React.Component {
   initChart() {
     this.chart = new Line(document.getElementById(this.chartId), {
       // width: 1920,
-      width: 2000,
+      // width: 2000,
       title: {
         visible: true,
         text: "2000 ~ 2018 年各国家 GDP 趋势对比",
@@ -107,7 +105,7 @@ class DynamicLine extends React.Component {
           "图形标签 (label) 位于折线尾部，用于标注整根折线，并有带有排名的含义在其中。",
       },
       padding: [20, 100, 30, 80],
-      forceFit: false,
+      forceFit: true,
       data: data,
       xField: "year",
       yField: "gdp",
