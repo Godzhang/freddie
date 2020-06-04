@@ -1,0 +1,39 @@
+$button-default-color: #606266;
+$button-default-bg-color: #fff;
+$border-default-color: #dcdfe6;
+
+$button-primary-color: #08c;
+
+.fm-button {
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid $border-default-color;
+  color: $button-default-color;
+  // text-align: center;
+  outline: none;
+  box-sizing: border-box;
+  // margin: 0;
+  transition: 0.3s;
+  font-weight: 500;
+  user-select: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+.fm-button--default {
+  &:focus {
+    color: mix($button-primary-color, #fff, 80%);
+    border-color: mix($button-primary-color, #fff, 50%);
+  }
+  &:hover {
+    color: mix($button-primary-color, #fff, 80%);
+    border-color: mix($button-primary-color, #fff, 50%);
+  }
+  &:active {
+    color: $button-primary-color;
+    border-color: $button-primary-color;
+  }
+}

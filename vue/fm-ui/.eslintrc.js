@@ -14,6 +14,7 @@ module.exports = {
     semi: "off",
     "space-before-function-paren": "off",
     "vue/no-unused-components": "off",
-    "eol-last": "off"
+    "eol-last": "off",
+    "comma-dangle": "off"
   }
 };

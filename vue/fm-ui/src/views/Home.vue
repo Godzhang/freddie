@@ -5,16 +5,17 @@
 </template>
 
 <script>
-import Layout from "@/examples/layout.vue";
+// import Layout from "@/examples/layout.vue";
 import FForm from "@/examples/form.vue";
+import FButton from "@/examples/button.vue";
 
 export default {
   name: "Home",
   data() {
     return {
-      componentName: "FForm"
+      componentName: "FButton"
     };
   },
-  components: { Layout, FForm }
+  components: { FForm, FButton }
 };
 </script>
