@@ -1,0 +1,16 @@
+.chart-config-tabs {
+  height: 100%;
+  background-color: #fff;
+  .ant-tabs-nav-list {
+    width: 100%;
+    .ant-tabs-tab {
+      width: 50%;
+      margin: 0;
+      justify-content: center;
+      background-color: #f7f8fc;
+      &.ant-tabs-tab-active {
+        background-color: #fff;
+      }
+    }
+  }
+}
