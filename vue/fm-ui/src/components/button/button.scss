@@ -2,7 +2,29 @@ $button-default-color: #606266;
 $button-default-bg-color: #fff;
 $border-default-color: #dcdfe6;
 
+$typeColors: (
+  primary: #08c,
+  success: #19be6b,
+  info: #909399,
+  warning: #f90,
+  danger: #ed4014,
+);
+
+$buttonSize: (
+  large: 12px 20px,
+  small: 8px 12px,
+  mini: 6px 10px,
+);
+
 $button-primary-color: #08c;
+
+$button-success-color: #19be6b;
+
+$button-info-color: #909399;
+
+$button-warning-color: #f90;
+
+$button-danger-color: #ed4014;
 
 .fm-button {
   display: inline-block;
@@ -22,12 +44,7 @@ $button-primary-color: #08c;
   padding: 10px 16px;
   font-size: 14px;
   border-radius: 4px;
-}
-.fm-button--default {
-  &:focus {
-    color: mix($button-primary-color, #fff, 80%);
-    border-color: mix($button-primary-color, #fff, 50%);
-  }
+  &:focus,
   &:hover {
     color: mix($button-primary-color, #fff, 80%);
     border-color: mix($button-primary-color, #fff, 50%);
@@ -35,5 +52,30 @@ $button-primary-color: #08c;
   &:active {
     color: $button-primary-color;
     border-color: $button-primary-color;
+  }
+}
+// type color
+@each $type, $color in $typeColors {
+  .fm-button--#{$type} {
+    color: #fff;
+    background-color: $color;
+    border-color: $color;
+    &:focus,
+    &:hover {
+      color: #fff;
+      background-color: mix($color, #fff, 80%);
+      border-color: mix($color, #fff, 80%);
+    }
+    &:active {
+      color: #fff;
+      background-color: darken($color, 5%);
+      border-color: darken($color, 5%);
+    }
+  }
+}
+// size
+@each $size, $padding in $buttonSize {
+  .fm-button--#{$size} {
+    padding: $padding;
   }
 }
