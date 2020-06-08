@@ -4,7 +4,6 @@ import Switch from "../../../common/libs/Switch";
 
 export default {
   isShowTitle: {
-    visible: true,
     label: "显示标题区域",
     value: true,
     component: (
@@ -17,19 +16,16 @@ export default {
     ),
   },
   title: {
-    visible: true,
     label: "图表标题",
     value: "标题",
     component: <Input defaultValue="标题" />,
   },
   titleSize: {
-    visible: true,
     label: "图表标题字号",
     value: 36,
     component: <InputNumber min={1} max={10} defaultValue={36} />,
   },
   isShowSource: {
-    visible: true,
     label: "显示数据来源",
     value: true,
     component: (
@@ -42,13 +38,11 @@ export default {
     ),
   },
   source: {
-    visible: true,
     label: "数据来源",
     value: "数据来源：国家统计局",
     component: <Input defaultValue="数据来源：国家统计局" />,
   },
   sourceSize: {
-    visible: true,
     label: "数据来源字号",
     value: 36,
     component: <InputNumber min={1} max={10} defaultValue={36} />,

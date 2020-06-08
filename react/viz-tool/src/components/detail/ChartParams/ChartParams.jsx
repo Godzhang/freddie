@@ -8,7 +8,7 @@ const { Panel } = Collapse;
 
 class ChartParams extends React.Component {
   render() {
-    const { textConfig = {} } = this.props;
+    // const { textConfig = {} } = this.props;
     return (
       <Collapse defaultActiveKey={["1"]} accordion={false}>
         {/* <Panel header={textConfig.configTitle} key={textConfig.configTitle}>
