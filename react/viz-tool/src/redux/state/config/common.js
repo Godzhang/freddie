@@ -1,24 +1,5 @@
-const animateConfig = {
-  speed: {
-    value: "medium",
-    type: "Select",
-  },
-};
-const textConfig = {
-  isShowTitle: {
-    value: true,
-    type: "Switch",
-  },
-  title: {
-    value: "标题",
-    type: "Input",
-  },
-  titleSize: {
-    value: 36,
-    type: "InputNumber",
-  },
-};
+import textConfig from "./text.js";
 
-const baseConfig = { animateConfig, textConfig };
-
-export default baseConfig;
+export default {
+  ...textConfig,
+};

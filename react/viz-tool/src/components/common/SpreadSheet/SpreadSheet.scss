@@ -1,0 +1,36 @@
+.g-spreadsheet {
+  background-color: red;
+  border: 1px solid #000;
+  position: relative; right: 0;
+  transition: width 0.5s ease 0s;
+  padding: 15px 10px 5px 20px;
+  .title {
+    > input {
+      width: calc(100% - 5rem);
+      margin-left: 10px;
+    }
+  }
+  .sample {
+    position: relative;
+    padding: 15px 10px 5px 0;
+    color: #0423a5;
+    > button {
+      color: #0423a5;
+      margin-right: 10px;
+    }
+    > .guide {
+      position: absolute; right: 0;
+      background-color: #e5e7f5;
+      padding: 0 5px;
+    }
+  }
+  .drag {
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    background: url('../../../images/spreadsheet/drag.svg') no-repeat 100%/contain;
+    cursor: e-resize;
+  }
+}

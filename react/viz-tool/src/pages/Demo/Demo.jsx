@@ -1,4 +1,6 @@
 import React from "react";
+import SpreadSheet from '../../components/common/SpreadSheet/SpreadSheet'
+import './demo.scss'
 import Header from "../../components/common/Header/Header";
 import ChartTab from "../../components/chartTemplates/ChartTab/ChartTab.jsx";
 import Charts from "../../components/chartTemplates/Charts/Charts.jsx";
@@ -40,13 +42,15 @@ class Demo extends React.Component {
     super(props);
   }
   render() {
-    return (
+    return (        
       <div className="demo-page">
+        <h3>demo page</h3>
         <Header path="/detail" />
         <Row>
           <Col span={16}>1</Col>
           <Col span={8}></Col>
         </Row>
+        <SpreadSheet />
       </div>
     );
   }

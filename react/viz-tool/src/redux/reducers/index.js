@@ -1,4 +1,4 @@
 import { combineReducers } from "redux";
-import chartConfig from "./chartReducer";
+import textConfig from "./config/text";
 
-export default combineReducers({ chartConfig });
+export default combineReducers({ textConfig });

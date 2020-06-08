@@ -13,7 +13,6 @@ class ChartDetail extends React.Component {
     // this.chartConfig = null;
   }
   async componentDidMount() {
-    console.log(this.props.chartConfig);
     // const { default: chartConfig } = await import(
     //   `../../common/config/${this.chartType}.js`
     // );
@@ -36,8 +35,10 @@ class ChartDetail extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  chartConfig: state.chartConfig,
-});
+export default ChartDetail;
 
-export default connect(mapStateToProps)(ChartDetail);
+// const mapStateToProps = (state) => ({
+//   chartConfig: state.chartConfig,
+// });
+
+// export default connect(mapStateToProps)(ChartDetail);

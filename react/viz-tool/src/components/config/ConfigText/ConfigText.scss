@@ -1,19 +1,19 @@
-.config-group {
-  .config-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    > span {
-      display: inline-flex;
-      width: 120px;
-      min-width: 120px;
-      text-align: left;
-    }
-    .ant-switch {
-      flex: 0;
-    }
-  }
-  .config-item + .config-item {
-    margin-top: 10px;
-  }
-}
+// .config-group {
+//   .config-item {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     > span {
+//       display: inline-flex;
+//       width: 120px;
+//       min-width: 120px;
+//       text-align: left;
+//     }
+//     .ant-switch {
+//       flex: 0;
+//     }
+//   }
+//   .config-item + .config-item {
+//     margin-top: 10px;
+//   }
+// }
