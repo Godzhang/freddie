@@ -1,32 +1,38 @@
 <template>
   <div class="button-test">
     <div class="button-type button-box">
-      <Button class="item">Default Button</Button>
-      <Button class="item" type="primary">primary Button</Button>
-      <Button class="item" type="success">success Button</Button>
-      <Button class="item" type="info">info Button</Button>
-      <Button class="item" type="warning">warning Button</Button>
-      <Button class="item" type="danger">danger Button</Button>
+      <Button class="item" @click="onClick">Default</Button>
+      <Button class="item" type="primary">primary</Button>
+      <Button class="item" type="success">success</Button>
+      <Button class="item" type="info">info</Button>
+      <Button class="item" type="warning">warning</Button>
+      <Button class="item" type="danger">danger</Button>
     </div>
     <div class="button-size button-box">
-      <Button class="item" size="large">large Button</Button>
-      <Button class="item">medium Button</Button>
-      <Button class="item" size="small">small Button</Button>
-      <Button class="item" size="mini">mini Button</Button>
+      <Button class="item" size="large">large</Button>
+      <Button class="item">medium</Button>
+      <Button class="item" size="small">small</Button>
+      <Button class="item" size="mini">mini</Button>
     </div>
     <div class="button-disabled button-box">
-      <Button :disabled="true" class="item">Default Button</Button>
-      <Button :disabled="true" class="item" type="primary"
-        >primary Button</Button
-      >
-      <Button :disabled="true" class="item" type="success"
-        >success Button</Button
-      >
-      <Button :disabled="true" class="item" type="info">info Button</Button>
-      <Button :disabled="true" class="item" type="warning"
-        >warning Button</Button
-      >
-      <Button :disabled="true" class="item" type="danger">danger Button</Button>
+      <Button :disabled="true" class="item" @click="onClick">Default</Button>
+      <Button :disabled="true" class="item" type="primary">primary</Button>
+      <Button :disabled="true" class="item" type="success">success</Button>
+      <Button :disabled="true" class="item" type="info">info</Button>
+      <Button :disabled="true" class="item" type="warning">warning</Button>
+      <Button :disabled="true" class="item" type="danger">danger</Button>
+    </div>
+    <div class="button-round button-box">
+      <Button class="item" :round="true">Default</Button>
+      <Button class="item" :round="true" type="primary">primary</Button>
+      <Button class="item" :round="true" type="success">success</Button>
+      <Button class="item" :round="true" type="info">info</Button>
+      <Button class="item" :round="true" type="warning">warning</Button>
+      <Button class="item" round type="danger">danger</Button>
+    </div>
+    <div class="button-text button-box">
+      <Button class="item" type="text">Default</Button>
+      <Button class="item" type="text" disabled>Default</Button>
     </div>
   </div>
 </template>
@@ -37,6 +43,11 @@ export default {
   components: { Button },
   data() {
     return {};
+  },
+  methods: {
+    onClick(e) {
+      console.log(e);
+    }
   }
 };
 </script>

@@ -53,6 +53,14 @@ $button-danger-color: #ed4014;
     color: $button-primary-color;
     border-color: $button-primary-color;
   }
+  &.is-disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  &.is-round {
+    border-radius: 18px;
+  }
 }
 // type color
 @each $type, $color in $typeColors {
@@ -72,6 +80,10 @@ $button-danger-color: #ed4014;
       border-color: darken($color, 5%);
     }
   }
+}
+.fm-button--text {
+  border: none;
+  background-color: transparent;
 }
 // size
 @each $size, $padding in $buttonSize {

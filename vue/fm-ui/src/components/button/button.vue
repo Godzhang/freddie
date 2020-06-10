@@ -4,12 +4,13 @@
       'fm-button',
       type ? `fm-button--${type}` : '',
       size ? `fm-button--${size}` : '',
-      disabled ? 'is-disabled' : ''
+      disabled ? 'is-disabled' : '',
+      round ? 'is-round' : ''
     ]"
     :disabled="disabled"
+    @click="$emit('click', $event)"
   >
-    <!-- <span>{{ $slots.default.text || "button" }}</span> -->
-    <span>button</span>
+    <slot>button</slot>
   </button>
 </template>
 <script>
@@ -26,14 +27,17 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    round: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {};
   },
-  mounted() {
-    console.log(this.$slots);
-  }
+  mounted() {},
+  methods: {}
 };
 </script>
 <style lang="scss">
