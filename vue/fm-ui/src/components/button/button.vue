@@ -5,12 +5,13 @@
       type ? `fm-button--${type}` : '',
       size ? `fm-button--${size}` : '',
       disabled ? 'is-disabled' : '',
-      round ? 'is-round' : ''
+      round ? 'is-round' : '',
+      circle ? 'is-circle' : ''
     ]"
     :disabled="disabled"
     @click="$emit('click', $event)"
   >
-    <slot>button</slot>
+    <span><slot>button</slot></span>
   </button>
 </template>
 <script>
@@ -29,6 +30,10 @@ export default {
       default: false
     },
     round: {
+      type: Boolean,
+      default: false
+    },
+    circle: {
       type: Boolean,
       default: false
     }

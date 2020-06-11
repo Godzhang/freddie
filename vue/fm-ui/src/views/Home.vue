@@ -8,14 +8,15 @@
 // import Layout from "@/examples/layout.vue";
 import FForm from "@/examples/form.vue";
 import FButton from "@/examples/button.vue";
+import Icon from "@/examples/icon.vue";
 
 export default {
   name: "Home",
   data() {
     return {
-      componentName: "FButton"
+      componentName: "Icon"
     };
   },
-  components: { FForm, FButton }
+  components: { FForm, FButton, Icon }
 };
 </script>

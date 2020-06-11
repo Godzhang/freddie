@@ -34,6 +34,10 @@
       <Button class="item" type="text">Default</Button>
       <Button class="item" type="text" disabled>Default</Button>
     </div>
+    <div class="button-circle button-box">
+      <Button class="item" circle>cc</Button>
+      <Button class="item" type="primary" circle>cc</Button>
+    </div>
   </div>
 </template>
 <script>

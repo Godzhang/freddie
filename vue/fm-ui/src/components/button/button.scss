@@ -61,6 +61,10 @@ $button-danger-color: #ed4014;
   &.is-round {
     border-radius: 18px;
   }
+  &.is-circle {
+    padding: 12px;
+    border-radius: 50%;
+  }
 }
 // type color
 @each $type, $color in $typeColors {
