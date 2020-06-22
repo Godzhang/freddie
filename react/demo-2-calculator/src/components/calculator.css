@@ -1,7 +1,0 @@
-.button-box {
-  display: flex;
-  flex-wrap: wrap;
-}
-.button-box button {
-  width: 25%;
-}
