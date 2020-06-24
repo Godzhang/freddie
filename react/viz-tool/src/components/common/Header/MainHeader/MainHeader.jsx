@@ -1,14 +1,15 @@
 import React from "react";
-import "./MainHeader.scss";
+import "./MainHeader.less";
 import { Row, Col, Button } from "antd";
 import { Link } from "react-router-dom";
+import logo from '../../../../images/home/logo.png'
 
 class MainHeader extends React.Component {
   render() {
     return (
       <Row className="main-header">
         <Col span={2}>
-          <img src="" alt="tutu-logo..." />
+          <img src={logo} alt="tutu-logo..." />
         </Col>
         <Col span={6} offset={2}>
           <Row>
@@ -16,7 +17,7 @@ class MainHeader extends React.Component {
               <Link to="/">首页</Link>
             </Col>
             <Col span={8}>
-              <Link to="/chartMenu">选择图表</Link>
+              <Link to="/templates">选择图表</Link>
             </Col>
             <Col span={8}>
               <Link to="/personal">我的项目</Link>

@@ -1,32 +1,32 @@
 import React from "react";
-import ChartItem from "../ChartItem/ChartItem";
-import "./Charts.scss";
+import "./Charts.less";
 import PropTypes from "prop-types";
+import ChartItem from "../ChartItem/ChartItem";
 
 class Charts extends React.Component {
   static defaultProps = {
-    charts: [{ name: "" }],
+    charts: [{ _name: "", _cid: "" , _type: ""}],
   };
-  static propTypes = {
-    charts: PropTypes.arrayOf(
-      PropTypes.objectOf(
-        PropTypes.shape({
-          name: PropTypes.string.isRequired,
-        })
-      )
-    ),
-  };
+
   render() {
     return (
       <div className="charts">
-        {Array(30)
-          .fill("")
-          .map((item, index) => (
-            <ChartItem show={index === 0} key={index} />
-          ))}
+        { this.props.charts.map((item, index) => (
+          <ChartItem show={index === 0} key={index} chartType={item}/>
+        ))}
       </div>
     );
   }
 }
+
+Charts.propTypes = {
+  charts: PropTypes.arrayOf(
+    PropTypes.shape({
+      _name: PropTypes.string.isRequired,
+      _cid: PropTypes.string,
+      _type: PropTypes.string
+    })
+  ),
+};
 
 export default Charts;

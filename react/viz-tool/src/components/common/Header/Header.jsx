@@ -1,5 +1,5 @@
 import React from "react";
-import "./Header.scss";
+import "./Header.less";
 import MainHeader from "./MainHeader/MainHeader";
 import DetailHeader from "./DetailHeader/DetailHeader";
 import PropTypes from "prop-types";

@@ -4,18 +4,27 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
+    "@antv/data-set": "^0.11.4",
+    "@antv/g2": "^4.0.10",
     "@antv/g2plot": "^1.1.5",
+    "@antv/util": "^2.0.9",
+    "@handsontable/react": "^3.0.0",
+    "@loadable/component": "^5.12.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.3.0",
     "axios": "^0.19.2",
+    "handsontable": "^7.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-addons-update": "^15.6.2",
+    "react-color": "^2.18.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "reactcss": "^1.2.3",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   },
@@ -44,6 +53,8 @@
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^1.0.0",
     "http-proxy-middleware": "^1.0.4",
+    "less": "^3.11.3",
+    "less-loader": "^5.0.0",
     "react-app-rewired": "^2.1.6"
   }
 }

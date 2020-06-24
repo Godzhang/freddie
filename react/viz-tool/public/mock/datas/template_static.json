@@ -1,0 +1,99 @@
+{
+  "data": {
+    "chart_type": "BasicColumnChart",
+    "projectName": "一线城市2016年新房交易量对比",
+    "docId": "111111",
+    "docType": "static",
+    "dataItem": [{
+        "name": "北京",
+        "value": 972.39
+      },
+      {
+        "name": "上海",
+        "value": 2204.7
+      },
+      {
+        "name": "广州",
+        "value": 417.92
+      },
+      {
+        "name": "深圳",
+        "value": 1458.03
+      }
+    ],
+    "sheetData": [
+      ["地区", "值"],
+      ["北京", 972.39],
+      ["上海", 2204.7],
+      ["广州", 417.92],
+      ["深圳", 1458.03]
+    ],
+    "textConfig": {
+      "title": {
+        "show": true,
+        "content": "一线城市2016年新房交易量对比",
+        "fontSize": 36
+      },
+      "unit": {
+        "show": true,
+        "content": "单位: 万平方米",
+        "fontSize": 16
+      },
+      "dataSource": {
+        "show": true,
+        "content": "数据来源：模板数据",
+        "fontSize": 20
+      }
+    },
+    "chartConfig": {
+      "label": {
+        "show": true,
+        "fontSize": 12
+      }
+    },
+    "animateConfig": {
+      "animate": {
+        "show": true,
+        "speed": 3
+      }
+    },
+    "themeConfig": {
+      "chartStyle": "default",
+      "colorTheme": "business",
+      "markColor": "rgba(89,87,87, 1)",
+      "backgroundColor": "rgba(255, 255, 255, 1)",
+      "backgroundImage": null
+    },
+    "legendConfig": {
+      "legend": {
+        "show": true,
+        "fontSize": 14,
+        "location": "bottom"
+      }
+    },
+    "axisConfig": {
+      "axisX": {
+        "show": true,
+        "fontSize": 14,
+        "offset": 0
+      },
+      "axisY": {
+        "show": true,
+        "fontSize": 14,
+        "offset": 0
+      }
+    },
+    "dataFormatConfig": {
+      "dataFormat": {
+        "showThousandth ": true,
+        "isPercent": false,
+        "format": "default"
+      }
+    },
+    "toolTipConfig": {
+      "tooltip": {
+        "show": true
+      }
+    }
+  }
+}

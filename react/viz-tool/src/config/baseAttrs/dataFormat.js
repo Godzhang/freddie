@@ -1,0 +1,35 @@
+export default {
+  showThousandPlace: {
+    visible: true,
+    label: "显示数字千分位",
+    value: true,
+    componentName: "Switch",
+    itemKey: "showThousandPlace",
+    type: "dataFormat",
+    action: "setThousandPlaceDisplay",
+  },
+  translatePercentage: {
+    visible: true,
+    label: "转换为百分数",
+    value: false,
+    componentName: "Switch",
+    itemKey: "translatePercentage",
+    type: "dataFormat",
+    action: "translatePercentage",
+  },
+  dataFormat: {
+    visible: true,
+    label: "数据格式",
+    value: "default",
+    componentName: "Select",
+    itemKey: "dataFormat",
+    type: "dataFormat",
+    action: "setDataFormat",
+    options: [
+      { value: "default", label: "默认" },
+      { value: "integer", label: "整数" },
+      { value: "decimal_1", label: "小数点后1位" },
+      { value: "decimal_2", label: "小数点后2位" },
+    ],
+  },
+};

@@ -1,38 +1,37 @@
 import React from "react";
-import "./ConfigText.scss";
-import { Switch, Input, InputNumber } from "antd";
+import "./ConfigText.less";
 import { connect } from "react-redux";
+import utils from "@/common/utils/utils.js";
+import { bindActionCreators } from "redux";
+import actions from "@/redux/actions/index";
 
 class ConfigText extends React.Component {
   render() {
-    const { textConfig = {} } = this.props;
+    let { chartConfig = {} } = this.props;
     return (
       <div className="config-group">
-        {Object.keys(textConfig).map((key) => (
-          <div className="config-item" key={key}>
-            <span>{textConfig[key].label}</span>
-            {textConfig[key].component}
-          </div>
-        ))}
-        {/* <div className="config-item">
-          <span>显示标题区域</span>
-          <Switch size="small" defaultChecked={true} />
-        </div>
-        <div className="config-item">
-          <span>图表标题</span>
-          <Input defaultValue="标题" />
-        </div>
-        <div className="config-item">
-          <span>图表标题字号</span>
-          <InputNumber min={1} max={10} defaultValue={3} />
-        </div> */}
+        {Object.keys(chartConfig)
+          .filter(
+            (key) =>
+              chartConfig[key].visible && chartConfig[key].type === "text"
+          )
+          .map((key) => (
+            <div className="config-item" key={key}>
+              <span>{chartConfig[key].label}</span>
+              {utils.getBaseComponent(chartConfig[key])}
+            </div>
+          ))}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  textConfig: state.textConfig,
+  chartConfig: state.chartConfig,
 });
 
-export default connect(mapStateToProps)(ConfigText);
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({ ...actions }, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConfigText);

@@ -1,5 +1,5 @@
 import React from "react";
-import "./ChartConfig.scss";
+import "./ChartConfig.less";
 import ChartSheet from "../ChartSheet/ChartSheet.jsx";
 import ChartParams from "../ChartParams/ChartParams.jsx";
 import { Tabs } from "antd";

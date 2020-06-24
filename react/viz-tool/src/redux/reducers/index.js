@@ -1,4 +1,6 @@
 import { combineReducers } from "redux";
-import textConfig from "./config/text";
+import chartConfig from "./chartReducer.js";
+import sheetReducer from "./sheetReducer";
+import chartSize from "./sizeReducer";
 
-export default combineReducers({ textConfig });
+export default combineReducers({ chartConfig, sheetReducer, chartSize });

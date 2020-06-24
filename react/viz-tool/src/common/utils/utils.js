@@ -1,3 +1,6 @@
+import React from "react";
+import Base from "../libs";
+
 /**
  * 数据类型判断
  * @param {Any} data 判断数据的类型
@@ -14,11 +17,11 @@ const getDataType = (data) => {
  * @returns {Array|Object} newData 返回克隆后的数据
  */
 const cloneSimpleData = (data, isDeep = false) => {
-  let newData = '';
+  let newData = "";
   if (!isDeep) {
-    if (getDataType(data) === '[object Object]') {
+    if (getDataType(data) === "[object Object]") {
       newData = Object.assign({}, data);
-    } else if (getDataType(data) === '[object Array]') {
+    } else if (getDataType(data) === "[object Array]") {
       newData = data.concat();
     }
   } else {
@@ -64,8 +67,23 @@ const flatten = (arr, res = []) => {
   return res;
 };
 
+const getBaseComponent = (comp) => {
+  const { componentName, value, itemKey, type, action, options = [] } = comp;
+  const Component = Base[componentName];
+  return (
+    <Component
+      default={value}
+      itemKey={itemKey}
+      type={type}
+      action={action}
+      options={options}
+    />
+  );
+};
+
 export default {
   cloneSimpleData,
   debounce,
   flatten,
+  getBaseComponent,
 };

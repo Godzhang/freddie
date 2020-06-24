@@ -13,4 +13,10 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    createProxyMiddleware("/vnt", {
+      target: "http://172.21.91.25:8082/",
+      changeOrigin: true,
+    })
+  )
 };

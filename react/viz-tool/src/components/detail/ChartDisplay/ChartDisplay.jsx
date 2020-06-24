@@ -1,35 +1,53 @@
 import React from "react";
-import "./ChartDisplay.scss";
+import "./ChartDisplay.less";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import sizeActions from "../../../redux/actions/sizeAction";
+import loadable from "@loadable/component";
+import SizeBar from "../SizeBar/SizeBar";
 
-class ChartDisplay extends React.Component {
-  render() {
-    const { chartConfig = {}, textConfig = {} } = this.props;
-    return (
-      <div className="chart-display">
-        <div>{textConfig.isShowTitle.value.toString()}</div>
-        <div>{textConfig.isShowSource.value.toString()}</div>
-        {/* <h3>chart display</h3>
-        {Object.keys(chartConfig).map((key) => (
-          <div key={key}>
-            <h3>{chartConfig[key].title}</h3>
-            {chartConfig[key].items.map((item) => (
-              <div key={item.label}>
-                <span>{item.label}: </span>
-                <br />
-                <span>{item.value.toString()}</span>
-                <hr />
-              </div>
-            ))}
+function chartDisplay(props) {
+  const { chartType, chartName } = props;
+  const AsyncChart = loadable(() =>
+    import(`@/components/charts/${chartType}/${chartName}/${chartName}`)
+  );
+
+  class ChartDisplay extends React.Component {
+    constructor(props) {
+      super(props);
+    }
+    componentWillMount() {
+      this.props.sizeActions.calcChartSize();
+    }
+    render() {
+      return (
+        <div className="chart-display" ref="display">
+          <div className="chart-wrap">
+            <AsyncChart />
           </div>
-        ))} */}
-      </div>
-    );
+          <div className="size-bar-box">
+            <SizeBar />
+          </div>
+        </div>
+      );
+    }
   }
+
+  const mapStateToProps = (state) => ({
+    chartConfig: state.chartConfig,
+    chartSize: state.chartSize,
+  });
+
+  const mapDispatchToProps = (dispatch) => ({
+    sizeActions: bindActionCreators(sizeActions, dispatch),
+  });
+
+  const ChartWithState = connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ChartDisplay);
+
+  return <ChartWithState />;
 }
 
-const mapStateToProps = (state) => ({
-  textConfig: state.textConfig,
-});
-
-export default connect(mapStateToProps)(ChartDisplay);
+export default chartDisplay;

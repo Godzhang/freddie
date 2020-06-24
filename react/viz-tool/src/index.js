@@ -1,14 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./global.scss";
-import "antd/dist/antd.min.css";
 import { ConfigProvider } from "antd";
-import zhCN from "antd/es/locale/zh_CN";
 import { Provider } from "react-redux";
 import { store } from "./redux/index";
 import IndexRouter from "./routes/index";
-import "./common/utils/http";
 import * as serviceWorker from "./serviceWorker";
+import zhCN from "antd/es/locale/zh_CN";
+import "antd/dist/antd.less";
+import "./global.less";
 
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
