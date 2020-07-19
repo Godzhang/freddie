@@ -6,7 +6,8 @@
 <script>
 // import Vue from "vue";
 // import SeamLessScroll from "../components/seam-less-scroll.vue";
-
+import obj from "../utils/util";
+console.log(obj);
 export default {
   data() {
     return {};
