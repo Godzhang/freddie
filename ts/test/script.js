@@ -1,22 +1,15 @@
-var pass = "zhaojinge";
-var A = /** @class */ (function () {
-  function A() {}
-  Object.defineProperty(A.prototype, "fullName", {
-    get: function () {
-      return this._fullName;
-    },
-    set: function (name) {
-      if (pass && pass === "zhaojinge") {
-        this._fullName = name;
-      } else {
-        console.error("you are not zhaojinge");
-      }
-    },
-    enumerable: true,
-    configurable: true,
-  });
-  return A;
-})();
-var a = new A();
-a.fullName = "zhangqi";
-console.log(a.fullName);
+// interface Identities<V, M> {
+//   value: V;
+//   message: M;
+// }
+var GenericClass = /** @class */ (function () {
+    function GenericClass(value) {
+        this.value = value;
+    }
+    GenericClass.prototype.getIdentity = function () {
+        return this.value;
+    };
+    return GenericClass;
+}());
+var g = new GenericClass(86);
+console.log(g.getIdentity());
