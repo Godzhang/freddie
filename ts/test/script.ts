@@ -1,34 +1,15 @@
-// interface Identities<V, M> {
-//   value: V;
-//   message: M;
-// }
-
-// function identity<T, U>(value: T, message: U): Identities<T, U> {
-//   console.log(value + ": " + typeof value);
-//   console.log(message + ": " + typeof message);
-//   let identites: Identities<T, U> = {
-//     value,
-//     message,
-//   };
-//   return identites;
-// }
-// console.log(identity("zhangqi", 123));
-// console.log(identity(13, "djfis"));
-
-interface Generic<U> {
-  value: U;
-  getIdentity: () => U;
-}
-class GenericClass<T> {
-  value: T;
-
-  constructor(value: T) {
-    this.value = value;
+export const foo = 123;
+export type someType = {
+  foo: string;
+};
+namespace Utility {
+  export function log(msg) {
+    console.log(msg);
   }
-
-  getIdentity(): T {
-    return this.value;
+  export function err(msg) {
+    console.error(msg);
   }
 }
-const g = new GenericClass(86);
-console.log(g.getIdentity());
+namespace A {
+  export const b = Utility.log;
+}
