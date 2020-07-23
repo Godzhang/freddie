@@ -1,15 +1,10 @@
-export const foo = 123;
-export type someType = {
-  foo: string;
+interface PageInfo {
+  title: string;
+}
+type Page = "home" | "about" | "contact";
+
+const x: Record<Page, PageInfo> = {
+  about: { title: "about" },
+  home: { title: "home" },
+  contact: { title: "contact" },
 };
-namespace Utility {
-  export function log(msg) {
-    console.log(msg);
-  }
-  export function err(msg) {
-    console.error(msg);
-  }
-}
-namespace A {
-  export const b = Utility.log;
-}
