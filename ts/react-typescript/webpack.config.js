@@ -4,31 +4,32 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: path.resolve(__dirname, "./src/index.tsx"),
   output: {
-    path: path.join(__dirname, "./dist"),
+    path: path.resolve(__dirname, "./dist"),
     filename: "[name].[hash].js",
-    publicPath: "", // publicPath为什么会影响webpack-dev-server??
+    publicPath: "", // publicPath设为./什么会影响webpack-dev-server??
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
     alias: {
-      "@": path.join(__dirname, "src"),
+      "@": path.resolve(__dirname, "src"),
     },
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: [{ loader: "babel-loader" }, { loader: "ts-loader" }],
+        exclude: /node_modules/,
+        use: [{ loader: "ts-loader" }],
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader?modules"],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.scss$/,
-        use: ["style-loader", "css-loader?modules", "sass-loader"],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
   },
