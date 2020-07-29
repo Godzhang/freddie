@@ -1,10 +1,9 @@
-import { defineReactive, observe } from "./index";
+import { defineReactive, observe } from "./vue";
 import { arrayMethods } from "./array-methods";
 import Dep from "./dep";
 
 const hasProto = "__proto__" in {};
 const arrayKeys = Object.getOwnPropertyNames(arrayMethods);
-const augment = hasProto ? protoAugment : copyAugment;
 
 class Observer {
   constructor(value) {
@@ -13,6 +12,7 @@ class Observer {
     def(value, "__ob__", this);
 
     if (Array.isArray(value)) {
+      const augment = hasProto ? protoAugment : copyAugment;
       augment(value, arrayMethods, arrayKeys);
       this.observeArray(value);
     } else {

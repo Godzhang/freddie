@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-// interface Identities<V, M> {
-//   value: V;
-//   message: M;
-// }
-var GenericClass = /** @class */ (function () {
-    function GenericClass(value) {
-        this.value = value;
-    }
-    GenericClass.prototype.getIdentity = function () {
-        return this.value;
-    };
-    return GenericClass;
-}());
-var g = new GenericClass(86);
-console.log(g.getIdentity());
-=======
 const data = [
   {
     date: "2018/8/1",
@@ -268,4 +251,3 @@ for (let i = 0; i < dates.length; i++) {
   }
 }
 console.log(result);
->>>>>>> 887c0d2a584d756c46f79b522c2ff1f2dff19f6b

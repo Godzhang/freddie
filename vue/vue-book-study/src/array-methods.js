@@ -14,7 +14,6 @@ export const arrayMethods = Object.create(arrayProto);
       switch (method) {
         case "push":
         case "unshift":
-          console.log(args);
           inserted = args;
           break;
         case "splice":

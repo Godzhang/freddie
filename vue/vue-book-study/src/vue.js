@@ -1,5 +1,5 @@
 import Dep from "./dep.js";
-import Observer, { def } from "./observer";
+import Observer from "./observer";
 import Watcher from "./watcher";
 import { isObject, hasOwn } from "./utils";
 
@@ -10,9 +10,10 @@ export function defineReactive(data, key, value) {
     enumerable: true,
     configurable: true,
     get: function () {
-      // ???
+      console.log("getter: " + key);
       dep.depend();
 
+      // 此处收集的依赖，只会在数组重写过的方法里触发
       if (childOb) {
         childOb.dep.depend();
       }
@@ -20,6 +21,7 @@ export function defineReactive(data, key, value) {
       return value;
     },
     set: function (newValue) {
+      console.log("setter: " + key);
       if (value === newValue) return;
       value = newValue;
       dep.notify();
