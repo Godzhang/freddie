@@ -1,8 +1,13 @@
-import { parsePath } from "./utils";
+import { parsePath, traverse } from "./utils";
 
 class Watcher {
-  constructor(vm, expOrFn, cb) {
+  constructor(vm, expOrFn, cb, options) {
     this.vm = vm;
+    if (options) {
+      this.deep = !!options.deep;
+    } else {
+      this.deep = false;
+    }
     this.deps = [];
     this.depIds = new Set();
     if (typeof expOrFn === "function") {
@@ -17,6 +22,10 @@ class Watcher {
   get() {
     window.target = this;
     let value = this.getter.call(this.vm, this.vm);
+    // 保证子集收集的依赖是当前watcher
+    if (this.deep) {
+      traverse(value);
+    }
     window.target = undefined;
     return value;
   }

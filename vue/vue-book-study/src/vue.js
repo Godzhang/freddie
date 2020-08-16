@@ -1,5 +1,5 @@
 import Dep from "./dep.js";
-import Observer from "./observer";
+import Observer, { set } from "./observer";
 import Watcher from "./watcher";
 import { isObject, hasOwn } from "./utils";
 
@@ -73,9 +73,10 @@ class Vue {
     }
   }
 
+  // deep: true has problem ???
   $watch(expOrFn, cb, options = {}) {
     const vm = this;
-    const watcher = new Watcher(vm, expOrFn, cb);
+    const watcher = new Watcher(vm, expOrFn, cb, options);
     if (options.immediate) {
       cb.call(vm, watcher.value);
     }
@@ -84,5 +85,7 @@ class Vue {
     };
   }
 }
+
+Vue.prototype.$set = set;
 
 export default Vue;

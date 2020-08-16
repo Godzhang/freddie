@@ -54,4 +54,6 @@ export function def(obj, key, value, enumerable) {
   });
 }
 
+export function set(target, key, value) {}
+
 export default Observer;
