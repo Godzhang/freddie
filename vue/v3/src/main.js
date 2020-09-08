@@ -7,6 +7,7 @@ import "element-ui/lib/theme-chalk/index.css";
 
 import "./assets/styles/reset.css";
 import "./scss/index.scss";
+import "animate.css";
 
 Vue.use(Vuex);
 Vue.use(ElementUI);
