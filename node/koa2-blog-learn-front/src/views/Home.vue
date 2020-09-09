@@ -1,0 +1,72 @@
+<template>
+  <div class="home">
+    <ul class="article-list">
+      <li v-for="article in articles" :key="article.id">
+        <el-row class="article-item">
+          <el-col :span="12">
+            <router-link :to="`/show/${article.id}`">{{
+              article.title
+            }}</router-link>
+          </el-col>
+          <el-col :span="6">{{ article.createTime | dateFormatter }}</el-col>
+          <el-col :span="6">
+            <router-link :to="`/edit/${article.id}`"
+              ><el-button type="primary" size="small"
+                >编辑</el-button
+              ></router-link
+            >
+            <el-button type="danger" size="small">删除</el-button>
+          </el-col>
+        </el-row>
+      </li>
+    </ul>
+    <div>
+      <el-button type="primary" @click="$router.push('/edit/all')"
+        >新建文章</el-button
+      >
+    </div>
+  </div>
+</template>
+
+<script>
+import { getBlogList } from "@/service/blog.service.js";
+
+export default {
+  name: "Home",
+  data() {
+    return {
+      articles: []
+    };
+  },
+  async mounted() {
+    const articles = await getBlogList({}).then(res => {
+      if (res.code === 0) {
+        return res.data;
+      } else {
+        this.$message.error(res.message);
+      }
+    });
+    this.articles = articles;
+  },
+  computed: {},
+  watch: {},
+  methods: {},
+  components: {}
+};
+</script>
+<style lang="scss" scoped>
+.home {
+  display: flex;
+  align-items: center;
+  .article-list {
+    width: 70%;
+    .article-item {
+      height: 36px;
+      line-height: 36px;
+      > div {
+        height: 100%;
+      }
+    }
+  }
+}
+</style>

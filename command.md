@@ -1,4 +1,2 @@
-淘宝镜像: --registry=https://registry.npm.taobao.org
-
-babel-plugin-component -> 了解原理
-moment.js -> 学习使用并研究
+1. 封装 axios，找到一个通用并且我可接受的实现
+2. token
