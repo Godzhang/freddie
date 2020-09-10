@@ -5,9 +5,7 @@
         <el-row class="article-item">
           <el-col :span="12">
             <router-link :to="`/show/${article.id}`">
-              {{
-              article.title
-              }}
+              {{ article.title }}
             </router-link>
           </el-col>
           <el-col :span="6">{{ article.createTime | dateFormatter }}</el-col>
@@ -15,19 +13,25 @@
             <router-link :to="`/edit/${article.id}`">
               <el-button type="primary" size="small">编辑</el-button>
             </router-link>
-            <el-button type="danger" size="small" @click="onDelete(article.id)">删除</el-button>
+            <el-button type="danger" size="small" @click="onDelete(article.id)"
+              >删除</el-button
+            >
           </el-col>
         </el-row>
       </li>
     </ul>
     <div>
-      <el-button type="primary" @click="$router.push('/edit')">新建文章</el-button>
+      <el-button type="primary" @click="$router.push('/edit')"
+        >新建文章</el-button
+      >
+      <el-button @click="onExit">退出登录</el-button>
     </div>
   </div>
 </template>
 
 <script>
 import { getBlogList, deleteBlog } from "@/service/blog.service.js";
+import { exit } from "@/service/user.service.js";
 
 export default {
   name: "Home",
@@ -59,6 +63,15 @@ export default {
           this.getBlogList();
         } else {
           this.$message.error("删除失败，请重试");
+        }
+      });
+    },
+    onExit() {
+      exit().then(res => {
+        if (res.code === 0) {
+          this.$router.push("/login");
+        } else {
+          this.$message.error(res.message);
         }
       });
     }

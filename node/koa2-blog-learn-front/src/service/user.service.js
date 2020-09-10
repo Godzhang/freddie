@@ -28,3 +28,13 @@ export const login = params => {
     }
   });
 };
+
+export const exit = params => {
+  return post("/api/user/exit", params).then(res => {
+    if (res.code !== 0) {
+      Message.error(res.message);
+      return Promise.reject(res);
+    }
+    return res;
+  });
+};

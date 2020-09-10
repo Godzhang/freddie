@@ -1,5 +1,6 @@
 const router = require("koa-router")();
 const userModel = require("../models/user");
+const { LOGIN_STATUS } = require("../conf/user");
 
 router.prefix("/api/user");
 
@@ -29,6 +30,14 @@ router.post("/login", async (ctx, next) => {
     };
     return;
   }
+  const date = new Date();
+  date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
+
+  ctx.cookies.set(LOGIN_STATUS, true, {
+    httpOnly: false,
+    expires: date,
+    maxAge: 24 * 60 * 60 * 1000,
+  });
   ctx.body = {
     code: 0,
     message: "登录成功",
@@ -87,6 +96,17 @@ router.post("/check", async (ctx) => {
       isExist: result.length > 0,
     };
   });
+});
+
+router.post("/exit", async (ctx) => {
+  ctx.cookies.set(LOGIN_STATUS, false, {
+    httpOnly: false,
+    maxAge: 0,
+  });
+  ctx.body = {
+    code: 0,
+    message: "已退出登录",
+  };
 });
 
 module.exports = router;
