@@ -37,7 +37,11 @@ router.post("/login", async (ctx, next) => {
     httpOnly: false,
     expires: date,
     maxAge: 24 * 60 * 60 * 1000,
+    signed: false,
   });
+
+  ctx.session.loginStatus = true;
+
   ctx.body = {
     code: 0,
     message: "登录成功",
