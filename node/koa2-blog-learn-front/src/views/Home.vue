@@ -4,32 +4,30 @@
       <li v-for="article in articles" :key="article.id">
         <el-row class="article-item">
           <el-col :span="12">
-            <router-link :to="`/show/${article.id}`">{{
+            <router-link :to="`/show/${article.id}`">
+              {{
               article.title
-            }}</router-link>
+              }}
+            </router-link>
           </el-col>
           <el-col :span="6">{{ article.createTime | dateFormatter }}</el-col>
           <el-col :span="6">
-            <router-link :to="`/edit/${article.id}`"
-              ><el-button type="primary" size="small"
-                >编辑</el-button
-              ></router-link
-            >
-            <el-button type="danger" size="small">删除</el-button>
+            <router-link :to="`/edit/${article.id}`">
+              <el-button type="primary" size="small">编辑</el-button>
+            </router-link>
+            <el-button type="danger" size="small" @click="onDelete(article.id)">删除</el-button>
           </el-col>
         </el-row>
       </li>
     </ul>
     <div>
-      <el-button type="primary" @click="$router.push('/edit/all')"
-        >新建文章</el-button
-      >
+      <el-button type="primary" @click="$router.push('/edit')">新建文章</el-button>
     </div>
   </div>
 </template>
 
 <script>
-import { getBlogList } from "@/service/blog.service.js";
+import { getBlogList, deleteBlog } from "@/service/blog.service.js";
 
 export default {
   name: "Home",
@@ -38,19 +36,33 @@ export default {
       articles: []
     };
   },
-  async mounted() {
-    const articles = await getBlogList({}).then(res => {
-      if (res.code === 0) {
-        return res.data;
-      } else {
-        this.$message.error(res.message);
-      }
-    });
-    this.articles = articles;
+  mounted() {
+    this.getBlogList();
   },
   computed: {},
   watch: {},
-  methods: {},
+  methods: {
+    async getBlogList() {
+      const articles = await getBlogList({}).then(res => {
+        if (res.code === 0) {
+          return res.data;
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+      this.articles = articles;
+    },
+    onDelete(id) {
+      deleteBlog({ id }).then(res => {
+        if (res.code === 0) {
+          this.$message.success("删除成功");
+          this.getBlogList();
+        } else {
+          this.$message.error("删除失败，请重试");
+        }
+      });
+    }
+  },
   components: {}
 };
 </script>
@@ -58,6 +70,7 @@ export default {
 .home {
   display: flex;
   align-items: center;
+  padding: 10px;
   .article-list {
     width: 70%;
     .article-item {

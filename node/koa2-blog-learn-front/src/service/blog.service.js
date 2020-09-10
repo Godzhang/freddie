@@ -18,3 +18,7 @@ export const getBlogDetail = params => {
 export const updateBlog = params => {
   return post("/api/blog/update", params);
 };
+
+export const deleteBlog = params => {
+  return post("/api/blog/delete", params);
+};

@@ -85,6 +85,36 @@ router.get("/detail", async (ctx) => {
   }
 });
 
-router.post("/update", async (ctx) => {});
+router.post("/update", async (ctx) => {
+  const { id, title, kind, content } = ctx.request.body;
+  await blogListModel.updateOne({ id }, { title, kind, content }, (err) => {
+    if (err) {
+      ctx.body = {
+        code: 1,
+        message: "修改失败",
+      };
+    }
+  });
+  ctx.body = {
+    code: 0,
+    message: "修改成功",
+  };
+});
+
+router.post("/delete", async (ctx) => {
+  const { id } = ctx.request.body;
+  await blogListModel.deleteOne({ id }, (err) => {
+    if (err) {
+      ctx.body = {
+        code: 1,
+        message: err.message,
+      };
+    }
+  });
+  ctx.body = {
+    code: 0,
+    message: "删除成功",
+  };
+});
 
 module.exports = router;

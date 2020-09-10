@@ -18,18 +18,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="正文" prop="content">
-        <el-input
-          type="textarea"
-          v-model="ruleForm.content"
-          placeholder="请输入正文"
-        ></el-input>
+        <el-input type="textarea" v-model="ruleForm.content" placeholder="请输入正文"></el-input>
       </el-form-item>
-      <el-button v-if="isCreate" type="primary" @click="submitForm('ruleForm')"
-        >创建</el-button
-      >
-      <el-button v-else type="primary" @click="changeForm('ruleForm')"
-        >修改</el-button
-      >
+      <el-button v-if="isCreate" type="primary" @click="submitForm('ruleForm')">创建</el-button>
+      <el-button v-else type="primary" @click="updateForm('ruleForm')">修改</el-button>
       <el-button @click="resetForm('ruleForm')">重置</el-button>
     </el-form>
   </div>
@@ -60,7 +52,8 @@ export default {
     };
   },
   mounted() {
-    if (this.$route.params.id) {
+    const id = this.$route.params.id;
+    if (id) {
       this.getArticleDetail();
     }
   },
@@ -98,10 +91,13 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    changeForm(formName) {
+    updateForm(formName) {
       this.$refs[formName].validate(async valid => {
         if (valid) {
-          await updateBlog(this.ruleForm);
+          await updateBlog({
+            ...this.ruleForm,
+            ...{ id: this.$route.params.id }
+          });
           this.$message.success("修改成功");
         } else {
           console.log("error submit!!");
