@@ -1,6 +1,7 @@
 const router = require("koa-router")();
 const userModel = require("../models/user");
 const { LOGIN_STATUS } = require("../conf/user");
+const CONFIG = require("../conf/session");
 
 router.prefix("/api/user");
 
@@ -30,15 +31,15 @@ router.post("/login", async (ctx, next) => {
     };
     return;
   }
-  const date = new Date();
-  date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
+  // const date = new Date();
+  // date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
 
-  ctx.cookies.set(LOGIN_STATUS, true, {
-    httpOnly: false,
-    expires: date,
-    maxAge: 24 * 60 * 60 * 1000,
-    signed: false,
-  });
+  // ctx.cookies.set(LOGIN_STATUS, true, {
+  //   httpOnly: false,
+  //   expires: date,
+  //   maxAge: 24 * 60 * 60 * 1000,
+  //   signed: false,
+  // });
 
   ctx.session.loginStatus = true;
 
@@ -103,10 +104,13 @@ router.post("/check", async (ctx) => {
 });
 
 router.post("/exit", async (ctx) => {
-  ctx.cookies.set(LOGIN_STATUS, false, {
-    httpOnly: false,
-    maxAge: 0,
-  });
+  // ctx.cookies.set(LOGIN_STATUS, false, {
+  //   httpOnly: false,
+  //   maxAge: 0,
+  // });
+  // ctx.session.loginStatus = null;
+  CONFIG.store.destroy(ctx.cookies.get("loginStatus"));
+  ctx.session = null;
   ctx.body = {
     code: 0,
     message: "已退出登录",

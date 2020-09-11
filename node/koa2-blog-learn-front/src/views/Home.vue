@@ -1,30 +1,32 @@
 <template>
-  <div class="home">
-    <ul class="article-list">
-      <li v-for="article in articles" :key="article.id">
-        <el-row class="article-item">
-          <el-col :span="12">
-            <router-link :to="`/show/${article.id}`">
-              {{ article.title }}
-            </router-link>
-          </el-col>
-          <el-col :span="6">{{ article.createTime | dateFormatter }}</el-col>
-          <el-col :span="6">
-            <router-link :to="`/edit/${article.id}`">
-              <el-button type="primary" size="small">编辑</el-button>
-            </router-link>
-            <el-button type="danger" size="small" @click="onDelete(article.id)"
-              >删除</el-button
-            >
-          </el-col>
-        </el-row>
-      </li>
-    </ul>
-    <div>
-      <el-button type="primary" @click="$router.push('/edit')"
-        >新建文章</el-button
-      >
-      <el-button @click="onExit">退出登录</el-button>
+  <div>
+    <el-radio-group v-model="kind">
+      <el-radio-button label="all">全部</el-radio-button>
+      <el-radio-button label="technology">技术</el-radio-button>
+      <el-radio-button label="sport">体育</el-radio-button>
+      <el-radio-button label="entertainment">娱乐</el-radio-button>
+    </el-radio-group>
+    <div class="home">
+      <ul class="article-list">
+        <li v-for="article in articles" :key="article.id">
+          <el-row class="article-item">
+            <el-col :span="12">
+              <router-link :to="`/show/${article.id}`">{{ article.title }}</router-link>
+            </el-col>
+            <el-col :span="6">{{ article.createTime | dateFormatter }}</el-col>
+            <el-col :span="6">
+              <router-link :to="`/edit/${article.id}`">
+                <el-button type="primary" size="small">编辑</el-button>
+              </router-link>
+              <el-button type="danger" size="small" @click="onDelete(article.id)">删除</el-button>
+            </el-col>
+          </el-row>
+        </li>
+      </ul>
+      <div>
+        <el-button type="primary" @click="$router.push('/edit')">新建文章</el-button>
+        <el-button @click="onExit">退出登录</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -37,17 +39,23 @@ export default {
   name: "Home",
   data() {
     return {
-      articles: []
+      articles: [],
+      kind: "all"
     };
   },
   mounted() {
     this.getBlogList();
   },
   computed: {},
-  watch: {},
+  watch: {
+    kind(k) {
+      this.getBlogList();
+    }
+  },
   methods: {
     async getBlogList() {
-      const articles = await getBlogList({}).then(res => {
+      const params = this.kind === "all" ? {} : { kind: this.kind };
+      const articles = await getBlogList(params).then(res => {
         if (res.code === 0) {
           return res.data;
         } else {

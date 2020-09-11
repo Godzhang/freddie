@@ -7,5 +7,5 @@ export const isLogin = () => {
     .forEach(item => {
       cookies[item[0]] = item[1];
     });
-  return !!cookies.is_login;
+  return !!cookies.loginStatus;
 };

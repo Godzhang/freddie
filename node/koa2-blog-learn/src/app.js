@@ -4,16 +4,9 @@ const bodyParser = require("koa-bodyparser");
 const session = require("koa-session");
 const user = require("./routes/user");
 const blogList = require("./routes/blogList");
+const CONFIG = require("./conf/session");
 
-app.keys = ["some session keys"];
-
-const CONFIG = {
-  key: "loginStatus",
-  maxAge: 86400000,
-  overwrite: true,
-  httpOnly: true,
-  signed: true,
-};
+// app.keys = ["some session keys"];
 
 app.use(session(CONFIG, app));
 app.use(bodyParser());
