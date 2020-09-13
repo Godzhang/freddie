@@ -8,6 +8,7 @@ const blogListSchema = new Schema({
   id: String,
   content: String,
   createTime: Number,
+  clickCount: Number,
 });
 
 const blogListModel = db.model("blogList", blogListSchema, "blogList");

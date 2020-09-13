@@ -29,7 +29,19 @@ router.post("/new", async (ctx) => {
     createTime,
     kind,
     content,
+    clickCount: 0,
   });
+  // for (let i = 2; i <= 32; i++) {
+  //   const blog = new blogListModel({
+  //     title: `title-${i}`,
+  //     id: i,
+  //     createTime: Date.now(),
+  //     kind: "sport",
+  //     content: `content-${i}`,
+  //     clickCount: 0,
+  //   });
+  //   await blog.save();
+  // }
   await blog.save((err) => {
     if (err) {
       ctx.body = {
@@ -46,19 +58,29 @@ router.post("/new", async (ctx) => {
 });
 
 router.get("/list", async (ctx) => {
+  let { kind = "", pageSize, currentPage } = ctx.query;
+  pageSize = Number(pageSize);
+  currentPage = Number(currentPage);
   const query = {};
-  const kind = ctx.query.kind || "";
   if (kind) query["kind"] = kind;
-  const results = await blogListModel.find(query);
-  const data = results.map(({ title, kind, createTime, id }) => ({
+  const results = await blogListModel.find(query, null, {
+    limit: pageSize,
+    skip: (currentPage - 1) * pageSize,
+  });
+  const data = results.map(({ title, kind, createTime, id, clickCount }) => ({
     title,
     kind,
     createTime,
     id,
+    clickCount,
   }));
+  const allArticles = await blogListModel.find({});
   ctx.body = {
     code: 0,
-    data,
+    data: {
+      data,
+      totalCount: allArticles.length,
+    },
   };
 });
 
@@ -66,7 +88,15 @@ router.get("/detail", async (ctx) => {
   const id = ctx.query.id;
   const docs = await blogListModel.find({ id });
   if (docs.length > 0) {
-    const { title, content, kind, createTime } = docs[0];
+    let { title, content, kind, createTime, clickCount } = docs[0];
+    await blogListModel
+      .updateOne({ id }, { clickCount: ++clickCount })
+      .catch(() => {
+        ctx.body = {
+          code: 1,
+          message: "文章获取失败",
+        };
+      });
     ctx.body = {
       code: 0,
       message: "success",
@@ -75,6 +105,7 @@ router.get("/detail", async (ctx) => {
         content,
         kind,
         createTime,
+        clickCount,
       },
     };
   } else {

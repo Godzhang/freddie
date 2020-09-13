@@ -1,38 +1,14 @@
 const http = require("http");
 const fs = require("fs");
+const net = require("net");
 
-const server = http.createServer((req, res) => {
-  if (req.url === "/") {
-    const fileList = fs.readdirSync("./");
-    res.writeHead("200", {
-      "Content-Type": "text/plain",
-      "X-Power-By": "bacon",
-    });
-    res.end(fileList.toString());
-  } else {
-    const path = req.url;
-    fs.readFile(`.${path}`, (err, data) => {
-      if (err) {
-        console.log(err);
-        res.end(err.toString());
-        return;
-      }
-      res.writeHead("200", { "Content-Type": "text/plain" });
-      res.end(data);
-    });
-  }
+const server = net.createServer((socket) => {
+  console.log("someone connects");
 });
-
-// server.on("connection", (req, res) => {
-//   console.log("connected");
-// });
-
-// server.on("request", (req, res) => {
-//   console.log("request");
-// });
-
-process.on("uncaughtException", () => {
-  console.log("got error");
+server.listen(8000, () => {
+  console.log("server is listening at port 8000");
+  const address = server.address();
+  console.log(address.port);
+  console.log(address.address);
+  console.log(address.family);
 });
-
-server.listen(9000);

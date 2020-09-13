@@ -2,7 +2,12 @@
   <div class="show">
     <template v-if="article">
       <h1 class="title">{{ article.title }}</h1>
-      <p class="create-time">日期: {{ article.createTime | dateFormatter }}</p>
+      <div class="info">
+        <span class="click-count">阅读次数: {{ article.clickCount || 0 }}</span>
+        <p class="create-time">
+          日期: {{ article.createTime | dateFormatter }}
+        </p>
+      </div>
       <p class="content">{{ article.content }}</p>
     </template>
   </div>
@@ -43,12 +48,17 @@ export default {
   .title {
     text-align: center;
   }
-  .create-time {
+  .info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-top: 5px;
-    text-align: right;
-    color: #888;
-    font-size: 12px;
+    .create-time {
+      color: #888;
+      font-size: 12px;
+    }
   }
+
   .content {
     margin-top: 10px;
     font-size: 14px;
