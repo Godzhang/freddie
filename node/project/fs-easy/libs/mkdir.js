@@ -15,5 +15,5 @@ function mkdir(path, callback) {
   }
   callback && callback();
 }
-mkdir("./d/c.js");
+
 module.exports = mkdir;

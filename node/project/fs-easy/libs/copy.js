@@ -1,6 +1,5 @@
 const fs = require("fs");
 const mkdir = require("./mkdir");
-const touch = require("./touch");
 
 function copy(src, dist) {
   // 判断引入路径是否存在
@@ -14,7 +13,6 @@ function copy(src, dist) {
   }
 
   let filename, distPath, srcPath, readAble, writeAble;
-  console.log(fs.statSync(src).isFile());
   // 判断是否复制文件
   if (fs.statSync(src).isFile()) {
     // 获取文件名
@@ -29,12 +27,8 @@ function copy(src, dist) {
     const paths = fs.readdirSync(src);
     for (let i = 0, len = paths.length; i < len; i++) {
       srcPath = src + "/" + paths[i];
-      console.log(srcPath);
       distPath = dist + "/" + paths[i];
-      console.log(distPath);
       // 如果文件夹中有文件，通过流创建和写入文件
-      // console.log(fs.statSync(distPath).isDirectory());
-      // console.log(fs.statSync(srcPath).isFile());
       if (fs.statSync(srcPath).isFile()) {
         readAble = fs.createReadStream(srcPath);
         writeAble = fs.createWriteStream(distPath);
@@ -49,5 +43,4 @@ function copy(src, dist) {
 // mkdir("./a/b");
 // require("./touch")("./a/b/c.js");
 // copy("./a/b", "./d");
-touch("./d/c.js");
 module.exports = copy;
