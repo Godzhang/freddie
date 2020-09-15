@@ -1,1 +1,11 @@
-my name is zhangqi
+已过模块
+zlib
+worker_threads
+wasi
+v8
+tty
+
+暂时跳过的模块
+vm
+util
+url
