@@ -34,6 +34,7 @@ const mapLimit = (arr, limit, handleFn, resolvedFn, rejectedFn) => {
     }
   });
 };
+module.exports = mapLimit;
 
 // test
 const arr = new Array(30).fill(0).map((item, index) => index + 1);

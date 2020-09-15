@@ -6,6 +6,7 @@
     <script src="./js/jquery.js"></script>
     <script src="./js/lodash.js"></script>
     <script src="./js/moment.js"></script>
+    <script src="../node//essence//utils/delegates.js"></script>
     <style>
       * {
         margin: 0;
@@ -26,6 +27,53 @@
     </script>
     <script>
       //
+    </script>
+    <script>
+      //
+      const proto = {
+        obj: {
+          name: "zhangqi",
+          setAge: function (name, age) {
+            console.log("name; ", name, "age: ", age);
+          },
+          job: undefined,
+        },
+      };
+      // Delegates.auto(proto, proto.obj, "obj");
+
+      // delegate(proto, "obj").access("name").method("setAge");
+      // delegate(proto, "obj").access("name");
+      // console.log(proto.name);
+      // proto.name = "zhaojinge";
+      // console.log(proto.name);
+      // console.log(proto.job);
+      // proto.job = "web";
+      // console.log(proto.job);
+      // console.log(proto.setAge("zhaojinge", 13));
+    </script>
+    <script>
+      //
+      // const request = {
+      //   get header() {
+      //     console.log("get header");
+      //     console.log(this);
+      //     console.log(this === request);
+      //     console.log("-------------------");
+      //     return "header";
+      //   },
+      //   set header(val) {
+      //     console.log("set header");
+      //     console.log(this);
+      //     console.log("-------------------");
+      //   },
+      // };
+      // const r = Object.create(request);
+      // // console.log(r);
+      // // console.log(r.__proto__);
+      // // console.log(r.header);
+      // const context = {};
+      // context.request = Object.create(r);
+      // console.log(context.request.header);
     </script>
     <script>
       // 空值合并操作符

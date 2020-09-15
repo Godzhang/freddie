@@ -40,7 +40,4 @@ function copy(src, dist) {
   }
 }
 
-// mkdir("./a/b");
-// require("./touch")("./a/b/c.js");
-// copy("./a/b", "./d");
 module.exports = copy;
