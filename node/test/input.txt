@@ -4,8 +4,9 @@ worker_threads
 wasi
 v8
 tty
-
-暂时跳过的模块
 vm
 util
 url
+trace_events
+
+暂时跳过的模块
