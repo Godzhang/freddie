@@ -1,5 +1,5 @@
 {
-  "name": "redis-test",
+  "name": "learn",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "godzhang",
   "license": "ISC",
-  "dependencies": {
-    "redis": "^3.0.2"
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
