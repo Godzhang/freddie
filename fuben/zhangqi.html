@@ -6,7 +6,6 @@
     <script src="./js/jquery.js"></script>
     <script src="./js/lodash.js"></script>
     <script src="./js/moment.js"></script>
-    <script src="../node//essence//utils/delegates.js"></script>
     <style>
       * {
         margin: 0;
@@ -30,15 +29,15 @@
     </script>
     <script>
       //
-      const proto = {
-        obj: {
-          name: "zhangqi",
-          setAge: function (name, age) {
-            console.log("name; ", name, "age: ", age);
-          },
-          job: undefined,
-        },
-      };
+      // const proto = {
+      //   obj: {
+      //     name: "zhangqi",
+      //     setAge: function (name, age) {
+      //       console.log("name; ", name, "age: ", age);
+      //     },
+      //     job: undefined,
+      //   },
+      // };
       // Delegates.auto(proto, proto.obj, "obj");
 
       // delegate(proto, "obj").access("name").method("setAge");
