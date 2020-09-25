@@ -3,3 +3,4 @@
 3. bluebird.promisifyAll
 4. Blob, File
 5. axios 源码
+6. 前端轻量化部署
