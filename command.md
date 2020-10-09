@@ -6,3 +6,6 @@
 6. 前端轻量化部署
 
 新闻雷达：https://org.modao.cc/app/bl3i047zdvgikl01b2jetxeq9lyf2414?simulator_type=device&sticky#screen=skfeu05cx7gqy02
+
+7. 标记清除法和内存泄漏相关
+8. 几种类型存储方式
