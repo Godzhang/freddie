@@ -1,7 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
+import NewsDetail from "../NewsDetail/index";
 import "./index.scss";
 
 const News: FC = (props) => {
+  const [visible, setVisible] = useState(false);
+
   return (
     <div className="news">
       <div className="item organ">
@@ -14,7 +17,7 @@ const News: FC = (props) => {
           <i>United States</i>
         </span>
       </div>
-      <div className="item title">
+      <div className="item title" onClick={() => setVisible(true)}>
         Lucy Bronze: Manchester City re-sign England right-back from Lyon
       </div>
       <div className="item content">
@@ -29,6 +32,7 @@ const News: FC = (props) => {
       <div className="item time">
         <span>2020-09-10 12:34:33</span>
       </div>
+      <NewsDetail visible={visible} onClose={() => setVisible(false)} />
     </div>
   );
 };
