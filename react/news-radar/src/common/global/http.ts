@@ -51,10 +51,10 @@ class HttpRequest {
       (res: AxiosResponse) => {
         const { data } = res;
         const { code, message } = data;
-        if (code !== 0) {
+        if (code !== 1) {
           console.error(message);
         }
-        return res;
+        return res.data;
       },
       (error) => Promise.reject(error)
     );

@@ -4,18 +4,16 @@
   justify-content: space-between;
   width: 100%;
   .sub-menu {
-    width: 50%;
+    min-width: 40%;
   }
   .main-menu {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 40%;
+    min-width: 36%;
     .menu-list {
-      display: flex;
-      justify-content: space-between;
-      width: 75%;
       margin-right: 10px;
+      white-space: nowrap;
       a {
         font-size: 14px;
         color: #999;
@@ -23,6 +21,9 @@
         &.selected {
           color: #000;
         }
+      }
+      a + a {
+        margin-left: 35px;
       }
     }
   }

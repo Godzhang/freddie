@@ -12,20 +12,16 @@ const Home: FC = (props) => {
   return (
     <div className="home-page">
       <SideBar />
-      <Row className="main">
-        <Col span={1}></Col>
-        <Col span={21}>
-          <Layout className="layout">
-            <Header className="header">
-              <MainHeader />
-            </Header>
-            <Content className="content">
-              <MainContent />
-            </Content>
-          </Layout>
-        </Col>
-        <Col span={2}></Col>
-      </Row>
+      <div className="main">
+        <Layout className="layout">
+          <Header className="header">
+            <MainHeader />
+          </Header>
+          <Content className="content">
+            <MainContent />
+          </Content>
+        </Layout>
+      </div>
     </div>
   );
 };

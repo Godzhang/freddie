@@ -1,8 +1,8 @@
-import axios, { ResponseData } from "./index";
+import axios from "./index";
 import { AxiosPromise, AxiosRequestConfig } from "axios";
 
 export const getSubList = (config?: AxiosRequestConfig): AxiosPromise => {
-  return axios.post("sub/getSubList", null, config);
+  return axios.post("sub/getSubList", {}, config);
 };
 
 type TypeId = 0 | 1 | 2;

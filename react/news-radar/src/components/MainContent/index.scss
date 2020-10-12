@@ -1,3 +1,37 @@
-.main-content {
-  padding: 20px 0;
+// .main-body {
+//   height: 100%;
+//   padding: 0 4%;
+//   overflow: hidden;
+//   .main-content {
+//     width: 100%;
+//     padding: 20px 0;
+//   }
+// }
+
+.main-body {
+  height: 100%;
+  overflow: hidden;
+  // .ant-carousel {
+  //   height: 100%;
+  //   .slick-slider {
+
+  //   }
+  // }
+  .main-item {
+    width: 100%;
+    height: 500px;
+    // height: 100%;
+    padding: 0 4%;
+    background-color: #08c;
+  }
+  // .main-container {
+  //   width: 100%;
+  //   height: 100%;
+  //   // margin: 0 auto;
+  //   overflow: hidden;
+  //   .main-list {
+  //     width: auto;
+  //     height: 100%;
+  //   }
+  // }
 }
