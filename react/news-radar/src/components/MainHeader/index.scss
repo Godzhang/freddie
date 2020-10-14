@@ -3,15 +3,16 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  .sub-menu {
-    min-width: 40%;
+  .sub-menu-wrapper {
+    min-width: 30%;
   }
   .main-menu {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-width: 36%;
+    min-width: 50%;
     .menu-list {
+      margin-left: 20px;
       margin-right: 10px;
       white-space: nowrap;
       a {

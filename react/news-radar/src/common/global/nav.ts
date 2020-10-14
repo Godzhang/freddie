@@ -1,70 +1,81 @@
+export interface NavStructure {
+  title: string;
+  key?: string | number;
+  children?: NavStructure[];
+  subnav?: NavStructure[];
+}
+
 const topicNav = {
-  name: "topic",
+  title: "topic",
   children: [
-    { name: "All" },
-    { name: "Politics" },
-    { name: "Economy" },
-    { name: "Crime" },
-    { name: "Art" },
+    { title: "All" },
+    { title: "Politics" },
+    { title: "Economy" },
+    { title: "Crime" },
+    { title: "Art" },
   ],
 };
 const locationNav = {
-  name: "location",
+  title: "location",
   children: [
-    { name: "All" },
-    { name: "China" },
-    { name: "America" },
-    { name: "Canada" },
+    { title: "All" },
+    { title: "China" },
+    { title: "America" },
+    { title: "Canada" },
   ],
 };
 const sourceNav = {
-  name: "source",
+  title: "source",
   children: [
-    { name: "All" },
-    { name: "web" },
-    { name: "twitter" },
-    { name: "facebook" },
+    { title: "All" },
+    { title: "web" },
+    { title: "twitter" },
+    { title: "facebook" },
   ],
 };
 
 export const mainNav = [
   {
-    name: "Latest news",
+    title: "Latest news",
     children: [
-      { name: "Topic" },
-      { name: "Location" },
+      { title: "Topic" },
+      { title: "Location" },
       {
-        name: "Source",
-        children: [{ name: "Web" }, { name: "Twitter" }, { name: "Facebook" }],
+        title: "Source",
+        children: [
+          { title: "Web" },
+          { title: "Twitter" },
+          { title: "Facebook" },
+        ],
       },
     ],
     subnav: [
-      { name: "All" },
+      { title: "All" },
       { ...topicNav },
       { ...locationNav },
       { ...sourceNav },
     ],
   },
   {
-    name: "Hot news",
-    children: [{ name: "Topic" }, { name: "Location" }],
-    subnav: [{ name: "All" }, { ...topicNav }, { ...locationNav }],
+    title: "Hot news",
+    children: [{ title: "Topic" }, { title: "Location" }],
+    subnav: [{ title: "All" }, { ...topicNav }, { ...locationNav }],
   },
   {
-    name: "Trending",
-    children: [{ name: "Topic" }, { name: "Location" }],
-    subnav: [{ name: "All" }, { ...topicNav }, { ...locationNav }],
+    title: "Trending",
+    children: [{ title: "Topic" }, { title: "Location" }],
+    subnav: [{ title: "All" }, { ...topicNav }, { ...locationNav }],
   },
 ];
 
 export const nav = [
   {
-    name: "My Subscribe",
+    title: "My Subscribe",
     subnav: [
-      { name: "All" },
-      { name: "Hot news" },
-      { name: "Trending" },
-      { name: "Latest news" },
+      { title: "All" },
+      { title: "Hot news" },
+      { title: "Trending" },
+      { title: "Latest news" },
     ],
   },
   ...mainNav,

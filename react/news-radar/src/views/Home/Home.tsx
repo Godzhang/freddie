@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { Layout, Row, Col } from "antd";
-// import useMount from "@/hooks/useMount";
 import SideBar from "@/components/SideBar/index";
 import MainHeader from "@/components/MainHeader/index";
 import MainContent from "@/components/MainContent/index";
@@ -8,7 +7,7 @@ import "./Home.scss";
 
 const { Content, Header } = Layout;
 
-const Home: FC = (props) => {
+const Home: FC = () => {
   return (
     <div className="home-page">
       <SideBar />

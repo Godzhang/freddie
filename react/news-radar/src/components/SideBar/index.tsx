@@ -1,7 +1,12 @@
 import React, { FC, useState } from "react";
 import classnames from "classnames";
-import { MenuIcon } from "@/images/svg";
+import { Tree } from "antd";
+import { MenuIcon, RadarIcon, TextIcon } from "@/images/index";
+import { mainNav } from "@/common/global/nav.ts";
+import { addTreeKey } from "@/common/utils/utils";
 import "./index.scss";
+
+const treeData = addTreeKey(mainNav);
 
 interface SideBarProps {}
 
@@ -11,6 +16,7 @@ const SideBar: FC<SideBarProps> = (props) => {
   const sideBarClass = classnames("sidebar", {
     expanded: isExpanded,
   });
+
   return (
     <div className="s-container">
       <div className={sideBarClass}>
@@ -18,16 +24,15 @@ const SideBar: FC<SideBarProps> = (props) => {
           className="menu-action-icon"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          <MenuIcon style={{ width: "40px", height: "32px" }} />
+          <MenuIcon />
         </i>
         <div className="menu-logo">
-          <i className="logo"></i>
-          <div className="desc">
-            <p>NEWS</p>
-            <p>RADAR</p>
-          </div>
+          <RadarIcon />
+          <TextIcon className="desc" />
         </div>
-        <div className="menu-tree"></div>
+        <div className="menu-tree">
+          <Tree treeData={treeData}></Tree>
+        </div>
       </div>
     </div>
   );

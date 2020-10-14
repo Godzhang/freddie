@@ -1,3 +1,6 @@
+import { NavStructure } from "../global/nav";
+import { DataNode } from "antd/lib/tree";
+
 interface ArrayItem {
   [key: string]: any;
 }
@@ -45,4 +48,23 @@ export const dateFormatter = (ms: Date | number, fmt: string): string => {
     }
   }
   return fmt;
+};
+
+interface TreeData {
+  title: string;
+  key?: string | number;
+  children?: TreeData[];
+  subnav?: TreeData[];
+}
+export const addTreeKey = (arr: TreeData[], parentKey?: string): DataNode[] => {
+  arr = JSON.parse(JSON.stringify(arr));
+  arr.forEach((item, index) => {
+    const key = parentKey ? `${parentKey}-${index}` : `${index}`;
+    item.key = key;
+    if (item.children && item.children.length > 0) {
+      item.children = addTreeKey(item.children, key) as TreeData[];
+    }
+  });
+
+  return arr as DataNode[];
 };
