@@ -1,0 +1,22 @@
+.status-btn {
+  background-color: #666;
+  border-color: #666;
+  color: #fff;
+  &:hover {
+    background-color: lighten(#666, 10%);
+    border-color: #666;
+    color: #fff;
+  }
+  &:focus,
+  &:active {
+    background-color: #666;
+    border-color: #666;
+    color: #fff;
+  }
+  &.selected {
+    background-color: #fff;
+    border-width: 2px;
+    border-color: #1a97ff;
+    color: #1a97ff;
+  }
+}

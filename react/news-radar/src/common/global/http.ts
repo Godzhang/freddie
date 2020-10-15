@@ -12,10 +12,11 @@ const {
 const apiBaseUrl =
   process.env.NODE_ENV === "development" ? devApiBaseUrl : proApiBaseUrl;
 
-export interface ResponseData {
+export interface ResponseData<T = any> {
   code: number;
   message: string;
-  result?: any;
+  url?: string;
+  result: T;
 }
 
 class HttpRequest {
@@ -54,7 +55,7 @@ class HttpRequest {
         if (code !== 1) {
           console.error(message);
         }
-        return res.data;
+        return res;
       },
       (error) => Promise.reject(error)
     );

@@ -10,15 +10,20 @@
   .ant-btn {
     transition: none;
   }
-  .status-btn {
-    background-color: #666;
-    border-color: #666;
-    color: #fff;
-    &.selected {
-      background-color: #fff;
-      border-width: 2px;
-      border-color: #1a97ff;
-      color: #1a97ff;
+
+  .sub-module {
+    padding: 15px 0;
+    border-bottom: 1px solid #c7c7c7;
+    .two-level {
+      display: flex;
+      margin-top: 10px;
+      margin-bottom: -10px;
+      .branch {
+        margin-left: 10px;
+        > button {
+          margin: 0 10px 10px 0;
+        }
+      }
     }
   }
 }

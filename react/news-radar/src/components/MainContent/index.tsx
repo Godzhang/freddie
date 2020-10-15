@@ -6,6 +6,7 @@ import WordCloud, {
   HotNewsWordCloud,
   TrendingWordCloud,
 } from "@/components/WordCloud/index";
+import { ArrowLeft, ArrowRight } from "@/images";
 import "./index.scss";
 
 type SwitchMethod = "prev" | "next";
@@ -53,10 +54,19 @@ const MainContent: FC = (props) => {
     <div className="main-body" ref={mainBody} style={wrapperStyle}>
       <Carousel dots={false} ref={carousel}>
         <div className="main-item">
-          <div
-            className="item-content"
-            style={{ backgroundColor: "#08c", height: itemHeight + "px" }}
-          ></div>
+          <div className="item-content" style={{ height: itemHeight + "px" }}>
+            <Row gutter={90}>
+              <Col span={8}>
+                <LatestNewsWordCloud words={latestNewsWords} />
+              </Col>
+              <Col span={8}>
+                <HotNewsWordCloud words={latestNewsWords} />
+              </Col>
+              <Col span={8}>
+                <TrendingWordCloud words={latestNewsWords} />
+              </Col>
+            </Row>
+          </div>
         </div>
         <div className="main-item">
           <div
@@ -65,14 +75,14 @@ const MainContent: FC = (props) => {
           ></div>
         </div>
       </Carousel>
-      <i
+      <ArrowLeft
         className="arrow arrow-left"
         onClick={() => switchCarousel("prev")}
-      ></i>
-      <i
+      ></ArrowLeft>
+      <ArrowRight
         className="arrow arrow-right"
         onClick={() => switchCarousel("next")}
-      ></i>
+      ></ArrowRight>
     </div>
   );
 };

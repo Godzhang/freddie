@@ -42,9 +42,11 @@ $sidebar-height: 100%;
         border-radius: 15px;
       }
       .desc {
-        display: none;
+        opacity: 0;
+        transform: translateX(30px);
         line-height: 1.25;
         margin-left: 10px;
+        transition: all 0.3s linear 0.4s;
       }
     }
     .menu-tree {
@@ -60,7 +62,8 @@ $sidebar-height: 100%;
         top: 24px;
         left: 70px;
         .desc {
-          display: block;
+          opacity: 1;
+          transform: translateX(0);
         }
       }
     }

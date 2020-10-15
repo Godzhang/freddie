@@ -1,7 +1,7 @@
 import axios from "./index";
 import { AxiosPromise, AxiosRequestConfig } from "axios";
 
-export interface LatestNewsData {
+export interface MySubListData {
   subType?: number;
   topicType?: number;
   locationType?: number;
@@ -12,6 +12,14 @@ export interface LatestNewsData {
   pageSize?: number;
   pageNumber?: number;
 }
+export const getMySubList = (
+  data: MySubListData,
+  config?: AxiosRequestConfig
+): AxiosPromise => {
+  return axios.post("/list/getMySubList", data, config);
+};
+
+export interface LatestNewsData extends MySubListData {}
 export const getLatestNews = (
   data: LatestNewsData,
   config?: AxiosRequestConfig

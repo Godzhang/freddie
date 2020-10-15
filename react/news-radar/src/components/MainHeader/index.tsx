@@ -1,8 +1,9 @@
 import React, { FC, useState } from "react";
 import { Button, Input } from "antd";
+import { Link } from "react-router-dom";
 import SubMenu from "./SubMenu/index";
 import SubScribeConfig from "../SubScribeConfig/index";
-import { nav } from "@/common/global/nav.ts";
+import { nav, mainNav } from "@/common/global/nav.ts";
 import "./index.scss";
 
 const { Search } = Input;
@@ -18,14 +19,17 @@ const MainHeader: FC = (props) => {
       <div className="main-menu">
         <Search style={{ width: "200px" }} />
         <div className="menu-list">
-          {nav.map((item) => (
-            <a key={item.title}>{item.title}</a>
+          <Link to="/">My Subscribe</Link>
+          {mainNav.map((item) => (
+            <Link to="/sub/1" key={item.title}>
+              {item.title}
+            </Link>
           ))}
         </div>
         <Button type="primary" shape="round" onClick={() => setVisible(true)}>
           Subscribe
         </Button>
-        <SubScribeConfig visible={visible} onClose={() => setVisible(false)} />
+        <SubScribeConfig visible={true} onClose={() => setVisible(false)} />
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import { NavStructure } from "../global/nav";
 import { DataNode } from "antd/lib/tree";
 
 interface ArrayItem {
@@ -67,4 +66,23 @@ export const addTreeKey = (arr: TreeData[], parentKey?: string): DataNode[] => {
   });
 
   return arr as DataNode[];
+};
+
+const getDataType = (data: any): string => {
+  return Object.prototype.toString.call(data);
+};
+
+//@ts-ignore
+export const cloneSimpleData = (data, isDeep = false) => {
+  let newData = "";
+  if (!isDeep) {
+    if (getDataType(data) === "[object Object]") {
+      newData = Object.assign({}, data);
+    } else if (getDataType(data) === "[object Array]") {
+      newData = data.concat();
+    }
+  } else {
+    newData = JSON.parse(JSON.stringify(data));
+  }
+  return newData;
 };
