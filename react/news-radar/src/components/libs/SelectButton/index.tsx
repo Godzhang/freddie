@@ -1,12 +1,13 @@
 import React, { FC, ReactNode, useState, useEffect } from "react";
 import classnames from "classnames";
-import { Button, Dropdown, Menu } from "antd";
-import { CheckOutlined, DownOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+import { CheckOutlined } from "@ant-design/icons";
 import {
-  SubItemStructure,
   SubStructure,
   SubScribeStructure,
 } from "@/common/global/subscribeList";
+import MultipleSelect from "../MultipleSelect/index";
+import { ChangeFnType } from "../MultipleSelect/index";
 import "./index.scss";
 
 export type SelectButtonType = "single" | "multiple";
@@ -22,7 +23,6 @@ const SelectButton: FC<SelectButtonProps> = (props) => {
   const { type, info, disabled, children, update } = props;
   const [selected, setSelected] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(disabled);
-  const [multipleText, setMultipleText] = useState(children);
   const classes = classnames("status-btn", {
     selected,
   });
@@ -56,20 +56,8 @@ const SelectButton: FC<SelectButtonProps> = (props) => {
     }
   };
 
-  const selectItem = (item: SubItemStructure) => {
-    setMultipleText(item.value);
-  };
-
-  const createOverlay = (sub: SubStructure) => {
-    return (
-      <Menu>
-        {sub.map((s, si) => (
-          <Menu.Item key={si} onClick={() => selectItem(s)}>
-            {s.value}
-          </Menu.Item>
-        ))}
-      </Menu>
-    );
+  const changeChildrenKeys: ChangeFnType = (keys) => {
+    console.log(keys);
   };
 
   if (type === "single") {
@@ -86,12 +74,13 @@ const SelectButton: FC<SelectButtonProps> = (props) => {
     );
   } else {
     return (
-      <Dropdown disabled={btnDisabled} overlay={createOverlay(info.sub)}>
-        <Button className={classes} shape="round">
-          {multipleText}
-          <DownOutlined />
-        </Button>
-      </Dropdown>
+      <MultipleSelect
+        disabled={btnDisabled}
+        options={info.sub}
+        onChange={(keys) => changeChildrenKeys(keys)}
+      >
+        {children}
+      </MultipleSelect>
     );
   }
 };

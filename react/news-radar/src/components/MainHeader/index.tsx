@@ -17,7 +17,7 @@ const MainHeader: FC = (props) => {
         <SubMenu />
       </div>
       <div className="main-menu">
-        <Search style={{ width: "200px" }} />
+        {/* <Search style={{ width: "200px" }} /> */}
         <div className="menu-list">
           <Link to="/">My Subscribe</Link>
           {mainNav.map((item) => (
@@ -29,7 +29,7 @@ const MainHeader: FC = (props) => {
         <Button type="primary" shape="round" onClick={() => setVisible(true)}>
           Subscribe
         </Button>
-        <SubScribeConfig visible={true} onClose={() => setVisible(false)} />
+        <SubScribeConfig visible={visible} onClose={() => setVisible(false)} />
       </div>
     </div>
   );

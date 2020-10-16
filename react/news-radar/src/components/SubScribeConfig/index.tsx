@@ -1,55 +1,34 @@
 import React, { FC, useState, useEffect } from "react";
-import { Drawer, Button, Dropdown, Menu } from "antd";
+import { Drawer } from "antd";
 import { DrawerProps } from "antd/lib/drawer";
-import { CheckOutlined, DownOutlined } from "@ant-design/icons";
-import classnames from "classnames";
-import { getConfigList, ConfigResponseData } from "@/common/api/subscribe";
+import {
+  getSubList,
+  getConfigList,
+  ConfigResponseData,
+} from "@/common/api/subscribe";
 import subscribeList, {
   SubScribeStructure,
-  SubStructure,
 } from "@/common/global/subscribeList";
 import SelectButton from "../libs/SelectButton/index";
-// import {cloneSimpleData} from '@/common/utils/utils';
+import { fillResultToSubscribeList, backFillSelectedTag } from "./util";
 import "./index.scss";
-
-const fillResultToSubscribeList = (
-  list: SubScribeStructure[],
-  result: ConfigResponseData
-) => {
-  const { locationList, topicList, websiteList } = result;
-  locationList.forEach((item) => {
-    item.disabled = false;
-  });
-  topicList.forEach((item) => {
-    item.disabled = false;
-  });
-  const newWebsiteList = websiteList.map((web, i) => ({
-    key: `${i}`,
-    value: web,
-    disabled: false,
-  }));
-  list.forEach((item) => {
-    item.children![0].sub = [...locationList];
-    item.children![1].sub = [...topicList];
-    item.children![2].children![0].sub = [...newWebsiteList];
-  });
-};
 
 const SubScribeConfig: FC<DrawerProps> = (props) => {
   const [subscriptionList, setSubscriptionList] = useState(subscribeList);
 
   useEffect(() => {
-    getConfigList().then((res) => {
-      fillResultToSubscribeList(subscriptionList, res.data.result);
-      //@ts-ignore
-      console.log(
-        //@ts-ignore
-        subscriptionList[0].children[0].sub ===
-          //@ts-ignore
-          subscriptionList[1].children[0].sub
-      );
+    Promise.all([getSubList(), getConfigList()]).then(([subRes, configRes]) => {
+      const selectedTags = subRes.data.result;
+
+      fillResultToSubscribeList(subscriptionList, configRes.data.result);
+      // console.log(subscriptionList);
+      // backFillSelectedTag(subscriptionList, selectedTags);
       setSubscriptionList([...subscriptionList]);
     });
+    // getConfigList().then((res) => {
+    //   fillResultToSubscribeList(subscriptionList, res.data.result);
+    //   setSubscriptionList([...subscriptionList]);
+    // });
   }, []);
 
   const updateSubList = () => {
