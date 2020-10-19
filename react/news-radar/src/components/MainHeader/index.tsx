@@ -4,12 +4,19 @@ import { Link } from "react-router-dom";
 import SubMenu from "./SubMenu/index";
 import SubScribeConfig from "../SubScribeConfig/index";
 import { nav, mainNav } from "@/common/global/nav.ts";
+import { saveSub } from "@/common/api/subscribe";
 import "./index.scss";
 
 const { Search } = Input;
 
 const MainHeader: FC = (props) => {
   const [visible, setVisible] = useState(false);
+
+  const onSaveSubscribe = () => {
+    // const params = {}
+    // saveSub(params)
+    setVisible(false);
+  };
 
   return (
     <div className="main-header">
@@ -29,7 +36,7 @@ const MainHeader: FC = (props) => {
         <Button type="primary" shape="round" onClick={() => setVisible(true)}>
           Subscribe
         </Button>
-        <SubScribeConfig visible={visible} onClose={() => setVisible(false)} />
+        <SubScribeConfig visible={visible} onSave={() => onSaveSubscribe()} />
       </div>
     </div>
   );

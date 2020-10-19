@@ -13,26 +13,36 @@ import SelectButton from "../libs/SelectButton/index";
 import { fillResultToSubscribeList, backFillSelectedTag } from "./util";
 import "./index.scss";
 
-const SubScribeConfig: FC<DrawerProps> = (props) => {
+interface SubScribeConfigProps extends DrawerProps {
+  onSave: () => void;
+}
+
+const SubScribeConfig: FC<SubScribeConfigProps> = (props) => {
+  const { onSave, ...restProps } = props;
   const [subscriptionList, setSubscriptionList] = useState(subscribeList);
 
   useEffect(() => {
     Promise.all([getSubList(), getConfigList()]).then(([subRes, configRes]) => {
-      const selectedTags = subRes.data.result;
+      // const selectedTags = subRes.data.result;
 
       fillResultToSubscribeList(subscriptionList, configRes.data.result);
       // console.log(subscriptionList);
       // backFillSelectedTag(subscriptionList, selectedTags);
       setSubscriptionList([...subscriptionList]);
     });
-    // getConfigList().then((res) => {
-    //   fillResultToSubscribeList(subscriptionList, res.data.result);
-    //   setSubscriptionList([...subscriptionList]);
-    // });
   }, []);
 
   const updateSubList = () => {
     setSubscriptionList([...subscriptionList]);
+  };
+
+  const getSelectedKeys = () => {
+    console.log(subscriptionList);
+  };
+
+  const closeDrawer = () => {
+    const selectedKeys = getSelectedKeys();
+    onSave();
   };
 
   return (
@@ -41,7 +51,8 @@ const SubScribeConfig: FC<DrawerProps> = (props) => {
       title="Subscribe"
       closable={true}
       width={580}
-      {...props}
+      onClose={() => closeDrawer()}
+      {...restProps}
     >
       {subscriptionList.map((subList, subIndex) => (
         <div className="sub-module" key={subIndex}>

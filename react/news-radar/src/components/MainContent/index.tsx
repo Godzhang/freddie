@@ -1,6 +1,11 @@
 import React, { FC, useRef, useEffect, useState } from "react";
 import { Row, Col, Carousel } from "antd";
-import News from "@/components/News/index";
+import {
+  TitleOnly,
+  TitleWithAbstract,
+  TitleWithAbstractAndMedia,
+  TitleWithMedia,
+} from "@/components/News/index.tsx";
 import WordCloud, {
   LatestNewsWordCloud,
   HotNewsWordCloud,
@@ -58,12 +63,16 @@ const MainContent: FC = (props) => {
             <Row gutter={90}>
               <Col span={8}>
                 <LatestNewsWordCloud words={latestNewsWords} />
+                <TitleOnly />
+                {/* <TitleWithAbstract /> */}
               </Col>
               <Col span={8}>
                 <HotNewsWordCloud words={latestNewsWords} />
+                {/* <TitleWithMedia /> */}
               </Col>
               <Col span={8}>
                 <TrendingWordCloud words={latestNewsWords} />
+                {/* <TitleWithAbstractAndMedia /> */}
               </Col>
             </Row>
           </div>

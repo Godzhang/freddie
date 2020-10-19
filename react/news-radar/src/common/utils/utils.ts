@@ -68,21 +68,20 @@ export const addTreeKey = (arr: TreeData[], parentKey?: string): DataNode[] => {
   return arr as DataNode[];
 };
 
-const getDataType = (data: any): string => {
-  return Object.prototype.toString.call(data);
+export const formatterContent = (content: string): string[] => {
+  if (content) {
+    const paragraphs = content.split(/\n/);
+    return paragraphs;
+  } else {
+    return [];
+  }
 };
 
-//@ts-ignore
-export const cloneSimpleData = (data, isDeep = false) => {
-  let newData = "";
-  if (!isDeep) {
-    if (getDataType(data) === "[object Object]") {
-      newData = Object.assign({}, data);
-    } else if (getDataType(data) === "[object Array]") {
-      newData = data.concat();
-    }
-  } else {
-    newData = JSON.parse(JSON.stringify(data));
-  }
-  return newData;
+export const getTimeDesc = (time: string): string => {
+  const now = Date.now();
+  const aTime = new Date(time).getTime();
+  const diffTime = now - aTime;
+  console.log(diffTime);
+
+  return time;
 };

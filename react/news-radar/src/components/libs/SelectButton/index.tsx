@@ -6,8 +6,7 @@ import {
   SubStructure,
   SubScribeStructure,
 } from "@/common/global/subscribeList";
-import MultipleSelect from "../MultipleSelect/index";
-import { ChangeFnType } from "../MultipleSelect/index";
+import MultipleSelect, { ChangeFnType } from "./MultipleSelect/index";
 import "./index.scss";
 
 export type SelectButtonType = "single" | "multiple";
@@ -49,11 +48,15 @@ const SelectButton: FC<SelectButtonProps> = (props) => {
 
   const changeStatus = () => {
     if (info.disabled) return;
+
     setSelected(!selected);
+    info.selected = !selected;
+
     if (info.sub || info.children) {
       checkChildrenDisabled(info.sub || info.children, !selected);
-      update();
     }
+
+    update();
   };
 
   const changeChildrenKeys: ChangeFnType = (keys) => {
