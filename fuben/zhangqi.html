@@ -17,47 +17,29 @@
         height: 100%;
       }
 
-      .container {
+      /* .container {
         width: 100px;
         height: 100px;
         background: #757575;
-      }
+      } */
     </style>
     <title>zhangqi</title>
   </head>
   <body>
-    <div class="container"></div>
+    <div class="container">
+      <canvas id="canvas" width="1200" height="500"></canvas>
+    </div>
     <script>
       //
     </script>
     <script>
       //
-      var me = {
-        name: "xiuyan",
-      };
-
-      function showName(a) {
-        console.log(this.name, a);
-      }
-
-      // showName.call(me); // xiuyan
-      // function call(obj, targetFn, ...args) {
-      //   obj._func = targetFn;
-      //   obj._func(...args);
-      //   delete obj._func;
-      // }
-      // call(me, showName, 2);
-
-      function bind(obj, targetFn) {
-        obj._func = targetFn;
-        return function (...args) {
-          const result = obj._func(...args);
-          return result;
-        };
-      }
-      const fn = bind(me, showName);
-      fn(2);
-      fn(3);
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      ctx.font = "48px arial";
+      const text = "近十年全国各地GDP趋势对比";
+      ctx.fillText("width:" + ctx.measureText(text).width, 10, 50);
+      ctx.fillText(text, 10, 100);
     </script>
     <script>
       //

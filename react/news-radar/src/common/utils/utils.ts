@@ -77,11 +77,33 @@ export const formatterContent = (content: string): string[] => {
   }
 };
 
+const timeInterval = {
+  second: 1000,
+  minute: 60 * 1000,
+  hour: 60 * 60 * 1000,
+  day: 24 * 60 * 60 * 1000,
+};
 export const getTimeDesc = (time: string): string => {
   const now = Date.now();
   const aTime = new Date(time).getTime();
   const diffTime = now - aTime;
-  console.log(diffTime);
+  const { day, hour, minute, second } = timeInterval;
+
+  // 天数
+  const days = Math.floor(diffTime / day);
+  if (days > 0) return `${days} days ago`;
+  // 小时数
+  const residue_1 = diffTime % hour;
+  const hours = Math.floor(residue_1 / hour);
+  if (hours > 0) return `${hours} hours ago`;
+  // 分钟数
+  const residue_2 = residue_1 % minute;
+  const minutes = Math.floor(residue_2 / minute);
+  if (minutes > 0) return `${minutes} minutes ago`;
+  // 秒数
+  const residue_3 = residue_2 % minute;
+  const seconds = Math.round(residue_3 / second);
+  if (seconds > 0) return `${seconds} seconds ago`;
 
   return time;
 };

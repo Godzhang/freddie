@@ -1,6 +1,9 @@
 import React, { FC, useState, useEffect } from "react";
 import { Drawer } from "antd";
 import { DrawerProps } from "antd/lib/drawer";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
+import configAction from "@/redux/actions/config-list/action";
 import {
   getSubList,
   getConfigList,
@@ -11,26 +14,36 @@ import subscribeList, {
 } from "@/common/global/subscribeList";
 import SelectButton from "../libs/SelectButton/index";
 import { fillResultToSubscribeList, backFillSelectedTag } from "./util";
+import { IStoreState, ConfigListStructure } from "@/types/redux";
 import "./index.scss";
 
 interface SubScribeConfigProps extends DrawerProps {
   onSave: () => void;
 }
 
-const SubScribeConfig: FC<SubScribeConfigProps> = (props) => {
+// 已选项回填
+const SubScribeConfig: FC<SubScribeConfigProps & IStoreState> = (props) => {
   const { onSave, ...restProps } = props;
   const [subscriptionList, setSubscriptionList] = useState(subscribeList);
 
   useEffect(() => {
     Promise.all([getSubList(), getConfigList()]).then(([subRes, configRes]) => {
       // const selectedTags = subRes.data.result;
-
-      fillResultToSubscribeList(subscriptionList, configRes.data.result);
-      // console.log(subscriptionList);
-      // backFillSelectedTag(subscriptionList, selectedTags);
-      setSubscriptionList([...subscriptionList]);
+      // fillResultToSubscribeList(subscriptionList, configRes.data.result);
+      // setSubscriptionList([...subscriptionList]);
     });
   }, []);
+
+  useEffect(() => {
+    const { configList } = props;
+    if (JSON.stringify(configList) !== "{}") {
+      fillResultToSubscribeList(
+        subscriptionList,
+        configList as ConfigListStructure
+      );
+      setSubscriptionList([...subscriptionList]);
+    }
+  }, [props]);
 
   const updateSubList = () => {
     setSubscriptionList([...subscriptionList]);
@@ -96,4 +109,12 @@ const SubScribeConfig: FC<SubScribeConfigProps> = (props) => {
   );
 };
 
-export default SubScribeConfig;
+const mapStateToProps = (state: IStoreState) => ({
+  configList: state.configList,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  actions: bindActionCreators(configAction, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubScribeConfig);

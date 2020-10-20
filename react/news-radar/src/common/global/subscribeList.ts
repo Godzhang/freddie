@@ -54,17 +54,6 @@ const subscribeList: SubScribeStructure[] = [
         disabled: false,
         sub: [],
       },
-      {
-        title: "Source all",
-        disabled: false,
-        children: [
-          {
-            title: "Web",
-            disabled: false,
-            sub: [],
-          },
-        ],
-      },
     ],
   },
   {
@@ -80,17 +69,6 @@ const subscribeList: SubScribeStructure[] = [
         title: "Location all",
         disabled: false,
         sub: [],
-      },
-      {
-        title: "Source all",
-        disabled: false,
-        children: [
-          {
-            title: "Web",
-            disabled: false,
-            sub: [],
-          },
-        ],
       },
     ],
   },

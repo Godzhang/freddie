@@ -1,6 +1,12 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import classnames from "classnames";
+import { connect } from "react-redux";
 import NewsDetail from "../NewsDetail/index";
+import {
+  IStoreState,
+  ConfigListStructure,
+  LocationMapStructure,
+} from "@/types/redux";
 import "./base.scss";
 
 export interface NewsStructure {
@@ -28,12 +34,23 @@ interface BaseNewsProps {
   newsContent?: NewsStructure;
 }
 
-const BaseNewsStructure: FC<BaseNewsProps> = (props) => {
+const BaseNewsStructure: FC<BaseNewsProps & IStoreState> = (props) => {
   const { titleSize, showMedia, mediaPos, showAbstract } = props;
   const [visible, setVisible] = useState(false);
+  const [locationMap, setLocationMap] = useState<LocationMapStructure | null>(
+    null
+  );
   const titleClasses = classnames("item", "title", {
     large: titleSize === "large",
   });
+
+  useEffect(() => {
+    const { configList } = props;
+    if (JSON.stringify(configList) !== "{}") {
+      const { locationMap } = configList as ConfigListStructure;
+      setLocationMap(locationMap);
+    }
+  }, [props]);
 
   return (
     <div className="news">
@@ -49,11 +66,14 @@ const BaseNewsStructure: FC<BaseNewsProps> = (props) => {
           />
         </div>
       )}
-      <div className="item country">
-        <span>
-          <i>United States</i>
-        </span>
-      </div>
+      {locationMap && (
+        <div className="item country">
+          <span>
+            {/* <i>United States</i> */}
+            <i>{locationMap[1]}</i>
+          </span>
+        </div>
+      )}
       <h3 className={titleClasses} onClick={() => setVisible(true)}>
         Lucy Bronze: Manchester City re-sign England right-back from Lyon
       </h3>
@@ -75,7 +95,7 @@ const BaseNewsStructure: FC<BaseNewsProps> = (props) => {
         <span>2020-09-10 12:34:33</span>
       </div>
       <NewsDetail
-        visible={true}
+        visible={visible}
         uuid="7707811473141092580"
         onClose={() => setVisible(false)}
       />
@@ -91,4 +111,8 @@ BaseNewsStructure.defaultProps = {
   showAbstract: false,
 };
 
-export default BaseNewsStructure;
+const mapStateToProps = (state: IStoreState) => ({
+  configList: state.configList,
+});
+
+export default connect(mapStateToProps, null)(BaseNewsStructure);

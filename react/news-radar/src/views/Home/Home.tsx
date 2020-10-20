@@ -1,22 +1,30 @@
-import React, { FC } from "react";
-import { Layout, Row, Col } from "antd";
+import React, { FC, useEffect } from "react";
+import { Layout } from "antd";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
+import configAction from "@/redux/actions/config-list/action";
 import SideBar from "@/components/SideBar/index";
 import MainHeader from "@/components/MainHeader/index";
 import MainContent from "@/components/MainContent/index";
 import { getSubList, getConfigList } from "@/common/api/subscribe";
-// import { getSubList, getConfigList } from "@/common/api/list";
-// import { getSubList, getConfigList } from "@/common/api/info";
+
 import "./Home.scss";
 
 const { Content, Header } = Layout;
 
-const Home: FC = () => {
-  // getSubList().then((res) => {
-  //   console.log(res);
-  // });
-  // getConfigList().then((res) => {
-  //   console.log(res);
-  // });
+interface HomeProps {
+  actions: {
+    updateConfigList: Function;
+  };
+}
+
+const Home: FC<HomeProps> = (props) => {
+  useEffect(() => {
+    getConfigList().then((res) => {
+      const configList = res.data.result;
+      props.actions.updateConfigList(configList);
+    });
+  }, []);
   return (
     <div className="home-page">
       <SideBar />
@@ -34,4 +42,8 @@ const Home: FC = () => {
   );
 };
 
-export default Home;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  actions: bindActionCreators(configAction, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(Home);

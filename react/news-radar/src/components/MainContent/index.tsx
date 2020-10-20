@@ -6,7 +6,7 @@ import {
   TitleWithAbstractAndMedia,
   TitleWithMedia,
 } from "@/components/News/index.tsx";
-import WordCloud, {
+import {
   LatestNewsWordCloud,
   HotNewsWordCloud,
   TrendingWordCloud,
@@ -64,15 +64,15 @@ const MainContent: FC = (props) => {
               <Col span={8}>
                 <LatestNewsWordCloud words={latestNewsWords} />
                 <TitleOnly />
-                {/* <TitleWithAbstract /> */}
+                <TitleWithAbstract />
               </Col>
               <Col span={8}>
                 <HotNewsWordCloud words={latestNewsWords} />
-                {/* <TitleWithMedia /> */}
+                <TitleWithMedia />
               </Col>
               <Col span={8}>
                 <TrendingWordCloud words={latestNewsWords} />
-                {/* <TitleWithAbstractAndMedia /> */}
+                <TitleWithAbstractAndMedia />
               </Col>
             </Row>
           </div>

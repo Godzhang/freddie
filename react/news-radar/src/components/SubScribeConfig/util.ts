@@ -16,7 +16,7 @@ export const fillResultToSubscribeList = (
   result: ConfigResponseData
 ) => {
   const { locationList, topicList, websiteList } = result;
-  list.forEach((item) => {
+  list.forEach((item, itemIndex) => {
     const newLocationList = locationList.map((item) => {
       item.disabled = false;
       return { ...item };
@@ -30,9 +30,11 @@ export const fillResultToSubscribeList = (
       value: web,
       disabled: false,
     }));
-    item.children![0].sub = [...newLocationList];
-    item.children![1].sub = [...newTopicList];
-    item.children![2].children![0].sub = [...newWebsiteList];
+    item.children![0].sub = [...newTopicList];
+    item.children![1].sub = [...newLocationList];
+    if (itemIndex === 0) {
+      item.children![2].children![0].sub = [...newWebsiteList];
+    }
   });
 };
 

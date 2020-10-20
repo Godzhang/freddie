@@ -21,20 +21,14 @@ const NewsDetail: FC<DetailProps> = (props) => {
     {} as NewsDetailStructure
   );
 
-  // useEffect(() => {
-  //   if (visible && !articleDetail) {
-  //     getArticleInfo({ id: uuid }).then((res) => {
-  //       const article = res.data.result;
-  //       setArticleDetail(article);
-  //     });
-  //   }
-  // }, [visible]);
   useEffect(() => {
-    getArticleInfo({ id: uuid }).then((res) => {
-      const article = res.data.result;
-      setArticleDetail(article);
-    });
-  }, []);
+    if (visible && JSON.stringify(articleDetail) === "{}") {
+      getArticleInfo({ id: uuid }).then((res) => {
+        const article = res.data.result;
+        setArticleDetail(article);
+      });
+    }
+  }, [visible]);
 
   const paragraphs = formatterContent(articleDetail.content);
 
@@ -53,7 +47,6 @@ const NewsDetail: FC<DetailProps> = (props) => {
             {articleDetail.pubtime && (
               <div className="time">
                 <ClockCircleOutlined />
-                <span className="desc">16 minutes age</span>
                 <span className="desc">
                   {getTimeDesc(articleDetail.pubtime)}
                 </span>
@@ -88,13 +81,6 @@ const NewsDetail: FC<DetailProps> = (props) => {
           {paragraphs.map((content, index) => (
             <p key={index}>{content}</p>
           ))}
-        </div>
-        {/* <hr /> */}
-        <div className="relevant">
-          <h5></h5>
-          <p></p>
-          <p></p>
-          <p></p>
         </div>
       </div>
     </Drawer>
