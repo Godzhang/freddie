@@ -1,6 +1,6 @@
 import { AxiosPromise, AxiosRequestConfig } from "axios";
 import axios, { ResponseData } from "./index";
-import { SubStructure } from "../global/subscribeList";
+import { ConfigListStructure } from "@/types/redux";
 
 export const getSubList = (
   config?: AxiosRequestConfig
@@ -34,13 +34,8 @@ export const cancelSub = (
 };
 
 // 查询分类
-export interface ConfigResponseData {
-  locationList: SubStructure;
-  topicList: SubStructure;
-  websiteList: string[];
-}
 export const getConfigList = (
   config?: AxiosRequestConfig
-): AxiosPromise<ResponseData<ConfigResponseData>> => {
+): AxiosPromise<ResponseData<ConfigListStructure>> => {
   return axios.post("sub/getConfigList", {}, config);
 };

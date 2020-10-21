@@ -94,6 +94,7 @@ const BaseNewsStructure: FC<BaseNewsProps & IStoreState> = (props) => {
       <div className="item time">
         <span>2020-09-10 12:34:33</span>
       </div>
+      {/* ?? NewsDetail全局应该只有一个 ??  */}
       <NewsDetail
         visible={visible}
         uuid="7707811473141092580"

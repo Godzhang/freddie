@@ -52,8 +52,17 @@ $sidebar-height: 100%;
     .menu-tree {
       position: absolute;
       top: 100px;
-      left: $sidebar-width + 10px;
-      width: 100%;
+      // left: $sidebar-width;
+      // width: $sidebar-expanded-width;
+      left: 0;
+      width: $sidebar-expanded-width;
+      padding-left: 70px;
+      .ant-tree-indent-unit {
+        width: 12px;
+      }
+      .ant-tree .ant-tree-switcher {
+        width: 18px;
+      }
     }
 
     &.expanded {

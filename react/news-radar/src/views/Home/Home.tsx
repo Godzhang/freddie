@@ -2,6 +2,7 @@ import React, { FC, useEffect } from "react";
 import { Layout } from "antd";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
+// import { RouteComponentProps } from "react-router-dom";
 import configAction from "@/redux/actions/config-list/action";
 import SideBar from "@/components/SideBar/index";
 import MainHeader from "@/components/MainHeader/index";

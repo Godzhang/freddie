@@ -4,14 +4,8 @@ import { DrawerProps } from "antd/lib/drawer";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 import configAction from "@/redux/actions/config-list/action";
-import {
-  getSubList,
-  getConfigList,
-  ConfigResponseData,
-} from "@/common/api/subscribe";
-import subscribeList, {
-  SubScribeStructure,
-} from "@/common/global/subscribeList";
+import { getSubList, getConfigList } from "@/common/api/subscribe";
+import subscribeList from "@/common/global/subscribeList";
 import SelectButton from "../libs/SelectButton/index";
 import { fillResultToSubscribeList, backFillSelectedTag } from "./util";
 import { IStoreState, ConfigListStructure } from "@/types/redux";
@@ -27,7 +21,7 @@ const SubScribeConfig: FC<SubScribeConfigProps & IStoreState> = (props) => {
   const [subscriptionList, setSubscriptionList] = useState(subscribeList);
 
   useEffect(() => {
-    Promise.all([getSubList(), getConfigList()]).then(([subRes, configRes]) => {
+    Promise.all([getSubList()]).then(([subRes]) => {
       // const selectedTags = subRes.data.result;
       // fillResultToSubscribeList(subscriptionList, configRes.data.result);
       // setSubscriptionList([...subscriptionList]);

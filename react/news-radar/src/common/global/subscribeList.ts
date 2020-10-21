@@ -1,9 +1,6 @@
-export type SubItemStructure = {
-  value: string;
-  disabled?: boolean;
-  key: string;
-};
-export type SubStructure = SubItemStructure[];
+import { LocationTopicStructure } from "@/types/redux";
+
+export type SubStructure = LocationTopicStructure[];
 
 export interface SubScribeStructure {
   title: string;
