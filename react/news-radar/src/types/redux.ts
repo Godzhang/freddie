@@ -1,4 +1,9 @@
-export type LocationTopicStructure = { value: string; key: string };
+export type LocationTopicStructure = {
+  title?: string;
+  value: string;
+  disabled?: boolean;
+  key: string;
+};
 export type LocationMapStructure = { [key: string]: string };
 export interface ConfigListStructure {
   locationList: LocationTopicStructure[];

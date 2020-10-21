@@ -1,6 +1,6 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { Button, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import SubMenu from "./SubMenu/index";
 import SubScribeConfig from "../SubScribeConfig/index";
 import { nav, mainNav } from "@/common/global/nav.ts";
@@ -9,8 +9,21 @@ import "./index.scss";
 
 const { Search } = Input;
 
-const MainHeader: FC = (props) => {
+interface MainHeaderProps extends RouteComponentProps {}
+
+const MainHeader: FC<MainHeaderProps> = (props) => {
   const [visible, setVisible] = useState(false);
+  const [selectIndex, setSelectIndex] = useState(-1);
+
+  useEffect(() => {
+    const { pathname } = props.location;
+    if (pathname === "/") {
+      setSelectIndex(-1);
+    } else {
+      const si = pathname.split("/").pop();
+      setSelectIndex(Number(si));
+    }
+  }, [props]);
 
   const onSaveSubscribe = () => {
     // const params = {}
@@ -26,9 +39,15 @@ const MainHeader: FC = (props) => {
       <div className="main-menu">
         {/* <Search style={{ width: "200px" }} /> */}
         <div className="menu-list">
-          <Link to="/">My Subscribe</Link>
-          {mainNav.map((item) => (
-            <Link to="/sub/1" key={item.title}>
+          <Link className={selectIndex === -1 ? "selected" : ""} to="/">
+            My Subscribe
+          </Link>
+          {mainNav.map((item, index) => (
+            <Link
+              className={selectIndex === index ? "selected" : ""}
+              to={`/sub/${index}`}
+              key={item.title}
+            >
               {item.title}
             </Link>
           ))}
@@ -42,4 +61,4 @@ const MainHeader: FC = (props) => {
   );
 };
 
-export default MainHeader;
+export default withRouter(MainHeader);

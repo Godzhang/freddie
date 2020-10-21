@@ -2,7 +2,7 @@ import React, { FC, ReactNode, useState, useEffect, useRef } from "react";
 import classnames from "classnames";
 import { Button } from "antd";
 import { CheckOutlined, DownOutlined } from "@ant-design/icons";
-import { SubItemStructure } from "@/common/global/subscribeList";
+import { LocationTopicStructure } from "@/types/redux";
 import useClickOutside from "@/hooks/useClickOutside";
 import "./index.scss";
 
@@ -10,7 +10,7 @@ interface SelectProps {
   selected?: boolean;
 }
 
-export type OptionType = SubItemStructure & SelectProps;
+export type OptionType = LocationTopicStructure & SelectProps;
 export type ChangeFnType = (keys: string[]) => void;
 export interface MultipleSelectProps {
   options: OptionType[];

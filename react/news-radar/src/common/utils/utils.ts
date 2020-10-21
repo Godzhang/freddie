@@ -1,22 +1,15 @@
 import { DataNode } from "antd/lib/tree";
 
-interface ArrayItem {
-  [key: string]: any;
-}
-// export const keyBy = <T, K extends keyof T>(arr: T[], key: K) => {
+// interface ArrayItem {
+//   [key: string]: any;
+// }
+// export const keyBy = (arr: ArrayItem[], key: keyof ArrayItem) => {
 //   const result: ArrayItem = {};
 //   for (let i = 0, len = arr.length; i < len; i++) {
 //     result[arr[i][key]] = arr[i];
 //   }
 //   return result;
 // };
-export const keyBy = (arr: ArrayItem[], key: keyof ArrayItem) => {
-  const result: ArrayItem = {};
-  for (let i = 0, len = arr.length; i < len; i++) {
-    result[arr[i][key]] = arr[i];
-  }
-  return result;
-};
 
 export const dateFormatter = (ms: Date | number, fmt: string): string => {
   const date = new Date(ms);

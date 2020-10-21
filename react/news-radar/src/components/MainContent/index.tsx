@@ -1,5 +1,6 @@
 import React, { FC, useRef, useEffect, useState } from "react";
 import { Row, Col, Carousel } from "antd";
+import { withRouter } from "react-router-dom";
 import {
   TitleOnly,
   TitleWithAbstract,
@@ -12,15 +13,22 @@ import {
   TrendingWordCloud,
 } from "@/components/WordCloud/index";
 import { ArrowLeft, ArrowRight } from "@/images";
+import { getKeywords } from "@/common/api/info";
 import "./index.scss";
 
 type SwitchMethod = "prev" | "next";
+type cloudWordsStructure = string[][];
 
 const MainContent: FC = (props) => {
   const mainBody = useRef<HTMLDivElement>(null);
   const carousel = useRef<Carousel>(null);
   const [wrapperStyle, setWrapperStyle] = useState({});
   const [itemHeight, setItemHeight] = useState(0);
+  const [cloudWords, setCloudWords] = useState<cloudWordsStructure>([
+    [],
+    [],
+    [],
+  ]);
 
   useEffect(() => {
     if (mainBody.current) {
@@ -32,7 +40,19 @@ const MainContent: FC = (props) => {
       });
       setItemHeight(offsetHeight);
     }
+    getKeywords().then((res) => {
+      const { result } = res.data;
+      const cws: cloudWordsStructure = [];
+      for (let key in result) {
+        cws[cws.length] = result[key].split(",");
+      }
+      setCloudWords(cws);
+    });
   }, []);
+
+  useEffect(() => {
+    console.log("maincontent update");
+  }, [props]);
 
   const switchCarousel = (dir: SwitchMethod) => {
     if (carousel.current) {
@@ -40,21 +60,6 @@ const MainContent: FC = (props) => {
     }
   };
 
-  const latestNewsWords = [
-    "word-cloud",
-    "w-2",
-    "w-3",
-    "w-4",
-    "w-5",
-    "w-6",
-    "w-7",
-    "w-8",
-    "w-9",
-    "w-10",
-    "w-11",
-    "w-12",
-    "w-13",
-  ];
   return (
     <div className="main-body" ref={mainBody} style={wrapperStyle}>
       <Carousel dots={false} ref={carousel}>
@@ -62,16 +67,16 @@ const MainContent: FC = (props) => {
           <div className="item-content" style={{ height: itemHeight + "px" }}>
             <Row gutter={90}>
               <Col span={8}>
-                <LatestNewsWordCloud words={latestNewsWords} />
+                <LatestNewsWordCloud words={cloudWords[0]} />
                 <TitleOnly />
                 <TitleWithAbstract />
               </Col>
               <Col span={8}>
-                <HotNewsWordCloud words={latestNewsWords} />
+                <HotNewsWordCloud words={cloudWords[1]} />
                 <TitleWithMedia />
               </Col>
               <Col span={8}>
-                <TrendingWordCloud words={latestNewsWords} />
+                <TrendingWordCloud words={cloudWords[2]} />
                 <TitleWithAbstractAndMedia />
               </Col>
             </Row>
@@ -96,4 +101,4 @@ const MainContent: FC = (props) => {
   );
 };
 
-export default MainContent;
+export default withRouter(MainContent);

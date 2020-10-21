@@ -1,4 +1,4 @@
-import { ConfigResponseData } from "@/common/api/subscribe";
+import { ConfigListStructure } from "@/types/redux";
 import { SubScribeStructure } from "@/common/global/subscribeList";
 
 interface SubItemStructure {
@@ -13,7 +13,7 @@ interface SubItemStructure {
 
 export const fillResultToSubscribeList = (
   list: SubScribeStructure[],
-  result: ConfigResponseData
+  result: ConfigListStructure
 ) => {
   const { locationList, topicList, websiteList } = result;
   list.forEach((item, itemIndex) => {

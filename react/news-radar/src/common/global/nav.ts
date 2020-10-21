@@ -1,8 +1,15 @@
+import { DataNode } from "antd/lib/tree";
+
 export interface NavStructure {
   title: string;
   key?: string | number;
   children?: NavStructure[];
-  subnav?: NavStructure[];
+  // children?: {
+  //   title: string;
+  //   key?: string | number;
+  //   children?: { title: string; key?: string | number }[];
+  // }[];
+  // subnav?: NavStructure[];
 }
 
 const topicNav = {
@@ -34,37 +41,39 @@ const sourceNav = {
   ],
 };
 
-export const mainNav = [
+export const mainNav: NavStructure[] = [
   {
     title: "Latest news",
     children: [
-      { title: "Topic" },
-      { title: "Location" },
+      { title: "Topic", children: [] },
+      { title: "Location", children: [] },
       {
         title: "Source",
-        children: [
-          { title: "Web" },
-          { title: "Twitter" },
-          { title: "Facebook" },
-        ],
+        children: [{ title: "Web", children: [] }],
       },
     ],
-    subnav: [
-      { title: "All" },
-      { ...topicNav },
-      { ...locationNav },
-      { ...sourceNav },
-    ],
+    // subnav: [
+    //   { title: "All" },
+    //   { ...topicNav },
+    //   { ...locationNav },
+    //   { ...sourceNav },
+    // ],
   },
   {
     title: "Hot news",
-    children: [{ title: "Topic" }, { title: "Location" }],
-    subnav: [{ title: "All" }, { ...topicNav }, { ...locationNav }],
+    children: [
+      { title: "Topic", children: [] },
+      { title: "Location", children: [] },
+    ],
+    // subnav: [{ title: "All" }, { ...topicNav }, { ...locationNav }],
   },
   {
     title: "Trending",
-    children: [{ title: "Topic" }, { title: "Location" }],
-    subnav: [{ title: "All" }, { ...topicNav }, { ...locationNav }],
+    children: [
+      { title: "Topic", children: [] },
+      { title: "Location", children: [] },
+    ],
+    // subnav: [{ title: "All" }, { ...topicNav }, { ...locationNav }],
   },
 ];
 

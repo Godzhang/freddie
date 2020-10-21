@@ -21,6 +21,8 @@
         font-weight: bold;
         &.selected {
           color: #000;
+          cursor: none;
+          pointer-events: none;
         }
       }
       a + a {
