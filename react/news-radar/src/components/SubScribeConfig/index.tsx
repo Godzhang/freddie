@@ -4,20 +4,24 @@ import { DrawerProps } from "antd/lib/drawer";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 import configAction from "@/redux/actions/config-list/action";
-import { getSubList, getConfigList } from "@/common/api/subscribe";
-import subscribeList from "@/common/global/subscribeList";
+import { getSubList, getConfigList, SaveSubData } from "@/common/api/subscribe";
+import subscribeList, { SubStructure } from "@/common/global/subscribeList";
 import SelectButton from "../libs/SelectButton/index";
-import { fillResultToSubscribeList, backFillSelectedTag } from "./util";
+import {
+  fillResultToSubscribeList,
+  backFillSelectedTag,
+  filterSelectedKeys,
+} from "./util";
 import { IStoreState, ConfigListStructure } from "@/types/redux";
 import "./index.scss";
 
 interface SubScribeConfigProps extends DrawerProps {
-  onSave: () => void;
+  onSave: (keys: SaveSubData[]) => void;
 }
 
 // 已选项回填
 const SubScribeConfig: FC<SubScribeConfigProps & IStoreState> = (props) => {
-  const { onSave, ...restProps } = props;
+  const { onSave, configList, ...restProps } = props;
   const [subscriptionList, setSubscriptionList] = useState(subscribeList);
 
   useEffect(() => {
@@ -37,19 +41,15 @@ const SubScribeConfig: FC<SubScribeConfigProps & IStoreState> = (props) => {
       );
       setSubscriptionList([...subscriptionList]);
     }
-  }, [props]);
+  }, [props.configList]);
 
   const updateSubList = () => {
     setSubscriptionList([...subscriptionList]);
   };
 
-  const getSelectedKeys = () => {
-    console.log(subscriptionList);
-  };
-
   const closeDrawer = () => {
-    const selectedKeys = getSelectedKeys();
-    onSave();
+    const selectedKeys = filterSelectedKeys(subscriptionList);
+    onSave(selectedKeys);
   };
 
   return (
@@ -80,20 +80,24 @@ const SubScribeConfig: FC<SubScribeConfigProps & IStoreState> = (props) => {
                   (sub.sub as {
                     value: string;
                     key: string;
+                    selected?: boolean;
                   }[]).map((s, si) => (
+                    //@ts-ignore
                     <SelectButton info={s} key={si} update={updateSubList}>
                       {s.value}
                     </SelectButton>
                   ))}
-                {sub.children && (
-                  <SelectButton
-                    info={sub.children[0]}
-                    type="multiple"
-                    update={updateSubList}
-                  >
-                    {sub.children[0].title}
-                  </SelectButton>
-                )}
+                {sub.children &&
+                  sub.children.map((child, childIndex) => (
+                    <SelectButton
+                      key={childIndex}
+                      info={child}
+                      type="multiple"
+                      update={updateSubList}
+                    >
+                      {child.title}
+                    </SelectButton>
+                  ))}
               </div>
             </div>
           ))}

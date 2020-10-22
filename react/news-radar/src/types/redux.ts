@@ -2,6 +2,7 @@ export type LocationTopicStructure = {
   title?: string;
   value: string;
   disabled?: boolean;
+  selected?: boolean;
   key: string;
 };
 export type LocationMapStructure = { [key: string]: string };

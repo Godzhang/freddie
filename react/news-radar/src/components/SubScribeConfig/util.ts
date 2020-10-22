@@ -1,5 +1,6 @@
 import { ConfigListStructure } from "@/types/redux";
 import { SubScribeStructure } from "@/common/global/subscribeList";
+import { SaveSubData } from "@/common/api/subscribe";
 
 interface SubItemStructure {
   id: number;
@@ -42,3 +43,54 @@ export const backFillSelectedTag = (
   list: SubScribeStructure[],
   selectedTags: SubItemStructure[]
 ) => {};
+
+export const filterSelectedKeys = (list: SubScribeStructure[]) => {
+  const result = [];
+  for (let oneIndex = 0; oneIndex < list.length; oneIndex++) {
+    const onelevel = list[oneIndex];
+    if (onelevel.selected) {
+      result.push({ typeId: oneIndex });
+    } else if (onelevel.children) {
+      for (let twoIndex = 0; twoIndex < onelevel.children.length; twoIndex++) {
+        const twolevel = onelevel.children[twoIndex];
+        if (twolevel.selected) {
+          result.push({
+            typeId: oneIndex,
+            subTypeId: twoIndex,
+          });
+        } else if (twolevel.children) {
+          for (
+            let threeIndex = 0;
+            threeIndex < twolevel.children.length;
+            threeIndex++
+          ) {
+            const threelevel = twolevel.children[threeIndex];
+            if (threelevel.selected) {
+              threelevel.sub!.forEach((sub) => {
+                if (sub.selected) {
+                  result.push({
+                    typeId: oneIndex,
+                    subTypeId: twoIndex,
+                    subId: threeIndex,
+                    info: sub.value,
+                  });
+                }
+              });
+            }
+          }
+        } else if (twolevel.sub) {
+          twolevel.sub.forEach((item, itemIndex) => {
+            if (item.selected) {
+              result.push({
+                typeId: oneIndex,
+                subTypeId: twoIndex,
+                subId: itemIndex,
+              });
+            }
+          });
+        }
+      }
+    }
+  }
+  return result as SaveSubData[];
+};

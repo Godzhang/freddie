@@ -11,7 +11,7 @@ import "./index.scss";
 
 export type SelectButtonType = "single" | "multiple";
 export interface SelectButtonProps {
-  info: any;
+  info: SubScribeStructure;
   type?: SelectButtonType;
   children?: ReactNode;
   disabled?: boolean;
@@ -34,7 +34,7 @@ const SelectButton: FC<SelectButtonProps> = (props) => {
   }, [info.disabled]);
 
   const checkChildrenDisabled = (
-    sub: SubStructure | SubScribeStructure[],
+    sub: SubStructure | SubScribeStructure[] | undefined,
     disabled: boolean
   ) => {
     //@ts-ignore
@@ -55,12 +55,16 @@ const SelectButton: FC<SelectButtonProps> = (props) => {
     if (info.sub || info.children) {
       checkChildrenDisabled(info.sub || info.children, !selected);
     }
-
     update();
   };
 
   const changeChildrenKeys: ChangeFnType = (keys) => {
-    console.log(keys);
+    const { sub } = info;
+    //@ts-ignore
+    sub.forEach((item) => {
+      item.selected = keys.includes(item.value);
+    });
+    info.selected = keys.length !== 0;
   };
 
   if (type === "single") {
@@ -69,6 +73,7 @@ const SelectButton: FC<SelectButtonProps> = (props) => {
         className={classes}
         shape="round"
         disabled={btnDisabled}
+        size="small"
         onClick={() => changeStatus()}
       >
         {children}
@@ -79,7 +84,7 @@ const SelectButton: FC<SelectButtonProps> = (props) => {
     return (
       <MultipleSelect
         disabled={btnDisabled}
-        options={info.sub}
+        options={info.sub!}
         onChange={(keys) => changeChildrenKeys(keys)}
       >
         {children}

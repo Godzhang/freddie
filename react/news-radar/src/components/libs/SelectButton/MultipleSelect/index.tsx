@@ -6,20 +6,15 @@ import { LocationTopicStructure } from "@/types/redux";
 import useClickOutside from "@/hooks/useClickOutside";
 import "./index.scss";
 
-interface SelectProps {
-  selected?: boolean;
-}
-
-export type OptionType = LocationTopicStructure & SelectProps;
 export type ChangeFnType = (keys: string[]) => void;
 export interface MultipleSelectProps {
-  options: OptionType[];
+  options: LocationTopicStructure[];
   disabled?: boolean;
   children?: ReactNode;
   onChange?: ChangeFnType;
 }
 
-const clonedeep = (data: OptionType[]) => {
+const clonedeep = (data: LocationTopicStructure[]) => {
   return data.map((item) => ({ ...item }));
 };
 
@@ -86,9 +81,9 @@ const MultipleSelect: FC<MultipleSelectProps> = (props) => {
     setDropList([...dropList]);
     // 如果选中
     if (!isSelected) {
-      selectList.current.push(item.key);
+      selectList.current.push(item.value);
     } else {
-      const index = selectList.current.indexOf(item.key);
+      const index = selectList.current.indexOf(item.value);
       selectList.current.splice(index, 1);
     }
   };
@@ -99,6 +94,7 @@ const MultipleSelect: FC<MultipleSelectProps> = (props) => {
         className={btnClasses}
         shape="round"
         disabled={disabled}
+        size="small"
         onClick={() => setExpanded(!expanded)}
       >
         {children}

@@ -3,8 +3,8 @@ import { Button, Input } from "antd";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import SubMenu from "./SubMenu/index";
 import SubScribeConfig from "../SubScribeConfig/index";
-import { nav, mainNav } from "@/common/global/nav.ts";
-import { saveSub } from "@/common/api/subscribe";
+import { nav, mainNav, subNav } from "@/common/global/nav.ts";
+import { saveSub, SaveSubData } from "@/common/api/subscribe";
 import "./index.scss";
 
 const { Search } = Input;
@@ -25,9 +25,10 @@ const MainHeader: FC<MainHeaderProps> = (props) => {
     }
   }, [props]);
 
-  const onSaveSubscribe = () => {
+  const onSaveSubscribe = (keys: SaveSubData[]) => {
     // const params = {}
     // saveSub(params)
+    console.log(keys);
     setVisible(false);
   };
 
@@ -55,7 +56,10 @@ const MainHeader: FC<MainHeaderProps> = (props) => {
         <Button type="primary" shape="round" onClick={() => setVisible(true)}>
           Subscribe
         </Button>
-        <SubScribeConfig visible={visible} onSave={() => onSaveSubscribe()} />
+        <SubScribeConfig
+          visible={visible}
+          onSave={(keys) => onSaveSubscribe(keys)}
+        />
       </div>
     </div>
   );

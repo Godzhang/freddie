@@ -5,6 +5,7 @@ export type SubStructure = LocationTopicStructure[];
 export interface SubScribeStructure {
   title: string;
   disabled?: boolean;
+  selected?: boolean;
   children?: SubScribeStructure[];
   sub?: SubStructure;
 }
@@ -30,6 +31,16 @@ const subscribeList: SubScribeStructure[] = [
         children: [
           {
             title: "Web",
+            disabled: false,
+            sub: [],
+          },
+          {
+            title: "Twitter",
+            disabled: false,
+            sub: [],
+          },
+          {
+            title: "Facebook",
             disabled: false,
             sub: [],
           },

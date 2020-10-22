@@ -16,6 +16,8 @@ import "./index.scss";
 interface NewsDetailStructure extends NewsStructure {
   content: string;
   region: number;
+  locationId: number;
+  emotion: number;
 }
 
 interface DetailProps extends DrawerProps {
@@ -23,7 +25,7 @@ interface DetailProps extends DrawerProps {
 }
 
 const NewsDetail: FC<DetailProps & IStoreState> = (props) => {
-  const { uuid, visible } = props;
+  const { uuid, visible, onClose } = props;
   const [articleDetail, setArticleDetail] = useState<NewsDetailStructure>(
     {} as NewsDetailStructure
   );
@@ -63,7 +65,8 @@ const NewsDetail: FC<DetailProps & IStoreState> = (props) => {
       title=""
       closable={true}
       width={980}
-      {...props}
+      visible={visible}
+      onClose={onClose}
     >
       {loading ? (
         <>
@@ -83,25 +86,33 @@ const NewsDetail: FC<DetailProps & IStoreState> = (props) => {
                 </div>
               )}
               <div className="country">
-                {locationMap && (
+                {locationMap && articleDetail.locationId && (
                   <span>
-                    <i>{locationMap[articleDetail.region]}</i>
+                    <i>{locationMap[articleDetail.locationId]}</i>
                   </span>
                 )}
               </div>
             </div>
-            <div className="attitude">
-              <span className="view">Positive</span>
-              <div className="bar">
-                <span className="positive" style={{ width: "70%" }}>
-                  <i>70%</i>
-                </span>
-                <span className="negative" style={{ width: "30%" }}>
-                  <i>30%</i>
-                </span>
+            {articleDetail.emotion && (
+              <div className="attitude">
+                <span className="view">Positive</span>
+                <div className="bar">
+                  <span
+                    className="positive"
+                    style={{ width: `${articleDetail.emotion}%` }}
+                  >
+                    <i>{articleDetail.emotion}%</i>
+                  </span>
+                  <span
+                    className="negative"
+                    style={{ width: `${100 - articleDetail.emotion}%` }}
+                  >
+                    <i>{100 - articleDetail.emotion}%</i>
+                  </span>
+                </div>
+                <span className="view">Negative</span>
               </div>
-              <span className="view">Negative</span>
-            </div>
+            )}
           </div>
           <div className="media">
             <img

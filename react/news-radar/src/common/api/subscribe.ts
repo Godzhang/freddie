@@ -11,7 +11,7 @@ export const getSubList = (
 type TypeId = 0 | 1 | 2;
 export interface SaveSubData {
   id?: number;
-  typeId?: TypeId;
+  typeId: TypeId;
   subTypeId?: number;
   subId?: number;
   info?: string;

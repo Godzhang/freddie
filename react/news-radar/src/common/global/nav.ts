@@ -12,35 +12,6 @@ export interface NavStructure {
   // subnav?: NavStructure[];
 }
 
-const topicNav = {
-  title: "topic",
-  children: [
-    { title: "All" },
-    { title: "Politics" },
-    { title: "Economy" },
-    { title: "Crime" },
-    { title: "Art" },
-  ],
-};
-const locationNav = {
-  title: "location",
-  children: [
-    { title: "All" },
-    { title: "China" },
-    { title: "America" },
-    { title: "Canada" },
-  ],
-};
-const sourceNav = {
-  title: "source",
-  children: [
-    { title: "All" },
-    { title: "web" },
-    { title: "twitter" },
-    { title: "facebook" },
-  ],
-};
-
 export const mainNav: NavStructure[] = [
   {
     title: "Latest news",
@@ -49,15 +20,13 @@ export const mainNav: NavStructure[] = [
       { title: "Location", children: [] },
       {
         title: "Source",
-        children: [{ title: "Web", children: [] }],
+        children: [
+          { title: "Web", children: [] },
+          { title: "Twitter", children: [] },
+          { title: "Facebook", children: [] },
+        ],
       },
     ],
-    // subnav: [
-    //   { title: "All" },
-    //   { ...topicNav },
-    //   { ...locationNav },
-    //   { ...sourceNav },
-    // ],
   },
   {
     title: "Hot news",
@@ -65,7 +34,6 @@ export const mainNav: NavStructure[] = [
       { title: "Topic", children: [] },
       { title: "Location", children: [] },
     ],
-    // subnav: [{ title: "All" }, { ...topicNav }, { ...locationNav }],
   },
   {
     title: "Trending",
@@ -73,19 +41,52 @@ export const mainNav: NavStructure[] = [
       { title: "Topic", children: [] },
       { title: "Location", children: [] },
     ],
-    // subnav: [{ title: "All" }, { ...topicNav }, { ...locationNav }],
   },
 ];
 
 export const nav = [
   {
     title: "My Subscribe",
-    subnav: [
-      { title: "All" },
-      { title: "Hot news" },
-      { title: "Trending" },
-      { title: "Latest news" },
-    ],
   },
   ...mainNav,
 ];
+
+export interface SubNavStructure {
+  title: string;
+  children?: SubNavStructure[];
+}
+const topicNav = {
+  title: "Topic",
+};
+const locationNav = {
+  title: "Location",
+};
+const sourceNav = {
+  title: "Source",
+  children: [
+    { title: "All" },
+    { title: "Web" },
+    { title: "Twitter" },
+    { title: "Facebook" },
+  ],
+};
+
+export interface SubNavList {
+  [key: string]: SubNavStructure[];
+}
+export const subNav: SubNavList = {
+  "/": [
+    { title: "All" },
+    { ...topicNav },
+    { ...locationNav },
+    { ...sourceNav },
+  ],
+  "/sub/0": [
+    { title: "All" },
+    { ...topicNav },
+    { ...locationNav },
+    { ...sourceNav },
+  ],
+  "/sub/1": [{ title: "All" }, { ...topicNav }, { ...locationNav }],
+  "/sub/2": [{ title: "All" }, { ...topicNav }, { ...locationNav }],
+};
