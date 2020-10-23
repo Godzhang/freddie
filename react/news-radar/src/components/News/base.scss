@@ -17,7 +17,6 @@
       width: 41px;
       height: 41px;
       margin-right: 14px;
-      background-color: #08c;
       border-radius: 50%;
     }
     span {
@@ -53,11 +52,22 @@
     }
   }
   .title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    -moz-line-clamp: 2;
+    max-height: 20px * 1.25 * 2;
     font-size: 20px;
     color: #000;
     line-height: 1.25;
     cursor: pointer;
+    word-break: break-all;
+    overflow: hidden;
     &.large {
+      -webkit-line-clamp: 3;
+      -moz-line-clamp: 3;
+      max-height: 28px * 1.25 * 3;
       font-size: 28px;
       font-weight: bold;
     }
@@ -65,13 +75,16 @@
   .abstract {
     $abstract-line-height: 1.25;
     $abstract-font-size: 13px;
-    height: $abstract-font-size * $abstract-line-height * 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    max-height: $abstract-font-size * $abstract-line-height * 3;
     margin-bottom: 20px;
     font-size: $abstract-font-size;
     color: #808080;
     line-height: $abstract-line-height;
     overflow: hidden;
-    // word-wrap: break-word;
     word-break: break-all;
   }
   .time {

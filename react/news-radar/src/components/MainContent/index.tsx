@@ -21,6 +21,7 @@ import {
   getHotNews,
   getTrending,
 } from "@/common/api/list";
+import { calcPageItems } from "./util";
 import "./index.scss";
 import { AxiosPromise } from "axios";
 
@@ -96,11 +97,57 @@ const MainContent: FC<MainContentProps> = (props) => {
       carousel.current[dir]();
     }
   };
-  console.log(articleList);
+
+  const createCarouselChildren = (articleList: NewsStructure[]) => {
+    if (!articleList.length) {
+      return (
+        <div className="main-item">
+          <div className="item-content" style={{ height: itemHeight + "px" }}>
+            <Row gutter={90}>
+              <Col span={8}>
+                <LatestNewsWordCloud words={cloudWords[0]} />
+              </Col>
+              <Col span={8}>
+                <HotNewsWordCloud words={cloudWords[1]} />
+              </Col>
+              <Col span={8}>
+                <TrendingWordCloud words={cloudWords[2]} />
+              </Col>
+            </Row>
+          </div>
+        </div>
+      );
+    } else {
+      const pageItems = calcPageItems(articleList);
+      return (
+        <div className="main-item">
+          <div className="item-content" style={{ height: itemHeight + "px" }}>
+            <Row gutter={90}>
+              <Col span={8}>
+                <LatestNewsWordCloud words={cloudWords[0]} />
+                <TitleOnly info={articleList[0]} />
+                <TitleWithAbstract info={articleList[10]} />
+              </Col>
+              <Col span={8}>
+                <HotNewsWordCloud words={cloudWords[1]} />
+                <TitleWithMedia info={articleList[30]} />
+              </Col>
+              <Col span={8}>
+                <TrendingWordCloud words={cloudWords[2]} />
+                <TitleWithAbstractAndMedia info={articleList[33]} />
+              </Col>
+            </Row>
+          </div>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="main-body" ref={mainBody} style={wrapperStyle}>
       <Carousel dots={false} ref={carousel}>
-        <div className="main-item">
+        {createCarouselChildren(articleList)}
+        {/* <div className="main-item">
           <div className="item-content" style={{ height: itemHeight + "px" }}>
             <Row gutter={90}>
               <Col span={8}>
@@ -124,7 +171,7 @@ const MainContent: FC<MainContentProps> = (props) => {
             className="item-content"
             style={{ backgroundColor: "#f00", height: itemHeight + "px" }}
           ></div>
-        </div>
+        </div> */}
       </Carousel>
       <ArrowLeft
         className="arrow arrow-left"

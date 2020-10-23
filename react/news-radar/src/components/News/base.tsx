@@ -7,13 +7,24 @@ import {
   ConfigListStructure,
   LocationMapStructure,
 } from "@/types/redux";
+import {
+  FacebookIcon,
+  HotIcon,
+  TrendIcon,
+  TwitterIcon,
+  NewsIcon,
+} from "@/images";
 import "./base.scss";
 
+type SourceId = 0 | 1 | 2;
 export interface NewsStructure {
   id: string;
+  sourceId: SourceId;
+  locationId: number;
+  topicId: number;
   website_name: string;
   fromInfo: string;
-  pictures?: string;
+  pictures: string;
   author: string;
   title: string;
   _abstract: string;
@@ -31,11 +42,32 @@ interface BaseNewsProps {
   showMedia?: boolean;
   mediaPos?: MediaPos;
   showAbstract?: boolean;
-  newsContent?: NewsStructure;
+  newsContent: NewsStructure;
 }
 
+const sourceIconMap = {
+  0: <NewsIcon />,
+  1: <TwitterIcon />,
+  2: <FacebookIcon />,
+};
+
+const webSiteMap = {
+  1: "Twitter",
+  2: "Facebook",
+};
+
 const BaseNewsStructure: FC<BaseNewsProps & IStoreState> = (props) => {
-  const { titleSize, showMedia, mediaPos, showAbstract } = props;
+  const { titleSize, showMedia, mediaPos, showAbstract, newsContent } = props;
+  console.log(newsContent);
+  const {
+    sourceId,
+    title,
+    website_name,
+    locationId,
+    pictures,
+    pubtime,
+    _abstract,
+  } = newsContent;
   const [visible, setVisible] = useState(false);
   const [locationMap, setLocationMap] = useState<LocationMapStructure | null>(
     null
@@ -52,47 +84,42 @@ const BaseNewsStructure: FC<BaseNewsProps & IStoreState> = (props) => {
     }
   }, [props]);
 
+  const isShowTopPic = showMedia && mediaPos === "top" && pictures;
+  const isShowBottomPic = showMedia && mediaPos === "bottom" && pictures;
+
   return (
     <div className="news">
       <div className="item organ">
-        <i className="logo"></i>
-        <span>China long</span>
+        <i className="logo">
+          {sourceId === null ? sourceIconMap[0] : sourceIconMap[sourceId]}
+        </i>
+        <span>
+          {sourceId === 0 ? website_name : webSiteMap[sourceId as 1 | 2]}
+        </span>
       </div>
-      {showMedia && mediaPos === "top" && (
+      {isShowTopPic && (
         <div className="item media">
-          <img
-            src="https://cdn.pixabay.com/photo/2020/09/30/12/18/books-5615562_960_720.jpg"
-            alt=""
-          />
+          <img src={pictures.split("#").shift()} alt="" />
         </div>
       )}
       {locationMap && (
         <div className="item country">
           <span>
-            {/* <i>United States</i> */}
-            <i>{locationMap[1]}</i>
+            <i>{locationMap[locationId || 0]}</i>
           </span>
         </div>
       )}
       <h3 className={titleClasses} onClick={() => setVisible(true)}>
-        Lucy Bronze: Manchester City re-sign England right-back from Lyon
+        {title}
       </h3>
-      {showMedia && mediaPos === "bottom" && (
+      {isShowBottomPic && (
         <div className="item media">
-          <img
-            src="https://cdn.pixabay.com/photo/2020/09/30/12/18/books-5615562_960_720.jpg"
-            alt=""
-          />
+          <img src={pictures.split("#").shift()} alt="" />
         </div>
       )}
-      {showAbstract && (
-        <div className="item abstract">
-          I am a
-          wordddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-        </div>
-      )}
+      {showAbstract && <div className="item abstract">{_abstract}</div>}
       <div className="item time">
-        <span>2020-09-10 12:34:33</span>
+        <span>{pubtime}</span>
       </div>
       {/* ?? NewsDetail全局应该只有一个 ??  */}
       <NewsDetail
