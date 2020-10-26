@@ -16,7 +16,9 @@
         width: 100%;
         height: 100%;
       }
-
+      .container {
+        padding: 30px;
+      }
       /* .container {
         width: 100px;
         height: 100px;
@@ -26,20 +28,200 @@
     <title>zhangqi</title>
   </head>
   <body>
-    <div class="container">
+    <!-- <div class="container">
       <canvas id="canvas" width="1200" height="500"></canvas>
-    </div>
+    </div> -->
+    <button id="record">开始录制</button>
     <script>
       //
+      let g2Document = null;
+      let recorder = null;
+      const allChunks = [];
+      const recordBtn = document.getElementById("record");
+      recordBtn.onclick = () => {
+        addHiddenIframe().then(async (iframe) => {
+          await recordRun(iframe.contentWindow.document);
+          // document.body.removeChild(iframe);
+        });
+      };
+
+      function addHiddenIframe() {
+        return new Promise((resolve, reject) => {
+          const iframe = document.createElement("iframe");
+          iframe.width = 1200;
+          iframe.height = 600;
+          iframe.src = "http://localhost:3000/canvas-child.html";
+          iframe.onload = function () {
+            resolve(iframe);
+          };
+          iframe.onerror = reject;
+          document.body.appendChild(iframe);
+        });
+      }
+
+      const downloadSource = ({ href = "", name = "" }) => {
+        const a = document.createElement("a");
+        a.download = name;
+        a.href = href;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      };
+
+      async function recordRun(document) {
+        g2Document = document;
+        console.time("record");
+        const canvas = createCanvasInPage();
+        watchBodyInPage(canvas);
+        const blob = await recordInPage(canvas);
+        console.timeEnd("record");
+
+        // downloadSource({
+        //   href: blob,
+        //   name: `测试视频-${Math.random() * 99 + 1}.mp4`,
+        // });
+      }
+
+      function createCanvasInPage() {
+        const canvas_o = g2Document.getElementById("canvas");
+        const canvas_n = g2Document.createElement("canvas");
+        canvas_n.width = canvas_o.width;
+        canvas_n.height = canvas_o.height;
+        canvas_n.id = "body_canvas_record";
+        canvas_n.style.position = "absolute";
+        canvas_n.style.top = "30px";
+        canvas_n.style.left = "500px";
+        g2Document.body.appendChild(canvas_n);
+
+        return canvas_n;
+      }
+
+      function watchBodyInPage(canvas2d) {
+        var context = canvas2d.getContext("2d");
+
+        (function looper() {
+          if (!window.isRecordingStarted) {
+            return setTimeout(looper, 1);
+          }
+          const canvas = g2Document.getElementById("canvas");
+          // const bgChart = g2Document.getElementById("notChart");
+          context.clearRect(0, 0, canvas2d.width, canvas2d.height);
+          context.fillStyle = window.__bgColor || "#fff";
+          context.fillRect(0, 0, canvas2d.width, canvas2d.height);
+
+          // if (bgChart) {
+          //   context.drawImage(bgChart, 0, 0, canvas2d.width, canvas2d.height);
+          // }
+          // context.drawImage(bgChart, 0, 0, canvas2d.width, canvas2d.height);
+          context.drawImage(canvas, 0, 0, canvas2d.width, canvas2d.height);
+          if (window.isStoppedRecording) {
+            // window.isStoppedRecording = false;
+            return;
+          }
+
+          requestAnimationFrame(looper);
+        })();
+
+        return () => {
+          window.isStoppedRecording = true;
+        };
+      }
+
+      const sleep = (m) => new Promise((r) => setTimeout(r, m));
+
+      async function recordInPage(canvas) {
+        window.isStoppedRecording = false;
+        window.isRecordingStarted = true;
+
+        const stream = canvas.captureStream(60);
+
+        recorder = new MediaRecorder(stream, {
+          videoBitsPerSecond: 50000000,
+          mimeType: "video/webm;codecs=vp9",
+        });
+        recorder.ondataavailable = (e) => {
+          allChunks.push(e.data);
+        };
+        recorder.start(10);
+        // await sleep(5000);
+        // window.isRecordingStarted = false;
+        // window.isStoppedRecording = true;
+
+        // const allBlob = await new Promise((res) => {
+        //   recorder.onstop = () => {
+        //     let allBlob = new Blob(allChunks, { type: "video/mp4" });
+        //     res(allBlob);
+        //   };
+        //   recorder.stop();
+        // });
+
+        // return window.URL.createObjectURL(allBlob);
+      }
+
+      window.stopRecord = () => {
+        window.isRecordingStarted = false;
+        window.isStoppedRecording = true;
+        recorder.onstop = () => {
+          let allBlob = new Blob(allChunks, { type: "video/mp4" });
+          let url = window.URL.createObjectURL(allBlob);
+          downloadSource({
+            href: url,
+            name: `测试视频-${Math.random() * 99 + 1}.mp4`,
+          });
+        };
+        recorder.stop();
+      };
     </script>
     <script>
       //
-      const canvas = document.getElementById("canvas");
-      const ctx = canvas.getContext("2d");
-      ctx.font = "48px arial";
-      const text = "近十年全国各地GDP趋势对比";
-      ctx.fillText("width:" + ctx.measureText(text).width, 10, 50);
-      ctx.fillText(text, 10, 100);
+      // const canvas = document.getElementById("canvas"),
+      //   ctx = canvas.getContext("2d");
+      // canvas.height = 400;
+      // canvas.width = 400;
+
+      // let startX = 0;
+      // let endX = 350;
+      // ctx.fillStyle = "#08c";
+      // function drawRect(x) {
+      //   ctx.fillRect(x, 175, 50, 50);
+      // }
+      // function drawFrame() {
+      //   ctx.clearRect(0, 0, 400, 400);
+      //   console.log(startX, endX);
+      //   if (startX === endX) {
+      //     window.isRecordingStarted = false;
+      //     window.isStoppedRecording = true;
+      //     drawRect(startX);
+      //   } else {
+      //     drawRect((startX += 0.5));
+      //     window.requestAnimationFrame(drawFrame);
+      //   }
+      // }
+
+      // drawFrame();
+
+      //实例水草
+      // const oAqu = new Aqu();
+      // //初始化
+      // oAqu.init();
+
+      // let oldTime = new Date().getTime(),
+      //   del = null,
+      //   newTime = null;
+
+      // (function drawFrmae() {
+      //   window.requestAnimationFrame(drawFrmae);
+      //   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      //   newTime = new Date().getTime();
+      //   del = new Date().getTime() - oldTime;
+      //   oldTime = newTime;
+
+      //   oAqu.draw(ctx);
+      // })();
+    </script>
+    <script>
+      //
     </script>
     <script>
       //

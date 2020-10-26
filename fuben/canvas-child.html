@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./js/jquery.js"></script>
+    <script src="./js/lodash.js"></script>
+    <script src="./js/moment.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+      .container {
+        padding: 30px;
+      }
+      /* .container {
+        width: 100px;
+        height: 100px;
+        background: #757575;
+      } */
+    </style>
+    <title>canvas-child</title>
+  </head>
+  <body>
+    <div class="container">
+      <canvas id="canvas" width="1200" height="500"></canvas>
+    </div>
+
+    <script>
+      //
+      const canvas = document.getElementById("canvas"),
+        ctx = canvas.getContext("2d");
+      canvas.height = 400;
+      canvas.width = 400;
+
+      let startX = 0;
+      let endX = 350;
+      ctx.fillStyle = "#08c";
+      function drawRect(x) {
+        ctx.fillRect(x, 175, 50, 50);
+      }
+      function drawFrame() {
+        ctx.clearRect(0, 0, 400, 400);
+        if (startX === endX) {
+          if (window.top) {
+            window.top.stopRecord();
+          }
+          // window.isRecordingStarted = false;
+          // window.isStoppedRecording = true;
+          drawRect(startX);
+        } else {
+          drawRect((startX += 0.5));
+          window.requestAnimationFrame(drawFrame);
+        }
+      }
+
+      drawFrame();
+    </script>
+  </body>
+</html>
