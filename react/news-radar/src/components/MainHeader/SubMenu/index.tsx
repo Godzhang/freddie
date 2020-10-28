@@ -3,10 +3,12 @@ import { Menu, Dropdown, Button } from "antd";
 import { withRouter, RouteComponentProps } from "react-router";
 import { CaretDownOutlined } from "@ant-design/icons";
 import { subNav, SubNavStructure, SubNavList } from "@/common/global/nav";
+import emitter from "@/common/global/eventbus";
+import { SubParams } from "@/common/api/list";
 import "./index.scss";
 
 type PathName = "/" | "/sub/0" | "/sub/1" | "/sub/2";
-type PN = keyof SubNavList;
+// type ShowTypes = 'All' | 'Topic' | 'Location' | 'Source'
 
 const SubMenu: FC<RouteComponentProps> = (props) => {
   const { pathname } = props.location;
@@ -24,6 +26,34 @@ const SubMenu: FC<RouteComponentProps> = (props) => {
     setShowType(navList[0].title);
     setDropTypes(navList.slice(1));
   }, [props.location]);
+
+  useEffect(() => {
+    let params = {} as SubParams;
+    switch (showType) {
+      case "All":
+        params = {};
+        break;
+      case "Topic":
+        params.topicType = 1;
+        break;
+      case "Location":
+        params.locationType = 1;
+        break;
+      case "Source":
+        params.sourceType = 1;
+        break;
+    }
+    if (params.sourceType === 1) {
+      if (subTypeId === 0 && params.hasOwnProperty("subTypeId")) {
+        delete params.sourceIds;
+      } else if (subTypeId !== 0) {
+        params.sourceIds = `${subTypeId - 1}`;
+      }
+    } else if (params.hasOwnProperty("subTypeId")) {
+      delete params.sourceIds;
+    }
+    emitter.emit("request-change", params);
+  }, [showType, subTypeId]);
 
   const changeType = (type: SubNavStructure) => {
     setShowType(type.title);
@@ -57,6 +87,7 @@ const SubMenu: FC<RouteComponentProps> = (props) => {
         {subType.map((type, index) => (
           <a
             className={["btn", index === subTypeId ? "selected" : ""].join(" ")}
+            key={index}
             onClick={() => setSubTypeId(index)}
           >
             {type.title}

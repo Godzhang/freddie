@@ -1,6 +1,18 @@
 import axios from "./index";
 import { AxiosPromise, AxiosRequestConfig } from "axios";
 
+export interface SubParams {
+  subPathId?: number;
+  subType?: number;
+  topicType?: number;
+  locationType?: number;
+  sourceType?: number;
+  topicIds?: string;
+  locationIds?: string;
+  sourceIds?: string;
+  sourceInfos?: string;
+}
+
 export interface ListParams {
   subType: number;
   topicType?: number;
@@ -9,6 +21,7 @@ export interface ListParams {
   topicIds?: string;
   locationIds?: string;
   sourceIds?: string;
+  sourceInfos?: string;
   pageSize: number;
   pageNumber: number;
 }

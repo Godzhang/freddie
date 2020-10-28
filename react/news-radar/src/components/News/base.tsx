@@ -58,7 +58,6 @@ const webSiteMap = {
 
 const BaseNewsStructure: FC<BaseNewsProps & IStoreState> = (props) => {
   const { titleSize, showMedia, mediaPos, showAbstract, newsContent } = props;
-  console.log(newsContent);
   const {
     sourceId,
     title,

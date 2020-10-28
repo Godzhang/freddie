@@ -20,10 +20,13 @@ import {
   getLatestNews,
   getHotNews,
   getTrending,
+  ListParams,
+  SubParams,
 } from "@/common/api/list";
 import { calcPageItems } from "./util";
-import "./index.scss";
 import { AxiosPromise } from "axios";
+import emitter from "@/common/global/eventbus";
+import "./index.scss";
 
 type SwitchMethod = "prev" | "next";
 type cloudWordsStructure = string[][];
@@ -36,8 +39,10 @@ const methodMap: { [key: string]: Function } = {
 };
 
 const MainContent: FC<MainContentProps> = (props) => {
+  // const { pathname } = props.location;
   const mainBody = useRef<HTMLDivElement>(null);
   const carousel = useRef<Carousel>(null);
+  const [pathname, setPathname] = useState(props.location.pathname);
   const [wrapperStyle, setWrapperStyle] = useState({});
   const [itemHeight, setItemHeight] = useState(0);
   const [cloudWords, setCloudWords] = useState<cloudWordsStructure>([
@@ -46,27 +51,11 @@ const MainContent: FC<MainContentProps> = (props) => {
     [],
   ]);
   const [articleList, setArticleList] = useState<NewsStructure[]>([]);
-
-  const getArticles = () => {
-    const { pathname } = props.location;
-    let request!: AxiosPromise;
-    const params = {
-      subType: 1,
-      pageSize: 30,
-      pageNumber: 1,
-    };
-    if (pathname === "/") {
-      request = getMySubList(params);
-    } else {
-      let id = pathname.split("/").pop();
-      if (id) {
-        request = methodMap[id](params);
-      }
-    }
-    request.then((res) => {
-      setArticleList(res.data.result);
-    });
-  };
+  const [articleParams, setArticleParams] = useState<ListParams>({
+    subType: 1,
+    pageSize: 30,
+    pageNumber: 1,
+  });
 
   useEffect(() => {
     if (mainBody.current) {
@@ -78,19 +67,44 @@ const MainContent: FC<MainContentProps> = (props) => {
       });
       setItemHeight(offsetHeight);
     }
-    getKeywords().then((res) => {
-      const { result } = res.data;
-      const cws: cloudWordsStructure = [];
-      for (let key in result) {
-        cws[cws.length] = result[key].split(",");
+    if (pathname === "/") {
+      getKeywords().then((res) => {
+        const { result } = res.data;
+        const cws: cloudWordsStructure = [];
+        for (let key in result) {
+          cws[cws.length] = result[key].split(",");
+        }
+        setCloudWords(cws);
+      });
+    }
+    emitter.on("request-change", (params: SubParams) => {
+      if (params.hasOwnProperty("subPathId")) {
+        const spi = params.subPathId;
+        delete params.subPathId;
+        setPathname(`/sub/${spi}`);
       }
-      setCloudWords(cws);
+      setArticleParams({ ...articleParams, ...params });
     });
   }, []);
 
   useEffect(() => {
-    getArticles();
-  }, [props]);
+    setPathname(props.location.pathname);
+  }, [props.location.pathname]);
+
+  useEffect(() => {
+    let request!: AxiosPromise;
+    if (pathname === "/") {
+      request = getMySubList(articleParams);
+    } else {
+      let id = pathname.split("/").pop();
+      if (id) {
+        request = methodMap[id](articleParams);
+      }
+    }
+    request.then((res) => {
+      setArticleList(res.data.result);
+    });
+  }, [pathname, articleParams]);
 
   const switchCarousel = (dir: SwitchMethod) => {
     if (carousel.current) {
