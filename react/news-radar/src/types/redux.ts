@@ -11,6 +11,8 @@ export interface ConfigListStructure {
   locationMap: LocationMapStructure;
   topicList: LocationTopicStructure[];
   websiteList: string[];
+  facebookList: string[];
+  twitterList: string[];
 }
 
 export interface IStoreState {

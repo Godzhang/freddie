@@ -102,7 +102,13 @@ const MainContent: FC<MainContentProps> = (props) => {
       }
     }
     request.then((res) => {
-      setArticleList(res.data.result);
+      let arts = res.data.result;
+      let total = 30;
+      for (let i = arts.length; i < total; i++) {
+        arts.push({ ...arts[0] });
+      }
+      setArticleList(arts);
+      // setArticleList(res.data.result);
     });
   }, [pathname, articleParams]);
 
@@ -134,25 +140,36 @@ const MainContent: FC<MainContentProps> = (props) => {
     } else {
       const pageItems = calcPageItems(articleList);
       return (
-        <div className="main-item">
-          <div className="item-content" style={{ height: itemHeight + "px" }}>
-            <Row gutter={90}>
-              <Col span={8}>
-                <LatestNewsWordCloud words={cloudWords[0]} />
-                <TitleOnly info={articleList[0]} />
-                <TitleWithAbstract info={articleList[10]} />
-              </Col>
-              <Col span={8}>
-                <HotNewsWordCloud words={cloudWords[1]} />
-                <TitleWithMedia info={articleList[30]} />
-              </Col>
-              <Col span={8}>
-                <TrendingWordCloud words={cloudWords[2]} />
-                <TitleWithAbstractAndMedia info={articleList[33]} />
-              </Col>
-            </Row>
+        <>
+          <div className="main-item">
+            <div className="item-content" style={{ height: itemHeight + "px" }}>
+              <Row gutter={90}>
+                <Col span={8}>
+                  <LatestNewsWordCloud words={cloudWords[0]} />
+                  {/* <TitleOnly info={articleList[0]} /> */}
+                  {/* <TitleWithAbstract info={articleList[10]} /> */}
+                </Col>
+                <Col span={8}>
+                  <HotNewsWordCloud words={cloudWords[1]} />
+                  {/* <TitleWithMedia info={articleList[30]} /> */}
+                </Col>
+                <Col span={8}>
+                  <TrendingWordCloud words={cloudWords[2]} />
+                  {/* <TitleWithAbstractAndMedia info={articleList[33]} /> */}
+                </Col>
+              </Row>
+            </div>
           </div>
-        </div>
+          <div className="main-item">
+            <div className="item-content" style={{ height: itemHeight + "px" }}>
+              <Row gutter={90}>
+                <Col span={8}></Col>
+                <Col span={8}></Col>
+                <Col span={8}></Col>
+              </Row>
+            </div>
+          </div>
+        </>
       );
     }
   };

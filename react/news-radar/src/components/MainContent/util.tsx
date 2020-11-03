@@ -32,6 +32,6 @@ export const calcPageItems = (articleList: NewsStructure[]) => {
     { 0: [], 1: [], 2: [] },
     { 0: [], 1: [], 2: [] },
   ];
-  // console.log(articleList);
   const firstNews = renderNewsComponent(articleList[0]);
+  console.log(firstNews);
 };

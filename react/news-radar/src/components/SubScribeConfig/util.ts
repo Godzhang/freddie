@@ -16,7 +16,13 @@ export const fillResultToSubscribeList = (
   list: SubScribeStructure[],
   result: ConfigListStructure
 ) => {
-  const { locationList, topicList, websiteList } = result;
+  const {
+    locationList,
+    topicList,
+    websiteList,
+    twitterList,
+    facebookList,
+  } = result;
   list.forEach((item, itemIndex) => {
     const newLocationList = locationList.map((item) => {
       item.disabled = false;
@@ -31,10 +37,22 @@ export const fillResultToSubscribeList = (
       value: web,
       disabled: false,
     }));
+    const newTwitterList = twitterList.map((web, i) => ({
+      key: `${i}`,
+      value: web,
+      disabled: false,
+    }));
+    const newFacebookList = facebookList.map((web, i) => ({
+      key: `${i}`,
+      value: web,
+      disabled: false,
+    }));
     item.children![0].sub = [...newTopicList];
     item.children![1].sub = [...newLocationList];
     if (itemIndex === 0) {
       item.children![2].children![0].sub = [...newWebsiteList];
+      item.children![2].children![1].sub = [...newTwitterList];
+      item.children![2].children![2].sub = [...newFacebookList];
     }
   });
 };

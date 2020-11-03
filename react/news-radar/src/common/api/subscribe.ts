@@ -23,6 +23,13 @@ export const saveSub = (
   return axios.post("sub/saveSub", data, config);
 };
 
+export const batchSaveSub = (
+  data: SaveSubData[],
+  config?: AxiosRequestConfig
+) => {
+  return axios.post("sub/batchSaveSub", data, config);
+};
+
 export interface CancelSubData {
   id?: number;
 }

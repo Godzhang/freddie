@@ -1,10 +1,10 @@
 import React, { FC, useState, useEffect } from "react";
-import { Button, Input } from "antd";
+import { Button, Input, message } from "antd";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import SubMenu from "./SubMenu/index";
 import SubScribeConfig from "../SubScribeConfig/index";
 import { nav, mainNav, subNav } from "@/common/global/nav.ts";
-import { saveSub, SaveSubData } from "@/common/api/subscribe";
+import { batchSaveSub, SaveSubData } from "@/common/api/subscribe";
 import "./index.scss";
 
 const { Search } = Input;
@@ -25,11 +25,15 @@ const MainHeader: FC<MainHeaderProps> = (props) => {
     }
   }, [props]);
 
-  const onSaveSubscribe = (keys: SaveSubData[]) => {
-    // const params = {}
-    // saveSub(params)
-    console.log(keys);
-    setVisible(false);
+  const onSaveSubscribe = async (keys: SaveSubData[]) => {
+    await batchSaveSub(keys)
+      .then((res) => {
+        console.log(res);
+        setVisible(false);
+      })
+      .catch((err) => {
+        message.error("保存失败，请重试");
+      });
   };
 
   return (
