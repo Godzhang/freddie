@@ -3,6 +3,7 @@ import Router from "vue-router";
 import App from "./App.vue";
 const Home = () => import(/* webpackChunkName:'home' */ "./page/Home.vue");
 const Layout = () => import(/* webpackChunkName:'home' */ "./page/Layout.vue");
+const Filter = () => import(/* webpackChunkName:'home' */ "./page/Filter.vue");
 const Animate = () =>
   import(/* webpackChunkName:'animate' */ "./page/Animate.vue");
 
@@ -31,6 +32,10 @@ export default new Router({
         {
           path: "animate",
           component: Animate
+        },
+        {
+          path: "filter",
+          component: Filter
         }
       ]
     }
