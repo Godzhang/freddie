@@ -1,16 +1,18 @@
 <template>
-  <div class="layout">layout</div>
+  <div class="chaoyang">chaoyang</div>
 </template>
 <script>
 export default {
-  name: "layout",
+  name: "chaoyang",
   data() {
     return {};
   },
   mounted() {},
+  computed: {},
   watch: {},
   methods: {},
   components: {}
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

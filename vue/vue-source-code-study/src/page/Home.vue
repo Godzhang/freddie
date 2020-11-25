@@ -1,6 +1,14 @@
 <template>
-  <div id="app">
-    <List :menuList="menuList" />
+  <div id="home">
+    <div>router home</div>
+    <div>
+      <router-link to="/home/chaoyang">
+        <button>home / chaoyang</button>
+      </router-link>
+    </div>
+    <div>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 <script>
@@ -9,35 +17,17 @@ import List from "../components/List";
 export default {
   name: "home",
   data() {
-    return {
-      menuList: [
-        { dataList: [{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }] }
-      ]
-    };
+    return {};
   },
-  mounted() {
-    setTimeout(() => {
-      this.menuListTemp = {};
-    }, 2000);
-  },
-  computed: {
-    menuListTemp: {
-      get() {
-        return this.menuList;
-      },
-      set(obj) {
-        console.log("set");
-        return obj;
-      }
-    }
-  },
+  mounted() {},
+  computed: {},
   watch: {},
   methods: {},
-  components: { List }
+  components: {}
 };
 </script>
 <style lang="scss" scoped>
-#app {
+#home {
   position: relative;
 }
 .page {
