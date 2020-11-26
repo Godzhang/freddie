@@ -1,8 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
 import App from "./App.vue";
+import Layout from "./page/Layout.vue";
 const Home = () => import(/* webpackChunkName:'home' */ "./page/Home.vue");
-const Layout = () => import(/* webpackChunkName:'home' */ "./page/Layout.vue");
+// const Layout = () => import(/* webpackChunkName:'home' */ "./page/Layout.vue");
 const User = () => import(/* webpackChunkName:'user' */ "./page/User.vue");
 const ViewA = () => import(/* webpackChunkName:'ViewA' */ "./page/View-a.vue");
 const ViewB = () => import(/* webpackChunkName:'ViewB' */ "./page/View-b.vue");
@@ -21,68 +22,53 @@ const router = new Router({
   base,
   routes: [
     {
-      path: "/home",
-      name: "home",
-      components: { default: Home },
-      alias: "/main",
-      children: [
-        {
-          path: "chaoyang",
-          name: "chaoyang",
-          component: Chaoyang,
-          meta: { routeName: "chaoyang" }
-        }
-      ]
+      path: "/page1",
+      component: () => import(/* webpackChunkName:'page1' */ "./page/Page1.vue")
     },
     {
-      path: "/layout",
-      name: "layout",
-      components: Layout,
-      meta: { scrollToTop: true }
-    },
-    {
-      path: "/user/:id",
-      name: "user",
-      component: User,
-      // props: true
-      // props: { newsletterPopup: false }
-      props: route => {
-        return { newsletterPopup: false };
-      }
+      path: "/page2",
+      component: () => import(/* webpackChunkName:'page2' */ "./page/Page2.vue")
     },
     // {
-    //   path: "/animate",
-    //   name: "animate",
-    //   component: Animate
+    //   path: "/home",
+    //   name: "home",
+    //   components: { default: Home },
+    //   alias: "/main",
+    //   children: [
+    //     {
+    //       path: "chaoyang",
+    //       name: "chaoyang",
+    //       component: Chaoyang,
+    //       meta: { routeName: "chaoyang" }
+    //     }
+    //   ]
     // },
     // {
-    //   path: "/filter",
-    //   name: "filter",
-    //   component: Filter
+    //   path: "/layout",
+    //   name: "layout",
+    //   component: Layout,
+    //   meta: { scrollToTop: true }
+    // },
+    // {
+    //   path: "/user/:id",
+    //   name: "user",
+    //   component: User,
+    //   props: route => {
+    //     return { newsletterPopup: false };
+    //   }
     // },
     {
       path: "*",
-      redirect: "/main"
+      redirect: "/page1"
     }
   ],
   scrollBehavior(to, from, savedPosition) {
-    // if (savedPosition) {
-    //   return savedPosition
-    // } else {
-    //   const position = {}
-    //   if (to.hash) {
-    //     position.selector = to.hash
-    //     if (to.hash === '#')
-    //   }
-    // }
-    console.log(savedPosition);
-    return savedPosition;
+    if (to.hash) {
+      return {
+        selector: to.hash
+      };
+    }
   }
-});
-
-router.beforeEach((to, from, next) => {
-  console.log("router before each");
-  next();
 });
 
 export default router;
