@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,10 +28,201 @@
     <title>zhangqi</title>
   </head>
   <body>
-    <!-- <div class="container">
-    </div> -->
+    <div class="container">
+      <button id="btn">button</button>
+    </div>
     <script>
       //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      // instanceof
+      // function instanceof_s(sub, sup) {
+      //   let proto = sub.__proto__;
+      //   let prototype = sup.prototype;
+      //   while (true) {
+      //     if (proto === null) return false;
+      //     if (proto === prototype) return true;
+      //     proto = proto.__proto__;
+      //   }
+      // }
+    </script>
+    <script>
+      // throttle
+      // 节流防抖版
+      // function throttle(fn, wait, isDebounce) {
+      //   let timer = null;
+      //   let prevTime = 0;
+      //   return function (...args) {
+      //     if (isDebounce) {
+      //       if (timer) clearTimeout(timer);
+      //       timer = setTimeout(() => {
+      //         fn.apply(this, args);
+      //       }, wait);
+      //     } else {
+      //       const now = new Date().getTime();
+      //       if (now - prevTime < wait) return;
+      //       prevTime = now;
+      //       fn.apply(this, args);
+      //     }
+      //   };
+      // }
+      // 纯节流
+      // function throttle(fn, wait) {
+      //   let prev = new Date();
+      //   return function (...args) {
+      //     let now = new Date();
+      //     if (now - prev > wait) {
+      //       fn.apply(this, args);
+      //       prev = new Date();
+      //     }
+      //   };
+      // }
+      // const fn = throttle(() => console.log("fn"), 1000);
+      // document.querySelector("#btn").addEventListener("click", fn);
+    </script>
+    <script>
+      // debounce
+      // function debounce(fn, wait, immediate) {
+      //   let timer = null;
+      //   return function (...args) {
+      //     let later = () => {
+      //       timer = null;
+      //       if (!immediate) fn.apply(this, args);
+      //     };
+      //     clearTimeout(timer);
+      //     timer = setTimeout(later, wait);
+      //     if (immediate && !timer) fn.apply(this, args);
+      //   };
+      // }
+      // const fn = () => console.log("fn");
+      // const fnn = debounce(fn, 300);
+      // fnn();
+    </script>
+    <script>
+      // bind
+      // Function.prototype.bind_s = function (context, ...args) {
+      //   if (typeof this !== "function") {
+      //     throw new TypeError("被绑定的对象需要是函数");
+      //   }
+      //   const self = this;
+      //   const noop = function () {};
+      //   const fBound = function (...args2) {
+      //     return self.apply(
+      //       this instanceof fBound ? this : context,
+      //       args.concat(args2)
+      //     );
+      //   };
+      //   // 维护原型关系
+      //   if (this.prototype) {
+      //     noop.prototype = this.prototype;
+      //   }
+      //   //使fBound.prototype是noop的实例，返回的fBound若作为new的构造函数，新对象的__proto__就是noop的实例
+      //   fBound.prototype = new noop();
+      //   return fBound;
+      // };
+    </script>
+    <script>
+      // call / apply
+      // Function.prototype.call_s = function (context = window, ...args) {
+      //   context.func = this;
+      //   const result = context.func(...args);
+      //   delete context.func;
+      //   return result;
+      // };
+      // Function.prototype.apply_s = function (context = window, args) {
+      //   context.func = this;
+      //   let result = null;
+      //   if (args) {
+      //     result = context.func(...args);
+      //   } else {
+      //     result = context.func();
+      //   }
+      //   delete context.func;
+      //   return result;
+      // };
+      // let obj = { name: "zhangqi" };
+      // function fn(a, b) {
+      //   console.log(this.name, a, b);
+      // }
+      // fn.apply_s(obj, ["a", "b"]);
+    </script>
+    <script>
+      // JSON.parse
+      // function parse(str) {}
+    </script>
+    <script>
+      // JSON.stringify
+      // function stringify(obj) {}
+    </script>
+    <script>
+      // new 操作符
+      // function new_s(func, ...args) {
+      //   const result = {};
+      //   if (func.prototype !== null) {
+      //     result.__proto__ = func.prototype;
+      //   }
+      //   let ret = func.apply(result, args);
+      //   if (
+      //     (typeof ret === "object" || typeof ret === "function") &&
+      //     ret !== null
+      //   ) {
+      //     return ret;
+      //   }
+      //   return result;
+      // }
+      // function Fn(name) {
+      //   this.name = name;
+      // }
+      // Fn.prototype.sayName = function () {
+      //   console.log(this.name);
+      // };
+
+      // let fn = new_s(Fn, "zhangqi");
+      // console.log(fn);
+      // console.log(fn.__proto__);
+      // let fn2 = new Fn("zhangqi");
+      // console.log(fn2);
+      // console.log(fn2.__proto__);
+    </script>
+    <script>
+      //
+      // const formatSettledResult = (success, value) =>
+      //   success
+      //     ? { status: "fulfilled", value }
+      //     : { statue: "rejected", reason: value };
+
+      // Promise.all_settled = (iterators) => {
+      //   const promises = Array.from(iterators);
+      //   const num = promises.length;
+      //   const resultList = new Array(num);
+      //   let resultNum = 0;
+
+      //   return new Promise((resolve) => {
+      //     promises.forEach((promise, index) => {
+      //       Promise.resolve(promise)
+      //         .then((value) => {
+      //           resultList[resultNum] = formatSettledResult(true, value);
+      //           if (++resultNum === num) resolve(resultList);
+      //         })
+      //         .catch((error) => {
+      //           resultList[resultNum] = formatSettledResult(false, error);
+      //           if (++resultNum === num) resolve(resultList);
+      //         });
+      //     });
+      //   });
+      // };
+
+      // const resolved = Promise.resolve(42);
+      // const rejected = Promise.reject(-1);
+      // Promise.all_settled([resolved, rejected]).then((res) => {
+      //   console.log(res);
+      // });
     </script>
     <script>
       //
