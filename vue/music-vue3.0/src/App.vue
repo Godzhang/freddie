@@ -1,26 +1,31 @@
 <template>
   <div id="app">
     <div>{{ count }}</div>
-    <div>{{ double }}</div>
+    <!-- <div>{{ double }}</div> -->
   </div>
 </template>
 
 <script>
-import { reactive, ref, toRefs, toRef, computed } from "@vue/composition-api";
+import {
+  reactive,
+  ref,
+  toRefs,
+  toRef,
+  computed
+} from "@vue/composition-api/dist/vue-composition-api.esm";
 
 export default {
   name: "App",
   // vue3.0的入口函数，beforeCreate之前进行触发
   setup() {
     // const state = reactive({
-    //   count: 0,
+    //   count: 0
     // });
     // setTimeout(() => {
     //   state.count++;
     // }, 1000);
-    // return {
-    //   count: state.count,
-    // };
+    // return state;
+    // ------------------------
     // const count = ref(0);
     // setTimeout(() => count.value++, 1000);
     // return { count };
@@ -65,7 +70,7 @@ export default {
     // return state;
     // -----------------------
     // -----------------------
-  },
+  }
 };
 </script>
 
