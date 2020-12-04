@@ -10,7 +10,7 @@
     "serve:stage": "vue-cli-service serve --mode stage"
   },
   "dependencies": {
-    "better-scroll": "^1.15.2",
+    "better-scroll": "^2.0.5",
     "core-js": "^2.6.5",
     "element-ui": "^2.8.2",
     "highlight.js": "^9.15.10",

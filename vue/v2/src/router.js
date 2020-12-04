@@ -28,28 +28,33 @@ export default new Router({
         {
           path: "home",
           component: Home
+        },
+        {
+          path: "queen",
+          component: Queen
+        },
+        {
+          path: "vuex",
+          component: Vuex
+        },
+        {
+          path: "parent",
+          component: Parent
+        },
+        {
+          path: "codeview",
+          component: CodeView
+        },
+        {
+          path: "test",
+          component: Test
+        },
+        {
+          path: "scroll",
+          component: () =>
+            import(/* webpackChunkName:'scroll' */ "./page/ScrollDemo.vue")
         }
       ]
-    },
-    {
-      path: "/queen",
-      component: Queen
-    },
-    {
-      path: "/vuex",
-      component: Vuex
-    },
-    {
-      path: "/parent",
-      component: Parent
-    },
-    {
-      path: "/codeview",
-      component: CodeView
-    },
-    {
-      path: "/test",
-      component: Test
     }
   ]
 });
