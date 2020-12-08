@@ -31,11 +31,119 @@
   </head>
   <body>
     <div class="container"></div>
+    <div id="source-html">
+      <h1
+        style="
+          text-align: center;
+          height: 100px;
+          line-height: 100px;
+          background-color: #08c;
+          color: #fff;
+        "
+      >
+        Artificial Intelligence
+      </h1>
+      <h2>Overview</h2>
+      <p>
+        Artificial Intelligence(AI) is an emerging technology demonstrating
+        machine intelligence. The sub studies like
+        <u
+          ><i>Neural Networks</i>, <i>Robatics</i> or <i>Machine Learning</i></u
+        >
+        are the parts of AI. This technology is expected to be a prime part of
+        the real world in all levels.
+      </p>
+      <!-- <p>
+        <img
+          src="https://res.cloudinary.com/dmsxwwfb5/image/upload/v1580916756/buy-me-min.png"
+        />
+      </p>
+      <p>
+        <img src="./images/bg1.jpg" alt="" />
+      </p> -->
+    </div>
+    <div class="content-footer">
+      <button id="btn-export" onclick="ExportToDoc();">
+        Export to word doc
+      </button>
+    </div>
     <script>
       //
     </script>
     <script>
       //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+      function ExportToDoc(filename = "") {
+        var HtmlHead =
+          "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+
+        var EndHtml = "</body></html>";
+
+        //complete html
+        var html =
+          HtmlHead + document.getElementById("source-html").innerHTML + EndHtml;
+
+        //specify the type
+        var blob = new Blob(["\ufeff", html], {
+          type: "application/msword",
+        });
+
+        // Specify link url
+        var url =
+          "data:application/vnd.ms-word;charset=utf-8," +
+          encodeURIComponent(html);
+
+        // Specify file name
+        filename = filename ? filename + ".doc" : "document.doc";
+
+        // Create download link element
+        var downloadLink = document.createElement("a");
+
+        document.body.appendChild(downloadLink);
+
+        if (navigator.msSaveOrOpenBlob) {
+          navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+          // Create a link to the file
+          downloadLink.href = url;
+
+          // Setting the file name
+          downloadLink.download = filename;
+
+          //triggering the function
+          downloadLink.click();
+        }
+
+        document.body.removeChild(downloadLink);
+      }
+    </script>
+    <script>
+      // 简单的导出word
+      // function exportHTML() {
+      //   var header =
+      //     "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+      //     "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+      //     "xmlns='http://www.w3.org/TR/REC-html40'>" +
+      //     "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
+      //   var footer = "</body></html>";
+      //   var sourceHTML =
+      //     header + document.getElementById("source-html").innerHTML + footer;
+
+      //   var source =
+      //     "data:application/vnd.ms-word;charset=utf-8," +
+      //     encodeURIComponent(sourceHTML);
+      //   var fileDownload = document.createElement("a");
+      //   document.body.appendChild(fileDownload);
+      //   fileDownload.href = source;
+      //   fileDownload.download = "document.doc";
+      //   fileDownload.click();
+      //   document.body.removeChild(fileDownload);
+      // }
     </script>
     <script>
       // 压缩图片

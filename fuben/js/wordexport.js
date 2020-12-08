@@ -1,5 +1,4 @@
-function exportWord(filename) {
-  fileName = typeof fileName !== "undefined" ? fileName : "Word-Export";
+function exportWord(content, filename = "Word-Export") {
   const static = {
     mhtml: {
       top:
