@@ -11,6 +11,7 @@
       />
       <button v-if="searchType !== 1" @click="handleToClose">关闭</button>
     </div>
+    <HelloWorld />
     <template v-if="searchType === 1">
       <div class="search-history">
         <div class="search-history-head">
@@ -22,23 +23,18 @@
             v-for="(item, index) in searchHistory"
             :key="index"
             @click="handleToList(item)"
-          >
-            {{ item }}
-          </div>
+          >{{ item }}</div>
         </div>
       </div>
       <div class="search-hot">
         <div class="search-hot-head">热歌榜</div>
-        <div
-          class="search-hot-item"
-          v-for="(item, index) in searchHot"
-          :key="index"
-        >
+        <div class="search-hot-item" v-for="(item, index) in searchHot" :key="index">
           <div class="search-hot-top">{{ index + 1 }}</div>
           <div class="search-hot-word">
             <div>
               {{ item.searchWord
-              }}<img v-if="item.iconUrl" :src="item.iconUrl" alt="" />
+              }}
+              <img v-if="item.iconUrl" :src="item.iconUrl" alt />
             </div>
             <div>{{ item.content }}</div>
           </div>
@@ -48,11 +44,7 @@
     </template>
     <template v-else-if="searchType === 2">
       <div class="search-result">
-        <div
-          class="search-result-item"
-          v-for="(item, index) in searchList"
-          :key="index"
-        >
+        <div class="search-result-item" v-for="(item, index) in searchList" :key="index">
           <div class="search-result-word">
             <div>{{ item.name }}</div>
             <div>{{ item.artists[0].name }}-{{ item.album.name }}</div>
@@ -70,35 +62,44 @@
           :key="index"
           @click="handleToList(item.keyword)"
         >
-          <button>搜索</button>{{ item.keyword }}
+          <button>搜索</button>
+          {{ item.keyword }}
         </div>
       </div>
     </template>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {
   reactive,
   ref,
   toRefs,
+  Ref,
   computed,
   watch,
   watchEffect,
   onMounted,
+  defineComponent
 } from "@vue/composition-api";
 import {
   searchHot as sh,
   searchSuggest as ss,
   searchList as sl,
-  searchHistory as shis,
+  searchHistory as shis
 } from "./data";
+import { provideStore } from "./useSearchWord";
+import HelloWorld from "./components/HelloWorld.vue";
 
-export default {
+export default defineComponent({
   name: "App",
-  setup() {
+  components: { HelloWorld },
+  setup(props, context) {
     const searchType = ref(1);
     const searchWord = ref("");
+
+    provideStore(searchWord);
+
     const { searchHot } = useSearchHot();
     const { searchSuggest, handleToSuggest } = useSearchSuggest(
       searchType,
@@ -108,7 +109,7 @@ export default {
     const { searchList, handleToList, handleToClose } = useSearchList(
       searchType,
       searchWord,
-      function(word) {
+      function(word: string) {
         setToHistory(word);
       }
     );
@@ -123,13 +124,13 @@ export default {
       handleToList,
       handleToClose,
       handleToSuggest,
-      handleToClear,
+      handleToClear
     };
-  },
-};
+  }
+});
 function useSearchHot() {
-  const state = reactive({
-    searchHot: [],
+  const state: { searchHot: typeof sh } = reactive({
+    searchHot: []
   });
 
   onMounted(() => {
@@ -141,9 +142,9 @@ function useSearchHot() {
   return toRefs(state);
 }
 
-function useSearchSuggest(searchType, searchWord) {
-  const state = reactive({
-    searchSuggest: [],
+function useSearchSuggest(searchType: Ref<number>, searchWord: Ref<string>) {
+  const state: { searchSuggest: typeof ss } = reactive({
+    searchSuggest: []
   });
   const { searchSuggest } = toRefs(state);
   const handleToSuggest = () => {
@@ -159,9 +160,13 @@ function useSearchSuggest(searchType, searchWord) {
   return { searchSuggest, handleToSuggest };
 }
 
-function useSearchList(searchType, searchWord, callback) {
-  const state = reactive({
-    searchList: [],
+function useSearchList(
+  searchType: Ref<number>,
+  searchWord: Ref<string>,
+  callback: (word: string) => void
+) {
+  const state: { searchList: typeof sl } = reactive({
+    searchList: []
   });
   const { searchList } = toRefs(state);
 
@@ -170,7 +175,7 @@ function useSearchList(searchType, searchWord, callback) {
     searchWord.value = "";
   };
 
-  const handleToList = (word) => {
+  const handleToList = (word: string) => {
     searchWord.value = word;
     callback(word);
 
@@ -184,8 +189,8 @@ function useSearchList(searchType, searchWord, callback) {
 }
 
 function useSearchHistory() {
-  const state = reactive({
-    searchHistory: [],
+  const state: { searchHistory: typeof shis } = reactive({
+    searchHistory: []
   });
   const { searchHistory } = toRefs(state);
 
@@ -194,11 +199,11 @@ function useSearchHistory() {
       key: "searchHistory",
       success: () => {
         state.searchHistory = [];
-      },
+      }
     });
   };
 
-  const setToHistory = (word) => {
+  const setToHistory = (word: string) => {
     state.searchHistory.unshift(word);
     state.searchHistory = [...new Set(state.searchHistory)];
     if (state.searchHistory.length > 10) {
@@ -206,30 +211,40 @@ function useSearchHistory() {
     }
     setStorage({
       key: "searchHistory",
-      data: state.searchHistory,
+      data: state.searchHistory
     });
   };
 
   onMounted(() => {
     getStorage({
       key: "searchHistory",
-      success: (arr) => {
+      success: arr => {
         state.searchHistory = arr || [];
-      },
+      }
     });
   });
 
   return { searchHistory, handleToClear, setToHistory };
 }
 
-function setStorage({ key, data }) {
+function setStorage({ key, data }: { key: string; data: string[] }) {
   localStorage.setItem(key, JSON.stringify(data));
 }
-function getStorage({ key, success }) {
+function getStorage({
+  key,
+  success
+}: {
+  key: string;
+  success: (arg: []) => void;
+}) {
   const data = localStorage.getItem(key);
-  success(JSON.parse(data));
+  if (typeof data === "string") {
+    success(JSON.parse(data));
+  } else {
+    success([]);
+  }
 }
-function removeStorage({ key, success }) {
+function removeStorage({ key, success }: { key: string; success: () => void }) {
   localStorage.removeItem(key);
   success();
 }
