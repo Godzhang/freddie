@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Lib from "../views/Lib.vue";
+import Animate from "../views/Animate.vue";
 
 Vue.use(VueRouter);
 
@@ -12,9 +12,8 @@ const routes = [
     component: Home
   },
   {
-    path: "/lib",
-    name: "Lib",
-    component: Lib
+    path: "/animate",
+    component: Animate
   }
 ];
 
