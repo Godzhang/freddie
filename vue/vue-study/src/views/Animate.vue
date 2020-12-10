@@ -1,9 +1,11 @@
 <template>
   <div class="animate">
     <component :is="componentName"></component>
+    <Load />
   </div>
 </template>
 <script>
+import Load from "../components/animate/Load";
 import Cover from "../components/animate/Cover";
 
 export default {
@@ -16,6 +18,7 @@ export default {
   mounted() {},
   methods: {},
   components: {
+    Load,
     Cover
   }
 };

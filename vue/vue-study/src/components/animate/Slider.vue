@@ -2,24 +2,40 @@
   <div class="slider">
     <div class="trail" ref="trail"></div>
     <div class="core-box">
-      <div class="core-bg" :style="{width: `${coreBgWidth}px`}"></div>
+      <div
+        class="core-bg"
+        ref="coreBg"
+        :style="{ width: `${coreBgWidth}px` }"
+      ></div>
       <div
         class="core"
         ref="core"
         @touchstart="onTouchStart"
         @touchmove="onTouchMove"
         @touchend="onTouchEnd"
-      ></div>
+      >
+        <div class="core-point"></div>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import { sliderColors } from "@/common/global/colors.js";
+import {
+  colorMix,
+  hexToRgba,
+  actionByPercentage
+} from "@/common/utils/utils.js";
+
 const CORE_BOX_WIDTH = 232;
 const CORE_WIDTH = 45;
 const CORE_MOST_LEFT = CORE_BOX_WIDTH - CORE_WIDTH;
 
 export default {
   name: "Slider",
+  props: {
+    percentage: Number
+  },
   data() {
     return {
       isMoving: false,
@@ -37,7 +53,8 @@ export default {
   watch: {
     endX(x) {
       this.$emit("slide", x / CORE_MOST_LEFT);
-    }
+    },
+    percentage: "changeColor"
   },
   methods: {
     onTouchStart(e) {
@@ -54,9 +71,50 @@ export default {
       this.isMoving = false;
       this.startX = this.endX;
       this.posX = this.endX;
+    },
+    changeColor(percentage) {
+      const { init, red, green, blue, white, yellow } = sliderColors;
+      let color_1 = init;
+      let color_2 = init;
+      let colorRatio = 1;
+      actionByPercentage(percentage, [
+        (value, ratio) => {
+          color_1 = init;
+          color_2 = init;
+          colorRatio = 1;
+        },
+        (value, ratio) => {
+          color_1 = init;
+          color_2 = red;
+          colorRatio = ratio;
+        },
+        (value, ratio) => {
+          color_1 = red;
+          color_2 = green;
+          colorRatio = ratio;
+        },
+        (value, ratio) => {
+          color_1 = green;
+          color_2 = blue;
+          colorRatio = ratio;
+        },
+        (value, ratio) => {
+          color_1 = blue;
+          color_2 = white;
+          colorRatio = ratio;
+        },
+        (value, ratio) => {
+          color_1 = white;
+          color_2 = yellow;
+          colorRatio = ratio;
+        }
+      ]);
+      const resultColor = colorMix(color_1, color_2, colorRatio);
+      this.$refs.trail.style.borderColor = resultColor;
+      this.$refs.core.style.backgroundColor = resultColor;
+      this.$refs.coreBg.style.backgroundColor = hexToRgba(resultColor, 50).rgba;
     }
-  },
-  components: {}
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -75,7 +133,6 @@ export default {
     border-color: #7a8284;
     border-radius: 50px;
     overflow: hidden;
-    background-color: #2a251b;
   }
   .core-box {
     position: absolute;
@@ -99,6 +156,13 @@ export default {
       height: 45px;
       background-color: #7a8284;
       border-radius: 45px;
+      .core-point {
+        width: 37px;
+        height: 37px;
+        margin: 4px;
+        border-radius: 37px;
+        box-shadow: 0 0 1px 0.5px rgba(0, 0, 0, 0.3);
+      }
     }
   }
 }

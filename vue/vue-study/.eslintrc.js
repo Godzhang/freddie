@@ -16,6 +16,7 @@ module.exports = {
     "eol-last": "off",
     "no-unused-vars": "off",
     "prefer-const": "off",
-    "no-useless-return": "off"
+    "no-useless-return": "off",
+    camelcase: "off"
   }
 };

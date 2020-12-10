@@ -21,6 +21,23 @@
       .container {
         padding: 30px;
       }
+      .gradient {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 1px;
+        height: 1px;
+        border-radius: 50%;
+        box-shadow: 0 0 100px 100px rgba(255, 0, 0, 0.5);
+        /* width: 300px;
+        height: 600px;
+        background-image: radial-gradient(
+          circle,
+          #ff5155 20%,
+          rgba(255, 255, 255, 0) 60%
+        ); */
+      }
       /* .container {
         width: 100px;
         height: 100px;
@@ -31,7 +48,8 @@
   </head>
   <body>
     <!-- <div class="container"></div> -->
-    <canvas id="canvas"></canvas>
+    <!-- <canvas id="canvas"></canvas> -->
+    <div class="gradient"></div>
     <script>
       //
     </script>
