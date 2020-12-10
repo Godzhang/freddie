@@ -2,11 +2,7 @@
   <div class="slider">
     <div class="trail" ref="trail"></div>
     <div class="core-box">
-      <div
-        class="core-bg"
-        ref="coreBg"
-        :style="{ width: `${coreBgWidth}px` }"
-      ></div>
+      <div class="core-bg" ref="coreBg" :style="{ width: `${coreBgWidth}px` }"></div>
       <div
         class="core"
         ref="core"

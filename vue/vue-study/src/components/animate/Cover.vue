@@ -3,23 +3,14 @@
     <div class="cover-bg" ref="cover"></div>
     <div class="lamp-box">
       <div class="gradient-box">
-        <div
-          v-for="color in styles"
-          :key="color"
-          :class="`gradient ${color}`"
-          ref="gradient"
-        ></div>
+        <div v-for="color in styles" :key="color" :class="`gradient ${color}`" ref="gradient"></div>
       </div>
-      <div
-        v-for="color in styles"
-        :key="color"
-        :class="`lamp ${color}`"
-        ref="lamp"
-      ></div>
+      <div v-for="color in styles" :key="color" :class="`lamp ${color}`" ref="lamp"></div>
     </div>
     <Slider @slide="onSliderMove" :percentage="percentage"></Slider>
     <div class="load" ref="load" v-if="showLoad">
       <div class="round" ref="round"></div>
+      <div class="round-1"></div>
     </div>
   </div>
 </template>
@@ -154,17 +145,21 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-// 考虑使用clip
 @keyframes roundExpand {
   0% {
+    transform: translate(-50%, -50%) scale(1);
   }
   25% {
+    transform: translate(-50%, -50%) scale(1.2);
   }
   50% {
+    transform: translate(-50%, -50%) scale(1);
   }
   75% {
+    transform: translate(-50%, -50%) scale(1.5);
   }
   100% {
+    transform: translate(-50%, -50%) scale(10);
   }
 }
 
@@ -235,19 +230,42 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #646869;
-    background-image: radial-gradient(circle, #fff 5%, #646869 15%);
-    // .round {
-    //   position: absolute;
-    //   top: 30%;
-    //   left: 50%;
-    //   transform: translateX(-50%);
-    //   width: 120px;
-    //   height: 150px;
-    //   border-radius: 50%;
-    //   // animation: roundExpand 5s linear forwards;
-    //   background-image: radial-gradient(#fff 30%, #646869 70%);
-    // }
+    .round {
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      width: 140px;
+      height: 160px;
+      border-radius: 50%;
+      border: 9999px solid #646869;
+      animation: roundExpand 5s linear forwards;
+      box-shadow: inset 0 0 10px 30px #646869;
+      // &::before {
+      //   content: "";
+      //   position: absolute;
+      //   top: 50%;
+      //   left: 50%;
+      //   transform: translate(-50%, -50%) scale(1);
+      //   width: 100px;
+      //   height: 130px;
+      //   border-radius: 50%;
+      //   border: 9999px solid #646869;
+      //   animation: roundExpand 5s linear forwards;
+      // }
+    }
+    .round-1 {
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      width: 130px;
+      height: 150px;
+      border-radius: 50%;
+      border: 9999px solid #646869;
+      animation: roundExpand 5s linear forwards;
+      overflow: hidden;
+    }
   }
 }
 </style>
