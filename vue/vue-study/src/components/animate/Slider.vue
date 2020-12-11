@@ -2,7 +2,11 @@
   <div class="slider">
     <div class="trail" ref="trail"></div>
     <div class="core-box">
-      <div class="core-bg" ref="coreBg" :style="{ width: `${coreBgWidth}px` }"></div>
+      <div
+        class="core-bg"
+        ref="coreBg"
+        :style="{ width: `${coreBgWidth}px` }"
+      ></div>
       <div
         class="core"
         ref="core"
@@ -29,9 +33,6 @@ const CORE_MOST_LEFT = CORE_BOX_WIDTH - CORE_WIDTH;
 
 export default {
   name: "Slider",
-  props: {
-    percentage: Number
-  },
   data() {
     return {
       isMoving: false,
@@ -40,7 +41,6 @@ export default {
       posX: 0
     };
   },
-  mounted() {},
   computed: {
     coreBgWidth() {
       return this.endX + CORE_WIDTH / 2;
@@ -48,9 +48,13 @@ export default {
   },
   watch: {
     endX(x) {
-      this.$emit("slide", x / CORE_MOST_LEFT);
-    },
-    percentage: "changeColor"
+      const percentage = x / CORE_MOST_LEFT;
+      this.$emit("slide", percentage);
+      this.changeColor(percentage);
+      if (percentage === 1) {
+        this.disableCore();
+      }
+    }
   },
   methods: {
     onTouchStart(e) {
@@ -109,6 +113,9 @@ export default {
       this.$refs.trail.style.borderColor = resultColor;
       this.$refs.core.style.backgroundColor = resultColor;
       this.$refs.coreBg.style.backgroundColor = hexToRgba(resultColor, 50).rgba;
+    },
+    disableCore() {
+      this.$refs.core.style.pointerEvents = "none";
     }
   }
 };
@@ -118,7 +125,7 @@ export default {
   position: absolute;
   bottom: 90px;
   left: 50%;
-  transform: translateX(-50%);
+  margin-left: -125px;
   width: 250px;
   height: 60px;
   .trail {

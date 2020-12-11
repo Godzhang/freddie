@@ -1,21 +1,32 @@
 <template>
-  <div class="cover">
-    <div class="cover-bg" ref="cover"></div>
-    <div class="lamp-box">
+  <div class="cover" ref="cover">
+    <div class="cover-bg" ref="coverBg"></div>
+    <div class="lamp-box" ref="lampBox">
       <div class="gradient-box">
-        <div v-for="color in styles" :key="color" :class="`gradient ${color}`" ref="gradient"></div>
+        <div
+          v-for="color in styles"
+          :key="color"
+          :class="`gradient ${color}`"
+          ref="gradient"
+        ></div>
       </div>
-      <div v-for="color in styles" :key="color" :class="`lamp ${color}`" ref="lamp"></div>
+      <div
+        v-for="color in styles"
+        :key="color"
+        :class="`lamp ${color}`"
+        ref="lamp"
+      ></div>
     </div>
-    <Slider @slide="onSliderMove" :percentage="percentage"></Slider>
+    <Slider ref="slider" @slide="onSliderMove"></Slider>
     <div class="load" ref="load" v-if="showLoad">
-      <div class="round" ref="round"></div>
-      <div class="round-1"></div>
+      <div class="round"></div>
+      <div class="round-mask"></div>
     </div>
   </div>
 </template>
 <script>
 import Slider from "./Slider";
+import Velocity from "velocity-animate";
 import { gradientRgbColors, coverBgColors } from "@/common/global/colors.js";
 import { colorMix, actionByPercentage } from "@/common/utils/utils.js";
 
@@ -26,6 +37,7 @@ const styles = ["default", "red", "green", "blue", "white", "yellow"];
 
 export default {
   name: "Cover",
+  inject: ["store"],
   data() {
     return {
       percentage: 0,
@@ -37,79 +49,90 @@ export default {
     this.init();
   },
   methods: {
-    init() {},
+    init() {
+      const load = this.$refs.load;
+      load.childNodes.forEach(node => {
+        node.classList.add("animate");
+      });
+      setTimeout(() => {
+        load.remove();
+      }, 3000);
+    },
     onSliderMove(percentage) {
       this.changeCoverBg(percentage);
       this.changLamp(percentage);
       this.changeGradient(percentage);
 
       this.percentage = percentage;
+      if (percentage === 1) {
+        this.animateToEnd();
+      }
     },
     changeCoverBg(percentage) {
       const { red, green, blue, white, yellow, black } = coverBgColors;
       let color_1 = black;
       let color_2 = black;
-      let ratio = 1;
+      let colorRatio = 1;
       actionByPercentage(percentage, [
-        () => {
+        (value, ratio) => {
           color_1 = black;
           color_2 = black;
-          ratio = 1;
+          colorRatio = 1;
         },
-        () => {
+        (value, ratio) => {
           color_1 = black;
           color_2 = red;
-          ratio = percentage / 0.2;
+          colorRatio = ratio;
         },
-        () => {
+        (value, ratio) => {
           color_1 = red;
           color_2 = green;
-          ratio = (percentage - 0.2) / 0.2;
+          colorRatio = ratio;
         },
-        () => {
+        (value, ratio) => {
           color_1 = green;
           color_2 = blue;
-          ratio = (percentage - 0.4) / 0.2;
+          colorRatio = ratio;
         },
-        () => {
+        (value, ratio) => {
           color_1 = blue;
           color_2 = white;
-          ratio = (percentage - 0.6) / 0.2;
+          colorRatio = ratio;
         },
-        () => {
+        (value, ratio) => {
           color_1 = white;
           color_2 = yellow;
-          ratio = (percentage - 0.8) / 0.2;
+          colorRatio = ratio;
         }
       ]);
-      this.$refs.cover.style.backgroundColor = `${colorMix(
+      this.$refs.coverBg.style.backgroundColor = `${colorMix(
         color_1,
         color_2,
-        ratio
+        colorRatio
       )}`;
     },
     changLamp(percentage) {
       const lamp = this.$refs.lamp;
       actionByPercentage(percentage, [
         (value, ratio) => (lamp[0].style.opacity = 1),
-        (value, ratio) => {
-          lamp[0].style.opacity = 1 - ratio;
+        (value, ratio, contrastRatio) => {
+          lamp[0].style.opacity = contrastRatio;
           lamp[1].style.opacity = ratio;
         },
-        (value, ratio) => {
-          lamp[1].style.opacity = 1 - ratio;
+        (value, ratio, contrastRatio) => {
+          lamp[1].style.opacity = contrastRatio;
           lamp[2].style.opacity = ratio;
         },
-        (value, ratio) => {
-          lamp[2].style.opacity = 1 - ratio;
+        (value, ratio, contrastRatio) => {
+          lamp[2].style.opacity = contrastRatio;
           lamp[3].style.opacity = ratio;
         },
-        (value, ratio) => {
-          lamp[3].style.opacity = 1 - ratio;
+        (value, ratio, contrastRatio) => {
+          lamp[3].style.opacity = contrastRatio;
           lamp[4].style.opacity = ratio;
         },
-        (value, ratio) => {
-          lamp[4].style.opacity = 1 - ratio;
+        (value, ratio, contrastRatio) => {
+          lamp[4].style.opacity = contrastRatio;
           lamp[5].style.opacity = ratio;
         }
       ]);
@@ -118,27 +141,52 @@ export default {
       const gradient = this.$refs.gradient;
       actionByPercentage(percentage, [
         (value, ratio) => {},
-        (value, ratio) => {
+        (value, ratio, contrastRatio) => {
           gradient[1].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
             120}px rgba(${gradientRgbColors.red}, 0.5)`;
         },
-        (value, ratio) => {
+        (value, ratio, contrastRatio) => {
+          gradient[1].style.boxShadow = `0 0 ${contrastRatio *
+            120}px ${contrastRatio * 120}px rgba(${
+            gradientRgbColors.red
+          }, 0.5)`;
           gradient[2].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
             120}px rgba(${gradientRgbColors.green}, 0.5)`;
         },
-        (value, ratio) => {
+        (value, ratio, contrastRatio) => {
+          gradient[2].style.boxShadow = `0 0 ${contrastRatio *
+            120}px ${contrastRatio * 120}px rgba(${
+            gradientRgbColors.green
+          }, 0.5)`;
           gradient[3].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
             120}px rgba(${gradientRgbColors.blue}, 0.5)`;
         },
-        (value, ratio) => {
+        (value, ratio, contrastRatio) => {
+          gradient[3].style.boxShadow = `0 0 ${contrastRatio *
+            120}px ${contrastRatio * 120}px rgba(${
+            gradientRgbColors.blue
+          }, 0.5)`;
           gradient[4].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
             120}px rgba(${gradientRgbColors.white}, 0.5)`;
         },
-        (value, ratio) => {
-          gradient[5].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
-            120}px rgba(${gradientRgbColors.yellow}, 0.5)`;
+        (value, ratio, contrastRatio) => {
+          gradient[4].style.boxShadow = `0 0 ${contrastRatio *
+            120}px ${contrastRatio * 120}px rgba(${
+            gradientRgbColors.white
+          }, 0.5)`;
         }
       ]);
+    },
+    animateToEnd() {
+      Velocity(this.$refs.lampBox, "fadeOut", { duration: 1500 });
+      Velocity(this.$refs.slider.$el, "fadeOut", { duration: 1500 });
+      Velocity(this.$refs.coverBg, "fadeOut", {
+        duration: 1200,
+        delay: 500
+      }).then(() => {
+        this.$refs.cover.remove();
+        this.store.nextStep();
+      });
     }
   },
   components: { Slider }
@@ -150,16 +198,16 @@ export default {
     transform: translate(-50%, -50%) scale(1);
   }
   25% {
-    transform: translate(-50%, -50%) scale(1.2);
+    transform: translate(-50%, -50%) scale(1.3);
   }
   50% {
     transform: translate(-50%, -50%) scale(1);
   }
   75% {
-    transform: translate(-50%, -50%) scale(1.5);
+    transform: translate(-50%, -50%) scale(1.8);
   }
   100% {
-    transform: translate(-50%, -50%) scale(10);
+    transform: translate(-50%, -50%) scale(15);
   }
 }
 
@@ -176,14 +224,14 @@ export default {
     position: absolute;
     top: 0;
     left: 50%;
-    transform: translateX(-50%);
+    margin-left: -79.25px;
     width: 158.5px;
     height: 342px;
     .gradient {
       position: absolute;
       top: 75%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) scale(1);
       width: 1px;
       height: 1px;
       border-radius: 50%;
@@ -239,22 +287,12 @@ export default {
       height: 160px;
       border-radius: 50%;
       border: 9999px solid #646869;
-      animation: roundExpand 5s linear forwards;
       box-shadow: inset 0 0 10px 30px #646869;
-      // &::before {
-      //   content: "";
-      //   position: absolute;
-      //   top: 50%;
-      //   left: 50%;
-      //   transform: translate(-50%, -50%) scale(1);
-      //   width: 100px;
-      //   height: 130px;
-      //   border-radius: 50%;
-      //   border: 9999px solid #646869;
-      //   animation: roundExpand 5s linear forwards;
-      // }
+      &.animate {
+        animation: roundExpand 3s linear forwards;
+      }
     }
-    .round-1 {
+    .round-mask {
       position: absolute;
       top: 35%;
       left: 50%;
@@ -263,8 +301,10 @@ export default {
       height: 150px;
       border-radius: 50%;
       border: 9999px solid #646869;
-      animation: roundExpand 5s linear forwards;
       overflow: hidden;
+      &.animate {
+        animation: roundExpand 3s linear forwards;
+      }
     }
   }
 }

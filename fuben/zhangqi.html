@@ -21,81 +21,27 @@
       .container {
         padding: 30px;
       }
-      @keyframes roundExpand {
-        /* 0% {
-          transform: translate(-50%, -50%) scale(1);
-        }
-        25% {
-          transform: translate(-50%, -50%) scale(1.2);
-        }
-        50% {
-          transform: translate(-50%, -50%) scale(1);
-        }
-        75% {
-          transform: translate(-50%, -50%) scale(1.5);
-        }
-        100% {
-          transform: translate(-50%, -50%) scale(10); */
-        /* } */
-        0% {
-          background-image: -webkit-radial-gradient(#fff 10%, #646869 20%);
-        }
-        100% {
-          background-image: -webkit-radial-gradient(#fff 80%, #646869 90%);
-        }
+      body {
+        background-color: #efff82;
       }
-      .load {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-      .round {
+      .gradient {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%) scale(1);
-        /* width: 9999px;
-        height: 9999px; */
-        width: 100%;
-        height: 100%;
-        background-image: -webkit-radial-gradient(#fff 10%, #646869 20%);
-        animation: roundExpand 5s linear forwards;
-      }
-      /* .round {
-        position: absolute;
-        top: 35%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(1);
-        width: 220px;
-        height: 250px;
+        transform: translateX(-50%) scale(1);
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
-        border: 9999px solid #646869;
-        animation: roundExpand 5s linear forwards;
-        box-shadow: inset 0 0 10px 20px #646869;
+        background-color: #000;
+        box-shadow: 0 0 120px 120px rgba(239, 255, 130, 1);
       }
-      .round-1 {
-        position: absolute;
-        top: 35%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(1);
-        width: 210px;
-        height: 240px;
-        border-radius: 50%;
-        border: 9999px solid #646869;
-        animation: roundExpand 5s linear forwards;
-      } */
     </style>
     <title>zhangqi</title>
   </head>
   <body>
     <!-- <div class="container"></div> -->
     <!-- <canvas id="canvas"></canvas> -->
-    <div class="load">
-      <div class="round"></div>
-      <!-- <div class="round-1"></div> -->
-    </div>
+    <div class="gradient"></div>
     <script>
       //
     </script>

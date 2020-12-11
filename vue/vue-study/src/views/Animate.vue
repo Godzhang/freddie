@@ -1,30 +1,50 @@
 <template>
   <div class="animate">
-    <component :is="componentName"></component>
-    <Load />
+    <Detail />
+    <Moment />
+    <!-- <Open />
+    <Cover /> -->
   </div>
 </template>
 <script>
-import Load from "../components/animate/Load";
 import Cover from "../components/animate/Cover";
+import Open from "../components/animate/Open";
+import Moment from "../components/animate/Moment";
+import Detail from "../components/animate/Detail";
 
 export default {
   name: "AnimatePage",
+  provide() {
+    return {
+      store: this
+    };
+  },
   data() {
     return {
-      componentName: "Cover"
+      step: 1,
+      detailType: ""
     };
   },
   mounted() {},
-  methods: {},
+  methods: {
+    nextStep() {
+      this.step++;
+    },
+    setType(type) {
+      this.detailType = type;
+    }
+  },
   components: {
-    Load,
-    Cover
+    Cover,
+    Open,
+    Moment,
+    Detail
   }
 };
 </script>
 <style lang="scss" scoped>
 .animate {
+  position: relative;
   width: 100%;
   height: 100%;
 }

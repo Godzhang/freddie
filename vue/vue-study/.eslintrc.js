@@ -17,6 +17,7 @@ module.exports = {
     "no-unused-vars": "off",
     "prefer-const": "off",
     "no-useless-return": "off",
-    camelcase: "off"
+    camelcase: "off",
+    "vue/no-unused-components": "off"
   }
 };

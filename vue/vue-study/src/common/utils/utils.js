@@ -46,18 +46,18 @@ export const actionByPercentage = (percentage, events) => {
     events[0](percentage, ratio);
   } else if (percentage > 0 && percentage <= 0.2) {
     ratio = percentage / 0.2;
-    events[1](percentage, ratio);
+    events[1](percentage, ratio, 1 - ratio);
   } else if (percentage > 0.2 && percentage <= 0.4) {
     ratio = (percentage - 0.2) / 0.2;
-    events[2](percentage, ratio);
+    events[2](percentage, ratio, 1 - ratio);
   } else if (percentage > 0.4 && percentage <= 0.6) {
     ratio = (percentage - 0.4) / 0.2;
-    events[3](percentage, ratio);
+    events[3](percentage, ratio, 1 - ratio);
   } else if (percentage > 0.6 && percentage <= 0.8) {
     ratio = (percentage - 0.6) / 0.2;
-    events[4](percentage, ratio);
+    events[4](percentage, ratio, 1 - ratio);
   } else {
     ratio = (percentage - 0.8) / 0.2;
-    events[5](percentage, ratio);
+    events[5](percentage, ratio, 1 - ratio);
   }
 };

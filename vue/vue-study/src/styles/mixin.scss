@@ -1,0 +1,6 @@
+@mixin squareStyle($width, $height, $bg) {
+  width: $width;
+  height: $height;
+  background: url(../../assets/open/#{$bg}.png) 0 0 no-repeat;
+  background-size: 100% 100%;
+}
