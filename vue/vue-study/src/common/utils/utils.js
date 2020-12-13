@@ -61,3 +61,5 @@ export const actionByPercentage = (percentage, events) => {
     events[5](percentage, ratio, 1 - ratio);
   }
 };
+
+export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));

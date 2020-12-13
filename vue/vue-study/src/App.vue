@@ -6,6 +6,7 @@
 
 <style lang="scss">
 @import "./reset.css";
+@import "~swiper/css/swiper.css";
 
 html,
 body,

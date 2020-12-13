@@ -34,7 +34,8 @@ const documentWidth = document.body.clientWidth;
 const documentHeight = document.body.clientHeight;
 
 const styles = ["default", "red", "green", "blue", "white", "yellow"];
-
+// 开头动画颜色不对
+// 灯光渐变不用从小到大
 export default {
   name: "Cover",
   inject: ["store"],

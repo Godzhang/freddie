@@ -1,7 +1,8 @@
 <template>
   <div class="animate">
     <Detail />
-    <Moment />
+    <!-- <Play /> -->
+    <!-- <Moment /> -->
     <!-- <Open />
     <Cover /> -->
   </div>
@@ -10,6 +11,7 @@
 import Cover from "../components/animate/Cover";
 import Open from "../components/animate/Open";
 import Moment from "../components/animate/Moment";
+import Play from "../components/animate/Play";
 import Detail from "../components/animate/Detail";
 
 export default {
@@ -22,7 +24,7 @@ export default {
   data() {
     return {
       step: 1,
-      detailType: ""
+      detailType: "red"
     };
   },
   mounted() {},
@@ -38,6 +40,7 @@ export default {
     Cover,
     Open,
     Moment,
+    Play,
     Detail
   }
 };

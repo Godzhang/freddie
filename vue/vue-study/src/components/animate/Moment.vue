@@ -46,23 +46,13 @@ export default {
         const lightBg = item.querySelector(".light-bg");
         const light = item.querySelector(".light");
         const text = item.querySelector(".text");
+        const itemDelay = i * duration;
+        const otherDelay = itemDelay + total * duration;
 
-        Velocity(item, { translateX: 0 }, { duration, delay: i * duration });
-        Velocity(
-          light,
-          { opacity: 1 },
-          { duration: 0, delay: total * duration + i * duration }
-        );
-        Velocity(
-          lightBg,
-          { opacity: 1 },
-          { duration: 0, delay: total * duration + i * duration }
-        );
-        Velocity(
-          text,
-          { opacity: 1 },
-          { duration: 0, delay: total * duration + i * duration }
-        );
+        Velocity(item, { translateX: 0 }, { duration, delay: itemDelay });
+        Velocity(light, { opacity: 1 }, { duration: 0, delay: otherDelay });
+        Velocity(lightBg, { opacity: 1 }, { duration: 0, delay: otherDelay });
+        Velocity(text, { opacity: 1 }, { duration: 0, delay: otherDelay });
       }
     },
     async showDetail(index) {
@@ -81,7 +71,9 @@ export default {
       Velocity(light, { opacity: 0 }, { duration: 500 });
       Velocity(text, { opacity: 0 }, { duration: 500 });
       await Velocity(item, { scale: 10 }, { duration: 1000, delay: 500 });
-      Velocity(moment, { opacity: 0 }, { duration: 500 });
+      Velocity(moment, { opacity: 0 }, { duration: 500 }).then(() => {
+        moment.remove();
+      });
     }
   }
 };
