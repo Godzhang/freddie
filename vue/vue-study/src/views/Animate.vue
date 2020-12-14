@@ -1,10 +1,10 @@
 <template>
   <div class="animate">
-    <Detail />
-    <!-- <Play /> -->
-    <!-- <Moment /> -->
-    <!-- <Open />
-    <Cover /> -->
+    <Shuffle />
+    <Play />
+    <Moment />
+    <Open />
+    <Cover />
   </div>
 </template>
 <script>
@@ -12,7 +12,7 @@ import Cover from "../components/animate/Cover";
 import Open from "../components/animate/Open";
 import Moment from "../components/animate/Moment";
 import Play from "../components/animate/Play";
-import Detail from "../components/animate/Detail";
+import Shuffle from "../components/animate/Shuffle";
 
 export default {
   name: "AnimatePage",
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       step: 1,
-      detailType: "red"
+      detailType: ""
     };
   },
   mounted() {},
@@ -41,7 +41,7 @@ export default {
     Open,
     Moment,
     Play,
-    Detail
+    Shuffle
   }
 };
 </script>

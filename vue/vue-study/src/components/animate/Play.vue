@@ -1,14 +1,17 @@
 <template>
   <div class="play" ref="play">
-    <img
-      v-for="i in 3"
-      :key="i"
-      :style="{ 'z-index': 100 - i }"
-      :src="atlas[0][i - 1]"
-      class="img"
-      ref="img"
-      alt=""
-    />
+    <div class="image-box">
+      <img
+        v-for="i in 3"
+        :key="i"
+        :style="{ 'z-index': 10 - i }"
+        :src="red[i - 1]"
+        class="img"
+        ref="img"
+        alt=""
+      />
+    </div>
+    <div class="mask" ref="mask"></div>
   </div>
 </template>
 <script>
@@ -20,16 +23,26 @@ export default {
   inject: ["store"],
   data() {
     return {
-      red: redAtlas,
+      red: redAtlas[0],
       type: "red"
     };
   },
-  async mounted() {
-    await this.initSize();
-    this.play();
-    this.$watch("store.detailType", type => {
-      this.type = type;
+  mounted() {
+    this.$watch("store.step", async step => {
+      if (step === 4) {
+        await this.initSize();
+        this.show();
+        this.play();
+      }
     });
+    // this.$watch("store.detailType", async (type, prev) => {
+    //   this.type = type;
+    //   if (prev === "") {
+    //     await this.initSize();
+    //     this.show();
+    //     this.play();
+    //   }
+    // });
   },
   computed: {
     atlas() {
@@ -37,12 +50,15 @@ export default {
     }
   },
   methods: {
+    show() {
+      Velocity(this.$refs.play, { opacity: 1 }, { duration: 0 });
+    },
     initSize() {
       const documentWidth = document.body.clientWidth;
       const documentHeight = document.body.clientHeight;
       const ratio = documentWidth / documentHeight;
       const imgs = this.$refs.img;
-      const reqs = imgs.map(img => {
+      const reqs = imgs.map((img, i) => {
         return new Promise(resolve => {
           img.onload = () => {
             const width = img.width;
@@ -55,6 +71,7 @@ export default {
             resolve();
           };
           img.onerror = resolve;
+          img.src = this.red[i];
         });
       });
       return Promise.all(reqs);
@@ -62,6 +79,7 @@ export default {
     async play() {
       const imgs = this.$refs.img;
       const play = this.$refs.play;
+      const mask = this.$refs.mask;
       const wait = 3000;
       const walk = async (i = 0) => {
         if (i === imgs.length - 1) {
@@ -84,37 +102,61 @@ export default {
       await sleep(7000);
       await walk();
       await sleep(3000);
+      this.store.nextStep();
       imgs[imgs.length - 1].classList.add("animate");
       await sleep(1500);
+      mask.classList.add("animate");
+      await sleep(150);
       Velocity(play, { opacity: 0 }, { duration: 10 }).then(() => {
         play.remove();
       });
-      // Velocity(this.$refs.play, { opacity: 1 }, { duration: 10 });
     }
   }
 };
 </script>
 <style lang="scss" scoped>
+// @keyframes clarity {
+//   0% {
+//     transform: translate(-50%, -50%) scale(5);
+//     transform-origin: 29% 70%;
+//     filter: blur(0);
+//   }
+//   24% {
+//     transform: translate(-50%, -50%) scale(5);
+//     transform-origin: 29% 70%;
+//     filter: blur(0);
+//   }
+//   25% {
+//     transform: translate(-50%, -50%) scale(5);
+//     transform-origin: 29% 70%;
+//     filter: blur(5px);
+//   }
+//   100% {
+//     transform: translate(-50%, -50%) scale(1);
+//     transform-origin: 50% 50%;
+//     filter: blur(0);
+//   }
+// }
 @keyframes clarity {
   0% {
-    transform: translate(-50%, -50%) scale(5);
-    transform-origin: 29% 70%;
-    filter: blur(0);
+    transform: translate(-342%, -50%) scale(35);
+    // transform-origin: 29% 70%;
+    // filter: blur(0);
   }
   24% {
-    transform: translate(-50%, -50%) scale(5);
-    transform-origin: 29% 70%;
-    filter: blur(0);
+    transform: translate(-342%, -50%) scale(35);
+    // transform-origin: 29% 70%;
+    // filter: blur(0);
   }
   25% {
-    transform: translate(-50%, -50%) scale(5);
-    transform-origin: 29% 70%;
-    filter: blur(5px);
+    transform: translate(-342%, -50%) scale(35);
+    // transform-origin: 29% 70%;
+    // filter: blur(5px);
   }
   100% {
     transform: translate(-50%, -50%) scale(1);
-    transform-origin: 50% 50%;
-    filter: blur(0);
+    // transform-origin: 50% 50%;
+    // filter: blur(0);
   }
 }
 @keyframes narrow {
@@ -122,7 +164,23 @@ export default {
     transform: translate(-50%, -50%) scale(1);
   }
   100% {
-    transform: translate(-50%, -50%) scale(0.7);
+    // top: 27.17vw;
+    // left: 13.47vw;
+    // width: 63.2vw;
+    // height: 94.4vw;
+    // transform: translate(0, 0);
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+}
+@keyframes flash {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 .play {
@@ -131,23 +189,47 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  .img {
+  opacity: 0;
+  z-index: 97;
+  .image-box {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    &:first-child {
-      opacity: 1;
-      transform-origin: 29% 70%;
-      &.animate {
-        animation: clarity 5s linear forwards;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    .img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      &:first-child {
+        opacity: 1;
+        transform-origin: 50% 50%;
+        &.animate {
+          animation: clarity 3s linear forwards;
+        }
+      }
+      &:last-child {
+        &.animate {
+          animation: narrow 1.5s ease forwards;
+        }
       }
     }
-    &:last-child {
-      &.animate {
-        animation: narrow 1s ease forwards;
-      }
+  }
+  .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    display: none;
+    z-index: 10;
+    background-color: #fff;
+    &.animate {
+      display: block;
+      animation: flash 0.3s linear forwards;
     }
   }
 }

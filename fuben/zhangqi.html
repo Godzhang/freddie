@@ -18,30 +18,56 @@
         width: 100%;
         height: 100%;
       }
-      .container {
-        padding: 30px;
-      }
-      body {
-        background-color: #efff82;
-      }
-      .gradient {
+      .back {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) scale(1);
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background-color: #000;
-        box-shadow: 0 0 120px 120px rgba(239, 255, 130, 1);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #f00;
+      }
+      .container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #0ff;
+      }
+      .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        opacity: 0;
+        display: none;
+      }
+      @keyframes chacha {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+      .mask.shan {
+        animation: chacha 0.3s linear forwards;
       }
     </style>
     <title>zhangqi</title>
   </head>
   <body>
-    <!-- <div class="container"></div> -->
+    <div class="back"></div>
+    <div class="container">
+      <button id="btn">click</button>
+    </div>
+    <div class="mask"></div>
     <!-- <canvas id="canvas"></canvas> -->
-    <div class="gradient"></div>
     <script>
       //
     </script>
@@ -56,6 +82,17 @@
     </script>
     <script>
       //
+      const container = document.querySelector(".container");
+      const mask = document.querySelector(".mask");
+      const btn = document.getElementById("btn");
+      btn.onclick = chacha;
+      function chacha() {
+        mask.style.display = "block";
+        mask.classList.add("shan");
+        setTimeout(() => {
+          mask.style.display = "none";
+        }, 500);
+      }
     </script>
     <script>
       //

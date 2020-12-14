@@ -2,14 +2,15 @@
   <div class="cover" ref="cover">
     <div class="cover-bg" ref="coverBg"></div>
     <div class="lamp-box" ref="lampBox">
-      <div class="gradient-box">
+      <!-- <div class="gradient-box">
         <div
           v-for="color in styles"
           :key="color"
           :class="`gradient ${color}`"
           ref="gradient"
         ></div>
-      </div>
+      </div> -->
+      <div class="gradient" ref="gradient"></div>
       <div
         v-for="color in styles"
         :key="color"
@@ -18,8 +19,8 @@
       ></div>
     </div>
     <Slider ref="slider" @slide="onSliderMove"></Slider>
-    <div class="load" ref="load" v-if="showLoad">
-      <div class="round"></div>
+    <div class="load" ref="load">
+      <div class="round" ref="round"></div>
       <div class="round-mask"></div>
     </div>
   </div>
@@ -27,23 +28,29 @@
 <script>
 import Slider from "./Slider";
 import Velocity from "velocity-animate";
-import { gradientRgbColors, coverBgColors } from "@/common/global/colors.js";
-import { colorMix, actionByPercentage } from "@/common/utils/utils.js";
+import {
+  gradientColors,
+  gradientRgbColors,
+  coverBgColors
+} from "@/common/global/colors.js";
+import {
+  colorMix,
+  getMixColorRgbStr,
+  actionByPercentage
+} from "@/common/utils/utils.js";
 
 const documentWidth = document.body.clientWidth;
 const documentHeight = document.body.clientHeight;
 
 const styles = ["default", "red", "green", "blue", "white", "yellow"];
-// 开头动画颜色不对
-// 灯光渐变不用从小到大
+
 export default {
   name: "Cover",
   inject: ["store"],
   data() {
     return {
       percentage: 0,
-      styles,
-      showLoad: true
+      styles
     };
   },
   mounted() {
@@ -52,12 +59,26 @@ export default {
   methods: {
     init() {
       const load = this.$refs.load;
-      load.childNodes.forEach(node => {
-        node.classList.add("animate");
-      });
-      setTimeout(() => {
-        load.remove();
-      }, 3000);
+      const round = this.$refs.round;
+      const lampUrl = require("../../assets/cover/lamp.png");
+      const img = new Image();
+      img.onload = () => {
+        // Velocity(load, { opacity: 0 }, { duration: 300 }).then(() => {
+        //   load.remove();
+        // });
+        setTimeout(() => {
+          Velocity(load, { opacity: 0 }, { duration: 300 }).then(() => {
+            load.remove();
+          });
+        }, 1000);
+      };
+
+      round.classList.add("animate");
+      img.src = lampUrl;
+
+      // setTimeout(() => {
+      //   load.remove();
+      // }, 3000);
     },
     onSliderMove(percentage) {
       this.changeCoverBg(percentage);
@@ -140,44 +161,126 @@ export default {
     },
     changeGradient(percentage) {
       const gradient = this.$refs.gradient;
+      const { red, green, blue, white, yellow } = gradientColors;
       actionByPercentage(percentage, [
         (value, ratio) => {},
         (value, ratio, contrastRatio) => {
-          gradient[1].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
-            120}px rgba(${gradientRgbColors.red}, 0.5)`;
+          gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
+            200}px rgba(${getMixColorRgbStr(red, "#fff", ratio)}, ${Math.max(
+            0.5,
+            value
+          )})`;
         },
         (value, ratio, contrastRatio) => {
-          gradient[1].style.boxShadow = `0 0 ${contrastRatio *
-            120}px ${contrastRatio * 120}px rgba(${
-            gradientRgbColors.red
-          }, 0.5)`;
-          gradient[2].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
-            120}px rgba(${gradientRgbColors.green}, 0.5)`;
+          gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
+            200}px rgba(${getMixColorRgbStr(green, red, ratio)}, ${Math.max(
+            0.5,
+            value
+          )})`;
         },
         (value, ratio, contrastRatio) => {
-          gradient[2].style.boxShadow = `0 0 ${contrastRatio *
-            120}px ${contrastRatio * 120}px rgba(${
-            gradientRgbColors.green
-          }, 0.5)`;
-          gradient[3].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
-            120}px rgba(${gradientRgbColors.blue}, 0.5)`;
+          gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
+            200}px rgba(${getMixColorRgbStr(blue, green, ratio)}, ${Math.max(
+            0.5,
+            value
+          )})`;
         },
         (value, ratio, contrastRatio) => {
-          gradient[3].style.boxShadow = `0 0 ${contrastRatio *
-            120}px ${contrastRatio * 120}px rgba(${
-            gradientRgbColors.blue
-          }, 0.5)`;
-          gradient[4].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
-            120}px rgba(${gradientRgbColors.white}, 0.5)`;
+          gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
+            200}px rgba(${getMixColorRgbStr(blue, white, ratio)}, ${Math.max(
+            0.5,
+            value
+          )})`;
         },
         (value, ratio, contrastRatio) => {
-          gradient[4].style.boxShadow = `0 0 ${contrastRatio *
-            120}px ${contrastRatio * 120}px rgba(${
-            gradientRgbColors.white
-          }, 0.5)`;
+          gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
+            200}px rgba(${getMixColorRgbStr(yellow, white, ratio)}, ${Math.max(
+            0.5,
+            value
+          )})`;
         }
       ]);
     },
+    // changeGradient(percentage) {
+    //   const gradient = this.$refs.gradient;
+    //   actionByPercentage(percentage, [
+    //     (value, ratio) => {},
+    //     (value, ratio, contrastRatio) => {
+    //       gradient[1].style.boxShadow = `0 0 120px 120px rgba(${
+    //         gradientRgbColors.red
+    //       }, ${ratio * 1})`;
+    //     },
+    //     (value, ratio, contrastRatio) => {
+    //       gradient[1].style.boxShadow = `0 0 120px 120px rgba(${
+    //         gradientRgbColors.red
+    //       }, ${contrastRatio * 1})`;
+    //       gradient[2].style.boxShadow = `0 0 120px 120px rgba(${
+    //         gradientRgbColors.green
+    //       }, ${ratio * 1})`;
+    //     },
+    //     (value, ratio, contrastRatio) => {
+    //       gradient[2].style.boxShadow = `0 0 120px 120px rgba(${
+    //         gradientRgbColors.green
+    //       }, ${contrastRatio * 1})`;
+    //       gradient[3].style.boxShadow = `0 0 120px 120px rgba(${
+    //         gradientRgbColors.blue
+    //       }, ${ratio * 1})`;
+    //     },
+    //     (value, ratio, contrastRatio) => {
+    //       gradient[3].style.boxShadow = `0 0 120px 120px rgba(${
+    //         gradientRgbColors.blue
+    //       }, ${contrastRatio * 1})`;
+    //       gradient[4].style.boxShadow = `0 0 120px 120px rgba(${
+    //         gradientRgbColors.white
+    //       }, ${ratio * 1})`;
+    //     },
+    //     (value, ratio, contrastRatio) => {
+    //       gradient[4].style.boxShadow = `0 0 120px 120px rgba(${
+    //         gradientRgbColors.white
+    //       }, ${ratio * 1})`;
+    //     }
+    //   ]);
+    // },
+    // changeGradient(percentage) {
+    //   const gradient = this.$refs.gradient;
+    //   actionByPercentage(percentage, [
+    //     (value, ratio) => {},
+    //     (value, ratio, contrastRatio) => {
+    //       gradient[1].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
+    //         120}px rgba(${gradientRgbColors.red}, 0.5)`;
+    //     },
+    //     (value, ratio, contrastRatio) => {
+    //       gradient[1].style.boxShadow = `0 0 ${contrastRatio *
+    //         120}px ${contrastRatio * 120}px rgba(${
+    //         gradientRgbColors.red
+    //       }, 0.5)`;
+    //       gradient[2].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
+    //         120}px rgba(${gradientRgbColors.green}, 0.5)`;
+    //     },
+    //     (value, ratio, contrastRatio) => {
+    //       gradient[2].style.boxShadow = `0 0 ${contrastRatio *
+    //         120}px ${contrastRatio * 120}px rgba(${
+    //         gradientRgbColors.green
+    //       }, 0.5)`;
+    //       gradient[3].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
+    //         120}px rgba(${gradientRgbColors.blue}, 0.5)`;
+    //     },
+    //     (value, ratio, contrastRatio) => {
+    //       gradient[3].style.boxShadow = `0 0 ${contrastRatio *
+    //         120}px ${contrastRatio * 120}px rgba(${
+    //         gradientRgbColors.blue
+    //       }, 0.5)`;
+    //       gradient[4].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
+    //         120}px rgba(${gradientRgbColors.white}, 0.5)`;
+    //     },
+    //     (value, ratio, contrastRatio) => {
+    //       gradient[4].style.boxShadow = `0 0 ${contrastRatio *
+    //         120}px ${contrastRatio * 120}px rgba(${
+    //         gradientRgbColors.white
+    //       }, 0.5)`;
+    //     }
+    //   ]);
+    // },
     animateToEnd() {
       Velocity(this.$refs.lampBox, "fadeOut", { duration: 1500 });
       Velocity(this.$refs.slider.$el, "fadeOut", { duration: 1500 });
@@ -198,24 +301,33 @@ export default {
   0% {
     transform: translate(-50%, -50%) scale(1);
   }
-  25% {
-    transform: translate(-50%, -50%) scale(1.3);
-  }
   50% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  75% {
-    transform: translate(-50%, -50%) scale(1.8);
+    transform: translate(-50%, -50%) scale(1.25);
   }
   100% {
-    transform: translate(-50%, -50%) scale(15);
+    transform: translate(-50%, -50%) scale(1);
   }
+  // 25% {
+  //   transform: translate(-50%, -50%) scale(1.3);
+  // }
+  // 50% {
+  //   transform: translate(-50%, -50%) scale(1);
+  // }
+  // 75% {
+  //   transform: translate(-50%, -50%) scale(1.8);
+  //   opacity: 1;
+  // }
+  // 100% {
+  //   transform: translate(-50%, -50%) scale(15);
+  //   opacity: 0;
+  // }
 }
 
 .cover {
   position: relative;
   width: 100%;
   height: 100%;
+  z-index: 100;
   .cover-bg {
     width: 100%;
     height: 100%;
@@ -279,34 +391,42 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
+    background-color: #1a1c1e;
     .round {
       position: absolute;
       top: 35%;
       left: 50%;
       transform: translate(-50%, -50%) scale(1);
-      width: 140px;
-      height: 160px;
+      width: 1px;
+      height: 1px;
+      background-color: rgba($color: #4e5158, $alpha: 0.5);
       border-radius: 50%;
-      border: 9999px solid #646869;
-      box-shadow: inset 0 0 10px 30px #646869;
-      &.animate {
-        animation: roundExpand 3s linear forwards;
-      }
+      box-shadow: 0 0 20px 40px #4e5158;
+      animation: roundExpand 1.5s linear infinite;
+      // animation: roundExpand 3s linear forwards;
+      // width: 140px;
+      // height: 160px;
+      // border-radius: 50%;
+      // border: 9999px solid #1a1c1e;
+      // box-shadow: inset 0 0 10px 30px #1a1c1e;
+      // &.animate {
+      //   animation: roundExpand 3s linear forwards;
+      // }
     }
-    .round-mask {
-      position: absolute;
-      top: 35%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(1);
-      width: 130px;
-      height: 150px;
-      border-radius: 50%;
-      border: 9999px solid #646869;
-      overflow: hidden;
-      &.animate {
-        animation: roundExpand 3s linear forwards;
-      }
-    }
+    // .round-mask {
+    //   position: absolute;
+    //   top: 35%;
+    //   left: 50%;
+    //   transform: translate(-50%, -50%) scale(1);
+    //   width: 130px;
+    //   height: 150px;
+    //   border-radius: 50%;
+    //   border: 9999px solid #1a1c1e;
+    //   overflow: hidden;
+    //   &.animate {
+    //     animation: roundExpand 3s linear forwards;
+    //   }
+    // }
   }
 }
 </style>

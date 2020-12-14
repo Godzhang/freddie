@@ -1,5 +1,5 @@
 <template>
-  <div class="open">
+  <div class="open" ref="open">
     <div class="handle">
       <div class="button-box">
         <template v-if="showWave">
@@ -15,6 +15,8 @@
   </div>
 </template>
 <script>
+import Velocity from "velocity-animate";
+
 export default {
   inject: ["store"],
   data() {
@@ -28,6 +30,8 @@ export default {
     this.$watch("store.step", step => {
       if (step === 2) {
         this.animate();
+      } else {
+        this.hide();
       }
     });
   },
@@ -39,7 +43,18 @@ export default {
         this.showWave = true;
       }, 900);
     },
-    next() {}
+    hide() {
+      const open = this.$refs.open;
+      Velocity(open, {
+        translateY: "100%",
+        scale: 0.8
+      }).then(() => {
+        open.remove();
+      });
+    },
+    next() {
+      this.store.nextStep();
+    }
   }
 };
 </script>
@@ -102,6 +117,7 @@ export default {
   height: 100%;
   background: url(../../assets/open/background.jpg) 0 0 no-repeat;
   background-size: 100% 100%;
+  z-index: 99;
   .handle {
     position: absolute;
     top: 55%;

@@ -28,8 +28,30 @@ export default {
     };
   },
   mounted() {
-    this.init();
-    this.animate();
+    const moment = this.$refs.moment;
+    // Velocity(
+    //   moment,
+    //   {
+    //     translateY: "-100%",
+    //     scale: 0.8
+    //   },
+    //   { duration: 0 }
+    // );
+    this.$watch("store.step", step => {
+      if (step === 3) {
+        setTimeout(() => {
+          this.init();
+          this.animate();
+        }, 500);
+        // Velocity(this.$refs.moment, {
+        //   translateY: 0,
+        //   scale: 1
+        // }).then(() => {
+        //   this.init();
+        //   this.animate();
+        // });
+      }
+    });
   },
   methods: {
     init() {
@@ -71,6 +93,7 @@ export default {
       Velocity(light, { opacity: 0 }, { duration: 500 });
       Velocity(text, { opacity: 0 }, { duration: 500 });
       await Velocity(item, { scale: 10 }, { duration: 1000, delay: 500 });
+      this.store.nextStep();
       Velocity(moment, { opacity: 0 }, { duration: 500 }).then(() => {
         moment.remove();
       });
@@ -85,6 +108,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 98;
   .item {
     position: absolute;
     left: 0;
@@ -124,6 +148,13 @@ export default {
       width: 100px;
       height: 30px;
       opacity: 0;
+    }
+
+    &:nth-child(2n) {
+      transform: translateX(100%);
+    }
+    &:nth-child(2n + 1) {
+      transform: translateX(-100%);
     }
 
     &.red {
