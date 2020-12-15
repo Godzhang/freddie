@@ -8,7 +8,7 @@
         :src="red[i - 1]"
         class="img"
         ref="img"
-        alt=""
+        alt
       />
     </div>
     <div class="mask" ref="mask"></div>
@@ -29,7 +29,7 @@ export default {
   },
   mounted() {
     this.$watch("store.step", async step => {
-      if (step === 4) {
+      if (step === 3) {
         await this.initSize();
         this.show();
         this.play();
@@ -99,84 +99,57 @@ export default {
         walk(i + 1);
       };
       imgs[0].classList.add("animate");
-      await sleep(7000);
+      await sleep(6000);
       await walk();
       await sleep(3000);
       this.store.nextStep();
       imgs[imgs.length - 1].classList.add("animate");
       await sleep(1500);
       mask.classList.add("animate");
-      await sleep(150);
+      await sleep(100);
       Velocity(play, { opacity: 0 }, { duration: 10 }).then(() => {
-        play.remove();
+        Velocity(play, { translateY: "-100%" }, { duration: 0 });
       });
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-// @keyframes clarity {
-//   0% {
-//     transform: translate(-50%, -50%) scale(5);
-//     transform-origin: 29% 70%;
-//     filter: blur(0);
-//   }
-//   24% {
-//     transform: translate(-50%, -50%) scale(5);
-//     transform-origin: 29% 70%;
-//     filter: blur(0);
-//   }
-//   25% {
-//     transform: translate(-50%, -50%) scale(5);
-//     transform-origin: 29% 70%;
-//     filter: blur(5px);
-//   }
-//   100% {
-//     transform: translate(-50%, -50%) scale(1);
-//     transform-origin: 50% 50%;
-//     filter: blur(0);
-//   }
-// }
 @keyframes clarity {
   0% {
     transform: translate(-342%, -50%) scale(35);
-    // transform-origin: 29% 70%;
-    // filter: blur(0);
+    filter: blur(0);
   }
   24% {
     transform: translate(-342%, -50%) scale(35);
-    // transform-origin: 29% 70%;
-    // filter: blur(0);
+    filter: blur(0);
   }
   25% {
     transform: translate(-342%, -50%) scale(35);
-    // transform-origin: 29% 70%;
-    // filter: blur(5px);
+    filter: blur(5px);
   }
   100% {
     transform: translate(-50%, -50%) scale(1);
-    // transform-origin: 50% 50%;
-    // filter: blur(0);
+    filter: blur(0);
   }
 }
 @keyframes narrow {
   0% {
-    transform: translate(-50%, -50%) scale(1);
+    // transform: translate(-50%, -50%) scale(1);
   }
   100% {
-    // top: 27.17vw;
-    // left: 13.47vw;
+    top: 28.5vw;
+    left: 44.9vw;
+    height: 94.4vw;
+    transform: translate(-50%, 0);
     // width: 63.2vw;
-    // height: 94.4vw;
     // transform: translate(0, 0);
-    transform: translate(-50%, -50%) scale(0.5);
+    // transform: translate(-50%, -50%) scale(0.5);
   }
 }
 @keyframes flash {
-  0% {
-    opacity: 0;
-  }
-  50% {
+  0%,
+  20% {
     opacity: 1;
   }
   100% {
@@ -191,6 +164,7 @@ export default {
   height: 100%;
   opacity: 0;
   z-index: 97;
+  background-color: #cd3020;
   .image-box {
     position: absolute;
     top: 0;
@@ -207,7 +181,7 @@ export default {
         opacity: 1;
         transform-origin: 50% 50%;
         &.animate {
-          animation: clarity 3s linear forwards;
+          animation: clarity 3s ease-in forwards;
         }
       }
       &:last-child {
@@ -223,13 +197,12 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0;
     display: none;
     z-index: 10;
     background-color: #fff;
     &.animate {
       display: block;
-      animation: flash 0.3s linear forwards;
+      animation: flash 0.6s ease infinite;
     }
   }
 }

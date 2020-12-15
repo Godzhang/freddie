@@ -29,52 +29,29 @@ export default {
   },
   mounted() {
     const moment = this.$refs.moment;
-    // Velocity(
-    //   moment,
-    //   {
-    //     translateY: "-100%",
-    //     scale: 0.8
-    //   },
-    //   { duration: 0 }
-    // );
     this.$watch("store.step", step => {
-      if (step === 3) {
-        setTimeout(() => {
-          this.init();
-          this.animate();
-        }, 500);
-        // Velocity(this.$refs.moment, {
-        //   translateY: 0,
-        //   scale: 1
-        // }).then(() => {
-        //   this.init();
-        //   this.animate();
-        // });
+      if (step === 2) {
+        this.init();
+        this.animate();
       }
     });
   },
   methods: {
-    init() {
-      for (let i = 0; i < 5; i++) {
-        let initPos = i % 2 === 0 ? "100%" : "-100%";
-        Velocity(this.$refs.item[i], { translateX: initPos }, { duration: 0 });
-      }
-    },
+    init() {},
     animate() {
       const total = 5;
-      const duration = 300;
+      const duration = 400;
       for (let i = 0; i < total; i++) {
         const item = this.$refs.item[i];
         const lightBg = item.querySelector(".light-bg");
         const light = item.querySelector(".light");
         const text = item.querySelector(".text");
-        const itemDelay = i * duration;
-        const otherDelay = itemDelay + total * duration;
-
-        Velocity(item, { translateX: 0 }, { duration, delay: itemDelay });
-        Velocity(light, { opacity: 1 }, { duration: 0, delay: otherDelay });
-        Velocity(lightBg, { opacity: 1 }, { duration: 0, delay: otherDelay });
-        Velocity(text, { opacity: 1 }, { duration: 0, delay: otherDelay });
+        const itemDelay = (i * duration) / 2;
+        const lightDelay = itemDelay + 100;
+        // const otherDelay = itemDelay + total * duration;
+        Velocity(item, { opacity: 1 }, { duration, delay: itemDelay });
+        Velocity(light, { opacity: 1 }, { duration: 200, delay: lightDelay });
+        Velocity(lightBg, { opacity: 1 }, { duration: 200, delay: lightDelay });
       }
     },
     async showDetail(index) {
@@ -95,7 +72,13 @@ export default {
       await Velocity(item, { scale: 10 }, { duration: 1000, delay: 500 });
       this.store.nextStep();
       Velocity(moment, { opacity: 0 }, { duration: 500 }).then(() => {
-        moment.remove();
+        Velocity(
+          moment,
+          {
+            translateY: "-100%"
+          },
+          { duration: 0 }
+        );
       });
     }
   }
@@ -114,6 +97,7 @@ export default {
     left: 0;
     width: 100%;
     overflow: hidden;
+    opacity: 0;
     .photo {
       width: 100%;
       height: 100%;
@@ -147,14 +131,6 @@ export default {
       transform: translateY(-50%) !important;
       width: 100px;
       height: 30px;
-      opacity: 0;
-    }
-
-    &:nth-child(2n) {
-      transform: translateX(100%);
-    }
-    &:nth-child(2n + 1) {
-      transform: translateX(-100%);
     }
 
     &.red {
@@ -184,7 +160,7 @@ export default {
     }
     &.green {
       height: 22vh;
-      top: 19.22vh;
+      top: 19vh;
       background: url(../../assets/moment/green-bg.png) 0 0 no-repeat;
       background-size: 100% 100%;
       & .lamp {
@@ -209,7 +185,7 @@ export default {
     }
     &.blue {
       height: 22vh;
-      top: 39.45vh;
+      top: 39.25vh;
       background: url(../../assets/moment/blue-bg.png) 0 0 no-repeat;
       background-size: 100% 100%;
       & .lamp {

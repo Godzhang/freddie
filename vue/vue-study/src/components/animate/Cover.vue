@@ -9,14 +9,9 @@
           :class="`gradient ${color}`"
           ref="gradient"
         ></div>
-      </div> -->
+      </div>-->
       <div class="gradient" ref="gradient"></div>
-      <div
-        v-for="color in styles"
-        :key="color"
-        :class="`lamp ${color}`"
-        ref="lamp"
-      ></div>
+      <div v-for="color in styles" :key="color" :class="`lamp ${color}`" ref="lamp"></div>
     </div>
     <Slider ref="slider" @slide="onSliderMove"></Slider>
     <div class="load" ref="load">
@@ -75,19 +70,14 @@ export default {
 
       round.classList.add("animate");
       img.src = lampUrl;
-
-      // setTimeout(() => {
-      //   load.remove();
-      // }, 3000);
     },
     onSliderMove(percentage) {
       this.changeCoverBg(percentage);
       this.changLamp(percentage);
       this.changeGradient(percentage);
-
       this.percentage = percentage;
       if (percentage === 1) {
-        this.animateToEnd();
+        // this.animateToEnd();
       }
     },
     changeCoverBg(percentage) {
@@ -165,36 +155,41 @@ export default {
       actionByPercentage(percentage, [
         (value, ratio) => {},
         (value, ratio, contrastRatio) => {
-          gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
+          gradient.style.boxShadow = `0 0 ${(value + 0.2) * 100}px ${(value +
+            0.2) *
             200}px rgba(${getMixColorRgbStr(red, "#fff", ratio)}, ${Math.max(
             0.5,
             value
           )})`;
         },
         (value, ratio, contrastRatio) => {
-          gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
-            200}px rgba(${getMixColorRgbStr(green, red, ratio)}, ${Math.max(
+          gradient.style.boxShadow = `0 0 ${(value + 0.2) * 100}px ${(value +
+            0.2) *
+            200}px rgba(${getMixColorRgbStr(red, green, ratio)}, ${Math.max(
             0.5,
             value
           )})`;
         },
         (value, ratio, contrastRatio) => {
-          gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
-            200}px rgba(${getMixColorRgbStr(blue, green, ratio)}, ${Math.max(
+          gradient.style.boxShadow = `0 0 ${(value + 0.2) * 100}px ${(value +
+            0.2) *
+            200}px rgba(${getMixColorRgbStr(green, blue, ratio)}, ${Math.max(
             0.5,
             value
           )})`;
         },
         (value, ratio, contrastRatio) => {
-          gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
-            200}px rgba(${getMixColorRgbStr(blue, white, ratio)}, ${Math.max(
+          gradient.style.boxShadow = `0 0 ${(value + 0.2) * 100}px ${(value +
+            0.2) *
+            200}px rgba(${getMixColorRgbStr(white, blue, ratio)}, ${Math.max(
             0.5,
             value
           )})`;
         },
         (value, ratio, contrastRatio) => {
-          gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
-            200}px rgba(${getMixColorRgbStr(yellow, white, ratio)}, ${Math.max(
+          gradient.style.boxShadow = `0 0 ${(value + 0.2) * 100}px ${(value +
+            0.2) *
+            200}px rgba(${getMixColorRgbStr(white, yellow, ratio)}, ${Math.max(
             0.5,
             value
           )})`;
@@ -203,81 +198,44 @@ export default {
     },
     // changeGradient(percentage) {
     //   const gradient = this.$refs.gradient;
+    //   const { red, green, blue, white, yellow } = gradientColors;
     //   actionByPercentage(percentage, [
     //     (value, ratio) => {},
     //     (value, ratio, contrastRatio) => {
-    //       gradient[1].style.boxShadow = `0 0 120px 120px rgba(${
-    //         gradientRgbColors.red
-    //       }, ${ratio * 1})`;
+    //       gradient.style.boxShadow = `0 0 ${Math.max(0.2, value) *
+    //         200}px ${Math.max(0.2, value) * 200}px rgba(${getMixColorRgbStr(
+    //         red,
+    //         "#fff",
+    //         ratio
+    //       )}, ${Math.max(0.5, value)})`;
     //     },
     //     (value, ratio, contrastRatio) => {
-    //       gradient[1].style.boxShadow = `0 0 120px 120px rgba(${
-    //         gradientRgbColors.red
-    //       }, ${contrastRatio * 1})`;
-    //       gradient[2].style.boxShadow = `0 0 120px 120px rgba(${
-    //         gradientRgbColors.green
-    //       }, ${ratio * 1})`;
+    //       gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
+    //         200}px rgba(${getMixColorRgbStr(green, red, ratio)}, ${Math.max(
+    //         0.5,
+    //         value
+    //       )})`;
     //     },
     //     (value, ratio, contrastRatio) => {
-    //       gradient[2].style.boxShadow = `0 0 120px 120px rgba(${
-    //         gradientRgbColors.green
-    //       }, ${contrastRatio * 1})`;
-    //       gradient[3].style.boxShadow = `0 0 120px 120px rgba(${
-    //         gradientRgbColors.blue
-    //       }, ${ratio * 1})`;
+    //       gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
+    //         200}px rgba(${getMixColorRgbStr(blue, green, ratio)}, ${Math.max(
+    //         0.5,
+    //         value
+    //       )})`;
     //     },
     //     (value, ratio, contrastRatio) => {
-    //       gradient[3].style.boxShadow = `0 0 120px 120px rgba(${
-    //         gradientRgbColors.blue
-    //       }, ${contrastRatio * 1})`;
-    //       gradient[4].style.boxShadow = `0 0 120px 120px rgba(${
-    //         gradientRgbColors.white
-    //       }, ${ratio * 1})`;
+    //       gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
+    //         200}px rgba(${getMixColorRgbStr(blue, white, ratio)}, ${Math.max(
+    //         0.5,
+    //         value
+    //       )})`;
     //     },
     //     (value, ratio, contrastRatio) => {
-    //       gradient[4].style.boxShadow = `0 0 120px 120px rgba(${
-    //         gradientRgbColors.white
-    //       }, ${ratio * 1})`;
-    //     }
-    //   ]);
-    // },
-    // changeGradient(percentage) {
-    //   const gradient = this.$refs.gradient;
-    //   actionByPercentage(percentage, [
-    //     (value, ratio) => {},
-    //     (value, ratio, contrastRatio) => {
-    //       gradient[1].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
-    //         120}px rgba(${gradientRgbColors.red}, 0.5)`;
-    //     },
-    //     (value, ratio, contrastRatio) => {
-    //       gradient[1].style.boxShadow = `0 0 ${contrastRatio *
-    //         120}px ${contrastRatio * 120}px rgba(${
-    //         gradientRgbColors.red
-    //       }, 0.5)`;
-    //       gradient[2].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
-    //         120}px rgba(${gradientRgbColors.green}, 0.5)`;
-    //     },
-    //     (value, ratio, contrastRatio) => {
-    //       gradient[2].style.boxShadow = `0 0 ${contrastRatio *
-    //         120}px ${contrastRatio * 120}px rgba(${
-    //         gradientRgbColors.green
-    //       }, 0.5)`;
-    //       gradient[3].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
-    //         120}px rgba(${gradientRgbColors.blue}, 0.5)`;
-    //     },
-    //     (value, ratio, contrastRatio) => {
-    //       gradient[3].style.boxShadow = `0 0 ${contrastRatio *
-    //         120}px ${contrastRatio * 120}px rgba(${
-    //         gradientRgbColors.blue
-    //       }, 0.5)`;
-    //       gradient[4].style.boxShadow = `0 0 ${ratio * 120}px ${ratio *
-    //         120}px rgba(${gradientRgbColors.white}, 0.5)`;
-    //     },
-    //     (value, ratio, contrastRatio) => {
-    //       gradient[4].style.boxShadow = `0 0 ${contrastRatio *
-    //         120}px ${contrastRatio * 120}px rgba(${
-    //         gradientRgbColors.white
-    //       }, 0.5)`;
+    //       gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
+    //         200}px rgba(${getMixColorRgbStr(yellow, white, ratio)}, ${Math.max(
+    //         0.5,
+    //         value
+    //       )})`;
     //     }
     //   ]);
     // },

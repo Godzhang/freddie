@@ -3,7 +3,7 @@
     <Shuffle />
     <Play />
     <Moment />
-    <Open />
+    <!-- <Open /> -->
     <Cover />
   </div>
 </template>

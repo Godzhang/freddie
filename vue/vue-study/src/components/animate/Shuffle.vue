@@ -1,7 +1,7 @@
 <template>
   <div class="shuffle" ref="shuffle">
     <div class="return-btn" @click="backToMoment">
-      <img src="../../assets/shuffle/return-btn.png" alt="" class="btn" />
+      <img src="../../assets/shuffle/return-btn.png" alt class="btn" />
     </div>
     <div class="back">
       <div class="lamp red"></div>
@@ -11,8 +11,8 @@
       <div class="command red"></div>
       <swiper ref="mySwiper" :options="swiperOptions">
         <swiper-slide v-for="(image, index) in red" :key="index">
-          <div class="image-box">
-            <img class="image" :src="image" alt="" />
+          <div class="image-box" ref="imageBox">
+            <img class="image" :src="image" :style="imageStyles[index]" alt />
             <div class="mask red"></div>
             <div class="text">许昕</div>
             <div class="erweima"></div>
@@ -34,12 +34,32 @@ export default {
   inject: ["store"],
   data() {
     return {
+      currentTransitionSpeed: 0,
       red: redAtlasCover,
+      imageStyles: [],
       swiperOptions: {
-        // effect: "cube",
         loop: true,
         pagination: {
           el: ".swiper-pagination"
+        },
+        on: {
+          progress: progress => {
+            if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
+              const swiper = this.$refs.mySwiper.$swiper;
+              this.onProgress(swiper, progress);
+            }
+          },
+          setTransition: transition => {
+            if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
+              const swiper = this.$refs.mySwiper.$swiper;
+              this.onSetTransition(swiper, transition);
+            }
+          },
+          setTranslate: translate => {
+            // if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
+            //   this.setTranslate(this.$refs.mySwiper.$swiper, translate);
+            // }
+          }
         }
       }
     };
@@ -47,7 +67,7 @@ export default {
   mounted() {
     this.init();
     this.$watch("store.step", step => {
-      if (step === 5) {
+      if (step === 4) {
         this.$refs.shuffle.style.opacity = 1;
       }
     });
@@ -59,8 +79,61 @@ export default {
     }
   },
   methods: {
-    init() {},
-    backToMoment() {}
+    init() {
+      this.initStyles();
+    },
+    initStyles() {
+      const imageBox = this.$refs.imageBox[0];
+      const boxWidth = window.getComputedStyle(imageBox).width.slice(0, -2);
+      const boxHeight = window.getComputedStyle(imageBox).height.slice(0, -2);
+      const boxRatio = boxWidth / boxHeight;
+      const reqs = this.red.map(src => {
+        return new Promise(resolve => {
+          const img = new Image();
+          img.onload = () => {
+            const width = img.width;
+            const height = img.height;
+            const ratio = width / height;
+            if (boxRatio < ratio) {
+              resolve({
+                width: (boxHeight * width) / height + "px",
+                height: boxHeight + "px"
+              });
+            } else {
+              resolve({
+                width: boxWidth + "px",
+                height: (boxWidth * height) / width + "px"
+              });
+            }
+          };
+          img.onerror = resolve;
+          img.src = src;
+        });
+      });
+      Promise.all(reqs).then(res => {
+        this.imageStyles = res;
+      });
+    },
+    backToMoment() {},
+    onProgress(swiper, progress) {
+      // console.log(swiper, progress);
+    },
+    onSetTransition(swiper, transition) {
+      this.currentTransitionSpeed = transition;
+    },
+    setTranslate(swiper, translate) {
+      const { activeIndex, slides } = swiper;
+      const swiperWidth = swiper.width;
+      let distance = Math.abs(translate);
+      let merchant = Math.floor(distance / swiperWidth);
+      let moveX = distance - swiperWidth * merchant;
+      let percentage = moveX / swiperWidth;
+      console.log(percentage);
+      slides[activeIndex].style.transform = `scale(${1 - percentage})`;
+      slides[activeIndex].style.opacity = 1 - percentage;
+      slides[activeIndex + 1].style.transform = `scale(${percentage})`;
+      slides[activeIndex + 1].style.opacity = percentage;
+    }
   },
   components: {
     Swiper,
@@ -154,6 +227,7 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
+    overflow: hidden;
     .image {
       position: absolute;
       top: 50%;
