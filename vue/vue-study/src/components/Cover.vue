@@ -2,14 +2,6 @@
   <div class="cover" ref="cover">
     <div class="cover-bg" ref="coverBg"></div>
     <div class="lamp-box" ref="lampBox">
-      <!-- <div class="gradient-box">
-        <div
-          v-for="color in styles"
-          :key="color"
-          :class="`gradient ${color}`"
-          ref="gradient"
-        ></div>
-      </div>-->
       <div class="gradient" ref="gradient"></div>
       <div v-for="color in styles" :key="color" :class="`lamp ${color}`" ref="lamp"></div>
     </div>
@@ -18,6 +10,7 @@
       <div class="round" ref="round"></div>
       <div class="round-mask"></div>
     </div>
+    <div class="flash" ref="flash"></div>
   </div>
 </template>
 <script>
@@ -31,7 +24,8 @@ import {
 import {
   colorMix,
   getMixColorRgbStr,
-  actionByPercentage
+  actionByPercentage,
+  sleep
 } from "@/common/utils/utils.js";
 
 const documentWidth = document.body.clientWidth;
@@ -55,7 +49,7 @@ export default {
     init() {
       const load = this.$refs.load;
       const round = this.$refs.round;
-      const lampUrl = require("../../assets/cover/lamp.png");
+      const lampUrl = require("../assets/cover/lamp.png");
       const img = new Image();
       img.onload = () => {
         // Velocity(load, { opacity: 0 }, { duration: 300 }).then(() => {
@@ -64,6 +58,7 @@ export default {
         setTimeout(() => {
           Velocity(load, { opacity: 0 }, { duration: 300 }).then(() => {
             load.remove();
+            this.showPage();
           });
         }, 1000);
       };
@@ -71,13 +66,25 @@ export default {
       round.classList.add("animate");
       img.src = lampUrl;
     },
+    showPage() {
+      Velocity(
+        this.$refs.lampBox,
+        { opacity: 1 },
+        { duration: 800, mobileHA: false }
+      );
+      Velocity(
+        this.$refs.slider.$el,
+        { opacity: 1 },
+        { duration: 800, delay: 400, mobileHA: false }
+      );
+    },
     onSliderMove(percentage) {
       this.changeCoverBg(percentage);
       this.changLamp(percentage);
       this.changeGradient(percentage);
       this.percentage = percentage;
       if (percentage === 1) {
-        // this.animateToEnd();
+        this.animateToEnd();
       }
     },
     changeCoverBg(percentage) {
@@ -126,7 +133,9 @@ export default {
     changLamp(percentage) {
       const lamp = this.$refs.lamp;
       actionByPercentage(percentage, [
-        (value, ratio) => (lamp[0].style.opacity = 1),
+        (value, ratio) => {
+          lamp[0].style.opacity = 1;
+        },
         (value, ratio, contrastRatio) => {
           lamp[0].style.opacity = contrastRatio;
           lamp[1].style.opacity = ratio;
@@ -196,59 +205,13 @@ export default {
         }
       ]);
     },
-    // changeGradient(percentage) {
-    //   const gradient = this.$refs.gradient;
-    //   const { red, green, blue, white, yellow } = gradientColors;
-    //   actionByPercentage(percentage, [
-    //     (value, ratio) => {},
-    //     (value, ratio, contrastRatio) => {
-    //       gradient.style.boxShadow = `0 0 ${Math.max(0.2, value) *
-    //         200}px ${Math.max(0.2, value) * 200}px rgba(${getMixColorRgbStr(
-    //         red,
-    //         "#fff",
-    //         ratio
-    //       )}, ${Math.max(0.5, value)})`;
-    //     },
-    //     (value, ratio, contrastRatio) => {
-    //       gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
-    //         200}px rgba(${getMixColorRgbStr(green, red, ratio)}, ${Math.max(
-    //         0.5,
-    //         value
-    //       )})`;
-    //     },
-    //     (value, ratio, contrastRatio) => {
-    //       gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
-    //         200}px rgba(${getMixColorRgbStr(blue, green, ratio)}, ${Math.max(
-    //         0.5,
-    //         value
-    //       )})`;
-    //     },
-    //     (value, ratio, contrastRatio) => {
-    //       gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
-    //         200}px rgba(${getMixColorRgbStr(blue, white, ratio)}, ${Math.max(
-    //         0.5,
-    //         value
-    //       )})`;
-    //     },
-    //     (value, ratio, contrastRatio) => {
-    //       gradient.style.boxShadow = `0 0 ${value * 200}px ${value *
-    //         200}px rgba(${getMixColorRgbStr(yellow, white, ratio)}, ${Math.max(
-    //         0.5,
-    //         value
-    //       )})`;
-    //     }
-    //   ]);
-    // },
-    animateToEnd() {
-      Velocity(this.$refs.lampBox, "fadeOut", { duration: 1500 });
-      Velocity(this.$refs.slider.$el, "fadeOut", { duration: 1500 });
-      Velocity(this.$refs.coverBg, "fadeOut", {
-        duration: 1200,
-        delay: 500
-      }).then(() => {
-        this.$refs.cover.remove();
-        this.store.nextStep();
-      });
+    async animateToEnd() {
+      await sleep(1000);
+      this.$refs.flash.classList.add("animate");
+      await sleep(150);
+      this.$refs.cover.remove();
+      await sleep(200);
+      this.store.nextStep();
     }
   },
   components: { Slider }
@@ -265,20 +228,16 @@ export default {
   100% {
     transform: translate(-50%, -50%) scale(1);
   }
-  // 25% {
-  //   transform: translate(-50%, -50%) scale(1.3);
-  // }
-  // 50% {
-  //   transform: translate(-50%, -50%) scale(1);
-  // }
-  // 75% {
-  //   transform: translate(-50%, -50%) scale(1.8);
-  //   opacity: 1;
-  // }
-  // 100% {
-  //   transform: translate(-50%, -50%) scale(15);
-  //   opacity: 0;
-  // }
+}
+
+@keyframes flash {
+  0%,
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .cover {
@@ -295,9 +254,10 @@ export default {
     position: absolute;
     top: 0;
     left: 50%;
-    margin-left: -79.25px;
-    width: 158.5px;
-    height: 342px;
+    transform: translateX(-50%);
+    width: 42.27vw;
+    height: 91.2vw;
+    opacity: 0;
     .gradient {
       position: absolute;
       top: 75%;
@@ -318,30 +278,33 @@ export default {
 
       &.default {
         opacity: 1;
-        background: url(../../assets/cover/lamp.png) 0 0 no-repeat;
+        background: url(../assets/cover/lamp.png) 0 0 no-repeat;
         background-size: 100% 100%;
       }
       &.red {
-        background: url(../../assets/cover/lamp-red.png) 0 0 no-repeat;
+        background: url(../assets/cover/lamp-red.png) 0 0 no-repeat;
         background-size: 100% 100%;
       }
       &.green {
-        background: url(../../assets/cover/lamp-green.png) 0 0 no-repeat;
+        background: url(../assets/cover/lamp-green.png) 0 0 no-repeat;
         background-size: 100% 100%;
       }
       &.blue {
-        background: url(../../assets/cover/lamp-blue.png) 0 0 no-repeat;
+        background: url(../assets/cover/lamp-blue.png) 0 0 no-repeat;
         background-size: 100% 100%;
       }
       &.white {
-        background: url(../../assets/cover/lamp-white.png) 0 0 no-repeat;
+        background: url(../assets/cover/lamp-white.png) 0 0 no-repeat;
         background-size: 100% 100%;
       }
       &.yellow {
-        background: url(../../assets/cover/lamp-yellow.png) 0 0 no-repeat;
+        background: url(../assets/cover/lamp-yellow.png) 0 0 no-repeat;
         background-size: 100% 100%;
       }
     }
+  }
+  .slider {
+    opacity: 0;
   }
   .load {
     position: absolute;
@@ -361,30 +324,21 @@ export default {
       border-radius: 50%;
       box-shadow: 0 0 20px 40px #4e5158;
       animation: roundExpand 1.5s linear infinite;
-      // animation: roundExpand 3s linear forwards;
-      // width: 140px;
-      // height: 160px;
-      // border-radius: 50%;
-      // border: 9999px solid #1a1c1e;
-      // box-shadow: inset 0 0 10px 30px #1a1c1e;
-      // &.animate {
-      //   animation: roundExpand 3s linear forwards;
-      // }
     }
-    // .round-mask {
-    //   position: absolute;
-    //   top: 35%;
-    //   left: 50%;
-    //   transform: translate(-50%, -50%) scale(1);
-    //   width: 130px;
-    //   height: 150px;
-    //   border-radius: 50%;
-    //   border: 9999px solid #1a1c1e;
-    //   overflow: hidden;
-    //   &.animate {
-    //     animation: roundExpand 3s linear forwards;
-    //   }
-    // }
+  }
+  .flash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 10;
+    background-color: #fff;
+    &.animate {
+      display: block;
+      animation: flash 0.6s ease forwards;
+    }
   }
 }
 </style>

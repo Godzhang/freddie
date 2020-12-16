@@ -59,7 +59,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../styles/mixin.scss";
+@import "../styles/mixin.scss";
 
 @keyframes wave {
   0% {
@@ -115,7 +115,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url(../../assets/open/background.jpg) 0 0 no-repeat;
+  background: url(../assets/open/background.jpg) 0 0 no-repeat;
   background-size: 100% 100%;
   z-index: 99;
   .handle {
@@ -132,7 +132,7 @@ export default {
       .button {
         width: 100%;
         height: 100%;
-        background: url(../../assets/open/button.png) 0 0 no-repeat;
+        background: url(../assets/open/button.png) 0 0 no-repeat;
         background-size: 100% 100%;
         cursor: pointer;
         transform-origin: center center;
@@ -164,7 +164,7 @@ export default {
       margin: 25px auto 0;
       width: 71px;
       height: 40px;
-      background: url(../../assets/open/title.png) 0 0 no-repeat;
+      background: url(../assets/open/title.png) 0 0 no-repeat;
       background-size: 100% 100%;
       transform: scale(0.3) translateY(50px);
       opacity: 0;

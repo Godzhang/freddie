@@ -1,25 +1,54 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" @hook:mounted="childMounted" />
+  <div class="animate">
+    <Shuffle />
+    <Play />
+    <Moment />
+    <!-- <Open /> -->
+    <Cover />
   </div>
 </template>
-
 <script>
-import HelloWorld from "@/components/HelloWorld.vue";
+import Cover from "../components/Cover";
+import Open from "../components/Open";
+import Moment from "../components/Moment";
+import Play from "../components/Play";
+import Shuffle from "../components/Shuffle";
 
 export default {
   name: "Home",
-  mounted() {
-    console.log("parent mounted");
+  provide() {
+    return {
+      store: this
+    };
   },
+  data() {
+    return {
+      step: 1,
+      detailType: ""
+    };
+  },
+  mounted() {},
   methods: {
-    childMounted() {
-      console.log("child mounted");
+    nextStep() {
+      this.step++;
+    },
+    setType(type) {
+      this.detailType = type;
     }
   },
   components: {
-    HelloWorld
+    Cover,
+    Open,
+    Moment,
+    Play,
+    Shuffle
   }
 };
 </script>
+<style lang="scss" scoped>
+.animate {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+</style>

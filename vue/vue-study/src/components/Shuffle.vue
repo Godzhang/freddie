@@ -1,7 +1,7 @@
 <template>
   <div class="shuffle" ref="shuffle">
     <div class="return-btn" @click="backToMoment">
-      <img src="../../assets/shuffle/return-btn.png" alt class="btn" />
+      <img src="../assets/shuffle/return-btn.png" alt class="btn" />
     </div>
     <div class="back">
       <div class="lamp red"></div>
@@ -14,7 +14,7 @@
           <div class="image-box" ref="imageBox">
             <img class="image" :src="image" :style="imageStyles[index]" alt />
             <div class="mask red"></div>
-            <div class="text">许昕</div>
+            <!-- <div class="text">许昕</div> -->
             <div class="erweima"></div>
           </div>
         </swiper-slide>
@@ -41,26 +41,26 @@ export default {
         loop: true,
         pagination: {
           el: ".swiper-pagination"
-        },
-        on: {
-          progress: progress => {
-            if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
-              const swiper = this.$refs.mySwiper.$swiper;
-              this.onProgress(swiper, progress);
-            }
-          },
-          setTransition: transition => {
-            if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
-              const swiper = this.$refs.mySwiper.$swiper;
-              this.onSetTransition(swiper, transition);
-            }
-          },
-          setTranslate: translate => {
-            // if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
-            //   this.setTranslate(this.$refs.mySwiper.$swiper, translate);
-            // }
-          }
         }
+        // on: {
+        //   progress: progress => {
+        //     if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
+        //       const swiper = this.$refs.mySwiper.$swiper;
+        //       this.onProgress(swiper, progress);
+        //     }
+        //   },
+        //   setTransition: transition => {
+        //     if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
+        //       const swiper = this.$refs.mySwiper.$swiper;
+        //       this.onSetTransition(swiper, transition);
+        //     }
+        //   },
+        //   setTranslate: translate => {
+        //     // if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
+        //     //   this.setTranslate(this.$refs.mySwiper.$swiper, translate);
+        //     // }
+        //   }
+        // }
       }
     };
   },
@@ -69,6 +69,9 @@ export default {
     this.$watch("store.step", step => {
       if (step === 4) {
         this.$refs.shuffle.style.opacity = 1;
+        setTimeout(() => {
+          this.$refs.mySwiper.$el.classList.add("shake");
+        }, 300);
       }
     });
     this.$watch("store.detailType", type => {});
@@ -128,7 +131,6 @@ export default {
       let merchant = Math.floor(distance / swiperWidth);
       let moveX = distance - swiperWidth * merchant;
       let percentage = moveX / swiperWidth;
-      console.log(percentage);
       slides[activeIndex].style.transform = `scale(${1 - percentage})`;
       slides[activeIndex].style.opacity = 1 - percentage;
       slides[activeIndex + 1].style.transform = `scale(${percentage})`;
@@ -142,6 +144,17 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@keyframes shake {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 .shuffle {
   position: absolute;
   top: 0;
@@ -178,7 +191,7 @@ export default {
       width: 67.87vw;
       height: 18.13vw;
       &.red {
-        background: url(../../assets/shuffle/red-lamp.png) 0 0 no-repeat;
+        background: url(../assets/shuffle/red-lamp.png) 0 0 no-repeat;
         background-size: 100% 100%;
       }
     }
@@ -189,14 +202,13 @@ export default {
       width: 100%;
       height: 117.47vw;
       &.red {
-        background: url(../../assets/shuffle/red-light.png) 0 0 no-repeat;
+        background: url(../assets/shuffle/red-light.png) 0 0 no-repeat;
         background-size: 100% 100%;
       }
     }
   }
   .show {
     position: absolute;
-    // top: 27.1vw;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -55%);
@@ -211,6 +223,9 @@ export default {
     height: 94.4vw;
     overflow-y: visible;
     box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 0.5);
+    &.shake {
+      animation: shake 1s ease-in-out infinite;
+    }
   }
   .swiper-pagination {
     width: 100%;
@@ -242,7 +257,7 @@ export default {
       width: 100%;
       height: 100%;
       &.red {
-        background: url(../../assets/shuffle/red-box.png) 0 0 no-repeat;
+        background: url(../assets/shuffle/red-box.png) 0 0 no-repeat;
         background-size: 100% 100%;
       }
     }
@@ -262,7 +277,7 @@ export default {
       right: 5%;
       width: 12.53vw;
       height: 16.27vw;
-      background: url(../../assets/shuffle/erweima.png) 0 0 no-repeat;
+      background: url(../assets/shuffle/erweima.png) 0 0 no-repeat;
       background-size: 100% 100%;
     }
   }
@@ -274,7 +289,7 @@ export default {
     height: 26vw;
     background-color: #000;
     &.red {
-      background: url(../../assets/shuffle/red-text.png) 0 0 no-repeat;
+      background: url(../assets/shuffle/red-text.png) 0 0 no-repeat;
       background-size: 100% 100%;
     }
   }

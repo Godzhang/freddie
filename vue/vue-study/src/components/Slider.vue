@@ -2,11 +2,7 @@
   <div class="slider">
     <div class="trail" ref="trail"></div>
     <div class="core-box">
-      <div
-        class="core-bg"
-        ref="coreBg"
-        :style="{ width: `${coreBgWidth}px` }"
-      ></div>
+      <div class="core-bg" ref="coreBg" :style="{ width: `${coreBgWidth}px` }"></div>
       <div
         class="core"
         ref="core"
@@ -27,8 +23,9 @@ import {
   actionByPercentage
 } from "@/common/utils/utils.js";
 
-const CORE_BOX_WIDTH = 232;
-const CORE_WIDTH = 45;
+const vw = document.body.clientWidth / 100;
+const CORE_BOX_WIDTH = 61.87 * vw;
+const CORE_WIDTH = 12 * vw;
 const CORE_MOST_LEFT = CORE_BOX_WIDTH - CORE_WIDTH;
 
 export default {
@@ -121,20 +118,33 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+$slider-width: 66.67vw;
+$slider-height: 16vw;
+$trail-border-width: 1.2vw;
+$trail-width: $slider-width - $trail-border-width * 2;
+$trail-height: $slider-height - $trail-border-width * 2;
+$core-box-width: 61.87vw;
+$core-box-height: 12vw;
+$core-size: $core-box-height;
+$core-point-size: 9.8vw;
+
 .slider {
   position: absolute;
-  bottom: 90px;
+  bottom: 24vw;
   left: 50%;
-  margin-left: -125px;
-  width: 250px;
-  height: 60px;
+  transform: translateX(-50%);
+  width: $slider-width;
+  height: $slider-height;
   .trail {
-    width: 240px;
-    height: 50px;
-    border-width: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: $trail-width;
+    height: $trail-height;
+    border-width: 1.2vw;
     border-style: solid;
     border-color: #7a8284;
-    border-radius: 50px;
+    border-radius: $trail-height;
     overflow: hidden;
   }
   .core-box {
@@ -142,28 +152,30 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 232px;
-    height: 45px;
-    border-radius: 45px;
+    width: $core-box-width;
+    height: $core-box-height;
+    border-radius: $core-box-height;
     overflow: hidden;
     .core-bg {
       width: 0;
       height: 100%;
-      background-color: #0d0b07;
     }
     .core {
       position: absolute;
       top: 0;
       left: 0;
-      width: 45px;
-      height: 45px;
+      width: $core-size;
+      height: $core-size;
       background-color: #7a8284;
-      border-radius: 45px;
+      border-radius: $core-size;
       .core-point {
-        width: 37px;
-        height: 37px;
-        margin: 4px;
-        border-radius: 37px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: $core-point-size;
+        height: $core-point-size;
+        border-radius: $core-point-size;
         box-shadow: 0 0 1px 0.5px rgba(0, 0, 0, 0.3);
       }
     }
