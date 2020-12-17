@@ -24,7 +24,7 @@ export const coverBgColors = {
   green: "#16430d",
   blue: "#0d1d43",
   white: "#b9c2d5",
-  yellow: "#efff82"
+  yellow: "#62550c"
 };
 
 // 滑动条颜色
@@ -34,5 +34,5 @@ export const sliderColors = {
   green: "#2cd51a",
   blue: "#37d3ea",
   white: "#ffffff",
-  yellow: "#ece63e"
+  yellow: "#c7c11b"
 };

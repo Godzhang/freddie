@@ -27,40 +27,43 @@
 import Velocity from "velocity-animate";
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 import { redAtlas } from "@/common/global/atlas";
+import getCompositionUrl from "@/common/utils/composition";
+import TweenMax from "gsap";
 
-const redAtlasCover = redAtlas.map(item => item[item.length - 1]);
+const redAtlasCovers = redAtlas.map(item => item[item.length - 1]);
 
 export default {
   inject: ["store"],
   data() {
     return {
       currentTransitionSpeed: 0,
-      red: redAtlasCover,
+      red: redAtlasCovers,
       imageStyles: [],
       swiperOptions: {
         loop: true,
         pagination: {
           el: ".swiper-pagination"
+        },
+        watchSlidesProgress: true,
+        on: {
+          progress: progress => {
+            if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
+              const swiper = this.$refs.mySwiper.$swiper;
+              this.onProgress(swiper, progress);
+            }
+          },
+          setTransition: transition => {
+            if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
+              const swiper = this.$refs.mySwiper.$swiper;
+              this.onSetTransition(swiper, transition);
+            }
+          },
+          setTranslate: translate => {
+            if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
+              this.setTranslate(this.$refs.mySwiper.$swiper, translate);
+            }
+          }
         }
-        // on: {
-        //   progress: progress => {
-        //     if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
-        //       const swiper = this.$refs.mySwiper.$swiper;
-        //       this.onProgress(swiper, progress);
-        //     }
-        //   },
-        //   setTransition: transition => {
-        //     if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
-        //       const swiper = this.$refs.mySwiper.$swiper;
-        //       this.onSetTransition(swiper, transition);
-        //     }
-        //   },
-        //   setTranslate: translate => {
-        //     // if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
-        //     //   this.setTranslate(this.$refs.mySwiper.$swiper, translate);
-        //     // }
-        //   }
-        // }
       }
     };
   },
@@ -124,17 +127,36 @@ export default {
     onSetTransition(swiper, transition) {
       this.currentTransitionSpeed = transition;
     },
+    // setTranslate(swiper, translate) {
+    //   const { activeIndex, slides } = swiper;
+    //   const swiperWidth = swiper.width;
+    //   let distance = Math.abs(translate);
+    //   let merchant = Math.floor(distance / swiperWidth);
+    //   let moveX = distance - swiperWidth * merchant;
+    //   let percentage = moveX / swiperWidth;
+    //   slides[activeIndex].style.transform = `scale(${1 - percentage})`;
+    //   slides[activeIndex].style.opacity = 1 - percentage;
+    //   slides[activeIndex + 1].style.transform = `scale(${percentage})`;
+    //   slides[activeIndex + 1].style.opacity = percentage;
+    // }
     setTranslate(swiper, translate) {
-      const { activeIndex, slides } = swiper;
-      const swiperWidth = swiper.width;
-      let distance = Math.abs(translate);
-      let merchant = Math.floor(distance / swiperWidth);
-      let moveX = distance - swiperWidth * merchant;
-      let percentage = moveX / swiperWidth;
-      slides[activeIndex].style.transform = `scale(${1 - percentage})`;
-      slides[activeIndex].style.opacity = 1 - percentage;
-      slides[activeIndex + 1].style.transform = `scale(${percentage})`;
-      slides[activeIndex + 1].style.opacity = percentage;
+      const allSlides = Object.values(swiper.slides).slice(0, -1);
+      allSlides.forEach((slide, index) => {
+        /**
+         * watchSlidesProgress: true, 活动块slide的progress为0, 其他依次减1
+         * 例：如果一共有6个slide, 则progress属性分别是：2、1、0、-1、-2、-3
+         **/
+        const clip = (val, min, max) => Math.max(min, Math.min(val, max));
+        const ZOOM_FACTOR = 0.4;
+        const clippedProgress = clip(slide.progress, -1, 1);
+        const scale = 1 - Math.abs(ZOOM_FACTOR * clippedProgress);
+        // slide.progress为0时，透明度从1到0；slide.progress 为正负1时，透明度从0.5到1
+        const opacity = !slide.progress
+          ? Math.max(1 - Math.abs(slide.progress), 0.5)
+          : Math.max(1 - Math.abs(slide.progress), 0);
+        TweenMax.to(slide, 0.4, { scale, opacity });
+        // TODO: 判断切换Pre/Next时，移动距离（时间)
+      });
     }
   },
   components: {
@@ -149,7 +171,7 @@ export default {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.01);
+    transform: scale(1.05);
   }
   100% {
     transform: scale(1);
@@ -222,9 +244,9 @@ export default {
     width: 63.2vw;
     height: 94.4vw;
     overflow-y: visible;
-    box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 0.5);
+    // box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 0.5); 放到每个盒子里
     &.shake {
-      animation: shake 1s ease-in-out infinite;
+      animation: shake 5s ease-in-out infinite;
     }
   }
   .swiper-pagination {

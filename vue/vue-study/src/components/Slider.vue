@@ -97,12 +97,15 @@ export default {
         },
         (value, ratio) => {
           color_1 = blue;
-          color_2 = white;
+          // color_2 = white;
+          color_2 = yellow;
           colorRatio = ratio;
         },
         (value, ratio) => {
-          color_1 = white;
-          color_2 = yellow;
+          color_1 = yellow;
+          color_2 = white;
+          // color_1 = white;
+          // color_2 = yellow;
           colorRatio = ratio;
         }
       ]);

@@ -25,3 +25,5 @@ export const redAtlas = [
     require("../../assets/atlas/red/1/3.jpg")
   ]
 ];
+
+export const redAtlasCover = redAtlas.map(item => item[item.length - 1]);

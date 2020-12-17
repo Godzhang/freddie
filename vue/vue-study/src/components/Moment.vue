@@ -41,18 +41,31 @@ export default {
     init() {},
     animate() {
       const total = 5;
-      const duration = 400;
+      const durations = [400, 300, 200, 200, 200].map(item => item * 1.5);
+      const delays = [0, 200, 350, 450, 550].map(item => item * 1.5);
+      const lightDelays = [400, 500, 550, 650, 750].map(item => item * 1.5);
+
       for (let i = 0; i < total; i++) {
         const item = this.$refs.item[i];
         const lightBg = item.querySelector(".light-bg");
         const light = item.querySelector(".light");
         const text = item.querySelector(".text");
-        const itemDelay = (i * duration) / 2;
-        const lightDelay = itemDelay + 100;
 
-        Velocity(item, { opacity: 1 }, { duration, delay: itemDelay });
-        Velocity(light, { opacity: 1 }, { duration: 200, delay: lightDelay });
-        Velocity(lightBg, { opacity: 1 }, { duration: 200, delay: lightDelay });
+        Velocity(
+          item,
+          { opacity: 1 },
+          { duration: durations[i], delay: delays[i] }
+        );
+        Velocity(
+          light,
+          { opacity: 1 },
+          { duration: 400, delay: lightDelays[i] }
+        );
+        Velocity(
+          lightBg,
+          { opacity: 1 },
+          { duration: 400, delay: lightDelays[i] }
+        );
       }
     },
     async showDetail(index) {
@@ -97,6 +110,7 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 98;
+  background-color: #b9c2d5;
   .item {
     position: absolute;
     left: 0;

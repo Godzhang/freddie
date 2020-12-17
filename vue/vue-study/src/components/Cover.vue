@@ -31,7 +31,8 @@ import {
 const documentWidth = document.body.clientWidth;
 const documentHeight = document.body.clientHeight;
 
-const styles = ["default", "red", "green", "blue", "white", "yellow"];
+// const styles = ["default", "red", "green", "blue", "white", "yellow"];
+const styles = ["default", "red", "green", "blue", "yellow", "white"];
 
 export default {
   name: "Cover",
@@ -115,12 +116,12 @@ export default {
         },
         (value, ratio) => {
           color_1 = blue;
-          color_2 = white;
+          color_2 = yellow;
           colorRatio = ratio;
         },
         (value, ratio) => {
-          color_1 = white;
-          color_2 = yellow;
+          color_1 = yellow;
+          color_2 = white;
           colorRatio = ratio;
         }
       ]);
@@ -188,17 +189,29 @@ export default {
           )})`;
         },
         (value, ratio, contrastRatio) => {
+          // gradient.style.boxShadow = `0 0 ${(value + 0.2) * 100}px ${(value +
+          //   0.2) *
+          //   200}px rgba(${getMixColorRgbStr(white, blue, ratio)}, ${Math.max(
+          //   0.5,
+          //   value
+          // )})`;
           gradient.style.boxShadow = `0 0 ${(value + 0.2) * 100}px ${(value +
             0.2) *
-            200}px rgba(${getMixColorRgbStr(white, blue, ratio)}, ${Math.max(
+            200}px rgba(${getMixColorRgbStr(blue, yellow, ratio)}, ${Math.max(
             0.5,
             value
           )})`;
         },
         (value, ratio, contrastRatio) => {
+          // gradient.style.boxShadow = `0 0 ${(value + 0.2) * 100}px ${(value +
+          //   0.2) *
+          //   200}px rgba(${getMixColorRgbStr(white, yellow, ratio)}, ${Math.max(
+          //   0.5,
+          //   value
+          // )})`;
           gradient.style.boxShadow = `0 0 ${(value + 0.2) * 100}px ${(value +
             0.2) *
-            200}px rgba(${getMixColorRgbStr(white, yellow, ratio)}, ${Math.max(
+            200}px rgba(${getMixColorRgbStr(yellow, white, ratio)}, ${Math.max(
             0.5,
             value
           )})`;
@@ -206,11 +219,9 @@ export default {
       ]);
     },
     async animateToEnd() {
-      await sleep(1000);
       this.$refs.flash.classList.add("animate");
       await sleep(150);
       this.$refs.cover.remove();
-      await sleep(200);
       this.store.nextStep();
     }
   },
@@ -218,6 +229,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "../styles/animate.scss";
+
 @keyframes roundExpand {
   0% {
     transform: translate(-50%, -50%) scale(1);
@@ -227,16 +240,6 @@ export default {
   }
   100% {
     transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@keyframes flash {
-  0%,
-  20% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
   }
 }
 

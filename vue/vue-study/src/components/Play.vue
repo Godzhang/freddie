@@ -82,6 +82,7 @@ export default {
       const play = this.$refs.play;
       const mask = this.$refs.mask;
       const wait = 3000;
+
       const walk = async (i = 0) => {
         if (i === imgs.length - 1) {
           return Promise.resolve();
@@ -89,19 +90,14 @@ export default {
         const curr = imgs[i];
         const next = imgs[i + 1];
         Velocity(
-          imgs[i],
-          { opacity: 0 },
-          { mobileHA: false, duration: 1000, easing: "ease-out" }
-        );
-        Velocity(
           next,
-          { translateX: "-50%", translateY: "-50%" },
+          { translateX: "-50%", translateY: "-50%", opacity: 1 },
           { mobileHA: false, duration: 0 }
         );
-        await Velocity(
-          next,
-          { opacity: 1 },
-          { mobileHA: false, duration: 1000, easing: "ease-in" }
+        Velocity(
+          curr,
+          { opacity: 0 },
+          { mobileHA: false, duration: 1000, easing: "ease-out" }
         );
         Velocity(
           next,
@@ -109,25 +105,23 @@ export default {
             translateX: (i + 1) % 2 === 0 ? "-48%" : "-52%",
             translateY: "-50%"
           },
-          { mobileHA: false, duration: wait, easing: "linear" }
+          { mobileHA: false, duration: wait + 500, easing: "linear" }
         );
         await sleep(wait);
         walk(i + 1);
       };
-      imgs[0].classList.add("animate");
-      await sleep(3000);
-      imgs[0].classList.remove("animate");
-      imgs[0].classList.add("shake");
-      await sleep(3000);
+
+      imgs[0].classList.add("red-animate"); // 首张图片缩放动画
+      await sleep(6000);
       await walk();
       await sleep(wait);
       this.store.nextStep();
-      imgs[imgs.length - 1].classList.add("animate");
-      await sleep(1500);
+      imgs[imgs.length - 1].classList.add("red-animate");
+      await sleep(450);
       this.$audio.play("flash");
-      await sleep(400); // 相机声音领先时间
+      await sleep(300); // 相机声音提前的时间
       mask.classList.add("animate");
-      await sleep(100);
+      await sleep(200);
       Velocity(play, { opacity: 0 }, { duration: 0 }).then(() => {
         Velocity(play, { translateY: "-100%" }, { duration: 0 });
       });
@@ -136,56 +130,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@keyframes clarity {
-  0%,
-  24% {
-    transform: translate(-342%, -50%) scale(35);
-    filter: blur(0);
-  }
-  25% {
-    transform: translate(-342%, -50%) scale(35);
-    filter: blur(5px);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    filter: blur(0);
-  }
-}
-@keyframes shake-right {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    transform: translate(-52%, -50%) scale(1);
-  }
-}
-@keyframes shake-left {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    transform: translate(-48%, -50%) scale(1);
-  }
-}
-@keyframes narrow {
-  0% {
-  }
-  100% {
-    top: 75.53vw;
-    left: 44.9vw;
-    height: 94.4vw;
-    transform: translateX(-50%) translateY(-50%);
-  }
-}
-@keyframes flash {
-  0%,
-  20% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
+@import "../styles/animate.scss";
+
 .play {
   position: absolute;
   top: 0;
@@ -210,25 +156,14 @@ export default {
       &:first-child {
         opacity: 1;
         transform-origin: 50% 50%;
-        &.animate {
-          animation: clarity 3s ease-in-out forwards;
-        }
-        &.shake {
-          animation: shake-left 3s ease-in forwards;
+        &.red-animate {
+          animation: redFirstClarity 6s ease-in-out forwards;
         }
       }
-      // &:nth-child(2) {
-      //   &.shake {
-      //     animation: shake-right 3s ease-in forwards;
-      //   }
-      // }
       &:last-child {
-        &.animate {
-          animation: narrow 1s ease-in-out forwards;
+        &.red-animate {
+          animation: redFirstNarrow 1s ease-in-out forwards;
         }
-        // &.shake {
-        //   animation: shake-right 3s ease-in forwards;
-        // }
       }
     }
   }
