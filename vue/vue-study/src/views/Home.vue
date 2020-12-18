@@ -2,7 +2,7 @@
   <div class="animate">
     <Shuffle />
     <Play />
-    <Moment />
+    <!-- <Moment /> -->
     <!-- <Open /> -->
     <Cover />
   </div>

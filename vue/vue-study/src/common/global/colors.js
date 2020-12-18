@@ -3,9 +3,9 @@ import { hexToRgba } from "../utils/utils";
 // 渐变色
 export const gradientColors = {
   red: "#ff5155",
-  green: "#78ff85",
-  blue: "#51e4ff",
-  white: "#ffffff",
+  green: "#69ed85",
+  blue: "#69d3ed",
+  white: "#e4eef0",
   yellow: "#efff82"
 };
 
@@ -22,17 +22,26 @@ export const coverBgColors = {
   black: "#1a1c1e",
   red: "#430d0d",
   green: "#16430d",
-  blue: "#0d1d43",
-  white: "#b9c2d5",
+  blue: "#0d3080",
+  white: "#5b667f",
   yellow: "#62550c"
 };
 
 // 滑动条颜色
-export const sliderColors = {
-  init: "#7a8284",
-  red: "#ea3744",
-  green: "#2cd51a",
-  blue: "#37d3ea",
-  white: "#ffffff",
-  yellow: "#c7c11b"
+// export const sliderColors = {
+//   init: "#7a8284",
+//   red: "#ea3744",
+//   green: "#2cd51a",
+//   blue: "#37d3ea",
+//   white: "#ffffff",
+//   yellow: "#c7c11b"
+// };
+
+// 滑动条颜色区间
+export const sliderIntervalColors = {
+  red: ["#bf1d29", "#ea3744"],
+  green: ["#1b8a0f", "#2cd51a"],
+  blue: ["#1294bf", "#37d3ea"],
+  white: ["#bcc3c5", "#ffffff"],
+  yellow: ["#aaa50f", "#d7d01a"]
 };

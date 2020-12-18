@@ -3,6 +3,7 @@ const imageWidth = 63.2 * vw * 2;
 const imageHeight = 94.4 * vw * 2;
 
 let box;
+const boxCache = {};
 const cache = {};
 
 const loadBox = type => {
@@ -53,7 +54,9 @@ const createDataUrl = ({ img, width, height }) => {
   } else if (imageHeight === height) {
     context.drawImage(img, (imageWidth - width) / 2, 0, width, height);
   }
-  context.drawImage(box, 0, 0, imageWidth, imageHeight);
+  if (box) {
+    context.drawImage(box, 0, 0, imageWidth, imageHeight);
+  }
 
   return canvas.toDataURL();
 };
@@ -63,8 +66,10 @@ const getCompositionUrl = async (urls = [], type = "red") => {
 
   if (cache[type]) return cache[type];
 
-  if (!box) {
-    box = await loadBox(type);
+  if (boxCache[type]) {
+    box = boxCache[type];
+  } else {
+    boxCache[type] = box = await loadBox(type);
   }
 
   const loadImages = urls.map(url => loadImage(url));

@@ -35,5 +35,18 @@ export default {
   install(Vue) {
     Vue.prototype.$audio = { play, pause };
     document.body.appendChild(audio);
+
+    const addAudioEvent = () => {
+      audio.play();
+      audio.pause();
+    };
+    const removeAudioEvent = () => {
+      document.body.removeEventListener("touchstart", addAudioEvent);
+      document.body.removeEventListener("touchend", removeAudioEvent);
+    };
+    document.addEventListener("load", () => {
+      document.body.addEventListener("touchstart", addAudioEvent);
+      document.body.addEventListener("touchend", removeAudioEvent);
+    });
   }
 };

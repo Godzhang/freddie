@@ -41,9 +41,12 @@ export default {
       imageStyles: [],
       swiperOptions: {
         loop: true,
+        speed: 400,
+        effect: "fade",
         pagination: {
           el: ".swiper-pagination"
         },
+        virtualTranslate: true,
         watchSlidesProgress: true,
         on: {
           progress: progress => {
@@ -134,13 +137,13 @@ export default {
     //   let merchant = Math.floor(distance / swiperWidth);
     //   let moveX = distance - swiperWidth * merchant;
     //   let percentage = moveX / swiperWidth;
+    //   console.log('percentage', percentage)
     //   slides[activeIndex].style.transform = `scale(${1 - percentage})`;
-    //   slides[activeIndex].style.opacity = 1 - percentage;
     //   slides[activeIndex + 1].style.transform = `scale(${percentage})`;
-    //   slides[activeIndex + 1].style.opacity = percentage;
     // }
     setTranslate(swiper, translate) {
-      const allSlides = Object.values(swiper.slides).slice(0, -1);
+      const { activeIndex, slides } = swiper;
+      const allSlides = Object.values(slides).slice(0, -1);
       allSlides.forEach((slide, index) => {
         /**
          * watchSlidesProgress: true, 活动块slide的progress为0, 其他依次减1
@@ -151,11 +154,7 @@ export default {
         const clippedProgress = clip(slide.progress, -1, 1);
         const scale = 1 - Math.abs(ZOOM_FACTOR * clippedProgress);
         // slide.progress为0时，透明度从1到0；slide.progress 为正负1时，透明度从0.5到1
-        const opacity = !slide.progress
-          ? Math.max(1 - Math.abs(slide.progress), 0.5)
-          : Math.max(1 - Math.abs(slide.progress), 0);
-        TweenMax.to(slide, 0.4, { scale, opacity });
-        // TODO: 判断切换Pre/Next时，移动距离（时间)
+        TweenMax.to(slide, 0.3, { scale, delay: 0.3 });
       });
     }
   },
@@ -243,8 +242,12 @@ export default {
     left: 0;
     width: 63.2vw;
     height: 94.4vw;
-    overflow-y: visible;
-    // box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 0.5); 放到每个盒子里
+    // overflow-y: visible;
+    // overflow: visible;
+    overflow: hidden;
+    /deep/ .swiper-slide {
+      // box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 0.5);
+    }
     &.shake {
       animation: shake 5s ease-in-out infinite;
     }

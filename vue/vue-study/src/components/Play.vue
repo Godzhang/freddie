@@ -1,6 +1,6 @@
 <template>
   <div class="play" ref="play">
-    <div class="image-box">
+    <div class="image-box" ref="imageBox">
       <img
         v-for="i in 3"
         :key="i"
@@ -10,6 +10,9 @@
         ref="img"
         alt
       />
+    </div>
+    <div class="skip" ref="skip">
+      <button class="btn" @click="flash(false)">跳过</button>
     </div>
     <div class="mask" ref="mask"></div>
   </div>
@@ -34,6 +37,7 @@ export default {
         this.show();
         this.$audio.play("play-bg");
         this.play();
+        this.store.nextStep();
       }
     });
     // this.$watch("store.detailType", async (type, prev) => {
@@ -79,7 +83,9 @@ export default {
     },
     async play() {
       const imgs = this.$refs.img;
+      const imageBox = this.$refs.imageBox;
       const play = this.$refs.play;
+      const skip = this.$refs.skip;
       const mask = this.$refs.mask;
       const wait = 3000;
 
@@ -112,16 +118,27 @@ export default {
       };
 
       imgs[0].classList.add("red-animate"); // 首张图片缩放动画
-      await sleep(6000);
+      await sleep(3000);
+      Velocity(skip, { opacity: 1 }, { duration: 500 });
+      await sleep(3000);
       await walk();
       await sleep(wait);
-      this.store.nextStep();
+
+      imageBox.classList.add("animate");
       imgs[imgs.length - 1].classList.add("red-animate");
       await sleep(450);
-      this.$audio.play("flash");
-      await sleep(300); // 相机声音提前的时间
+      this.flash();
+    },
+    async flash(playAudio = true) {
+      const play = this.$refs.play;
+      const mask = this.$refs.mask;
+
+      if (playAudio) {
+        this.$audio.play("flash");
+        await sleep(300); // 相机声音预留的时间
+      }
       mask.classList.add("animate");
-      await sleep(200);
+      await sleep(100);
       Velocity(play, { opacity: 0 }, { duration: 0 }).then(() => {
         Velocity(play, { translateY: "-100%" }, { duration: 0 });
       });
@@ -147,6 +164,10 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
+    overflow: hidden;
+    &.animate {
+      animation: boxNarrow 1s ease-in-out forwards;
+    }
     .img {
       position: absolute;
       top: 50%;
@@ -164,6 +185,28 @@ export default {
         &.red-animate {
           animation: redFirstNarrow 1s ease-in-out forwards;
         }
+      }
+    }
+  }
+  .skip {
+    position: absolute;
+    top: 3vw;
+    right: 3vw;
+    width: 15vw;
+    height: 8vw;
+    z-index: 10;
+    opacity: 0;
+    .btn {
+      width: 100%;
+      height: 100%;
+      outline: none;
+      border: 1px solid #ddd;
+      border-radius: 1vw;
+      background-color: rgba(255, 255, 255, 0.5);
+      color: #fff;
+      &:active {
+        // background-color: mix(#000, #fff, 10%);
+        background-color: rgba(255, 255, 255, 0.7);
       }
     }
   }

@@ -22,8 +22,8 @@
   0% {
   }
   100% {
-    top: 75.53vw;
-    left: 44.9vw;
+    // top: 75.53vw;
+    // left: 44.9vw;
     height: 94.4vw;
     transform: translateX(-50%) translateY(-50%);
   }
@@ -54,5 +54,18 @@
   }
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes boxNarrow {
+  0% {
+  }
+  100% {
+    top: 27.07vw;
+    left: 13.47vw;
+    // top: 75.53vw;
+    // left: 44.9vw;
+    width: 63.2vw;
+    height: 94.4vw;
   }
 }

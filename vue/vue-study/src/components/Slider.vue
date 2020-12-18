@@ -16,12 +16,8 @@
   </div>
 </template>
 <script>
-import { sliderColors } from "@/common/global/colors.js";
-import {
-  colorMix,
-  hexToRgba,
-  actionByPercentage
-} from "@/common/utils/utils.js";
+import { sliderIntervalColors } from "@/common/global/colors.js";
+import { colorMix, hexToRgba } from "@/common/utils/utils.js";
 
 const vw = document.body.clientWidth / 100;
 const CORE_BOX_WIDTH = 61.87 * vw;
@@ -30,17 +26,26 @@ const CORE_MOST_LEFT = CORE_BOX_WIDTH - CORE_WIDTH;
 
 export default {
   name: "Slider",
+  props: {
+    theme: String
+  },
   data() {
     return {
       isMoving: false,
       startX: 0,
-      endX: 0,
-      posX: 0
+      endX: 0
     };
+  },
+  mounted() {
+    this.$refs.trail.style.borderColor = this.colors[0];
+    this.$refs.core.style.backgroundColor = this.colors[0];
   },
   computed: {
     coreBgWidth() {
       return this.endX + CORE_WIDTH / 2;
+    },
+    colors() {
+      return sliderIntervalColors[this.theme];
     }
   },
   watch: {
@@ -61,55 +66,32 @@ export default {
     onTouchMove(e) {
       if (!this.isMoving) return;
       let moveX = e.touches[0].clientX - this.startX;
-      this.endX = Math.max(0, Math.min(this.posX + moveX, CORE_MOST_LEFT));
+      this.endX = Math.max(0, Math.min(moveX, CORE_MOST_LEFT));
       this.$refs.core.style.left = this.endX + "px";
     },
     onTouchEnd() {
       this.isMoving = false;
-      this.startX = this.endX;
-      this.posX = this.endX;
+      if (this.endX < CORE_MOST_LEFT) {
+        this.resetButton();
+      }
+    },
+    resetButton() {
+      let timer = null;
+      const fn = () => {
+        if (this.endX > 1) {
+          this.endX -= this.endX / 5;
+        } else {
+          this.endX = 0;
+          cancelAnimationFrame(timer);
+          return;
+        }
+        this.$refs.core.style.left = this.endX + "px";
+        timer = requestAnimationFrame(fn);
+      };
+      fn();
     },
     changeColor(percentage) {
-      const { init, red, green, blue, white, yellow } = sliderColors;
-      let color_1 = init;
-      let color_2 = init;
-      let colorRatio = 1;
-      actionByPercentage(percentage, [
-        (value, ratio) => {
-          color_1 = init;
-          color_2 = init;
-          colorRatio = 1;
-        },
-        (value, ratio) => {
-          color_1 = init;
-          color_2 = red;
-          colorRatio = ratio;
-        },
-        (value, ratio) => {
-          color_1 = red;
-          color_2 = green;
-          colorRatio = ratio;
-        },
-        (value, ratio) => {
-          color_1 = green;
-          color_2 = blue;
-          colorRatio = ratio;
-        },
-        (value, ratio) => {
-          color_1 = blue;
-          // color_2 = white;
-          color_2 = yellow;
-          colorRatio = ratio;
-        },
-        (value, ratio) => {
-          color_1 = yellow;
-          color_2 = white;
-          // color_1 = white;
-          // color_2 = yellow;
-          colorRatio = ratio;
-        }
-      ]);
-      const resultColor = colorMix(color_1, color_2, colorRatio);
+      const resultColor = colorMix(this.colors[0], this.colors[1], percentage);
       this.$refs.trail.style.borderColor = resultColor;
       this.$refs.core.style.backgroundColor = resultColor;
       this.$refs.coreBg.style.backgroundColor = hexToRgba(resultColor, 50).rgba;

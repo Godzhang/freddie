@@ -80,6 +80,7 @@ export default {
 
       this.store.setType(colors[index]);
 
+      moment.style.backgroundColor = `rgba(0,0,0,0)`;
       Velocity(bg, { scaleY: 20 }, { duration: 0 });
       items.forEach((item, i) => {
         if (i !== index) {
@@ -98,6 +99,9 @@ export default {
       Velocity(currentItem, { opacity: 0 }, { duration: 0 });
       Velocity(lamp, { opacity: 1 }, { duration: 0 });
       Velocity(text, { opacity: 1 }, { duration: 0 });
+      setTimeout(() => {
+        moment.style.backgroundColor = `#b9c2d5`;
+      }, 500);
     }
   }
 };
@@ -115,7 +119,6 @@ export default {
     position: absolute;
     left: 0;
     width: 100%;
-    // overflow: hidden;
     opacity: 0;
     .photo {
       width: 100%;
