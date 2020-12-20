@@ -2,7 +2,11 @@
   <div class="slider">
     <div class="trail" ref="trail"></div>
     <div class="core-box">
-      <div class="core-bg" ref="coreBg" :style="{ width: `${coreBgWidth}px` }"></div>
+      <div
+        class="core-bg"
+        ref="coreBg"
+        :style="{ width: `${coreBgWidth}px` }"
+      ></div>
       <div
         class="core"
         ref="core"
@@ -16,6 +20,7 @@
   </div>
 </template>
 <script>
+import Velocity from "velocity-animate";
 import { sliderIntervalColors } from "@/common/global/colors.js";
 import { colorMix, hexToRgba } from "@/common/utils/utils.js";
 
@@ -37,8 +42,7 @@ export default {
     };
   },
   mounted() {
-    this.$refs.trail.style.borderColor = this.colors[0];
-    this.$refs.core.style.backgroundColor = this.colors[0];
+    this.initStyle();
   },
   computed: {
     coreBgWidth() {
@@ -56,9 +60,16 @@ export default {
       if (percentage === 1) {
         this.disableCore();
       }
+    },
+    colors() {
+      this.initStyle();
     }
   },
   methods: {
+    initStyle() {
+      Velocity(this.$refs.trail, { borderColor: this.colors[0] });
+      Velocity(this.$refs.core, { backgroundColor: this.colors[0] });
+    },
     onTouchStart(e) {
       this.isMoving = true;
       this.startX = e.touches[0].clientX;

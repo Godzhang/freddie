@@ -1,7 +1,7 @@
 <template>
   <div class="animate">
     <Shuffle />
-    <Play />
+    <!-- <Play /> -->
     <!-- <Moment /> -->
     <!-- <Open /> -->
     <Cover />

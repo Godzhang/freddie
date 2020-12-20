@@ -1,17 +1,15 @@
 <template>
   <div class="cover" ref="cover">
     <div class="cover-bg" ref="coverBg"></div>
-    <!-- <div class="lamp-box" ref="lampBox">
-      <div class="gradient" ref="gradient"></div>
-      <div v-for="color in styles" :key="color" :class="`lamp ${color}`" ref="lamp"></div>
-    </div>-->
     <div class="lamp-box" ref="lampBox">
-      <template v-for="color in styles">
-        <div :class="['lamp-item', ]" :key="color">
-          <div class="gradient"></div>
-          <div :class="['lamp', color]"></div>
-        </div>
-      </template>
+      <swiper ref="mySwiper" :options="swiperOptions">
+        <swiper-slide v-for="color in themes" :key="color">
+          <div :class="['lamp-item']" ref="lamp">
+            <div class="gradient"></div>
+            <div :class="['lamp', color]"></div>
+          </div>
+        </swiper-slide>
+      </swiper>
     </div>
     <Slider ref="slider" :theme="theme" @slide="onSliderMove"></Slider>
     <div class="load" ref="load">
@@ -22,8 +20,8 @@
   </div>
 </template>
 <script>
-import Slider from "./Slider";
 import Velocity from "velocity-animate";
+import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import {
   gradientColors,
   gradientRgbColors,
@@ -33,31 +31,72 @@ import {
   colorMix,
   getMixColorRgbStr,
   actionByPercentage,
-  sleep
+  sleep,
+  clip
 } from "@/common/utils/utils.js";
+import Slider from "./Slider";
+import { Verify } from "crypto";
 
 const documentWidth = document.body.clientWidth;
 const documentHeight = document.body.clientHeight;
+const vw = documentWidth / 100;
 
-const styles = ["red", "blue", "white", "yellow", "green"];
+const themes = ["red", "blue", "white", "yellow", "green"];
 
 export default {
   name: "Cover",
   inject: ["store"],
   data() {
     return {
+      initIndex: 0,
       theme: "red",
       percentage: 0,
-      styles
+      themes,
+      swiperOptions: {
+        initialSlide: 0,
+        watchSlidesProgress: true,
+        slidesPerView: 5,
+        centeredSlides: true,
+        loop: true,
+        on: {
+          init: () => {
+            this.$nextTick(() => {
+              this.calcSlidePos();
+            });
+          },
+          progress: progress => {
+            this.$nextTick(() => {
+              this.calcSlidePos();
+            });
+          },
+          transitionEnd: () => {
+            this.$nextTick(() => {
+              this.theme = themes[this.swiper.realIndex];
+            });
+          }
+        }
+      }
     };
   },
   created() {
-    const index = Math.floor(Math.random() * 5);
-    this.theme = styles[index];
+    this.initIndex = Math.floor(Math.random() * 5);
+    this.theme = themes[this.initIndex];
+    this.swiperOptions.initialSlide = this.initIndex;
   },
   mounted() {
     this.init();
     this.load();
+  },
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.$swiper;
+    },
+    currentLamp() {
+      if (this.swiper) {
+        return this.swiper.slides[this.swiper.activeIndex].children[0];
+      }
+      return null;
+    }
   },
   methods: {
     init() {
@@ -93,13 +132,29 @@ export default {
       //   { duration: 800, delay: 400, mobileHA: false }
       // );
     },
-    onSliderMove(percentage) {}
+    onSliderMove(percentage) {},
+    calcSlidePos() {
+      const slides = this.swiper.slides;
+      const allSlides = Object.values(slides).slice(0, -1);
+      for (let i = 0; i < allSlides.length; i++) {
+        const slide = allSlides[i];
+        const slideProgress = slide.progress;
+        let scale = 1 - Math.abs(slideProgress) / 5;
+        let translateY = -(110 * vw * (1 - scale)) / 2;
+        let zIndex = 999 - Math.abs(Math.round(10 * slideProgress));
+
+        Velocity(slide, { translateY, scale, zIndex }, { duration: 0 });
+      }
+    }
   },
   components: { Slider }
 };
 </script>
 <style lang="scss" scoped>
 @import "../styles/animate.scss";
+
+$lamp-width: 50vw;
+$lamp-height: 110vw;
 
 @keyframes roundExpand {
   0% {
@@ -129,13 +184,28 @@ export default {
     transform: translateX(-50%);
     width: 100%;
     height: 100%;
+    .swiper-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /deep/ .swiper-slide {
+        // position: absolute;
+        // top: 0;
+        // left: 50%;
+        // transform: translateX(-50%);
+        width: $lamp-width;
+        height: $lamp-height;
+      }
+    }
     .lamp-item {
       position: absolute;
       top: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 60vw;
-      height: 120vw;
+      width: $lamp-width;
+      height: $lamp-height;
       .gradient {
       }
       .lamp {
