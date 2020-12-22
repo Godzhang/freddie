@@ -1,7 +1,7 @@
 <template>
   <div class="animate">
     <Shuffle />
-    <!-- <Play /> -->
+    <Play />
     <!-- <Moment /> -->
     <!-- <Open /> -->
     <Cover />
@@ -32,14 +32,17 @@ export default {
     nextStep() {
       this.step++;
     },
+    setStep(s) {
+      this.step = s;
+    },
     setType(type) {
       this.detailType = type;
     }
   },
   components: {
     Cover,
-    Open,
-    Moment,
+    // Open,
+    // Moment,
     Play,
     Shuffle
   }

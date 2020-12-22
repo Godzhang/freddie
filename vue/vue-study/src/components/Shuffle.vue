@@ -1,17 +1,23 @@
 <template>
   <div class="shuffle" ref="shuffle">
-    <div class="return-btn" @click="backToMoment">
-      <img src="../assets/shuffle/return-btn.png" alt class="btn" />
-    </div>
     <div class="back">
       <div class="lamp red"></div>
       <div class="light red"></div>
+    </div>
+    <div class="return-btn" @click="backToCover">
+      <img src="../assets/shuffle/return-btn.png" alt class="btn" />
     </div>
     <div class="show">
       <div class="command red"></div>
       <swiper ref="mySwiper" :options="swiperOptions">
         <swiper-slide v-for="(image, index) in red" :key="index">
-          <div class="image-box" ref="imageBox">
+          <div
+            class="image-box"
+            ref="imageBox"
+            swiper-animate-effect="fadeInUp"
+            swiper-animate-duration="0.5s"
+            swiper-animate-delay="0.3s"
+          >
             <img class="image" :src="image" :style="imageStyles[index]" alt />
             <div class="mask red"></div>
             <!-- <div class="text">许昕</div> -->
@@ -36,31 +42,18 @@ export default {
   inject: ["store"],
   data() {
     return {
-      currentTransitionSpeed: 0,
       red: redAtlasCovers,
       imageStyles: [],
       swiperOptions: {
         loop: true,
         speed: 400,
-        effect: "fade",
+        effect: "myCustomTransition",
         pagination: {
           el: ".swiper-pagination"
         },
         virtualTranslate: true,
         watchSlidesProgress: true,
         on: {
-          progress: progress => {
-            if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
-              const swiper = this.$refs.mySwiper.$swiper;
-              this.onProgress(swiper, progress);
-            }
-          },
-          setTransition: transition => {
-            if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
-              const swiper = this.$refs.mySwiper.$swiper;
-              this.onSetTransition(swiper, transition);
-            }
-          },
           setTranslate: translate => {
             if (this.$refs.mySwiper && this.$refs.mySwiper.$swiper) {
               this.setTranslate(this.$refs.mySwiper.$swiper, translate);
@@ -73,8 +66,12 @@ export default {
   mounted() {
     this.init();
     this.$watch("store.step", step => {
-      if (step === 4) {
-        this.$refs.shuffle.style.opacity = 1;
+      if (step === 3) {
+        Velocity(
+          this.$refs.shuffle,
+          { translateY: 0, opacity: 1 },
+          { duration: 0, mobileHA: false }
+        );
         setTimeout(() => {
           this.$refs.mySwiper.$el.classList.add("shake");
         }, 300);
@@ -123,38 +120,36 @@ export default {
         this.imageStyles = res;
       });
     },
-    backToMoment() {},
-    onProgress(swiper, progress) {
-      // console.log(swiper, progress);
+    async backToCover() {
+      this.store.setStep(1);
+      await Velocity(this.$refs.shuffle, { opacity: 0 }, { duration: 1000 });
+      Velocity(this.$refs.shuffle, { translateY: "-100%" }, { duration: 0 });
     },
-    onSetTransition(swiper, transition) {
-      this.currentTransitionSpeed = transition;
-    },
-    // setTranslate(swiper, translate) {
-    //   const { activeIndex, slides } = swiper;
-    //   const swiperWidth = swiper.width;
-    //   let distance = Math.abs(translate);
-    //   let merchant = Math.floor(distance / swiperWidth);
-    //   let moveX = distance - swiperWidth * merchant;
-    //   let percentage = moveX / swiperWidth;
-    //   console.log('percentage', percentage)
-    //   slides[activeIndex].style.transform = `scale(${1 - percentage})`;
-    //   slides[activeIndex + 1].style.transform = `scale(${percentage})`;
-    // }
     setTranslate(swiper, translate) {
       const { activeIndex, slides } = swiper;
       const allSlides = Object.values(slides).slice(0, -1);
-      allSlides.forEach((slide, index) => {
-        /**
-         * watchSlidesProgress: true, 活动块slide的progress为0, 其他依次减1
-         * 例：如果一共有6个slide, 则progress属性分别是：2、1、0、-1、-2、-3
-         **/
+      allSlides.map((slide, index) => {
+        const offset = slide.swiperSlideOffset;
+        let x = -offset;
+        if (!swiper.params.virtualTranslate) {
+          x -= swiper.translate;
+        }
+        let y = 0;
+        if (!swiper.isHorizontal()) {
+          y = x;
+          x = 0;
+        }
+        TweenMax.set(slide, {
+          x,
+          y
+        });
         const clip = (val, min, max) => Math.max(min, Math.min(val, max));
-        const ZOOM_FACTOR = 0.4;
+        const ZOOM_FACTOR = 0.8; // 淡入 scale 0.4, 淡出 scale 0.4
         const clippedProgress = clip(slide.progress, -1, 1);
         const scale = 1 - Math.abs(ZOOM_FACTOR * clippedProgress);
         // slide.progress为0时，透明度从1到0；slide.progress 为正负1时，透明度从0.5到1
-        TweenMax.to(slide, 0.3, { scale, delay: 0.3 });
+        const opacity = scale > 0.6 ? 1 : 0;
+        TweenMax.to(slide, 0.3, { scale, opacity });
       });
     }
   },
@@ -242,11 +237,9 @@ export default {
     left: 0;
     width: 63.2vw;
     height: 94.4vw;
-    // overflow-y: visible;
-    // overflow: visible;
-    overflow: hidden;
+    overflow: visible;
     /deep/ .swiper-slide {
-      // box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 0.5);
+      box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 0.5);
     }
     &.shake {
       animation: shake 5s ease-in-out infinite;
@@ -281,6 +274,7 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
+      color: #fff;
       &.red {
         background: url(../assets/shuffle/red-box.png) 0 0 no-repeat;
         background-size: 100% 100%;

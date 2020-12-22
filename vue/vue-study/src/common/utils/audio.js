@@ -27,26 +27,22 @@ const pause = () => {
   isPlaying = false;
 };
 
+const playMuted = () => {
+  audio.muted = true;
+  play("flash");
+  setTimeout(() => {
+    pause();
+    audio.muted = false;
+  }, 250);
+};
+
 audio.addEventListener("ended", () => {
   isPlaying = false;
 });
 
 export default {
   install(Vue) {
-    Vue.prototype.$audio = { play, pause };
+    Vue.prototype.$audio = { play, pause, playMuted };
     document.body.appendChild(audio);
-
-    const addAudioEvent = () => {
-      audio.play();
-      audio.pause();
-    };
-    const removeAudioEvent = () => {
-      document.body.removeEventListener("touchstart", addAudioEvent);
-      document.body.removeEventListener("touchend", removeAudioEvent);
-    };
-    document.addEventListener("load", () => {
-      document.body.addEventListener("touchstart", addAudioEvent);
-      document.body.addEventListener("touchend", removeAudioEvent);
-    });
   }
 };

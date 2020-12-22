@@ -11,9 +11,9 @@
         alt
       />
     </div>
-    <div class="skip" ref="skip">
+    <!-- <div class="skip" ref="skip">
       <button class="btn" @click="flash(false)">跳过</button>
-    </div>
+    </div>-->
     <div class="mask" ref="mask"></div>
   </div>
 </template>
@@ -32,10 +32,9 @@ export default {
   },
   mounted() {
     this.$watch("store.step", async step => {
-      if (step === 3) {
+      if (step === 2) {
         await this.initSize();
         this.show();
-        this.$audio.play("play-bg");
         this.play();
         this.store.nextStep();
       }
@@ -111,7 +110,7 @@ export default {
             translateX: (i + 1) % 2 === 0 ? "-48%" : "-52%",
             translateY: "-50%"
           },
-          { mobileHA: false, duration: wait + 500, easing: "linear" }
+          { mobileHA: false, duration: wait + 100, easing: "linear" }
         );
         await sleep(wait);
         walk(i + 1);
@@ -164,6 +163,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
+    transform-origin: top left;
     overflow: hidden;
     &.animate {
       animation: boxNarrow 1s ease-in-out forwards;
@@ -205,7 +205,6 @@ export default {
       background-color: rgba(255, 255, 255, 0.5);
       color: #fff;
       &:active {
-        // background-color: mix(#000, #fff, 10%);
         background-color: rgba(255, 255, 255, 0.7);
       }
     }
@@ -221,7 +220,7 @@ export default {
     background-color: #fff;
     &.animate {
       display: block;
-      animation: flash 0.6s ease forwards;
+      animation: flash 1s ease forwards;
     }
   }
 }

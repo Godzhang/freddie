@@ -29,23 +29,6 @@
   }
 }
 
-// @keyframes shake-right {
-//   0% {
-//     transform: translate(-50%, -50%) scale(1);
-//   }
-//   100% {
-//     transform: translate(-52%, -50%) scale(1);
-//   }
-// }
-// @keyframes shake-left {
-//   0% {
-//     transform: translate(-50%, -50%) scale(1);
-//   }
-//   100% {
-//     transform: translate(-48%, -50%) scale(1);
-//   }
-// }
-
 // 照相机闪光效果
 @keyframes flash {
   0%,
@@ -61,10 +44,7 @@
   0% {
   }
   100% {
-    top: 27.07vw;
-    left: 13.47vw;
-    // top: 75.53vw;
-    // left: 44.9vw;
+    transform: translate(13.47vw, 27vw);
     width: 63.2vw;
     height: 94.4vw;
   }

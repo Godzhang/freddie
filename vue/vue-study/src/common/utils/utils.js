@@ -69,3 +69,11 @@ export const actionByPercentage = (percentage, events) => {
 export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export const clip = (val, min, max) => Math.max(min, Math.min(val, max));
+
+export const once = (el, eventName, eventFn) => {
+  const fn = (...args) => {
+    eventFn(...args);
+    el.removeEventListener(eventName, fn);
+  };
+  el.addEventListener(eventName, fn);
+};

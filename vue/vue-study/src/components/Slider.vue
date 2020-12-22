@@ -2,11 +2,7 @@
   <div class="slider">
     <div class="trail" ref="trail"></div>
     <div class="core-box">
-      <div
-        class="core-bg"
-        ref="coreBg"
-        :style="{ width: `${coreBgWidth}px` }"
-      ></div>
+      <div class="core-bg" ref="coreBg" :style="{ width: `${coreBgWidth}px` }"></div>
       <div
         class="core"
         ref="core"
@@ -57,9 +53,9 @@ export default {
       const percentage = x / CORE_MOST_LEFT;
       this.$emit("slide", percentage);
       this.changeColor(percentage);
-      if (percentage === 1) {
-        this.disableCore();
-      }
+      // if (percentage === 1) {
+      //   this.disableCore();
+      // }
     },
     colors() {
       this.initStyle();
@@ -78,7 +74,7 @@ export default {
       if (!this.isMoving) return;
       let moveX = e.touches[0].clientX - this.startX;
       this.endX = Math.max(0, Math.min(moveX, CORE_MOST_LEFT));
-      this.$refs.core.style.left = this.endX + "px";
+      this.$refs.core.style.transform = `translate3d(${this.endX}px,0,0)`;
     },
     onTouchEnd() {
       this.isMoving = false;
@@ -86,7 +82,13 @@ export default {
         this.resetButton();
       }
     },
-    resetButton() {
+    resetButton(immediate) {
+      if (immediate) {
+        this.endX = 0;
+        this.$refs.core.style.transform = `translate3d(${this.endX}px,0,0)`;
+        return;
+      }
+
       let timer = null;
       const fn = () => {
         if (this.endX > 1) {
@@ -96,7 +98,7 @@ export default {
           cancelAnimationFrame(timer);
           return;
         }
-        this.$refs.core.style.left = this.endX + "px";
+        this.$refs.core.style.transform = `translate3d(${this.endX}px,0,0)`;
         timer = requestAnimationFrame(fn);
       };
       fn();
@@ -126,7 +128,7 @@ $core-point-size: 9.8vw;
 
 .slider {
   position: absolute;
-  bottom: 24vw;
+  bottom: 18vw;
   left: 50%;
   transform: translateX(-50%);
   width: $slider-width;
