@@ -37,6 +37,88 @@
       //
     </script>
     <script>
+      // 三数之和 对撞指针
+      // const nums = [-1, 0, 1, 2, -1, -4];
+      // const target = 0;
+      // const threeSum = (nums, target) => {
+      //   let result = [];
+      //   nums = nums.sort((a, b) => a - b);
+      //   let len = nums.length;
+      //   for (let i = 0; i < len - 2; i++) {
+      //     let j = i + 1;
+      //     let k = len - 1;
+
+      //     if (i > 0 && nums[i] === nums[i - 1]) continue;
+
+      //     while (j < k) {
+      //       let sum = nums[i] + nums[j] + nums[k];
+      //       if (sum < target) {
+      //         j++;
+      //         while (j < k && nums[j] === nums[j - 1]) j++;
+      //       } else if (sum > target) {
+      //         k--;
+      //         while (j < k && nums[k] === nums[k + 1]) k--;
+      //       } else {
+      //         result.push([nums[i], nums[j], nums[k]]);
+      //         j++;
+      //         k--;
+      //         while (j < k && nums[j] === nums[j - 1]) j++;
+      //         while (j < k && nums[k] === nums[k + 1]) k--;
+      //       }
+      //     }
+      //   }
+      //   return result;
+      // };
+      // console.log(threeSum(nums, target));
+    </script>
+    <script>
+      // 合并两个有序的数组
+      // const nums1 = [1, 2, 3, 8];
+      // const nums2 = [2, 5, 6];
+      // const merge = (arr1, arr2) => {
+      //   let i = arr1.length - 1,
+      //     j = arr2.length - 1,
+      //     k = arr1.length + arr2.length - 1;
+
+      //   while (i >= 0 && j >= 0) {
+      //     if (arr1[i] > arr2[j]) {
+      //       arr1[k] = arr1[i];
+      //       i--;
+      //       k--;
+      //     } else {
+      //       arr1[k] = arr2[j];
+      //       j--;
+      //       k--;
+      //     }
+      //   }
+
+      //   while (j >= 0) {
+      //     arr1[k] = arr2[j];
+      //     j--;
+      //     k--;
+      //   }
+      // };
+      // merge(nums1, nums2);
+      // console.log(nums1);
+    </script>
+    <script>
+      //
+      // const arr = [2, 7, 11, 15];
+      // const targetNum = 9;
+      // const fn = (arr, targetNum) => {
+      //   const map = new Map();
+      //   for (let i = 0; i < arr.length; i++) {
+      //     let minus = targetNum - arr[i];
+      //     if (map.has(minus)) {
+      //       return [map.get(minus), i];
+      //     } else {
+      //       map.set(arr[i], i);
+      //     }
+      //   }
+      // };
+      // console.log(fn(arr, targetNum));
+    </script>
+    <script>
       //
       // const coinChange = (coins, amount) => {
       //   const f = [];
