@@ -8,6 +8,7 @@
     <script src="./js/moment.js"></script> -->
     <script src="./js/FileSaver.js"></script>
     <script src="./js/wordexport.js"></script>
+    <script src="./js/velocity.min.js"></script>
     <style>
       * {
         margin: 0;
@@ -18,56 +19,29 @@
         width: 100%;
         height: 100%;
       }
-      .back {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #f00;
-      }
       .container {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #0ff;
       }
-      .mask {
+      #box {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #fff;
-        opacity: 0;
-        display: none;
-      }
-      @keyframes chacha {
-        0% {
-          opacity: 0;
-        }
-        50% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 0;
-        }
-      }
-      .mask.shan {
-        animation: chacha 0.3s linear forwards;
+        top: 20px;
+        left: 20px;
+        width: 50px;
+        height: 50px;
+        background-color: #08c;
+        transform: translate3d(0, 0, 0);
       }
     </style>
     <title>zhangqi</title>
   </head>
   <body>
-    <div class="back"></div>
     <div class="container">
-      <button id="btn">click</button>
+      <div id="box"></div>
     </div>
-    <div class="mask"></div>
-    <!-- <canvas id="canvas"></canvas> -->
     <script>
       //
     </script>
@@ -82,17 +56,38 @@
     </script>
     <script>
       //
-      const container = document.querySelector(".container");
-      const mask = document.querySelector(".mask");
-      const btn = document.getElementById("btn");
-      btn.onclick = chacha;
-      function chacha() {
-        mask.style.display = "block";
-        mask.classList.add("shan");
-        setTimeout(() => {
-          mask.style.display = "none";
-        }, 500);
-      }
+      const box = document.getElementById("box");
+      // Velocity
+
+      Velocity(box, { left: "200px" }, { duration: 500 });
+      setTimeout(() => {
+        Velocity(box, "reverse", { duration: 2000 });
+      }, 500);
+      // Velocity(
+      //   box,
+      //   { height: "120px" },
+      //   { duration: 1500, delay: 1500, queue: false }
+      // );
+
+      // Velocity(
+      //   box,
+      //   {
+      //     width: "500px",
+      //     top: "100px",
+      //     height: "+=10px",
+      //   },
+      //   {
+      //     duration: 1000,
+      //     easing: "ease-in-out",
+      //     begin: () => {
+      //       console.log("begin");
+      //     },
+      //     progress: (elements, progress, remaining, start, tweenValue) => {},
+      //     complete: () => {
+      //       console.log("complete");
+      //     },
+      //   }
+      // );
     </script>
     <script>
       //
