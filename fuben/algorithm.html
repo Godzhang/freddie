@@ -19,13 +19,86 @@
     <div class="container"></div>
 
     <script>
-      //
+      // 有效括号
+      // const leftToRight = {
+      //   "(": ")",
+      //   "[": "]",
+      //   "{": "}",
+      // };
+      // const isEffect = (str) => {
+      //   if (!str.length) return true;
+      //   const stack = [];
+      //   for (let i = 0, len = str.length; i < len; i++) {
+      //     const curr = str[i];
+      //     if (["(", "[", "{"].includes(curr)) {
+      //       stack.push(leftToRight[curr]);
+      //     } else {
+      //       if (!stack.length || stack.pop() !== curr) return false;
+      //     }
+      //   }
+      //   return !stack.length;
+      // };
+      // console.log(isEffect("()"));
+      // console.log(isEffect("()[]{}"));
+      // console.log(isEffect("(]"));
+      // console.log(isEffect("([)]"));
+      // console.log(isEffect("{[]}"));
     </script>
     <script>
-      //
+      // 每日温度问题
+      // const arr = [73, 74, 75, 71, 69, 72, 76, 73];
+      // const dailyTemperatures = (arr) => {
+      //   const stack = [];
+      //   const len = arr.length;
+      //   const result = new Array(len).fill(0);
+      //   for (let i = 0; i < len; i++) {
+      //     while (stack.length && arr[i] > arr[stack[stack.length - 1]]) {
+      //       const top = stack.pop();
+      //       result[top] = i - top;
+      //     }
+      //     stack.push(i);
+      //   }
+      //   return result;
+      // };
+      // console.log(dailyTemperatures(arr));
     </script>
     <script>
-      //
+      // 最小栈
+      // class MinStack {
+      //   constructor() {
+      //     this.stack = [];
+      //     this.minStack = [];
+      //   }
+      //   push(x) {
+      //     this.stack.push(x);
+      //     if (
+      //       this.minStack.length === 0 ||
+      //       this.minStack[this.minStack.length - 1] >= x
+      //     ) {
+      //       this.minStack.push(x);
+      //     }
+      //   }
+      //   pop() {
+      //     if (this.stack.pop() === this.minStack[this.minStack.length - 1]) {
+      //       this.minStack.pop();
+      //     }
+      //   }
+      //   top() {
+      //     if (!this.stack.length) return;
+      //     return this.stack[this.stack.length - 1];
+      //   }
+      //   getMin() {
+      //     return this.minStack[this.minStack.length - 1];
+      //   }
+      // }
+      // const minStack = new MinStack();
+      // minStack.push(-2);
+      // minStack.push(0);
+      // minStack.push(-3);
+      // console.log(minStack.getMin());
+      // minStack.pop();
+      // console.log(minStack.top());
+      // console.log(minStack.getMin());
     </script>
     <script>
       // 反转链表
