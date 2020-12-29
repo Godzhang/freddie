@@ -19,7 +19,7 @@ class BinaryTree {
   static from(arr) {
     let lastNotLeafNodeIndex = ~~(arr.length / 2 - 1);
 
-    arr = arr.map(val => {
+    arr = arr.map((val) => {
       return val ? new TreeNode(val) : val;
     });
     for (let i = 0, len = arr.length; i < len; i++) {
@@ -179,13 +179,13 @@ class BinarySearchTree {
 
   toString(traverseFn = "inOrderTraverse") {
     const arr = [];
-    this[traverseFn](val => arr.push(val));
+    this[traverseFn]((val) => arr.push(val));
     return arr.join();
   }
 
   static from(arr) {
     const binarySearchTree = new BinarySearchTree();
-    arr.forEach(val => val != null && binarySearchTree.insert(val));
+    arr.forEach((val) => val != null && binarySearchTree.insert(val));
     return binarySearchTree;
   }
 
@@ -294,5 +294,22 @@ class BinarySearchTree {
   }
 }
 
-const getBinaryTree = arr => BinaryTree.from(arr);
-const getBinarySearchTree = arr => BinarySearchTree.from(arr).root;
+const getBinaryTree = (arr) => BinaryTree.from(arr);
+const getBinarySearchTree = (arr) => BinarySearchTree.from(arr).root;
+
+// 链表
+class ListNode {
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+function createLinkList(arr) {
+  let head = new ListNode(arr[0]);
+  let curr = head;
+  for (let i = 1; i < arr.length; i++) {
+    curr.next = new ListNode(arr[i]);
+    curr = curr.next;
+  }
+  return head;
+}
