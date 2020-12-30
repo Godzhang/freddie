@@ -313,3 +313,11 @@ function createLinkList(arr) {
   }
   return head;
 }
+function createRingList(arr, index = 0) {
+  arr = arr.map((item) => new ListNode(item));
+  for (let i = 0; i < arr.length - 1; i++) {
+    arr[i].next = arr[i + 1];
+  }
+  arr[arr.length - 1].next = arr[index];
+  return arr[0];
+}

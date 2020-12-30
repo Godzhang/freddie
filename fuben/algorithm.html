@@ -19,6 +19,24 @@
     <div class="container"></div>
 
     <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
       // 有效括号
       // const leftToRight = {
       //   "(": ")",
@@ -101,22 +119,117 @@
       // console.log(minStack.getMin());
     </script>
     <script>
-      //
+      // 第一个flag为true的就是入环点
+      // let list = createRingList([1, 2, 3, 4, 5], 2);
+      // let list2 = createLinkList([1, 2, 3, 4, 5]);
+      // const getConnectIndex = (head) => {
+      //   while (head) {
+      //     if (head.flag) {
+      //       return head;
+      //     } else {
+      //       head.flag = true;
+      //       head = head.next;
+      //     }
+      //   }
+      //   return null;
+      // };
+      // console.log(getConnectIndex(list));
+      // console.log(getConnectIndex(list2));
     </script>
     <script>
-      //
+      // 判断链表成环
+      // let list = createRingList([1, 2, 3, 4, 5], 2);
+      // let list2 = createLinkList([1, 2, 3, 4, 5]);
+      // 快慢指针
+      // const isRing = (head) => {
+      //   let slow = head;
+      //   let fast = head;
+      //   while (slow && fast && fast.next) {
+      //     slow = slow.next;
+      //     fast = fast.next.next;
+      //     if (slow === fast) return true;
+      //   }
+      //   return false;
+      // };
+      // 把走过的节点 设flag为true
+      // const isRing = (head) => {
+      //   while (head) {
+      //     if (head.flag) {
+      //       return true;
+      //     } else {
+      //       head.flag = true;
+      //       head = head.next;
+      //     }
+      //   }
+      //   return false;
+      // };
+      // console.log(isRing(list));
+      // console.log(isRing(list2));
     </script>
     <script>
-      //
+      // 局部反转链表
+      // let list = createLinkList([1, 2, 3, 4, 5]);
+      // const reverseLinkListInLocal = (head, m, n) => {
+      //   let prev, curr, leftHead;
+
+      //   const dummy = new ListNode();
+      //   dummy.next = head;
+      //   let p = dummy;
+      //   for (let i = 0; i < m - 1; i++) {
+      //     p = p.next;
+      //   }
+      //   leftHead = p;
+
+      //   let start = leftHead.next;
+      //   prev = start;
+      //   curr = prev.next;
+      //   for (let i = m; i < n; i++) {
+      //     let next = curr.next;
+      //     curr.next = prev;
+      //     prev = curr;
+      //     curr = next;
+      //   }
+      //   leftHead.next = prev;
+      //   start.next = curr;
+      //   return dummy.next;
+      // };
+      // console.log(reverseLinkListInLocal(list, 2, 4));
     </script>
     <script>
       // 反转链表
-      let list = createLinkList([1, 2, 3, 4, 5]);
-      const reverseLinkList = (head) => {
-        const dummy = new ListNode();
-        dummy.next = head;
-      };
-      console.log(reverseLinkList(list));
+      // let list = createLinkList([1, 2, 3, 4, 5]);
+      // m1
+      // const reverseLinkList = (head) => {
+      //   let dummy = null;
+      //   let curr = head;
+      //   while (curr) {
+      //     let next = curr.next;
+      //     curr.next = dummy;
+      //     dummy = curr;
+      //     curr = next;
+      //   }
+
+      //   return dummy;
+      // };
+      // 迭代法
+      // const reverseLinkList = (head) => {
+      //   let [prev, curr] = [null, head];
+      //   while (curr) {
+      //     [curr.next, prev, curr] = [prev, curr, curr.next];
+      //   }
+      //   return prev;
+      // };
+      // 尾递归法
+      // const reverse = (prev, curr) => {
+      //   if (!curr) return prev;
+      //   let tmp = curr.next;
+      //   curr.next = prev;
+      //   return reverse(curr, tmp);
+      // };
+      // const reverseLinkList = (head) => {
+      //   return reverse(null, head);
+      // };
+      // console.log(reverseLinkList(list));
     </script>
     <script>
       // 删除链表倒数第 N 个节点
