@@ -1,11 +1,14 @@
 <template>
   <div class="test">
     <img :src="src" alt />
-    <!-- <canvas ref="canvas" style="box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 0.5);"></canvas> -->
   </div>
+  <!-- <div class="test" ref="test">
+    <img src="../assets/atlas/red/1/4-1.jpg" alt />
+  </div>-->
 </template>
 <script>
-import { redAtlasCover } from "@/common/global/atlas";
+import { atlas, redAtlasCover } from "@/common/global/atlas";
+import getCompositionUrl from "@/common/utils/composition";
 
 const vw = document.body.clientWidth / 100;
 const imageWidth = 63.2 * vw * 2; // 261.648
@@ -14,84 +17,67 @@ const imageHeight = 94.4 * vw * 2; // 390.816
 export default {
   data() {
     return {
-      src: ""
+      src: "",
+      iframe: null
     };
   },
   mounted() {
     this.init();
   },
   methods: {
-    init() {
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-      canvas.width = imageWidth;
-      canvas.height = imageHeight;
-
-      const loadImage = this.loadImage(redAtlasCover[0]);
-      const loadBox = this.loadBox();
-
-      Promise.all([loadImage, loadBox]).then(
-        ([{ img, width, height }, box]) => {
-          if (imageWidth === width) {
-            context.drawImage(
-              img,
-              0,
-              (imageHeight - height) / 2,
-              width,
-              height
-            );
-          } else if (imageHeight === height) {
-            context.drawImage(img, (imageWidth - width) / 2, 0, width, height);
-          }
-          context.drawImage(box, 0, 0, imageWidth, imageHeight);
-
-          this.src = canvas.toDataURL();
-        }
-      );
-    },
-    loadImage(src) {
-      const boxRatio = imageWidth / imageHeight;
-      return new Promise(resolve => {
-        const img = new Image();
-        img.onload = () => {
-          const width = img.width;
-          const height = img.height;
-          const ratio = width / height;
-          if (boxRatio < ratio) {
-            resolve({
-              img,
-              width: (imageHeight * width) / height,
-              height: imageHeight
-            });
-          } else {
-            resolve({
-              img,
-              width: imageWidth,
-              height: (imageWidth * height) / width
-            });
-          }
-        };
-        img.onerror = resolve;
-        img.src = src;
-      });
-    },
-    loadBox() {
-      return new Promise(resolve => {
-        const img = new Image();
-        img.onload = () => {
-          resolve(img);
-        };
-        img.src = require("../assets/shuffle/red-box.png");
-      });
+    async init() {
+      // const pics = atlas.red.reduce((res, curr) => [...res, ...curr], []);
+      let color = "yellow";
+      const pics = atlas[color][0];
+      const result = await getCompositionUrl(pics, color);
+      this.src = result[2];
     }
   }
 };
 </script>
 <style lang="scss" scoped>
+@keyframes narrow {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(13.47vw, 20vw, 0);
+    width: 63.2vw;
+    height: 94.4vw;
+  }
+}
+
+@keyframes move {
+  0% {
+    transform: translate3d(-50%, -50%, 0);
+  }
+  100% {
+    transform: translate3d(-48%, -50%, 0);
+  }
+}
+@keyframes move-delay {
+  0% {
+    height: 100%;
+  }
+  100% {
+    height: 94.4vw;
+  }
+}
+
 .test {
   position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  // animation: narrow 1s 2s ease-in-out forwards;
+  // img {
+  //   position: absolute;
+  //   top: 50%;
+  //   left: 50%;
+  //   height: 100%;
+  //   transform: translate3d(-50%, -50%, 0);
+  //   animation: move 2s linear forwards, move-delay 1s 2s ease-in-out forwards;
+  // }
   img {
     position: absolute;
     top: 50%;
@@ -100,6 +86,12 @@ export default {
     width: 63.2vw;
     height: 94.4vw;
     box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 0.5);
+  }
+  .audio {
+    // position: absolute;
+    // top: 0;
+    // left: -9999px;
+    // visibility: hidden;
   }
 }
 </style>

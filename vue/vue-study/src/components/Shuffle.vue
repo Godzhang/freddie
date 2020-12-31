@@ -1,27 +1,25 @@
 <template>
   <div class="shuffle" ref="shuffle">
     <div class="back">
-      <div class="lamp red"></div>
-      <div class="light red"></div>
+      <div :class="['lamp', type]"></div>
+      <div :class="['light', type]"></div>
     </div>
-    <div class="return-btn" @click="backToCover">
+    <div class="return-btn" @click="backToPage(1)">
       <img src="../assets/shuffle/return-btn.png" alt class="btn" />
     </div>
+    <!-- <div class="vote-box">
+      <span class="vote-num">0</span>
+      <span class="vote-done">已投票</span>
+      <div :class="['vote-btn', type]">
+        <span class="txt">投票</span>
+      </div>
+    </div>-->
     <div class="show">
       <div class="command red"></div>
-      <swiper ref="mySwiper" :options="swiperOptions">
-        <swiper-slide v-for="(image, index) in red" :key="index">
-          <div
-            class="image-box"
-            ref="imageBox"
-            swiper-animate-effect="fadeInUp"
-            swiper-animate-duration="0.5s"
-            swiper-animate-delay="0.3s"
-          >
-            <img class="image" :src="image" :style="imageStyles[index]" alt />
-            <div class="mask red"></div>
-            <!-- <div class="text">许昕</div> -->
-            <div class="erweima"></div>
+      <swiper ref="mySwiper" :options="swiperOptions" @click="showDetail">
+        <swiper-slide v-for="(image, index) in swiperAtlas" :key="index">
+          <div class="image-box" ref="imageBox">
+            <img class="image" :src="image" alt />
           </div>
         </swiper-slide>
       </swiper>
@@ -32,18 +30,18 @@
 <script>
 import Velocity from "velocity-animate";
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
-import { redAtlas } from "@/common/global/atlas";
+import { altasCover, redAtlas } from "@/common/global/atlas";
+import { gradientColors, shuffleBgColors } from "@/common/global/colors";
 import getCompositionUrl from "@/common/utils/composition";
 import TweenMax from "gsap";
-
-const redAtlasCovers = redAtlas.map(item => item[item.length - 1]);
 
 export default {
   inject: ["store"],
   data() {
     return {
-      red: redAtlasCovers,
-      imageStyles: [],
+      type: "red",
+      images: [],
+      swiperAtlas: [],
       swiperOptions: {
         loop: true,
         speed: 400,
@@ -64,66 +62,54 @@ export default {
     };
   },
   mounted() {
-    this.init();
+    this.initType(this.store.colorType);
     this.$watch("store.step", step => {
       if (step === 3) {
         Velocity(
           this.$refs.shuffle,
-          { translateY: 0, opacity: 1 },
+          { translateY: "0", opacity: 1 },
           { duration: 0, mobileHA: false }
         );
         setTimeout(() => {
-          this.$refs.mySwiper.$el.classList.add("shake");
+          this.swiper.slideToLoop(this.store.groupIndex, 0);
         }, 300);
       }
     });
-    this.$watch("store.detailType", type => {});
+    this.$watch("store.colorType", type => {
+      this.initType(type);
+    });
   },
   computed: {
     swiper() {
       return this.$refs.mySwiper.$swiper;
     }
   },
+  watch: {
+    async images(images) {
+      this.swiperAtlas = await getCompositionUrl(images, this.type);
+    }
+  },
   methods: {
-    init() {
-      this.initStyles();
+    initType(type) {
+      this.type = type;
+      this.images = altasCover[type];
+      this.$refs.shuffle.style.backgroundColor = shuffleBgColors[type];
     },
-    initStyles() {
-      const imageBox = this.$refs.imageBox[0];
-      const boxWidth = window.getComputedStyle(imageBox).width.slice(0, -2);
-      const boxHeight = window.getComputedStyle(imageBox).height.slice(0, -2);
-      const boxRatio = boxWidth / boxHeight;
-      const reqs = this.red.map(src => {
-        return new Promise(resolve => {
-          const img = new Image();
-          img.onload = () => {
-            const width = img.width;
-            const height = img.height;
-            const ratio = width / height;
-            if (boxRatio < ratio) {
-              resolve({
-                width: (boxHeight * width) / height + "px",
-                height: boxHeight + "px"
-              });
-            } else {
-              resolve({
-                width: boxWidth + "px",
-                height: (boxWidth * height) / width + "px"
-              });
-            }
-          };
-          img.onerror = resolve;
-          img.src = src;
-        });
-      });
-      Promise.all(reqs).then(res => {
-        this.imageStyles = res;
-      });
-    },
-    async backToCover() {
-      this.store.setStep(1);
-      await Velocity(this.$refs.shuffle, { opacity: 0 }, { duration: 1000 });
-      Velocity(this.$refs.shuffle, { translateY: "-100%" }, { duration: 0 });
+    async backToPage(pageNum) {
+      const shuffle = this.$refs.shuffle;
+      const prevzIndex = shuffle.style.zIndex;
+      shuffle.style.zIndex = 10000;
+      this.store.setStep(pageNum);
+      await Velocity(
+        shuffle,
+        { opacity: 0 },
+        { duration: 1000, mobileHA: false }
+      );
+      shuffle.style.transform = `translateY(-100%)`;
+      shuffle.style.zIndex = prevzIndex;
+      if (pageNum === 2) {
+        this.$audio.play("play-bg");
+      }
     },
     setTranslate(swiper, translate) {
       const { activeIndex, slides } = swiper;
@@ -151,6 +137,11 @@ export default {
         const opacity = scale > 0.6 ? 1 : 0;
         TweenMax.to(slide, 0.3, { scale, opacity });
       });
+    },
+    showDetail() {
+      const groupIndex = this.swiper.realIndex;
+      this.store.setGroupIndex(groupIndex);
+      this.backToPage(2);
     }
   },
   components: {
@@ -160,24 +151,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@keyframes shake {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
 .shuffle {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #cd3020;
   z-index: 96;
   opacity: 0;
   &.red {
@@ -185,12 +164,97 @@ export default {
   }
   .return-btn {
     position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 88.3vw;
+    top: 4.25vw;
+    right: 0;
+    width: 20vw;
     img {
       width: 100%;
+    }
+  }
+  .vote-box {
+    $vote-box-height: 9vw;
+    $vote-skew-deg: -20deg;
+    box-sizing: border-box;
+    position: absolute;
+    top: 10vw;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 32vw;
+    height: $vote-box-height;
+    color: #fff;
+    padding: 0 16vw 0 0;
+    text-align: center;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      transform: skew($vote-skew-deg);
+    }
+    .vote-num {
+      position: relative;
+      display: inline-block;
+      height: $vote-box-height;
+      line-height: $vote-box-height;
+      padding: 0 2vw;
+    }
+    .vote-done {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: $vote-box-height;
+      line-height: $vote-box-height;
+      padding-right: 2vw;
+    }
+    .vote-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 15vw;
+      height: $vote-box-height;
+      line-height: $vote-box-height;
+      text-align: center;
+      .txt {
+        position: relative;
+        text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+      }
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform: skew($vote-skew-deg);
+      }
+      &.red {
+        &::before {
+          background-color: #ffa868;
+        }
+      }
+      &.green {
+        &::before {
+          background-color: #ffeb68;
+        }
+      }
+      &.blue {
+        &::before {
+          background-color: #68a4ff;
+        }
+      }
+      &.white {
+        &::before {
+          background-color: #ffffff;
+        }
+      }
+      &.yellow {
+        &::before {
+          background-color: #7eff4b;
+        }
+      }
     }
   }
   .back {
@@ -206,8 +270,30 @@ export default {
       transform: translateX(-50%);
       width: 67.87vw;
       height: 18.13vw;
+      // @each $color in red, green, blue, white, yellow {
+      //   &.#{$color} {
+      //     background: url("~@/assets/shuffle/#{$color}-lamp.png") 0 0 no-repeat;
+      //     background-size: 100% 100%;
+      //   }
+      // }
       &.red {
-        background: url(../assets/shuffle/red-lamp.png) 0 0 no-repeat;
+        background: url("~@/assets/shuffle/red-lamp.png") 0 0 no-repeat;
+        background-size: 100% 100%;
+      }
+      &.green {
+        background: url("~@/assets/shuffle/green-lamp.png") 0 0 no-repeat;
+        background-size: 100% 100%;
+      }
+      &.blue {
+        background: url("~@/assets/shuffle/blue-lamp.png") 0 0 no-repeat;
+        background-size: 100% 100%;
+      }
+      &.white {
+        background: url("~@/assets/shuffle/white-lamp.png") 0 0 no-repeat;
+        background-size: 100% 100%;
+      }
+      &.yellow {
+        background: url("~@/assets/shuffle/yellow-lamp.png") 0 0 no-repeat;
         background-size: 100% 100%;
       }
     }
@@ -217,8 +303,33 @@ export default {
       bottom: 7vw;
       width: 100%;
       height: 117.47vw;
+      // @each $color in red, green, blue, white, yellow {
+      //   &.#{$color} {
+      //     background: url("~@/assets/shuffle/#{$color}-light.png")
+      //       0
+      //       0
+      //       no-repeat;
+      //     background-size: 100% 100%;
+      //   }
+      // }
       &.red {
-        background: url(../assets/shuffle/red-light.png) 0 0 no-repeat;
+        background: url("~@/assets/shuffle/red-light.png") 0 0 no-repeat;
+        background-size: 100% 100%;
+      }
+      &.green {
+        background: url("~@/assets/shuffle/green-light.png") 0 0 no-repeat;
+        background-size: 100% 100%;
+      }
+      &.blue {
+        background: url("~@/assets/shuffle/blue-light.png") 0 0 no-repeat;
+        background-size: 100% 100%;
+      }
+      &.white {
+        background: url("~@/assets/shuffle/white-light.png") 0 0 no-repeat;
+        background-size: 100% 100%;
+      }
+      &.yellow {
+        background: url("~@/assets/shuffle/yellow-light.png") 0 0 no-repeat;
         background-size: 100% 100%;
       }
     }
@@ -240,9 +351,6 @@ export default {
     overflow: visible;
     /deep/ .swiper-slide {
       box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 0.5);
-    }
-    &.shake {
-      animation: shake 5s ease-in-out infinite;
     }
   }
   .swiper-pagination {
@@ -267,37 +375,6 @@ export default {
       left: 50%;
       transform: translate(-50%, -50%);
       width: 100%;
-    }
-    .mask {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      color: #fff;
-      &.red {
-        background: url(../assets/shuffle/red-box.png) 0 0 no-repeat;
-        background-size: 100% 100%;
-      }
-    }
-    .text {
-      position: absolute;
-      top: 10%;
-      right: 15%;
-      font-size: 20px;
-      font-weight: bold;
-      color: #fff;
-      letter-spacing: 4px;
-      text-shadow: 2px 3px 2px rgba($color: #000000, $alpha: 0.5);
-    }
-    .erweima {
-      position: absolute;
-      bottom: 3%;
-      right: 5%;
-      width: 12.53vw;
-      height: 16.27vw;
-      background: url(../assets/shuffle/erweima.png) 0 0 no-repeat;
-      background-size: 100% 100%;
     }
   }
   .command {

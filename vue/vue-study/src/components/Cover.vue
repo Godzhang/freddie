@@ -3,7 +3,7 @@
     <div class="cover-bg" ref="coverBg"></div>
     <div class="lamp-box" ref="lampBox">
       <swiper ref="mySwiper" :options="swiperOptions">
-        <swiper-slide v-for="color in themes" :key="color">
+        <swiper-slide v-for="color in themes" :key="color" :data-color="color">
           <div :class="['lamp-item']" ref="lamp">
             <div class="gradient"></div>
             <div :class="['lamp', color]"></div>
@@ -17,12 +17,11 @@
       <div class="round" ref="round"></div>
       <div class="round-mask"></div>
     </div>
+    <div class="note" ref="note">
+      <img class="text-pic" src="../assets/cover/color-sport.png" />
+    </div>
     <div class="flash" ref="flash"></div>
-    <!-- <div style="position: absolute;top:0;left:0;color:#fff;width: 400px;height: 200px">
-      <div>width: {{documentWidth}}</div>
-      <div>height:{{documentHeight}}</div>
-      <div>ratio:{{documentWidth/documentHeight}}</div>
-    </div>-->
+    <!-- <a :class="['vote-entry', store.colorType]" ref="voteEntry"></a> -->
   </div>
 </template>
 <script>
@@ -34,6 +33,7 @@ import {
   coverBgColors
 } from "@/common/global/colors.js";
 import {
+  hexToRgba,
   colorMix,
   getMixColorRgbStr,
   actionByPercentage,
@@ -41,6 +41,7 @@ import {
   clip,
   once
 } from "@/common/utils/utils.js";
+import { atlas, flattenAtlas } from "@/common/global/atlas";
 import Slider from "./Slider";
 import { Verify } from "crypto";
 
@@ -59,12 +60,15 @@ export default {
       documentHeight,
       initIndex: 0,
       theme: "red",
+      themes,
       percentage: 0,
       timer: null,
-      themes,
+      moveDir: "right",
+      isSliding: false,
+      savedActiveIndex: 0,
       swiperOptions: {
         initialSlide: 0,
-        touchRatio: 0.3,
+        touchRatio: 0.25,
         watchSlidesProgress: true,
         slidesPerView: 5,
         centeredSlides: true,
@@ -83,7 +87,15 @@ export default {
           transitionEnd: () => {
             this.$nextTick(() => {
               this.theme = themes[this.swiper.realIndex];
+              this.store.setType(this.theme);
+              this.savedActiveIndex = this.swiper.activeIndex;
             });
+          },
+          slideNextTransitionStart: swiper => {
+            this.moveDir = "right";
+          },
+          slidePrevTransitionStart: swiper => {
+            this.moveDir = "left";
           }
         }
       }
@@ -92,6 +104,7 @@ export default {
   created() {
     this.initIndex = Math.floor(Math.random() * 5);
     this.theme = themes[this.initIndex];
+    this.store.setType(this.theme);
     this.swiperOptions.initialSlide = this.initIndex;
   },
   mounted() {
@@ -102,7 +115,10 @@ export default {
         this.resetLamp();
         this.resetAround();
         this.$refs.slider.resetButton(true);
+        if (this.timer) clearTimeout(this.timer);
         this.pollLight();
+        this.store.setGroupIndex(0);
+        this.resetPage();
       }
     });
   },
@@ -119,7 +135,12 @@ export default {
   },
   watch: {
     theme(theme) {
-      Velocity(this.$refs.coverBg, { backgroundColor: coverBgColors[theme] });
+      const coverBg = this.$refs.coverBg;
+      const coverBgColor = coverBg.style.backgroundColor.slice(4, -1);
+      const bgColor = hexToRgba(coverBgColors[theme]).rgbStr;
+      if (coverBgColor !== bgColor) {
+        Velocity(coverBg, { backgroundColor: coverBgColors[theme] });
+      }
     }
   },
   methods: {
@@ -130,20 +151,55 @@ export default {
     load() {
       const load = this.$refs.load;
       const round = this.$refs.round;
-      const lampUrl = require("../assets/cover/lamp-red.png");
-      const img = new Image();
-      img.onload = () => {
-        setTimeout(() => {
-          Velocity(load, { opacity: 0 }, { duration: 300 }).then(() => {
-            this.showPage();
-            this.initSlide();
-            Velocity(load, { translateY: "-100%" }, { duration: 0 });
-          });
-        }, 1000);
-      };
+      // const lampUrl = require("../assets/cover/lamp-red.png");
+      // const img = new Image();
+      // img.onload = () => {
+      //   setTimeout(() => {
+      //     Velocity(load, { opacity: 0 }, { duration: 300 }).then(() => {
+      //       this.showPage();
+      //       this.initSlide();
+      //       this.bindSwiper();
+      //       Velocity(load, { translateY: "-100%" }, { duration: 0 });
+      //     });
+      //   }, 1000);
+      // };
 
-      round.classList.add("animate");
-      img.src = lampUrl;
+      // round.classList.add("animate");
+      // img.src = lampUrl;
+      const loadReqs = flattenAtlas[this.theme].map(url => {
+        return new Promise(resolve => {
+          const img = new Image();
+          img.onload = resolve;
+          img.onerror = resolve;
+          img.src = url;
+        });
+      });
+      Promise.all(loadReqs).then(() => {
+        Velocity(load, { opacity: 0 }, { duration: 300 }).then(() => {
+          this.showPage();
+          this.initSlide();
+          this.bindSwiper();
+          Velocity(load, { translateY: "-100%" }, { duration: 0 });
+          this.preloadImages();
+        });
+      });
+    },
+    preloadImages() {
+      let result = [];
+      for (let key in flattenAtlas) {
+        if (key !== this.theme) {
+          result = result.concat(flattenAtlas[key]);
+        }
+      }
+      const loadReqs = result.map(url => {
+        return new Promise(resolve => {
+          const img = new Image();
+          img.onload = resolve;
+          img.onerror = resolve;
+          img.src = url;
+        });
+      });
+      Promise.all(loadReqs);
     },
     bindAudio() {
       const slider = this.$refs.slider.$el;
@@ -156,6 +212,26 @@ export default {
         }
       });
     },
+    bindSwiper() {
+      const swiperDom = this.$refs.mySwiper.$el;
+      let startX = 0;
+
+      swiperDom.addEventListener("touchstart", e => {
+        this.isSliding = true;
+        startX = e.touches[0].clientX;
+      });
+      swiperDom.addEventListener("touchmove", e => {
+        if (!this.isSliding) return;
+        if (e.touches[0].clientX - startX < 0) {
+          this.moveDir = "right";
+        } else {
+          this.moveDir = "left";
+        }
+      });
+      swiperDom.addEventListener("touchend", () => {
+        this.isSliding = false;
+      });
+    },
     showPage() {
       Velocity(
         this.$refs.lampBox,
@@ -166,6 +242,19 @@ export default {
         this.$refs.slider.$el,
         { opacity: 1 },
         { duration: 800, delay: 400, mobileHA: false }
+      );
+      Velocity(
+        this.$refs.note,
+        { opacity: 1 },
+        { duration: 800, delay: 400, mobileHA: false }
+      );
+      Velocity(
+        this.$refs.voteEntry,
+        {
+          translateX: ["0%", "100%"],
+          opacity: 1
+        },
+        { duration: 800, delay: 800, mobileHA: false }
       );
       setTimeout(() => {
         this.pollLight();
@@ -180,59 +269,13 @@ export default {
         this.animationToNext();
       }
     },
-    resetLamp() {
-      const { cover } = this.$refs;
-      const currentLamp = this.swiper.slides[this.swiper.activeIndex]
-        .children[0];
-      const [gradient, lamp, lampLight] = currentLamp.childNodes;
-
-      gradient.style.boxShadow = `0 0 0px 0px rgba(0,0,0,0)`;
-      Velocity(cover, { translateY: 0 }, { duration: 0, mobileHA: false });
-      Velocity(lamp, { opacity: 1 }, { duration: 0, mobileHA: false });
-      Velocity(
-        this.$refs.slider.$el,
-        { opacity: 1 },
-        { duration: 0, mobileHA: false }
-      );
-      Velocity(
-        cover,
-        { translateY: 0, opacity: 1 },
-        { duration: 500, mobileHA: false }
-      );
-    },
-    resetAround() {
-      const currentSlide = this.swiper.slides[this.swiper.activeIndex];
-      const parent = currentSlide.parentNode;
-      const childs = Array.from(parent.childNodes);
-      const index = childs.findIndex(child => child === currentSlide);
-
-      Velocity(
-        childs[index - 2],
-        { opacity: 1 },
-        { duration: 0, mobileHA: false }
-      );
-      Velocity(
-        childs[index - 1],
-        { opacity: 1 },
-        { duration: 0, mobileHA: false }
-      );
-      Velocity(
-        childs[index + 1],
-        { opacity: 1 },
-        { duration: 0, mobileHA: false }
-      );
-      Velocity(
-        childs[index + 2],
-        { opacity: 1 },
-        { duration: 0, mobileHA: false }
-      );
-    },
     async animationToNext() {
       const cover = this.$refs.cover;
       const currentLamp = this.swiper.slides[this.swiper.activeIndex]
         .children[0];
       const [gradient, lamp, lampLight] = currentLamp.childNodes;
 
+      this.store.nextStep();
       Velocity(lampLight, { opacity: 0 }, { duration: 300, mobileHA: false });
       Velocity(lamp, { opacity: 0 }, { duration: 300, mobileHA: false });
       await Velocity(
@@ -240,8 +283,17 @@ export default {
         { opacity: 0 },
         { duration: 500, delay: 250, mobileHA: false }
       );
+      Velocity(
+        this.$refs.voteEntry,
+        { opacity: 0 },
+        { duration: 500, mobileHA: false }
+      );
+      Velocity(
+        this.$refs.note,
+        { opacity: 0 },
+        { duration: 500, mobileHA: false }
+      );
 
-      this.store.nextStep();
       await Velocity(
         cover,
         { opacity: 0 },
@@ -252,6 +304,8 @@ export default {
         { translateY: "-100%" },
         { duration: 0, mobileHA: false }
       );
+      // 因为要播放整个图集，轮播图要定位到最后一张
+      // this.store.setGroupIndex(atlas[this.store.colorType].length - 1);
     },
     initSlide() {
       const slides = this.swiper.slides;
@@ -294,25 +348,43 @@ export default {
         } else {
           lamp.style.filter = `brightness(${activeIndex === i ? 1 : 0.3})`;
           opacity = activeIndex === i ? 1 : 0.3;
-          // if (activeIndex === i) {
-          //   coverBg.style.backgroundColor = `rgba(${colorMix()}, 1)`
-          //   console.log(slideProgress);
-          // }
+          if (activeIndex === i) {
+            this.changeCoverBg(slideProgress);
+          }
         }
 
         Velocity(slide, { translateY, scale, zIndex }, { duration: 0 });
       }
     },
+    changeCoverBg(progress) {
+      if (!this.isSliding) return;
+      const { slides } = this.swiper;
+      const activeIndex = this.savedActiveIndex;
+      const color = slides[activeIndex].dataset.color;
+      let nextColor = "";
+      let ratio = 1;
+      if (this.moveDir === "right") {
+        nextColor = slides[activeIndex + 1].dataset.color;
+        ratio = progress > 0 ? progress : progress + 1;
+      } else {
+        nextColor = slides[activeIndex - 1].dataset.color;
+        ratio = progress < 0 ? Math.abs(progress) : 1 - progress;
+      }
+      const mixColor = `rgba(${getMixColorRgbStr(
+        coverBgColors[color],
+        coverBgColors[nextColor],
+        ratio
+      )}, 1)`;
+      this.$refs.coverBg.style.backgroundColor = mixColor;
+      this.$refs.slider.transitionColor(color, nextColor, ratio);
+    },
     switchLamp(percentage) {
       const currentLamp = this.swiper.slides[this.swiper.activeIndex]
         .children[0];
       const [gradient, lamp, lampLight] = currentLamp.childNodes;
-      Velocity(
-        lampLight,
-        { opacity: clip(percentage + 0.5, 0, 1) },
-        { duration: 0 }
-      );
-      Velocity(lamp, { opacity: 1 - percentage }, { duration: 0 });
+
+      lampLight.style.opacity = clip(percentage + 0.5, 0, 1);
+      lamp.style.opacity = 1 - percentage;
       gradient.style.boxShadow = `0 0 ${120}px ${(percentage * documentHeight) /
         1.2}px rgba(${gradientRgbColors[this.theme]}, 0.5)`;
     },
@@ -328,26 +400,36 @@ export default {
         ratio = 0;
       }
 
-      Velocity(
-        childs[index - 2],
-        { opacity: ratio },
-        { duration: 0, mobileHA: false }
-      );
-      Velocity(
-        childs[index - 1],
-        { opacity: ratio },
-        { duration: 0, mobileHA: false }
-      );
-      Velocity(
-        childs[index + 1],
-        { opacity: ratio },
-        { duration: 0, mobileHA: false }
-      );
-      Velocity(
-        childs[index + 2],
-        { opacity: ratio },
-        { duration: 0, mobileHA: false }
-      );
+      childs[index - 2].style.opacity = ratio;
+      childs[index - 1].style.opacity = ratio;
+      childs[index + 1].style.opacity = ratio;
+      childs[index + 2].style.opacity = ratio;
+    },
+    resetLamp() {
+      const currentLamp = this.swiper.slides[this.swiper.activeIndex]
+        .children[0];
+      const [gradient, lamp, lampLight] = currentLamp.childNodes;
+
+      gradient.style.boxShadow = `0 0 0px 0px rgba(0,0,0,0)`;
+      lamp.style.opacity = 1;
+      this.$refs.slider.$el.style.opacity = 1;
+    },
+    resetAround() {
+      const currentSlide = this.swiper.slides[this.swiper.activeIndex];
+      const parent = currentSlide.parentNode;
+      const childs = Array.from(parent.childNodes);
+      const index = childs.findIndex(child => child === currentSlide);
+
+      childs[index - 2].style.opacity = 1;
+      childs[index - 1].style.opacity = 1;
+      childs[index + 1].style.opacity = 1;
+      childs[index + 2].style.opacity = 1;
+    },
+    resetPage() {
+      // this.$refs.voteEntry.style.opacity = 1;
+      this.$refs.note.style.opacity = 1;
+      this.$refs.cover.style.opacity = 1;
+      this.$refs.cover.style.transform = `translateY(0)`;
     },
     pollLight(prevIndex = -1) {
       const fn = async () => {
@@ -385,16 +467,10 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/animate.scss";
 
-// $lamp-small-width: 44vw;
-// $lamp-small-height: 115vw;
 $lamp-width: 44vw;
 $lamp-height: 115vw;
 // $lamp-width: 47.07vw;
 // $lamp-height: 129.6vw;
-// @media screen and (max-height: 650px) {
-//   $lamp-width: 40vw;
-//   $lamp-height: 65vh;
-// }
 
 @keyframes roundExpand {
   0% {
@@ -459,24 +535,30 @@ $lamp-height: 115vw;
         left: 0;
         width: 100%;
         height: 100%;
+        // @each $color in red, green, blue, white, yellow {
+        //   &.#{$color} {
+        //     background: url("~@/assets/cover/#{$color}-lamp.png") 0 0 no-repeat;
+        //     background-size: 100% 100%;
+        //   }
+        // }
         &.red {
-          background: url(../assets/cover/lamp-red.png) 0 0 no-repeat;
+          background: url("../assets/cover/red-lamp.png") 0 0 no-repeat;
           background-size: 100% 100%;
         }
         &.green {
-          background: url(../assets/cover/lamp-green.png) 0 0 no-repeat;
+          background: url("../assets/cover/green-lamp.png") 0 0 no-repeat;
           background-size: 100% 100%;
         }
         &.blue {
-          background: url(../assets/cover/lamp-blue.png) 0 0 no-repeat;
+          background: url("../assets/cover/blue-lamp.png") 0 0 no-repeat;
           background-size: 100% 100%;
         }
         &.white {
-          background: url(../assets/cover/lamp-white.png) 0 0 no-repeat;
+          background: url("../assets/cover/white-lamp.png") 0 0 no-repeat;
           background-size: 100% 100%;
         }
         &.yellow {
-          background: url(../assets/cover/lamp-yellow.png) 0 0 no-repeat;
+          background: url("../assets/cover/yellow-lamp.png") 0 0 no-repeat;
           background-size: 100% 100%;
         }
       }
@@ -487,24 +569,33 @@ $lamp-height: 115vw;
         width: 100%;
         height: 100%;
         opacity: 0;
+        // @each $color in red, green, blue, white, yellow {
+        //   &.#{$color} {
+        //     background: url("~@/assets/cover/#{$color}-lamp-light.png")
+        //       0
+        //       0
+        //       no-repeat;
+        //     background-size: 100% 100%;
+        //   }
+        // }
         &.red {
-          background: url(../assets/cover/lamp-red-light.png) 0 0 no-repeat;
+          background: url("~@/assets/cover/red-lamp-light.png") 0 0 no-repeat;
           background-size: 100% 100%;
         }
         &.green {
-          background: url(../assets/cover/lamp-green-light.png) 0 0 no-repeat;
+          background: url("~@/assets/cover/green-lamp-light.png") 0 0 no-repeat;
           background-size: 100% 100%;
         }
         &.blue {
-          background: url(../assets/cover/lamp-blue-light.png) 0 0 no-repeat;
+          background: url("~@/assets/cover/blue-lamp-light.png") 0 0 no-repeat;
           background-size: 100% 100%;
         }
         &.white {
-          background: url(../assets/cover/lamp-white-light.png) 0 0 no-repeat;
+          background: url("~@/assets/cover/white-lamp-light.png") 0 0 no-repeat;
           background-size: 100% 100%;
         }
         &.yellow {
-          background: url(../assets/cover/lamp-yellow-light.png) 0 0 no-repeat;
+          background: url("~@/assets/cover/yellow-lamp-light.png") 0 0 no-repeat;
           background-size: 100% 100%;
         }
       }
@@ -530,6 +621,17 @@ $lamp-height: 115vw;
       animation: roundExpand 1.5s linear infinite;
     }
   }
+  .note {
+    position: absolute;
+    bottom: 5vw;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 13vw;
+    opacity: 0;
+    .text-pic {
+      width: 100%;
+    }
+  }
   .flash {
     position: absolute;
     top: 0;
@@ -542,6 +644,44 @@ $lamp-height: 115vw;
     &.animate {
       display: block;
       animation: flash 0.6s ease forwards;
+    }
+  }
+  .vote-entry {
+    display: block;
+    position: absolute;
+    top: 5.33vw;
+    right: 0;
+    width: 37.73vw;
+    height: 9.07vw;
+    opacity: 0;
+    // @each $color in red, green, blue, white, yellow {
+    //   &.#{$color} {
+    //     background: url("../assets/vote/vote-entry-#{$color}.png")
+    //       0
+    //       0
+    //       no-repeat;
+    //     background-size: 100% 100%;
+    //   }
+    // }
+    &.red {
+      background: url("../assets/vote/vote-entry-red.png") 0 0 no-repeat;
+      background-size: 100% 100%;
+    }
+    &.green {
+      background: url("../assets/vote/vote-entry-green.png") 0 0 no-repeat;
+      background-size: 100% 100%;
+    }
+    &.blue {
+      background: url("../assets/vote/vote-entry-blue.png") 0 0 no-repeat;
+      background-size: 100% 100%;
+    }
+    &.white {
+      background: url("../assets/vote/vote-entry-white.png") 0 0 no-repeat;
+      background-size: 100% 100%;
+    }
+    &.yellow {
+      background: url("../assets/vote/vote-entry-yellow.png") 0 0 no-repeat;
+      background-size: 100% 100%;
     }
   }
 }

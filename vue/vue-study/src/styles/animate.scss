@@ -1,12 +1,12 @@
 // 红色 放大图 清晰化动画
-@keyframes redFirstClarity {
+@keyframes Red0Clarity {
   0%,
   11% {
-    transform: translate(-342%, -50%) scale(35);
+    transform: translate(-50%, -50%) scale(10);
     filter: blur(0);
   }
   12% {
-    transform: translate(-342%, -50%) scale(35);
+    transform: translate(-50%, -50%) scale(10);
     filter: blur(5px);
   }
   50% {
@@ -17,22 +17,115 @@
     transform: translate(-50%, -50%) scale(1);
   }
 }
+
+@keyframes White0Clarity {
+  0%,
+  11% {
+    transform: translate(-50%, -650%) scale(15);
+    filter: blur(0);
+  }
+  12% {
+    transform: translate(-50%, -650%) scale(15);
+    filter: blur(5px);
+  }
+  50% {
+    transform: translate(-52%, -50%) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes Green0Clarity {
+  0%,
+  11% {
+    transform: translate(-80%, -200%) scale(15);
+    filter: blur(0);
+  }
+  12% {
+    transform: translate(-80%, -200%) scale(15);
+    filter: blur(5px);
+  }
+  50% {
+    transform: translate(-52%, -50%) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes Blue0Clarity {
+  0%,
+  11% {
+    transform: translate(50%, -50%) scale(25);
+    filter: blur(0);
+  }
+  12% {
+    transform: translate(50%, -50%) scale(25);
+    filter: blur(5px);
+  }
+  50% {
+    transform: translate(-52%, -50%) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes Yellow0Clarity {
+  0%,
+  11% {
+    transform: translate(-135%, -270%) scale(15);
+    filter: blur(0);
+  }
+  12% {
+    transform: translate(-135%, -270%) scale(15);
+    filter: blur(5px);
+  }
+  50% {
+    transform: translate(-52%, -50%) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes publicClarity {
+  0%,
+  11% {
+    transform: translate(-50%, -50%) scale(15);
+    filter: blur(0);
+  }
+  12% {
+    transform: translate(-50%, -50%) scale(15);
+    filter: blur(5px);
+  }
+  50% {
+    transform: translate(-52%, -50%) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
 // 红色 最后一张图缩小定位动画
-@keyframes redFirstNarrow {
+@keyframes RedFirstNarrow {
   0% {
   }
   100% {
-    // top: 75.53vw;
-    // left: 44.9vw;
-    height: 94.4vw;
-    transform: translateX(-50%) translateY(-50%);
+    height: 100%;
   }
 }
 
 // 照相机闪光效果
 @keyframes flash {
   0%,
-  20% {
+  30% {
     opacity: 1;
   }
   100% {

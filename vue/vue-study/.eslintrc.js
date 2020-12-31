@@ -18,6 +18,7 @@ module.exports = {
     "prefer-const": "off",
     "no-useless-return": "off",
     camelcase: "off",
-    "vue/no-unused-components": "off"
+    "vue/no-unused-components": "off",
+    "no-loop-func": "off"
   }
 };

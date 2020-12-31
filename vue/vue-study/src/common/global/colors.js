@@ -27,16 +27,6 @@ export const coverBgColors = {
   yellow: "#62550c"
 };
 
-// 滑动条颜色
-// export const sliderColors = {
-//   init: "#7a8284",
-//   red: "#ea3744",
-//   green: "#2cd51a",
-//   blue: "#37d3ea",
-//   white: "#ffffff",
-//   yellow: "#c7c11b"
-// };
-
 // 滑动条颜色区间
 export const sliderIntervalColors = {
   red: ["#bf1d29", "#ea3744"],
@@ -44,4 +34,12 @@ export const sliderIntervalColors = {
   blue: ["#1294bf", "#37d3ea"],
   white: ["#bcc3c5", "#ffffff"],
   yellow: ["#aaa50f", "#d7d01a"]
+};
+
+export const shuffleBgColors = {
+  red: "#cd3020",
+  green: "#2b8308",
+  blue: "#1111ba",
+  white: "#80868c",
+  yellow: "#d1b11d"
 };

@@ -109,6 +109,15 @@ export default {
       this.$refs.core.style.backgroundColor = resultColor;
       this.$refs.coreBg.style.backgroundColor = hexToRgba(resultColor, 50).rgba;
     },
+    transitionColor(color1, color2, ratio) {
+      const color = colorMix(
+        sliderIntervalColors[color1][0],
+        sliderIntervalColors[color2][0],
+        ratio
+      );
+      this.$refs.trail.style.borderColor = color;
+      this.$refs.core.style.backgroundColor = color;
+    },
     disableCore() {
       this.$refs.core.style.pointerEvents = "none";
     }
@@ -133,6 +142,7 @@ $core-point-size: 9.8vw;
   transform: translateX(-50%);
   width: $slider-width;
   height: $slider-height;
+  opacity: 0;
   .trail {
     position: absolute;
     top: 0;
