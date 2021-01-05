@@ -430,7 +430,7 @@ $lamp-height: 115vw;
       left: 0;
       width: 100%;
       height: 100%;
-      /deep/ .swiper-slide {
+      ::v-deep .swiper-slide {
         width: $lamp-width;
         height: $lamp-height;
         opacity: 0;
@@ -459,26 +459,32 @@ $lamp-height: 115vw;
         left: 0;
         width: 100%;
         height: 100%;
-        &.red {
-          background: url(../assets/cover/lamp-red.png) 0 0 no-repeat;
-          background-size: 100% 100%;
+        @each $color in red, green,blue,white,yellow {
+          &.#{"" + $color} {
+            background: url('../assets/cover/lamp-#{$color}.png') 0 0 no-repeat;
+            background-size: 100% 100%;
+          }
         }
-        &.green {
-          background: url(../assets/cover/lamp-green.png) 0 0 no-repeat;
-          background-size: 100% 100%;
-        }
-        &.blue {
-          background: url(../assets/cover/lamp-blue.png) 0 0 no-repeat;
-          background-size: 100% 100%;
-        }
-        &.white {
-          background: url(../assets/cover/lamp-white.png) 0 0 no-repeat;
-          background-size: 100% 100%;
-        }
-        &.yellow {
-          background: url(../assets/cover/lamp-yellow.png) 0 0 no-repeat;
-          background-size: 100% 100%;
-        }
+        // &.red {
+        //   background: url(../assets/cover/lamp-red.png) 0 0 no-repeat;
+        //   background-size: 100% 100%;
+        // }
+        // &.green {
+        //   background: url(../assets/cover/lamp-green.png) 0 0 no-repeat;
+        //   background-size: 100% 100%;
+        // }
+        // &.blue {
+        //   background: url(../assets/cover/lamp-blue.png) 0 0 no-repeat;
+        //   background-size: 100% 100%;
+        // }
+        // &.white {
+        //   background: url(../assets/cover/lamp-white.png) 0 0 no-repeat;
+        //   background-size: 100% 100%;
+        // }
+        // &.yellow {
+        //   background: url(../assets/cover/lamp-yellow.png) 0 0 no-repeat;
+        //   background-size: 100% 100%;
+        // }
       }
       .lamp-light {
         position: absolute;
