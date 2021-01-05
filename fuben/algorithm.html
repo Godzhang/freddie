@@ -28,7 +28,29 @@
       //
     </script>
     <script>
-      //
+      // N皇后
+      const isValid = (row, col) => {}
+      const solveNQueens = n => {
+        const res = []
+        const matrix = Array.from({length: n}).fill('.'.repeat(n))
+        const visited = {}
+        const dfs = rowIndex => {
+          if (rowIndex === n) {
+            res.push(matrix.slice())
+            return
+          }
+          for (let i=0;i<n;i++) {
+            for (let j = 0;j<n;j++) {
+              if (!visited[`${i}${j}`] && isValid(i, j)) {
+                matrix[i][j] = 'Q'
+              }
+            }
+          }
+        }
+        dfs(0)
+        return res
+      }
+      // console.log(solveNQueens(4))
     </script>
     <script>
       // 全排列组合
