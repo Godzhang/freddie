@@ -28,29 +28,120 @@
       //
     </script>
     <script>
-      // N皇后
-      const isValid = (row, col) => {}
-      const solveNQueens = n => {
-        const res = []
-        const matrix = Array.from({length: n}).fill('.'.repeat(n))
-        const visited = {}
-        const dfs = rowIndex => {
-          if (rowIndex === n) {
-            res.push(matrix.slice())
-            return
-          }
-          for (let i=0;i<n;i++) {
-            for (let j = 0;j<n;j++) {
-              if (!visited[`${i}${j}`] && isValid(i, j)) {
-                matrix[i][j] = 'Q'
-              }
-            }
-          }
+      //
+    </script>
+    <script>
+      // 迭代法遍历树
+      const root = {
+        val: 1,
+        left:{val:2,left:null,right:null},
+        right:{
+          val: 3,
+          left: {val:4,left:null,right:null},
+          right: null
         }
-        dfs(0)
-        return res
       }
-      // console.log(solveNQueens(4))
+      // 先序
+      // const preOrder = root => {
+      //   const res = []
+      //   if(!root) return res
+      //   const stack = [root]
+
+      //   while(stack.length) {
+      //     const curr= stack.pop()
+      //     res.push(curr.val)
+      //     if (curr.right) {
+      //       stack.push(curr.right)
+      //     }
+      //     if (curr.left) {
+      //       stack.push(curr.left)
+      //     }
+      //   }
+        
+      //   return res
+      // }
+      // console.log(preOrder(root))
+
+      // 后序
+      // const postOrder = root => {
+      //   const res = []
+      //   if(!root) return res
+      //   const stack = [root]
+        
+      //   while(stack.length) {
+      //     const curr = stack.pop()
+      //     res.unshift(curr.val)
+          
+      //     if (curr.left) stack.push(curr.left)
+      //     if (curr.right) stack.push(curr.right)
+      //   }
+
+      //   return res
+      // }
+      // console.log(postOrder(root))
+
+      // 中序
+      const inOrder = root => {
+          const res = []
+          if(!root) return res
+          const stack = []
+          let curr = root
+
+          while(curr || stack.length) {
+            while (curr) {
+              stack.push(curr)
+              curr = curr.left
+            }
+            curr = stack.pop()
+            res.push(curr.val)
+            curr = curr.right
+          }
+
+          return res
+      }
+      console.log(inOrder(root))
+    </script>
+    <script>
+      // 限定组合
+      // const fn = (n,k) => {
+      //   const res = []
+      //   const curr = []
+      //   const dfs = index => {
+      //     if (curr.length === k) {
+      //       res.push(curr.slice())
+      //       return
+      //     }
+      //     for(let i = index;i<=n;i++) {
+      //       curr.push(i)
+      //       dfs(i+1)
+      //       curr.pop()
+      //     }
+      //   }
+      //   dfs(1)
+      //   return res
+      // }
+      // console.log(fn(4,2))
+    </script>
+    <script>
+      // 所有可能子集
+      // const arr = [1,2,3]
+      // const subsets = nums => {
+      //   const len = nums.length
+      //   const res = []
+      //   const curr = []
+        
+      //   const dfs = index => {
+      //     res.push(curr.slice())
+      //     for(let i = index;i<len;i++) {
+      //       curr.push(nums[i])
+      //       dfs(i+1)
+      //       curr.pop()
+      //     }
+      //   }
+      //   dfs(0)
+      //   return res
+      // }
+      // console.log(subsets(arr))
     </script>
     <script>
       // 全排列组合
