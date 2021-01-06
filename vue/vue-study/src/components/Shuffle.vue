@@ -349,7 +349,7 @@ export default {
     width: 63.2vw;
     height: 94.4vw;
     overflow: visible;
-    /deep/ .swiper-slide {
+    ::v-deep .swiper-slide {
       box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 0.5);
     }
   }
@@ -357,10 +357,10 @@ export default {
     width: 100%;
     top: -4px;
     left: 0;
-    /deep/ .swiper-pagination-bullet {
+    ::v-deep .swiper-pagination-bullet {
       margin: 0 5px;
     }
-    /deep/ .swiper-pagination-bullet-active {
+    ::v-deep .swiper-pagination-bullet-active {
       background-color: #fff;
     }
   }

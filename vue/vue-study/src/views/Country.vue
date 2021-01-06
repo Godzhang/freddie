@@ -95,11 +95,11 @@ export default {
     bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
-    /deep/ .swiper-pagination-bullet {
+    ::v-deep .swiper-pagination-bullet {
       margin: 0 5px;
       opacity: 0.3;
     }
-    /deep/ .swiper-pagination-bullet-active {
+    ::v-deep .swiper-pagination-bullet-active {
       background-color: #fff;
       opacity: 1;
     }
