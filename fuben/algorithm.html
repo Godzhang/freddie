@@ -29,18 +29,39 @@
     </script>
     <script>
       //
+      const root = {
+        val: 3,
+        left:{val:9,left:null,right:null},
+        right:{
+          val: 20,
+          left: {val:15,left:null,right:null},
+          right: {val:7,left:null,right:null}
+        }
+      }
+      const fn = root => {
+        const res = []
+        const queue = [root]
+        while(queue.length) {
+          const curr = queue.shift()
+          res.push([curr.val])
+          if (curr.left) queue.push(curr.left)
+          if (curr.right) queue.push(curr.right)
+        }
+        return res
+      }
+      console.log(fn(root))
     </script>
     <script>
       // 迭代法遍历树
-      const root = {
-        val: 1,
-        left:{val:2,left:null,right:null},
-        right:{
-          val: 3,
-          left: {val:4,left:null,right:null},
-          right: null
-        }
-      }
+      // const root = {
+      //   val: 1,
+      //   left:{val:2,left:null,right:null},
+      //   right:{
+      //     val: 3,
+      //     left: {val:4,left:null,right:null},
+      //     right: null
+      //   }
+      // }
       // 先序
       // const preOrder = root => {
       //   const res = []
@@ -81,25 +102,25 @@
       // console.log(postOrder(root))
 
       // 中序
-      const inOrder = root => {
-          const res = []
-          if(!root) return res
-          const stack = []
-          let curr = root
+      // const inOrder = root => {
+      //     const res = []
+      //     if(!root) return res
+      //     const stack = []
+      //     let curr = root
 
-          while(curr || stack.length) {
-            while (curr) {
-              stack.push(curr)
-              curr = curr.left
-            }
-            curr = stack.pop()
-            res.push(curr.val)
-            curr = curr.right
-          }
+      //     while(curr || stack.length) {
+      //       while (curr) {
+      //         stack.push(curr)
+      //         curr = curr.left
+      //       }
+      //       curr = stack.pop()
+      //       res.push(curr.val)
+      //       curr = curr.right
+      //     }
 
-          return res
-      }
-      console.log(inOrder(root))
+      //     return res
+      // }
+      // console.log(inOrder(root))
     </script>
     <script>
       // 限定组合
