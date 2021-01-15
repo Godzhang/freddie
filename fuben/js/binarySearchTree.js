@@ -264,3 +264,9 @@ class BinarySearchTree {
     }
   }
 }
+
+// 计算树的最大高度
+const calcTreeHeight = (root) => {
+  if (!root) return 0;
+  return Math.max(calcTreeHeight(root.left), calcTreeHeight(root.right)) + 1;
+};
