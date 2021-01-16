@@ -11,37 +11,44 @@ import React, {
 } from "react";
 import "./App.css";
 
-function App() {
-  const inputEl = useRef(null);
-  console.log(inputEl.current);
-  const plus = () => {
-    const { value, setValue } = inputEl.current;
-    setValue(value + 1);
-  };
-  return (
-    <div>
-      <Child ref={inputEl}></Child>
-      <div>{inputEl.current && inputEl.current.name}</div>
-      <button onClick={() => plus()}>累加子组件value</button>
-    </div>
-  );
+const Child = (props) => {
+  if (props.name === "zhangqi") return null;
+  return <div>{props.name}</div>;
+};
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "zhangqi",
+    };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ name: "aaa" });
+    }, 2000);
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log(nextProps, nextState);
+  //   if (nextState.name === "zhangqi") return false;
+  //   return true;
+  // }
+
+  setName(name) {
+    this.setState({ name });
+  }
+
+  render() {
+    return (
+      <div>
+        <Child name={this.state.name} />
+        <button onClick={() => this.setName("aaa")}>aaa</button>
+        <button onClick={() => this.setName("bbb")}>bbb</button>
+      </div>
+    );
+  }
 }
-
-const Child = forwardRef((props, ref) => {
-  const inputRef = useRef();
-  const [value, setValue] = useState(0);
-
-  useImperativeHandle(ref, () => ({
-    setValue,
-    value,
-  }));
-
-  return (
-    <>
-      <div>child-value: {value}</div>
-      <input ref={inputRef} />
-    </>
-  );
-});
 
 export default App;
