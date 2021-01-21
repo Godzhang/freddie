@@ -1,102 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- <script src="./js/data-structure.js"></script> -->
+    <script src="./js/binarySearchTree.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <title>algorithm</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <!-- <script src="./js/data-structure.js"></script> -->
-  <script src="./js/binarySearchTree.js"></script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-  </style>
-  <title>algorithm</title>
-</head>
+  <body>
+    <div class="container"></div>
 
-<body>
-  <div class="container"></div>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      // 最长回文子串
+      const longestPalindrome = (str) => {};
+    </script>
+    <script>
+      // 最长上升子序列
+      //   const lengthOfLIS = (nums) => {
+      //     const len = nums.length;
+      //     if (!len) return 0;
+      //     const dp = new Array(len).fill(1);
+      //     let maxLen = 1;
+      //     for (let i = 1; i < len; i++) {
+      //       for (let j = 0; j < i; j++) {
+      //         if (nums[j] < nums[i]) {
+      //           dp[i] = Math.max(dp[i], dp[j] + 1);
+      //         }
+      //       }
+      //       if (dp[i] > maxLen) maxLen = dp[i];
+      //     }
+      //     return maxLen;
+      //   };
+      //   console.log(lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18]));
+    </script>
+    <script>
+      //
+      //   const coinChange = (coins, amount) => {
+      //     // 用于保存每个目标总额对应的最小硬币个数
+      //     const f = [];
+      //     // 提前定义已知情况
+      //     f[0] = 0;
+      //     for (let i = 1; i <= amount; i++) {
+      //       f[i] = Infinity;
+      //       for (let j = 0; j < coins.length; j++) {
+      //         if (i - coins[j] >= 0) {
+      //           f[i] = Math.min(f[i], f[i - coins[j]] + 1);
+      //         }
+      //       }
+      //     }
+      //     return f[amount] === Infinity ? -1 : f[amount];
+      //   };
+      //   console.log(coinChange([1,2,5], 11))
+      //   console.log(coinChange([2], 3))
+    </script>
+    <script>
+      //
+      // const partition = (arr, left, right) => {
+      //   const pivotValue = arr[~~(left + (right - left) / 2)]
+      //   let i = left
+      //   let j = right
+      //   while (i <= j) {
+      //     while (arr[i] < pivotValue) {
+      //       i++
+      //     }
+      //     while (arr[j] > pivotValue) {
+      //       j--
+      //     }
+      //     if (i <= j) {
+      //       [arr[i], arr[j]] = [arr[j], arr[i]]
+      //       i++
+      //       j--
+      //     }
+      //   }
+      //   return i
+      // }
+      // const quickSort = (arr, left = 0, right = arr.length - 1) => {
+      //   if (arr.length <= 1) return arr
+      //   const lineIndex = partition(arr, left, right)
+      //   if (left < lineIndex - 1) {
+      //     quickSort(arr, left, lineIndex - 1)
+      //   }
+      //   if (lineIndex < right) {
+      //     quickSort(arr, lineIndex, right)
+      //   }
 
-  <script>
+      //   return arr
+      // }
+      // console.log(quickSort([4, 2, 7, 3, 1]));
+    </script>
+    <script>
       //
-  </script>
-  <script>
-      //
-  </script>
-  <script>
-      //
-  </script>
-  <script>
-      //
-  </script>
-  <script>
-    //
-    // const partition = (arr, left, right) => {
-    //   const pivotValue = arr[~~(left + (right - left) / 2)]
-    //   let i = left
-    //   let j = right
-    //   while (i <= j) {
-    //     while (arr[i] < pivotValue) {
-    //       i++
-    //     }
-    //     while (arr[j] > pivotValue) {
-    //       j--
-    //     }
-    //     if (i <= j) {
-    //       [arr[i], arr[j]] = [arr[j], arr[i]]
-    //       i++
-    //       j--
-    //     }
-    //   }
-    //   return i
-    // }
-    // const quickSort = (arr, left = 0, right = arr.length - 1) => {
-    //   if (arr.length <= 1) return arr
-    //   const lineIndex = partition(arr, left, right)
-    //   if (left < lineIndex - 1) {
-    //     quickSort(arr, left, lineIndex - 1)
-    //   }
-    //   if (lineIndex < right) {
-    //     quickSort(arr, lineIndex, right)
-    //   }
-
-    //   return arr
-    // }
-    // console.log(quickSort([4, 2, 7, 3, 1]));
-  </script>
-  <script>
-    //
-    // const mergeNums = (left, right) => {
-    //   if (left[left.length - 1] <= right[0]) return left.concat(right)
-    //   const res = []
-    //   while (left.length && right.length) {
-    //     if (left[0] < right[0]) {
-    //       res.push(left.shift())
-    //     } else {
-    //       res.push(right.shift())
-    //     }
-    //   }
-    //   if (left.length) {
-    //     res.push(...left)
-    //   }
-    //   if (right.length) {
-    //     res.push(...right)
-    //   }
-    //   return res
-    // }
-    // const mergeSort = (arr) => {
-    //   if (arr.length === 1) return arr
-    //   const len = arr.length;
-    //   const mid = ~~(len / 2)
-    //   const left = arr.slice(0, mid)
-    //   const right = arr.slice(mid)
-    //   return mergeNums(mergeSort(left), mergeSort(right))
-    // };
-    // console.log(mergeSort([4, 2, 7, 3, 1]));
-  </script>
-  <script>
+      // const mergeNums = (left, right) => {
+      //   if (left[left.length - 1] <= right[0]) return left.concat(right)
+      //   const res = []
+      //   while (left.length && right.length) {
+      //     if (left[0] < right[0]) {
+      //       res.push(left.shift())
+      //     } else {
+      //       res.push(right.shift())
+      //     }
+      //   }
+      //   if (left.length) {
+      //     res.push(...left)
+      //   }
+      //   if (right.length) {
+      //     res.push(...right)
+      //   }
+      //   return res
+      // }
+      // const mergeSort = (arr) => {
+      //   if (arr.length === 1) return arr
+      //   const len = arr.length;
+      //   const mid = ~~(len / 2)
+      //   const left = arr.slice(0, mid)
+      //   const right = arr.slice(mid)
+      //   return mergeNums(mergeSort(left), mergeSort(right))
+      // };
+      // console.log(mergeSort([4, 2, 7, 3, 1]));
+    </script>
+    <script>
       //
       // const insertSort = (arr) => {
       //   const len = arr.length;
@@ -113,8 +155,8 @@
       //   return arr;
       // };
       // console.log(insertSort([4, 2, 7, 3, 1]));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const selectSort = (arr) => {
       //   const len = arr.length;
@@ -132,8 +174,8 @@
       //   return arr;
       // };
       // console.log(selectSort([4, 2, 7, 3, 1]));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const bubbleSort = (arr, count = 0) => {
       //   const len = arr.length;
@@ -156,8 +198,8 @@
       // };
       // console.log(bubbleSort([4, 2, 7, 3, 1]));
       // console.log(bubbleSort([1, 2, 3, 4, 5]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 构造平衡二叉树
       // const root = BinarySearchTree.from([1, 2, 3, 4]).root;
       // const root2 = BinarySearchTree.from([2, 1, 3, 4]).root;
@@ -183,8 +225,8 @@
       // };
       // console.log(balanceBST(root));
       // console.log(balanceBST(root2));
-  </script>
-  <script>
+    </script>
+    <script>
       // 判断是否是平衡二叉树
       // const root = BinarySearchTree.from([5, 4, 3, 2, 1]).root;
       // const root2 = BinarySearchTree.from([6, 3, 9, 1, 4]).root;
@@ -205,8 +247,8 @@
       // };
       // console.log(isBalanceTree(root));
       // console.log(isBalanceTree(root2));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const arr = [-10, -3, 0, 5, 9];
       // method 1 此方法会造成每一遍只会向左子树或右子树添加，不算对
@@ -280,8 +322,8 @@
       //   return root;
       // };
       // console.log(sortedArrayToBST(arr));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const root = BinarySearchTree.from([6, 3, 8, 2, 1, 25, 4, 9]).root;
       // const root2 = {
@@ -302,8 +344,8 @@
       // };
       // console.log(validateTree(root));
       // console.log(validateTree(root2));
-  </script>
-  <script>
+    </script>
+    <script>
       // 翻转二叉树
       //   const root = {
       //     val: 1,
@@ -327,8 +369,8 @@
       //     return root;
       //   };
       //   console.log(reverseTree(root));
-  </script>
-  <script>
+    </script>
+    <script>
       // 层序遍历
       // const root = {
       //   val: 3,
@@ -375,8 +417,8 @@
       // console.log(fn(null))
       // console.log(fn(root))
       // console.log(fn(root2))
-  </script>
-  <script>
+    </script>
+    <script>
       // 迭代法遍历树
       // const root = {
       //   val: 1,
@@ -446,8 +488,8 @@
       //     return res
       // }
       // console.log(inOrder(root))
-  </script>
-  <script>
+    </script>
+    <script>
       // 限定组合
       // const fn = (n,k) => {
       //   const res = []
@@ -467,8 +509,8 @@
       //   return res
       // }
       // console.log(fn(4,2))
-  </script>
-  <script>
+    </script>
+    <script>
       // 所有可能子集
       // const arr = [1,2,3]
       // const subsets = nums => {
@@ -488,8 +530,8 @@
       //   return res
       // }
       // console.log(subsets(arr))
-  </script>
-  <script>
+    </script>
+    <script>
       // 全排列组合
       // const arr= [1,2,3];
       // const arr2= [1,2,3,4];
@@ -518,8 +560,8 @@
       // }
       // console.log(permute(arr))
       // console.log(permute(arr2))
-  </script>
-  <script>
+    </script>
+    <script>
       // 栈实现队列
       // class MyQueue {
       //   constructor() {
@@ -560,8 +602,8 @@
       // console.log(queue.peek()); // 返回 1
       // queue.pop(); // 返回 1
       // console.log(queue.empty()); // 返回 false
-  </script>
-  <script>
+    </script>
+    <script>
       // 有效括号
       // const leftToRight = {
       //   "(": ")",
@@ -586,8 +628,8 @@
       // console.log(isEffect("(]"));
       // console.log(isEffect("([)]"));
       // console.log(isEffect("{[]}"));
-  </script>
-  <script>
+    </script>
+    <script>
       // 每日温度问题
       // const arr = [73, 74, 75, 71, 69, 72, 76, 73];
       // const dailyTemperatures = (arr) => {
@@ -604,8 +646,8 @@
       //   return result;
       // };
       // console.log(dailyTemperatures(arr));
-  </script>
-  <script>
+    </script>
+    <script>
       // 最小栈
       // class MinStack {
       //   constructor() {
@@ -642,8 +684,8 @@
       // minStack.pop();
       // console.log(minStack.top());
       // console.log(minStack.getMin());
-  </script>
-  <script>
+    </script>
+    <script>
       // 第一个flag为true的就是入环点
       // let list = createRingList([1, 2, 3, 4, 5], 2);
       // let list2 = createLinkList([1, 2, 3, 4, 5]);
@@ -660,8 +702,8 @@
       // };
       // console.log(getConnectIndex(list));
       // console.log(getConnectIndex(list2));
-  </script>
-  <script>
+    </script>
+    <script>
       // 判断链表成环
       // let list = createRingList([1, 2, 3, 4, 5], 2);
       // let list2 = createLinkList([1, 2, 3, 4, 5]);
@@ -690,8 +732,8 @@
       // };
       // console.log(isRing(list));
       // console.log(isRing(list2));
-  </script>
-  <script>
+    </script>
+    <script>
       // 局部反转链表
       // let list = createLinkList([1, 2, 3, 4, 5]);
       // const reverseLinkListInLocal = (head, m, n) => {
@@ -719,8 +761,8 @@
       //   return dummy.next;
       // };
       // console.log(reverseLinkListInLocal(list, 2, 4));
-  </script>
-  <script>
+    </script>
+    <script>
       // 反转链表
       // let list = createLinkList([1, 2, 3, 4, 5]);
       // m1
@@ -755,8 +797,8 @@
       //   return reverse(null, head);
       // };
       // console.log(reverseLinkList(list));
-  </script>
-  <script>
+    </script>
+    <script>
       // 删除链表倒数第 N 个节点
       // let list = createLinkList([1, 2, 3, 4, 5]);
       // 该实现需要遍历一遍链表,O(n)
@@ -807,8 +849,8 @@
       // console.log(fn(list, 2));
       // console.log(fn(list, 5));
       // console.log(fn(list, 1));
-  </script>
-  <script>
+    </script>
+    <script>
       // 删除链表中重复的节点
       // let list = createLinkList([1, 1, 1, 2, 3, 3, 4]);
       // const deleteAllRepeat = (head) => {
@@ -833,8 +875,8 @@
       //   return dummy.next;
       // };
       // console.log(deleteAllRepeat(list));
-  </script>
-  <script>
+    </script>
+    <script>
       // 删除有序链表中重复的元素
       // let list = createLinkList([1, 1, 1, 2, 3, 3, 4]);
       // const deleteRepeat = (head) => {
@@ -849,8 +891,8 @@
       //   return head;
       // };
       // console.log(deleteRepeat(list));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // let l1 = createLinkList([1, 2, 4]);
       // let l2 = createLinkList([1, 3, 4, 5]);
@@ -875,8 +917,8 @@
       //   return head.next;
       // };
       // console.log(mergeLinkList(l1, l2));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const fn = (str) => {
       //   const max = Math.pow(2, 31) - 1;
@@ -897,8 +939,8 @@
       // console.log(fn("9999999999999"));
       // console.log(fn("-9999999999999"));
       // console.log(fn("-2147483649"));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // class WordDictionary {
       //   constructor() {
@@ -931,8 +973,8 @@
       // wd.addWord("mad");
       // console.log(wd.search("pad"));
       // console.log(wd.search("..d"));
-  </script>
-  <script>
+    </script>
+    <script>
       // 待验证
       // const isPalid = (str) => {
       //   let len = str.length;
@@ -960,8 +1002,8 @@
       // };
       // console.log(isPalid("abca"));
       // console.log(isPalid("abcd"));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const isPalidrome = (str) => {
       //   let len = str.length;
@@ -972,8 +1014,8 @@
       // };
       // console.log(isPalidrome("abc"));
       // console.log(isPalidrome("aba"));
-  </script>
-  <script>
+    </script>
+    <script>
       // 三数之和 对撞指针
       // const nums = [-1, 0, 1, 2, -1, -4];
       // const target = 0;
@@ -1007,8 +1049,8 @@
       //   return result;
       // };
       // console.log(threeSum(nums, target));
-  </script>
-  <script>
+    </script>
+    <script>
       // 合并两个有序的数组
       // const nums1 = [1, 2, 3, 8];
       // const nums2 = [2, 5, 6];
@@ -1037,8 +1079,8 @@
       // };
       // merge(nums1, nums2);
       // console.log(nums1);
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const arr = [2, 7, 11, 15];
       // const targetNum = 9;
@@ -1054,8 +1096,8 @@
       //   }
       // };
       // console.log(fn(arr, targetNum));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const coinChange = (coins, amount) => {
       //   const f = [];
@@ -1088,8 +1130,8 @@
       // for (let i = 3; i <= 10; i++) {
       //   console.log(climbStairs(i));
       // }
-  </script>
-  <script>
+    </script>
+    <script>
       // leetcode 面试题62
       // const lastRemaining = (n, m) => {
       //   const helper = (n, m) => {
@@ -1100,8 +1142,8 @@
       // };
       // console.log(lastRemaining(5, 3)); // 3
       // console.log(lastRemaining(10, 17)); // 2
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const lengthOfLIS = (nums) => {
       //   if (nums.length < 2) return nums.length;
@@ -1120,8 +1162,8 @@
       // console.log(lengthOfLIS([4, 1, 2, 3]));
       // console.log(lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18])); // 4
       // console.log(lengthOfLIS([4, 10, 4, 3, 8, 9])); // 3
-  </script>
-  <script>
+    </script>
+    <script>
       // leetcode 47 方法需继续优化
       // const permuteUnique = (nums) => {
       //   if (nums.length === 1) return [nums];
@@ -1143,8 +1185,8 @@
       //   return result;
       // };
       // console.log(permuteUnique([1, 1, 2]));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const fac = (n) => {
       //   if (n <= 1) return 1;
@@ -1166,8 +1208,8 @@
       // };
       // console.log(getPermutation(3, 3)); //.toBe('213')
       // console.log(getPermutation(4, 9)); //.toBe('2314')
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const permute = (arr) => {
       //   let result = [];
@@ -1184,8 +1226,8 @@
       // };
       // console.log(permute([1, 2, 3]));
       // console.log(permute([1, 2, 3, 4]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 获取 1 ～ n 的全排列
       // const swap = (arr, i, j) => {
       //   let tmp = arr[i];
@@ -1215,8 +1257,8 @@
       // console.log(getFullPermutation(2));
       // console.log(getFullPermutation(3));
       // console.log(getFullPermutation(4));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const numRescueBoats = (people, limit) => {
       //   if (people.length === 0) return 0;
@@ -1269,8 +1311,8 @@
       //     50
       //   )
       // ); //.toBe(11)
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const maxProfit = (prices, fee) => {
       //   let buy = -prices[0];
@@ -1282,8 +1324,8 @@
       //   return sell;
       // };
       // console.log(maxProfit([1, 3, 2, 8, 4, 9], 2));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // const maxProfit = prices => {
       //   let min = Number.MAX_SAFE_INTEGER;
@@ -1300,8 +1342,8 @@
       // console.log(maxProfit([7, 2, 10, 1, 8]));
       // console.log(maxProfit([7, 1, 5, 3, 6, 4]));
       // console.log(maxProfit([7, 6, 4, 3, 1]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 摆动序列
       // const wiggleMaxLength = nums => {
       //   if (nums.length < 2) return nums.length;
@@ -1336,8 +1378,8 @@
       // console.log(wiggleMaxLength([1, 2, 3, 4, 5, 6, 7, 8, 9])); //.toBe(2)
       // console.log(wiggleMaxLength([])); //.toBe(0)
       // console.log(wiggleMaxLength([1])); //.toBe(1)
-  </script>
-  <script>
+    </script>
+    <script>
       // 硬币找零3
       // const minCoinChange = (coins, amount) => {
       //   const change = [];
@@ -1352,8 +1394,8 @@
       //   return change;
       // };
       // console.log(minCoinChange([1, 5, 10, 25], 37));
-  </script>
-  <script>
+    </script>
+    <script>
       // 获取指定正整数 n 的质因数
       // const getPrimes = n => {
       //   const prime = n => {
@@ -1371,8 +1413,8 @@
       // console.log(getPrimes(6));
       // console.log(getPrimes(8));
       // console.log(getPrimes(180));
-  </script>
-  <script>
+    </script>
+    <script>
       // 超级丑数
       // const nthSuperUglyNumber = (n, primes) => {
       //   const dp = [1];
@@ -1394,8 +1436,8 @@
       //   return dp[n - 1];
       // };
       // console.log(nthSuperUglyNumber(12, [2, 7, 13, 19]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 鸡尾酒排序
       // const cocktailSort = arr => {
       //   let len = arr.length;
@@ -1427,8 +1469,8 @@
       //   return arr;
       // };
       // console.log(cocktailSort([21, 6, 4, 10, 7, 1, 5, 3, 11, 9, 8]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 冒泡排序进一步优化
       // const fn = arr => {
       //   let len = arr.length;
@@ -1450,8 +1492,8 @@
       //   return arr;
       // };
       // console.log(fn([3, 4, 2, 1, 5, 6, 7, 8]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 冒泡排序优化，优化后最优时间复杂度 O(n)
       // const bubbleSort = arr => {
       //   let flag = 1;
@@ -1471,8 +1513,8 @@
 
       // console.log(bubbleSort([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 21]));
       // console.log(bubbleSort([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 希尔排序 2
       // const getGaps = len => {
       //   let result = [0];
@@ -1505,8 +1547,8 @@
       //   return arr;
       // };
       // console.log(shellSort([21, 6, 4, 10, 7, 1, 5, 3, 11, 9, 8, 2]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 希尔排序
       // const shellSort = arr => {
       //   let len = arr.length;
@@ -1528,8 +1570,8 @@
       //   return arr;
       // };
       // console.log(shellSort([21, 6, 4, 10, 7, 1, 5, 3, 11, 9, 8, 2]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 堆排序
       // const maxHeapify = (arr, index, heapSize) => {
       //   let iMax = index;
@@ -1574,8 +1616,8 @@
       //   return arr;
       // };
       // console.log(heapSort([3, 4, 10, 2, 1, 5, 6, 9, 8, 7]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 基数排序 + 桶排序
       // const bucketSortForRadix = (arr, significantDigit, radixBase) => {
       //   let buckets = [];
@@ -1619,8 +1661,8 @@
       //   return arr;
       // };
       // console.log(radixSort([3, 4, 2, 100, 1, 35, 6, 9, 8, 7]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 基数排序
       // const countingSortForRadix = (arr, radixBase, significantDigit) => {
       //   let bucketIndex = 0;
@@ -1665,8 +1707,8 @@
       //   return arr;
       // };
       // console.log(radixSort([3, 4, 2, 100, 1, 35, 6, 9, 8, 7, 5]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 桶排序 2
       // const insertSort = arr => {
       //   for (let i = 1, len = arr.length, tmp; i < len; i++) {
@@ -1712,8 +1754,8 @@
       //   return result;
       // };
       // console.log(bucketSort([3, 4, 2, 1, 5, 6, 9, 8, 7], 4));
-  </script>
-  <script>
+    </script>
+    <script>
       // 桶排序
       // 使用插入排序排序桶中的元素
       // const insertSort = arr => {
@@ -1801,8 +1843,8 @@
       //     5
       //   )
       // );
-  </script>
-  <script>
+    </script>
+    <script>
       // 计数排序 2 稳定排序
       // const countingSort = arr => {
       //   if (arr.length < 1) return arr;
@@ -1837,8 +1879,8 @@
       //   return result;
       // };
       // console.log(countingSort([3, 4, 2, 1, 46, 5, 6, 9, 8, 7]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 计数排序
       // const findMaxValue = arr => {
       //   let max = arr[0];
@@ -1868,8 +1910,8 @@
       //   return arr;
       // };
       // console.log(countingSort([1, 2, 3, 4, 5, 6, 9, 8, 7]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 快排 2
       // [ 1, 2, 3, 4, 5, 6, 9, 8, 7 ]
       // const partition = (arr, left, right) => {
@@ -1908,8 +1950,8 @@
       //   return quick(arr, 0, arr.length - 1);
       // };
       // console.log(quickSort([3, 6, 4, 5, 1, 2, 9, 8, 7]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 快排 1
       // const quickSort = arr => {
       //   if (arr.length < 2) return arr;
@@ -1930,8 +1972,8 @@
       //   return quickSort(left).concat(pivot, quickSort(right));
       // };
       // console.log(quickSort([3, 6, 4, 5, 1, 2, 9, 8, 7]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 归并
       // const mergeSort = arr => {
       //   const merge = (left, right) => {
@@ -1970,8 +2012,8 @@
       //   return mergeSort(arr);
       // };
       // console.log(mergeSort([3, 6, 4, 5, 1, 2, 9, 8, 7]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 插入
       // const insertSort = arr => {
       //   for (let i = 1, len = arr.length, tmp; i < len; i++) {
@@ -1986,8 +2028,8 @@
       //   return arr;
       // };
       // console.log(insertSort([3, 6, 4, 5, 1, 2, 9, 8, 7]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 选择
       // const selectSort = arr => {
       //   for (let i = 0, len = arr.length, minIndex; i < len - 1; i++) {
@@ -2004,8 +2046,8 @@
       //   return arr;
       // };
       // console.log(selectSort([3, 2, 4, 5, 1, 6, 9, 8, 7]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 冒泡
       // const bubbleSort = arr => {
       //   for (let i = arr.length, tmp; i > 0; i--) {
@@ -2020,8 +2062,8 @@
       //   return arr;
       // };
       // console.log(bubbleSort([3, 2, 4, 5, 1]));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // class TreeNode {
       //   constructor(val) {
@@ -2070,8 +2112,8 @@
       // console.log(isValidBST(tree2));
       // console.log(isValidBST(tree3));
       // console.log(isValidBST(tree4));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // class Node {
       //   constructor(key) {
@@ -2248,16 +2290,16 @@
       // console.log(tree.min());
       // console.log(tree.max());
       // console.log(tree.search(6));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // let param = "q=URLUtils.searchParams&topic=api";
       // let p = new URLSearchParams(param);
       // for (let key of p) {
       //   console.log(key);
       // }
-  </script>
-  <script>
+    </script>
+    <script>
       // console.log(":", encodeURIComponent(":"));
       // console.log(";", encodeURIComponent(";"));
       // console.log("/", encodeURIComponent("/"));
@@ -2274,8 +2316,8 @@
       // console.log("{", encodeURIComponent("{"));
       // console.log("}", encodeURIComponent("}"));
       // console.log(" ", encodeURIComponent(" "));
-  </script>
-  <script>
+    </script>
+    <script>
       // 集合覆盖问题（贪婪算法）
       // let states = ["mt", "wa", "or", "id", "nv", "ut", "ca", "az"];
       // let stations = {};
@@ -2302,8 +2344,8 @@
       //   states = states.filter(item => !stateCovered.includes(item));
       // }
       // console.log(final);
-  </script>
-  <script>
+    </script>
+    <script>
       // 图，广度优先搜索
       // let graph = {};
       // graph["you"] = ["baiyang", "zhaojinge", "lixiang"];
@@ -2334,8 +2376,8 @@
       //   return false;
       // };
       // console.log(find(graph, ""));
-  </script>
-  <script>
+    </script>
+    <script>
       // let ride = (n1, n2) => {
       //   let res = [];
       //   let carry = 0;
@@ -2395,8 +2437,8 @@
       // console.log(fn("9", "9"));
       // console.log(fn("123", "456"));
       // console.log(fn("123893475346587340", "4567238946238974320"));
-  </script>
-  <script>
+    </script>
+    <script>
       // let fn = (arr, target) => {
       //   let findLeft = (arr, target) => {
       //     if (!arr.length) return -1;
@@ -2439,8 +2481,8 @@
       //   return [findLeft(arr, target), findRight(arr, target)];
       // };
       // console.log(fn([1, 2, 2, 2, 3], 2));
-  </script>
-  <script>
+    </script>
+    <script>
       // let fn = arr => {
       //   let rows = {};
       //   let columns = {};
@@ -2510,8 +2552,8 @@
       //     [".", ".", "4", ".", ".", ".", ".", ".", "."]
       //   ])
       // );
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // let fn = heights => {
       //   let total = 0;
@@ -2523,8 +2565,8 @@
       //   return total;
       // };
       // console.log(fn([1, 1, 4, 2, 1, 3]));
-  </script>
-  <script>
+    </script>
+    <script>
       // 括号生成
       // let fn = n => {
       //   let res = [];
@@ -2544,8 +2586,8 @@
       //   return res;
       // };
       // console.log(JSON.stringify(fn(3)));
-  </script>
-  <script>
+    </script>
+    <script>
       //
       // let fn = str => {
       //   let len = str.length;
@@ -2579,8 +2621,8 @@
       // let str =
       //   "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
       // console.log(fn(str));
-  </script>
-  <script>
+    </script>
+    <script>
       // 最大矩形
       // let arr = [
       //   ["1", "0", "1", "0", "0"],
@@ -2669,8 +2711,8 @@
       // };
 
       // console.log(fn(arr));
-  </script>
-  <script>
+    </script>
+    <script>
       // 快排高级算法
       // let quickSort = arr => {
       //   let swap = (arr, i, j) => {
@@ -2703,8 +2745,8 @@
       // };
       // let arr = [4, 1, 5, 2, 3];
       // console.log(quickSort(arr));
-  </script>
-  <script>
+    </script>
+    <script>
       // async function foo() {
       //   console.log("foo");
       // }
@@ -2733,8 +2775,8 @@
       // bar end
       // promise then
       // setTimeout
-  </script>
-  <script>
+    </script>
+    <script>
       // BigInt
       // console.log("Number.MAX_SAFE_INTEGER: ", Number.MAX_SAFE_INTEGER);
       // console.log("Number.MIN_SAFE_INTEGER: ", Number.MIN_SAFE_INTEGER);
@@ -2753,8 +2795,8 @@
       // console.log(10n > 5n);
       // console.log(BigInt(true) === 1n);
       // console.log(9007199254740992 === 9007199254740993);
-  </script>
-  <script>
+    </script>
+    <script>
       // 莫雷编码
       // let make = n => {
       //   if (n === 1) {
@@ -2813,8 +2855,8 @@
       // console.log(f([1, 0, 0, 0, 1], 1));
       // console.log(f([1, 0, 0, 0, 1], 2));
       // console.log(f([1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1], 3));
-  </script>
-  <script>
+    </script>
+    <script>
       // const name = "zhangqi";
       // "use strict";
 
@@ -2854,8 +2896,8 @@
       // };
       // console.log(ha([1, 1]));
       // console.log(ha([1, 1, 1, 2, 2, 2, 3, 3]));
-  </script>
-  <script>
+    </script>
+    <script>
       // let arr = [1, 2, 3, 4, 5];
       // let obj = {
       //   name: "zhangqi",
@@ -2871,8 +2913,8 @@
       //   "background: #222;color:#bada55;font-size:30px;",
       //   ">>"
       // );
-  </script>
-  <script>
+    </script>
+    <script>
       // function mix(...mixins) {
       //   class Mix {
       //     constructor() {
@@ -2923,8 +2965,8 @@
       // let c = new C();
       // console.log(c);
       // c.methodA();
-  </script>
-  <script>
+    </script>
+    <script>
       // class newObj extends Object {
       //   constructor() {
       //     super(...arguments);
@@ -2950,8 +2992,8 @@
       // console.log(myerror instanceof Error);
       // console.log(myerror.name);
       // console.log(myerror.stack);
-  </script>
-  <script>
+    </script>
+    <script>
       // function MyArray() {
       //   Array.apply(this, arguments);
       // }
@@ -3003,8 +3045,8 @@
       // console.log(Object.getOwnPropertyNames(Error.prototype));
       // console.log(Object.getOwnPropertyNames(Error.call(e)));
       // console.log(Object.getOwnPropertyNames(e));
-  </script>
-  <script>
+    </script>
+    <script>
       // class Point {
       //   constructor() {
       //     this.x = 1;
@@ -3038,8 +3080,8 @@
       // Object.setPrototypeOf(B.prototype, A.prototype);
       // console.log(B.__proto__ === A);
       // console.log(B.prototype.__proto__ === A.prototype);
-  </script>
-  <script>
+    </script>
+    <script>
       // let obj = {
       //   toString() {
       //     return "myObject: " + super.toString();
@@ -3083,8 +3125,8 @@
       // new Point();
       // let cp = new ColorPoint();
       // ColorPoint.myMethod(2);
-  </script>
-  <script>
+    </script>
+    <script>
       // class Shape {
       //   constructor() {
       //     if (new.target === Shape) {
@@ -3137,8 +3179,8 @@
       //   }
       // }
       // console.log(Bar.classMethod());
-  </script>
-  <script>
+    </script>
+    <script>
       // function selfish(target) {
       //   const cache = new WeakMap();
       //   const handler = {
@@ -3219,8 +3261,8 @@
 
       // let c = new Child(1, 2, 3);
       // console.log(c);
-  </script>
-  <script>
+    </script>
+    <script>
       // let Chinese = { nation: "中国" };
       // // let Doctor = { career: "医生" };
 
@@ -3283,7 +3325,6 @@
 
       // console.log(animail);
       // console.log(cat);
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>
