@@ -42,7 +42,6 @@
   </head>
   <body>
     <div class="container">
-      张奇
       <!-- <div id="box"></div> -->
     </div>
     <script>
@@ -56,9 +55,57 @@
     </script>
     <script>
       //
+      // const createWebService = function (baseUrl) {
+      //   return new Proxy(
+      //     {},
+      //     {
+      //       get(target, propKey, receiver) {
+      //         return () => `${baseUrl}/${propKey}`;
+      //       },
+      //     }
+      //   );
+      // };
+      // const service = createWebService("http://example.com/data");
+      // console.log(service.empl());
     </script>
     <script>
       //
+      // const memoize = (fn) => {
+      //   return new Proxy(fn, {
+      //     cache: new Map(),
+      //     apply(target, thisArg, argsList) {
+      //       let cacheKey = argsList.toString();
+      //       if (!this.cache.has(cacheKey)) {
+      //         this.cache.set(cacheKey, target.apply(thisArg, argsList));
+      //       }
+      //       return this.cache.get(cacheKey);
+      //     },
+      //   });
+      // };
+      // const memoize = function (fn) {
+      //   const cache = {};
+      //   return function (...args) {
+      //     const cacheKey = args.toString();
+      //     if (!cache[cacheKey]) {
+      //       cache[cacheKey] = fn.apply(this, args);
+      //     }
+      //     return cache[cacheKey];
+      //   };
+      // };
+      // const fibonacci = (n) =>
+      //   n <= 1 ? 1 : fibonacci(n - 1) + fibonacci(n - 2);
+      // const memoizedFibonacce = memoize(fibonacci);
+
+      // console.time("nomemoize");
+      // for (let i = 0; i < 100; i++) {
+      //   fibonacci(30);
+      // }
+      // console.timeEnd("nomemoize");
+      // console.time("withmemoize");
+      // for (let i = 0; i < 100; i++) {
+      //   memoizedFibonacce(30);
+      // }
+      // console.timeEnd("withmemoize");
     </script>
     <script>
       //
