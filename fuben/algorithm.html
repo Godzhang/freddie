@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <!-- <script src="./js/data-structure.js"></script> -->
     <script src="./js/binarySearchTree.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+      }
     </style>
     <title>algorithm</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container"></div>
 
     <script>
@@ -26,97 +25,116 @@
       //
     </script>
     <script>
-        //
-        // const numIslands = grid => {
-        //     if (!grid || grid.length === 0 || grid[0].length === 0) return
-        //     const moveX = [0, 1, 0, -1]
-        //     const moveY = [1, 0, -1, 0]
-        //     let count = 0
-        //     const row = grid.length
-        //     const col = grid[0].length
-        //     for (let i = 0; i < row; i++) {
-        //         for (let j = 0; j < col; j++) {
-        //             if (grid[i][j] === '1') {
-        //                 dfs(grid, i, j)
-        //                 count++
-        //             }
-        //         }
-        //     }
-
-        //     function dfs(grid, i, j) {
-        //         if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] === '0') return
-        //         grid[i][j] = '0'
-        //         for (let k = 0; k < 4; k++) {
-        //             dfs(grid, i + moveX[k], j + moveY[k])
-        //         }
-        //     }
-
-        //     return count
-        // }
-        // console.log(numIslands([
-        //     ['1', '1', '0', '0', '0'],
-        //     ['1', '1', '0', '0', '0'],
-        //     ['0', '0', '1', '0', '0'],
-        //     ['0', '0', '0', '1', '1'],
-        // ]))
+      //
     </script>
     <script>
-        //
-        // let preorder = [3, 9, 20, 15, 7]
-        // let inorder = [9, 3, 15, 20, 7]
-        // let postorder = [9, 15, 7, 20, 3]
-        // const buildTree = (preorder, inorder) => {
-        //   const len = preorder.length
-        //   const build = (preL, preR, inL, inR) => {
-        //     if (preL > preR) return null
-        //     const root = new TreeNode(preorder[preL])
-        //     const k = inorder.indexOf(root.val)
-        //     const numsLeft = k - inL
-        //     root.left = build(preL + 1, preL + numsLeft, inL, k - 1)
-        //     root.right = build(preL + numsLeft + 1, preR, k + 1, inR)
-        //     return root
-
-        //   }
-        //   return build(0, len - 1, 0, len - 1)
-        // }
-        // console.log(buildTree(preorder, inorder))
-
-        // const buildTree = (inorder, postorder) => {
-        //     const len = inorder.length
-        //     const build = (inL, inR, postL, postR) => {
-        //         if (postL > postR) return null
-        //         const root = new TreeNode(postorder[postR])
-        //         const k = inorder.indexOf(root.val)
-        //         const numsLeft = k - inL
-        //         root.left = build(inL, k - 1, postL, postL + numsLeft - 1)
-        //         root.right = build(k + 1, inR, postL + numsLeft, postR - 1)
-        //         return root
-        //     }
-        //     return build(0, len - 1, 0, len - 1)
-        // }
-        // console.log(buildTree(inorder, postorder))
+      //
     </script>
     <script>
-    // 最长回文子串
-    // const isPalidrome = (str, i, j) => {
-    //   while (i >= 0 && j < str.length && str[i] === str[j]) {
-    //     i--
-    //     j++
-    //   }
-    //   return str.substring(i + 1, j)
-    // }
-    // const longestPalindrome = (str) => {
-    //   let res = ''
-    //   for (let i = 0; i < str.length; i++) {
-    //     let l1 = isPalidrome(str, i, i)
-    //     let l2 = isPalidrome(str, i, i + 1)
-    //     res = res.length >= l1.length ? res : l1
-    //     res = res.length >= l2.length ? res : l2
-    //   }
-    //   return res
-    // };
-    // console.log(longestPalindrome('abc'))
-    // console.log(longestPalindrome('abac'))
+      //
+    </script>
+    <script>
+      //
+      const room = [
+        [1, 1, 1, 1, 1, 0, 1, 1],
+        [1, 1, 1, 1, 1, 0, 1, 1],
+        [1, 0, 1, 1, 1, 1, 1, 1],
+        [0, 0, 0, 1, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+      ];
+    </script>
+    <script>
+      //
+      // const numIslands = grid => {
+      //     if (!grid || grid.length === 0 || grid[0].length === 0) return
+      //     const moveX = [0, 1, 0, -1]
+      //     const moveY = [1, 0, -1, 0]
+      //     let count = 0
+      //     const row = grid.length
+      //     const col = grid[0].length
+      //     for (let i = 0; i < row; i++) {
+      //         for (let j = 0; j < col; j++) {
+      //             if (grid[i][j] === '1') {
+      //                 dfs(grid, i, j)
+      //                 count++
+      //             }
+      //         }
+      //     }
+
+      //     function dfs(grid, i, j) {
+      //         if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] === '0') return
+      //         grid[i][j] = '0'
+      //         for (let k = 0; k < 4; k++) {
+      //             dfs(grid, i + moveX[k], j + moveY[k])
+      //         }
+      //     }
+
+      //     return count
+      // }
+      // console.log(numIslands([
+      //     ['1', '1', '0', '0', '0'],
+      //     ['1', '1', '0', '0', '0'],
+      //     ['0', '0', '1', '0', '0'],
+      //     ['0', '0', '0', '1', '1'],
+      // ]))
+    </script>
+    <script>
+      //
+      // let preorder = [3, 9, 20, 15, 7]
+      // let inorder = [9, 3, 15, 20, 7]
+      // let postorder = [9, 15, 7, 20, 3]
+      // const buildTree = (preorder, inorder) => {
+      //   const len = preorder.length
+      //   const build = (preL, preR, inL, inR) => {
+      //     if (preL > preR) return null
+      //     const root = new TreeNode(preorder[preL])
+      //     const k = inorder.indexOf(root.val)
+      //     const numsLeft = k - inL
+      //     root.left = build(preL + 1, preL + numsLeft, inL, k - 1)
+      //     root.right = build(preL + numsLeft + 1, preR, k + 1, inR)
+      //     return root
+
+      //   }
+      //   return build(0, len - 1, 0, len - 1)
+      // }
+      // console.log(buildTree(preorder, inorder))
+
+      // const buildTree = (inorder, postorder) => {
+      //     const len = inorder.length
+      //     const build = (inL, inR, postL, postR) => {
+      //         if (postL > postR) return null
+      //         const root = new TreeNode(postorder[postR])
+      //         const k = inorder.indexOf(root.val)
+      //         const numsLeft = k - inL
+      //         root.left = build(inL, k - 1, postL, postL + numsLeft - 1)
+      //         root.right = build(k + 1, inR, postL + numsLeft, postR - 1)
+      //         return root
+      //     }
+      //     return build(0, len - 1, 0, len - 1)
+      // }
+      // console.log(buildTree(inorder, postorder))
+    </script>
+    <script>
+      // 最长回文子串
+      // const isPalidrome = (str, i, j) => {
+      //   while (i >= 0 && j < str.length && str[i] === str[j]) {
+      //     i--
+      //     j++
+      //   }
+      //   return str.substring(i + 1, j)
+      // }
+      // const longestPalindrome = (str) => {
+      //   let res = ''
+      //   for (let i = 0; i < str.length; i++) {
+      //     let l1 = isPalidrome(str, i, i)
+      //     let l2 = isPalidrome(str, i, i + 1)
+      //     res = res.length >= l1.length ? res : l1
+      //     res = res.length >= l2.length ? res : l2
+      //   }
+      //   return res
+      // };
+      // console.log(longestPalindrome('abc'))
+      // console.log(longestPalindrome('abac'))
     </script>
     <script>
       // 最长上升子序列
@@ -3410,6 +3428,5 @@
       // console.log(animail);
       // console.log(cat);
     </script>
-</body>
-
+  </body>
 </html>
