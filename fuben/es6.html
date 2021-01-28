@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <title>zhangqi</title>
+  </head>
+  <body>
+    <div class="container"></div>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+      // function toUnit32(value) {
+      //   return Math.floor(Math.abs(Number(value))) % Math.pow(2, 32);
+      // }
+      // function isArrayIndex(key) {
+      //   let numeric = toUnit32(key);
+      //   return String(numeric) === key && numeric < Math.pow(2, 32) - 1;
+      // }
+      // function createArray(length = 0) {
+      //   return new Proxy(
+      //     { length },
+      //     {
+      //       set(trapTarget, key, value) {
+      //         let currentLength = Reflect.get(trapTarget, "length");
+      //         if (key === "length") {
+      //           if (value < currentLength) {
+      //             for (let i = value; i < currentLength; i++) {
+      //               Reflect.deleteProperty(trapTarget, i);
+      //             }
+      //           }
+      //         } else if (isArrayIndex(key)) {
+      //           let numeric = Number(key);
+      //           if (numeric >= currentLength) {
+      //             Reflect.set(trapTarget, "length", numeric + 1);
+      //           }
+      //         }
+      //         return Reflect.set(trapTarget, key, value);
+      //       },
+      //     }
+      //   );
+      // }
+      // const colors = createArray(3);
+      // colors[0] = "red";
+      // colors[1] = "green";
+      // colors[2] = "blue";
+      // console.log(colors);
+      // console.log(colors.length);
+      // console.log(colors[2]);
+      // colors.length = 1;
+      // console.log(colors);
+      // console.log(colors.length);
+      // console.log(colors[0]);
+      // console.log(colors[1]);
+      // console.log(colors[2]);
+
+      // console.log(colors.length);
+      // colors[4] = "black";
+      // console.log(colors[4]);
+      // console.log(colors.length);
+    </script>
+    <script>
+      //
+      // const target = { name: "target", _name: "proxy", age: 30, value: 10 };
+      // const proto = { name: "proto" };
+
+      // const target = () => 42;
+      // const proxy = new Proxy(target, {
+      //   set(trapTarget, key, value, receiver) {
+      //     // if (!trapTarget.hasOwnProperty(key)) {
+      //     //   if (typeof value !== "number") {
+      //     //     throw new Error("property must be number");
+      //     //   }
+      //     // }
+      //     return Reflect.set(trapTarget, key, value, receiver);
+      //   },
+      //   get(trapTarget, key, receiver) {
+      //     // 如果使用trapTarget，无法检测到has陷阱中的判断
+      //     if (!(key in receiver)) {
+      //       throw new Error(`property ${key} not exist`);
+      //     }
+      //     return Reflect.get(trapTarget, key, receiver);
+      //   },
+      //   has(trapTarget, key) {
+      //     if (key === "value") {
+      //       return false;
+      //     } else {
+      //       return Reflect.has(trapTarget, key);
+      //     }
+      //   },
+      //   deleteProperty(trapTarget, key) {
+      //     if (key === "name") {
+      //       return false;
+      //     } else {
+      //       return Reflect.deleteProperty(trapTarget, key);
+      //     }
+      //   },
+      //   setPrototypeOf(trapTarget, proto) {
+      //     return Reflect.setPrototypeOf(trapTarget, proto);
+      //   },
+      //   getPrototypeOf(trapTarget) {
+      //     return Reflect.getPrototypeOf(trapTarget);
+      //   },
+      //   isExtensible(trapTarget) {
+      //     return Reflect.isExtensible(trapTarget);
+      //   },
+      //   preventExtensions(trapTarget) {
+      //     return Reflect.preventExtensions(trapTarget);
+      //   },
+      //   defineProperty(trapTarget, key, descriptor) {
+      //     if (key === "symbol") return false;
+      //     return Reflect.defineProperty(trapTarget, key, descriptor);
+      //   },
+      //   getOwnPropertyDescriptor(trapTarget, key) {
+      //     return Reflect.getOwnPropertyDescriptor(trapTarget, key);
+      //   },
+      //   ownKeys(trapTarget) {
+      //     return Reflect.ownKeys(trapTarget).filter((key) => {
+      //       return typeof key !== "string" || key[0] !== "_";
+      //     });
+      //   },
+      //   apply(trapTarget, thisArg, argumentList) {
+      //     return Reflect.apply(trapTarget, thisArg, argumentList);
+      //   },
+      //   construct(trapTarget, argumentList) {
+      //     return Reflect.construct(trapTarget, argumentList);
+      //   },
+      // });
+
+      // const { proxy, revoke } = Proxy.revocable(target, {});
+      // console.log(proxy.name);
+      // revoke();
+      // console.log(proxy);
+
+      // Object.assign(proxy, { _name: "zhagnqi" });
+      // console.log(proxy);
+
+      // const nameSymbol = Symbol("name");
+
+      // proxy.name = "proxy";
+      // proxy._name = "private";
+      // proxy[nameSymbol] = "symbol";
+
+      // let names = Object.getOwnPropertyNames(proxy),
+      //   keys = Object.keys(proxy),
+      //   symbols = Object.getOwnPropertySymbols(proxy);
+
+      // console.log(names);
+      // console.log(keys);
+      // console.log(symbols);
+
+      // console.log(Object.getOwnPropertyDescriptor(2, "name"));
+      // console.log(Reflect.getOwnPropertyDescriptor(2, "name"));
+
+      // console.log(Object.getOwnPropertyDescriptor(proxy, "name"));
+
+      // Object.defineProperty(proxy, "symbol", {
+      //   value: "proxy",
+      // });
+      // console.log(proxy.symbol);
+
+      // console.log(Object.preventExtensions(2));
+      // console.log(Object.preventExtensions({}));
+      // console.log(Reflect.preventExtensions({}));
+      // console.log(Reflect.preventExtensions(2));
+
+      // let targetProto = Object.getPrototypeOf(target);
+      // let proxyProto = Object.getPrototypeOf(proxy);
+
+      // console.log(targetProto === Object.prototype);
+      // console.log(proxyProto === Object.prototype);
+      // console.log(proxyProto);
+
+      // Object.setPrototypeOf(target, {});
+      // Object.setPrototypeOf(proxy, {});
+
+      // Object.setPrototypeOf(proxy, proto);
+      // console.log(proxy);
+      // const origin = { name: "origin" };
+      // Object.setPrototypeOf(origin, proto);
+      // console.log(Object.getPrototypeOf(origin) === proto);
+
+      // Object.defineProperty(target, "name", { configurable: false });
+      // console.log("name" in target);
+
+      // let res1 = delete target.name;
+      // console.log(res1);
+      // console.log("name" in target);
+
+      // console.log("name" in proxy);
+      // console.log("value" in proxy);
+      // console.log("age" in proxy);
+      // console.log("toString" in proxy);
+
+      // console.log(proxy.value);
+
+      // proxy.count = 1;
+      // proxy.name = "zhangqi";
+
+      // console.log(target);
+      // console.log(proxy);
+      // console.log(proxy.age);
+
+      // proxy.anotherName = "proxy";
+    </script>
+  </body>
+</html>
