@@ -8,6 +8,23 @@ const randomColor = () => {
   };
 };
 
+const createBuffer = (gl, attribute, vertexAttribPointer) => {
+  const { size, type, normalize, stride, offset } = vertexAttribPointer;
+  gl.enableVertexAttribArray(attribute);
+  const buffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  // 将变量获取数据的缓冲区指向当前绑定的 buffer。
+  gl.vertexAttribPointer(
+    attribute,
+    size,
+    type || gl.FLOAT,
+    normalize || false,
+    stride || 0,
+    offset || 0
+  );
+  return buffer;
+};
+
 const createShader = (gl, type, source) => {
   // 创建着色器对象
   const shader = gl.createShader(type);
