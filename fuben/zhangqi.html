@@ -1,115 +1,112 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <script src="./js/jquery.js"></script> -->
-    <!-- <script src="./js/lodash.js"></script>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <script src="./js/jquery.js"></script> -->
+  <!-- <script src="./js/lodash.js"></script>
     <script src="./js/moment.js"></script> -->
-    <!-- <script src="./js/FileSaver.js"></script>
+  <!-- <script src="./js/FileSaver.js"></script>
     <script src="./js/wordexport.js"></script>
     <script src="./js/velocity.min.js"></script> -->
-    <!-- <script src="./js/three.js"></script> -->
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-      html,
-      body {
-        width: 100%;
-        height: 100%;
-      }
-      .container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #000;
-        /* transform-style: preserve-3d; */
-        perspective: 4000px;
-      }
-      @keyframes rotate {
-        0% {
-          transform: translate(-50%, -50%) rotateX(-20deg) rotateY(0deg);
-        }
-        50% {
-          transform: translate(-50%, -50%) rotateX(-20deg) rotateY(180deg);
-        }
-        100% {
-          transform: translate(-50%, -50%) rotateX(-20deg) rotateY(360deg);
-        }
-      }
-      .wrapper {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotateX(-30deg) rotateY(0deg);
-        transform-origin: center center;
-        width: 320px;
-        height: 180px;
-        background-color: #f00;
-        transform-style: preserve-3d;
-        /* perspective: 4000px; */
-        /* animation: rotate 10s linear infinite; */
-      }
-      .wrapper img {
-        position: absolute;
-        width: 320px;
-        height: 180px;
-        transform: rotateY(0deg) translateZ(0px);
-        /* backface-visibility: hidden; */
-      }
-    </style>
-    <title>zhangqi</title>
-  </head>
-  <body>
-    <div class="container">
-      <div class="wrapper">
-        <img src="./images/bg1.jpg" alt="" />
-        <img src="./images/bg2.jpg" alt="" />
-        <img src="./images/bg3.jpg" alt="" />
-        <img src="./images/bg4.jpg" alt="" />
-        <img src="./images/bg5.jpg" alt="" />
-        <img src="./images/bg6.jpg" alt="" />
-        <img src="./images/bg7.jpg" alt="" />
-        <img src="./images/bg8.jpg" alt="" />
-        <img src="./images/bg9.jpg" alt="" />
-        <img src="./images/bg10.jpg" alt="" />
-        <img src="./images/bg11.jpg" alt="" />
-        <img src="./images/bg12.jpg" alt="" />
-      </div>
-    </div>
-    <script>
-      //
-    </script>
-    <script>
-      //
-    </script>
-    <script>
-      //
-    </script>
-    <script>
-      //
-    </script>
-    <script>
-      //
-      const count = 12;
-      const wrapper = document.querySelector(".wrapper");
-      const images = wrapper.querySelectorAll("img");
-      const wrapperWidth = 320;
-      const angle = 360 / count;
-      const translateZ =
-        (wrapperWidth / 2 + wrapperWidth / Math.sqrt(3)) * Math.sqrt(3);
+  <!-- <script src="./js/three.js"></script> -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
 
-      images.forEach((img, i) => {
-        img.style.transform = `rotateY(${
-          i * 30
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    .container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /* perspective: 3000; */
+      background-color: bisque;
+      transform-style: preserve-3d;
+      transition: 2s;
+    }
+
+    .container:hover {
+      transform: rotateY(80deg)
+    }
+
+    .wrapper {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 150px;
+      height: 150px;
+      margin: -75px 0 0 0;
+      background-color: #08c;
+      transform: rotateY(90deg) rotateZ(45deg) translateY(30px) rotateX(45deg);
+      /* animation: animate 3s linear infinite; */
+
+      /* transform: rotate(10deg, 30deg); */
+    }
+
+    @keyframes animate {
+      0% {
+        transform: matrix(1, 0, 0, 1, 0, 0);
+      }
+
+      50% {
+        transform: matrix3d(1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            30, 40, 50, 1);
+        ;
+      }
+
+      100% {
+        transform: matrix(1, 0, 0, 1, 0, 0);
+      }
+    }
+  </style>
+  <title>zhangqi</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="wrapper">
+    </div>
+  </div>
+  <script>
+      //
+  </script>
+  <script>
+      //
+  </script>
+  <script>
+      //
+  </script>
+  <script>
+      //
+  </script>
+  <script>
+    //
+    const count = 12;
+    const wrapper = document.querySelector(".wrapper");
+    const images = wrapper.querySelectorAll("img");
+    const wrapperWidth = 320;
+    const angle = 360 / count;
+    const translateZ =
+      (wrapperWidth / 2 + wrapperWidth / Math.sqrt(3)) * Math.sqrt(3);
+
+    images.forEach((img, i) => {
+      img.style.transform = `rotateY(${i * 30
         }deg) translateZ(${translateZ}px)`;
-      });
-    </script>
-    <script>
+    });
+  </script>
+  <script>
       //
       // const createWebService = function (baseUrl) {
       //   return new Proxy(
@@ -123,8 +120,8 @@
       // };
       // const service = createWebService("http://example.com/data");
       // console.log(service.empl());
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // const memoize = (fn) => {
       //   return new Proxy(fn, {
@@ -162,8 +159,8 @@
       //   memoizedFibonacce(30);
       // }
       // console.timeEnd("withmemoize");
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // const HTML_DECODE = {
       //   "&lt;": "<",
@@ -187,8 +184,8 @@
       //   return c;
       // });
       // console.log(str);
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // function ExportToDoc(filename = "") {
       //   var HtmlHead =
@@ -233,8 +230,8 @@
 
       //   document.body.removeChild(downloadLink);
       // }
-    </script>
-    <script>
+  </script>
+  <script>
       // 简单的导出word
       // function exportHTML() {
       //   var header =
@@ -256,8 +253,8 @@
       //   fileDownload.click();
       //   document.body.removeChild(fileDownload);
       // }
-    </script>
-    <script>
+  </script>
+  <script>
       // 压缩图片
       // const MAX_WIDTH = 800;
       // function compress(base64Url, quality = 80, mimeType = "image/jpeg") {
@@ -308,8 +305,8 @@
       //   };
       //   reader.readAsDataURL(event.target.files[0]);
       // };
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // function download(filename, blob) {
       //   const link = document.createElement("a");
@@ -320,8 +317,8 @@
       //   link.remove();
       //   URL.revokeObjectURL(link.href);
       // }
-    </script>
-    <script>
+  </script>
+  <script>
       // 分片上传
       // const file = new File(["a".repeat(1000000)], "test.txt");
       // const chunkSize = 40000;
@@ -347,8 +344,8 @@
       //   xhr.onload = () => callback(xhr.response);
       //   xhr.send(null);
       // };
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // const upload = document.getElementById("upload");
       // const image = document.getElementById("image");
@@ -373,8 +370,8 @@
       //   };
       //   reader.readAsDataURL(event.target.files[0]);
       // };
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // class Store {
       //   static CACHE_NAME = "cache_name";
@@ -469,8 +466,8 @@
       //     Date.now() + 100 * 60
       //   );
       // }
-    </script>
-    <script>
+  </script>
+  <script>
       // instanceof
       // function instanceof_s(sub, sup) {
       //   let proto = sub.__proto__;
@@ -481,8 +478,8 @@
       //     proto = proto.__proto__;
       //   }
       // }
-    </script>
-    <script>
+  </script>
+  <script>
       // throttle
       // 节流防抖版
       // function throttle(fn, wait, isDebounce) {
@@ -515,8 +512,8 @@
       // }
       // const fn = throttle(() => console.log("fn"), 1000);
       // document.querySelector("#btn").addEventListener("click", fn);
-    </script>
-    <script>
+  </script>
+  <script>
       // debounce
       // function debounce(fn, wait, immediate) {
       //   let timer = null;
@@ -533,8 +530,8 @@
       // const fn = () => console.log("fn");
       // const fnn = debounce(fn, 300);
       // fnn();
-    </script>
-    <script>
+  </script>
+  <script>
       // bind
       // Function.prototype.bind_s = function (context, ...args) {
       //   if (typeof this !== "function") {
@@ -556,8 +553,8 @@
       //   fBound.prototype = new noop();
       //   return fBound;
       // };
-    </script>
-    <script>
+  </script>
+  <script>
       // call / apply
       // Function.prototype.call_s = function (context = window, ...args) {
       //   context.func = this;
@@ -581,16 +578,16 @@
       //   console.log(this.name, a, b);
       // }
       // fn.apply_s(obj, ["a", "b"]);
-    </script>
-    <script>
+  </script>
+  <script>
       // JSON.parse
       // function parse(str) {}
-    </script>
-    <script>
+  </script>
+  <script>
       // JSON.stringify
       // function stringify(obj) {}
-    </script>
-    <script>
+  </script>
+  <script>
       // new 操作符
       // function new_s(func, ...args) {
       //   const result = {};
@@ -619,8 +616,8 @@
       // let fn2 = new Fn("zhangqi");
       // console.log(fn2);
       // console.log(fn2.__proto__);
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // const formatSettledResult = (success, value) =>
       //   success
@@ -653,8 +650,8 @@
       // Promise.all_settled([resolved, rejected]).then((res) => {
       //   console.log(res);
       // });
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // const partial = (fn, ...args) => {
       //   return (...args2) => {
@@ -667,8 +664,8 @@
       // const myGithubPath = partial(buildUri, "https", "github.com");
       // console.log(myGithubPath("semlinker/semlinker"));
       // console.log(myGithubPath("semlinker/awesome-typescript"));
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // const canvas = document.getElementById("canvas"),
       //   ctx = canvas.getContext("2d");
@@ -715,11 +712,11 @@
 
       //   oAqu.draw(ctx);
       // })();
-    </script>
-    <script>
+  </script>
+  <script>
       //
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // const dateFormatter = (ms, fmt) => {
       //   const date = new Date(ms);
@@ -750,8 +747,8 @@
       //   return fmt;
       // };
       // console.log(dateFormatter(Date.now(), "yyyy-MM-dd hh:mm:ss"));
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // const container = document.querySelector(".container");
 
@@ -793,8 +790,8 @@
       // setTimeout(() => {
       //   observer.disconnect();
       // }, 1500);
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // const proto = {
       //   obj: {
@@ -816,8 +813,8 @@
       // proto.job = "web";
       // console.log(proto.job);
       // console.log(proto.setAge("zhaojinge", 13));
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // const request = {
       //   get header() {
@@ -840,8 +837,8 @@
       // const context = {};
       // context.request = Object.create(r);
       // console.log(context.request.header);
-    </script>
-    <script>
+  </script>
+  <script>
       // 空值合并操作符
       // let flag = false;
       // console.log(flag ?? "zhangqi");
@@ -849,8 +846,8 @@
       // // 空值合并操作符与其他逻辑操作符之间的运算优先级未定义，共用会报错
       // // 可以使用括号表明优先级
       // console.log((null || undefined) ?? "foo");
-    </script>
-    <script>
+  </script>
+  <script>
       // 可选链操作符
       // 1. 基本例子
       // const myMap = new Map();
@@ -890,8 +887,8 @@
       // };
       // let customerCity = customer?.name ?? "按支撑";
       // console.log(customerCity);
-    </script>
-    <script>
+  </script>
+  <script>
       // simple deep clone
       // function deepClone(obj) {
       //   if (typeof obj !== "object" || obj === null) {
@@ -912,8 +909,8 @@
 
       //   return copy;
       // }
-    </script>
-    <script>
+  </script>
+  <script>
       // 实现一个全局唯一的Modal弹框
       // const Modal = (function () {
       //   let modal = null;
@@ -928,8 +925,8 @@
       //     return modal;
       //   };
       // })();
-    </script>
-    <script>
+  </script>
+  <script>
       // 实现Storage，使得该对象为单例，基于 localStorage 进行封装。实现方法 setItem(key,value) 和 getItem(key)。
       // 静态方法
       // class Storage {
@@ -972,8 +969,8 @@
       // })();
       // let s1 = getStorage();
       // let s2 = getStorage();
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // function shuffle(a) {
       //   let j, x, i;
@@ -985,8 +982,8 @@
       //   }
       //   return a;
       // }
-    </script>
-    <script>
+  </script>
+  <script>
       // async await
       // const getData = () =>
       //   new Promise((resolve) => setTimeout(() => resolve("data"), 1000));
@@ -1025,8 +1022,8 @@
       //   return "success";
       // });
       // test().then((res) => console.log(res));
-    </script>
-    <script>
+  </script>
+  <script>
       // https://github.com/xieranmaya/blog/issues/3
       // function resolvePromise(promise2, x, resolve, reject) {
       //   let then;
@@ -1201,8 +1198,8 @@
       //     });
       //   })
       //   .then((res) => console.log(res));
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // let channel = new MessageChannel();
       // let { port1, port2 } = channel;
@@ -1241,8 +1238,8 @@
       //   console.log(copyObj, obj);
       //   console.log(copyObj == obj);
       // });
-    </script>
-    <script>
+  </script>
+  <script>
       // https://juejin.im/post/5db6433b51882564912fc30f
       // function isObject(obj) {
       //   return Object.prototype.toString.call(obj) === "[object Object]";
@@ -1372,8 +1369,8 @@
       //   data.msg = 'zhangqi'
       //   data.number = 2
       // }, 2000)
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // class Observer {
       //   constructor() {
@@ -1441,8 +1438,8 @@
       //     age: 24,
       //   },
       // });
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // function aPromise(excutor) {
       //   this.onResolvedCallback = []
@@ -1485,8 +1482,8 @@
       // }).then(n => {
       //   console.log(n)
       // })
-    </script>
-    <script>
+  </script>
+  <script>
       // 关系图谱
       // class Edge {
       //   constructor(leftId, rightId, property) {
@@ -1505,8 +1502,8 @@
       // function newVertex(property) {
       //   return new Vertex(++vertexId, property)
       // }
-    </script>
-    <script>
+  </script>
+  <script>
       // 二叉树
       // class Node {
       //   constructor(value) {
@@ -1601,8 +1598,8 @@
       // console.log(tree.root);
       // console.log(tree.root.toString());
       // console.log(tree.size);
-    </script>
-    <script>
+  </script>
+  <script>
       // 树形结构
       // class Node {
       //   constructor(value) {
@@ -1762,8 +1759,8 @@
       //     return node.value == "node 4";
       //   })
       // );
-    </script>
-    <script>
+  </script>
+  <script>
       // 记账记录统计
       // let transactions = [
       //   {
@@ -1980,8 +1977,8 @@
       // console.log(timeSeries.sum("year", timeSeries.years()[0]));
       // console.log(timeSeries.avarage("year", timeSeries.years()[0]));
       // console.log("-----year grouped end-----");
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // const status = [
       //   1,
@@ -2026,8 +2023,8 @@
       // console.log(`每天在第 ${getHour(lowProduct)} 时生产力低`);
       // console.log(`每天在第 ${getHour(midProduct)} 时生产力一般`);
       // console.log(`每天在第 ${getHour(highProduct)} 时生产力高`);
-    </script>
-    <script>
+  </script>
+  <script>
       //
       // let tuples = [1, 2, 3, 2, 2, 3, 1, 4, 4, 1, 2, 1, 1, 3, 4];
       // const map = {};
@@ -2041,8 +2038,8 @@
       // }
       // pairs.sort((a, b) => b[1] - a[1]);
       // const most = pairs[0][0];
-    </script>
-    <script>
+  </script>
+  <script>
       // 统计词频
       //       _.reduceByKey = function(tuples, reduceCallback) {
       //         const grouped = _.groupBy(tuples, function(tuple) {
@@ -2086,8 +2083,8 @@
       //       });
 
       //       console.log(minimal5);
-    </script>
-    <script>
+  </script>
+  <script>
       // 以base为底计算对数
       // function getBaseLog(base, n) {
       //   return ~~(Math.log(n) / Math.log(base));
@@ -2108,8 +2105,8 @@
       //   }
       // }
       // console.log(result);
-    </script>
-    <script>
+  </script>
+  <script>
       // const graph = {
       //   "./src/index.js": {
       //     dependencies: { "./message.js": "./src/message.js" },
@@ -2140,6 +2137,7 @@
       //   }
       //   require("./src/index.js");
       // })(graph);
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>
