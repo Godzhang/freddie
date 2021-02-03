@@ -1,94 +1,117 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-      html,
-      body {
-        width: 100%;
-        height: 100%;
-      }
-      .container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #000;
-        /* transform-style: preserve-3d; */
-        perspective: 4000px;
-      }
-      @keyframes rotate {
-        0% {
-          transform: translate(-50%, -50%) rotateX(-20deg) rotateY(0deg);
-        }
-        50% {
-          transform: translate(-50%, -50%) rotateX(-20deg) rotateY(180deg);
-        }
-        100% {
-          transform: translate(-50%, -50%) rotateX(-20deg) rotateY(360deg);
-        }
-      }
-      .wrapper {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotateX(-30deg) rotateY(0deg);
-        transform-origin: center center;
-        width: 320px;
-        height: 180px;
-        background-color: #f00;
-        transform-style: preserve-3d;
-        /* perspective: 4000px; */
-        /* animation: rotate 10s linear infinite; */
-      }
-      .wrapper img {
-        position: absolute;
-        width: 320px;
-        height: 180px;
-        transform: rotateY(0deg) translateZ(0px);
-        /* backface-visibility: hidden; */
-      }
-    </style>
-    <title>zhangqi</title>
-  </head>
-  <body>
-    <div class="container">
-      <div class="wrapper">
-        <img src="./images/bg1.jpg" alt="" />
-        <img src="./images/bg2.jpg" alt="" />
-        <img src="./images/bg3.jpg" alt="" />
-        <img src="./images/bg4.jpg" alt="" />
-        <img src="./images/bg5.jpg" alt="" />
-        <img src="./images/bg6.jpg" alt="" />
-        <img src="./images/bg7.jpg" alt="" />
-        <img src="./images/bg8.jpg" alt="" />
-        <img src="./images/bg9.jpg" alt="" />
-        <img src="./images/bg10.jpg" alt="" />
-        <img src="./images/bg11.jpg" alt="" />
-        <img src="./images/bg12.jpg" alt="" />
-      </div>
-    </div>
-    <script>
-      //
-      const count = 12;
-      const wrapper = document.querySelector(".wrapper");
-      const images = wrapper.querySelectorAll("img");
-      const wrapperWidth = 320;
-      const angle = 360 / count;
-      const translateZ =
-        (wrapperWidth / 2 + wrapperWidth / Math.sqrt(3)) * Math.sqrt(3);
 
-      images.forEach((img, i) => {
-        img.style.transform = `rotateY(${
-          i * 30
-        }deg) translateZ(${translateZ}px)`;
-      });
-    </script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    .container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      perspective: 2000px;
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+      }
+
+      50% {
+        transform: translate(-50%, -50%) rotateX(360deg) rotateY(0deg);
+      }
+
+      100% {
+        transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg);
+      }
+    }
+
+    .wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+      width: 180px;
+      height: 180px;
+      transform-style: preserve-3d;
+      /* animation: rotate 10s linear infinite; */
+    }
+
+    .wrapper img {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      /* transform: rotateY(0deg) translateZ(0px); */
+      /* backface-visibility: hidden; */
+    }
+
+    .front {
+      transform: translateZ(90px);
+    }
+
+    .back {
+      transform: translateZ(-90px);
+    }
+
+    .left {
+      transform: translateX(-90px) rotateY(-90deg);
+    }
+
+    .right {
+      transform: translateX(90px) rotateY(90deg);
+    }
+
+    .up {
+      transform: translateY(-90px) rotateX(90deg);
+    }
+
+    .down {
+      transform: translateY(90px) rotateX(-90deg);
+    }
+  </style>
+  <title>zhangqi</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="wrapper">
+      <img class="front" src="../images/bg1.jpg" alt="" />
+      <img class="back" src="../images/bg2.jpg" alt="" />
+      <img class="left" src="../images/bg3.jpg" alt="" />
+      <img class="right" src="../images/bg4.jpg" alt="" />
+      <img class="up" src="../images/bg5.jpg" alt="" />
+      <img class="down" src="../images/bg6.jpg" alt="" />
+    </div>
+  </div>
+  <script>
+    //
+    // const count = 12;
+    // const wrapper = document.querySelector(".wrapper");
+    // const images = wrapper.querySelectorAll("img");
+    // const wrapperWidth = 320;
+    // const angle = 360 / count;
+    // const translateZ =
+    //   (wrapperWidth / 2 + wrapperWidth / Math.sqrt(3)) * Math.sqrt(3);
+
+    // images.forEach((img, i) => {
+    //   img.style.transform = `rotateY(${i * 30
+    //     }deg) translateZ(${translateZ}px)`;
+    // });
+  </script>
+</body>
+
 </html>
