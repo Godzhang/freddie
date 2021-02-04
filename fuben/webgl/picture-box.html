@@ -1,117 +1,180 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-    }
-
-    .container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #000;
-      perspective: 2000px;
-    }
-
-    @keyframes rotate {
-      0% {
-        transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
       }
 
-      50% {
-        transform: translate(-50%, -50%) rotateX(360deg) rotateY(0deg);
+      html,
+      body {
+        width: 100%;
+        height: 100%;
       }
 
-      100% {
-        transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg);
+      .container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        perspective: 2000px;
+        user-select: none;
       }
-    }
 
-    .wrapper {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
-      width: 180px;
-      height: 180px;
-      transform-style: preserve-3d;
-      /* animation: rotate 10s linear infinite; */
-    }
+      @keyframes rotate {
+        0% {
+          transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+        }
 
-    .wrapper img {
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      /* transform: rotateY(0deg) translateZ(0px); */
-      /* backface-visibility: hidden; */
-    }
+        50% {
+          transform: translate(-50%, -50%) rotateX(360deg) rotateY(0deg);
+        }
 
-    .front {
-      transform: translateZ(90px);
-    }
+        100% {
+          transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg);
+        }
+      }
 
-    .back {
-      transform: translateZ(-90px);
-    }
+      .wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        /* transform: rotateX(0deg) rotateY(0deg); */
+        width: 180px;
+        height: 180px;
+        margin: -90px -90px;
+        transform-style: preserve-3d;
+        /* animation: rotate 10s linear infinite; */
+      }
 
-    .left {
-      transform: translateX(-90px) rotateY(-90deg);
-    }
+      .wrapper img {
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        /* transform: rotateY(0deg) translateZ(0px); */
+        /* backface-visibility: hidden; */
+      }
 
-    .right {
-      transform: translateX(90px) rotateY(90deg);
-    }
+      .front {
+        transform: translateZ(90px);
+      }
 
-    .up {
-      transform: translateY(-90px) rotateX(90deg);
-    }
+      .back {
+        transform: translateZ(-90px);
+      }
 
-    .down {
-      transform: translateY(90px) rotateX(-90deg);
-    }
-  </style>
-  <title>zhangqi</title>
-</head>
+      .left {
+        transform: translateX(-90px) rotateY(-90deg);
+      }
 
-<body>
-  <div class="container">
-    <div class="wrapper">
-      <img class="front" src="../images/bg1.jpg" alt="" />
-      <img class="back" src="../images/bg2.jpg" alt="" />
-      <img class="left" src="../images/bg3.jpg" alt="" />
-      <img class="right" src="../images/bg4.jpg" alt="" />
-      <img class="up" src="../images/bg5.jpg" alt="" />
-      <img class="down" src="../images/bg6.jpg" alt="" />
+      .right {
+        transform: translateX(90px) rotateY(90deg);
+      }
+
+      .up {
+        transform: translateY(-90px) rotateX(90deg);
+      }
+
+      .down {
+        transform: translateY(90px) rotateX(-90deg);
+      }
+    </style>
+    <title>zhangqi</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <img class="front" src="../images/bg1.jpg" alt="" />
+        <img class="back" src="../images/bg2.jpg" alt="" />
+        <img class="left" src="../images/bg3.jpg" alt="" />
+        <img class="right" src="../images/bg4.jpg" alt="" />
+        <img class="up" src="../images/bg5.jpg" alt="" />
+        <img class="down" src="../images/bg6.jpg" alt="" />
+      </div>
     </div>
-  </div>
-  <script>
-    //
-    // const count = 12;
-    // const wrapper = document.querySelector(".wrapper");
-    // const images = wrapper.querySelectorAll("img");
-    // const wrapperWidth = 320;
-    // const angle = 360 / count;
-    // const translateZ =
-    //   (wrapperWidth / 2 + wrapperWidth / Math.sqrt(3)) * Math.sqrt(3);
+    <script>
+      const container = document.querySelector(".container");
+      const wrapper = document.querySelector(".wrapper");
 
-    // images.forEach((img, i) => {
-    //   img.style.transform = `rotateY(${i * 30
-    //     }deg) translateZ(${translateZ}px)`;
-    // });
-  </script>
-</body>
+      const momentumTimeThreshold = 300;
+      const momentumYThreshold = 15;
 
+      let isTouch = false;
+      let startX = 0;
+      let startY = 0;
+      let moveX = 0;
+      let moveY = 0;
+      let rotateX = 0;
+      let rotateY = 0;
+      let lastTime = 0;
+
+      document.addEventListener("mousedown", (e) => {
+        isTouch = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        lastTime = Date.now();
+      });
+      document.addEventListener("mousemove", (e) => {
+        if (!isTouch) return;
+        moveX = e.clientX - startX;
+        moveY = e.clientY - startY;
+
+        rotateY += moveX * 0.2;
+        rotateX -= moveY * 0.1;
+
+        wrapper.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+        startX = e.clientX;
+        startY = e.clientY;
+
+        const nowTime = Date.now();
+        if (nowTime - lastTime > momentumTimeThreshold) {
+          lastTime = nowTime;
+        }
+      });
+      document.addEventListener("mouseup", () => {
+        if (isTouch) {
+          isTouch = false;
+
+          const duration = Date.now() - lastTime;
+          if (duration < momentumTimeThreshold) {
+            goon();
+          }
+        }
+      });
+      function goon() {
+        moveX *= 0.95;
+        moveY *= 0.95;
+        rotateY += moveX * 0.2;
+        rotateX -= moveY * 0.1;
+        wrapper.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+        if (Math.abs(moveX) < 0.1 && Math.abs(moveY) < 0.1) {
+          return;
+        }
+        requestAnimationFrame(goon);
+      }
+    </script>
+    <script>
+      //
+      // const count = 12;
+      // const wrapper = document.querySelector(".wrapper");
+      // const images = wrapper.querySelectorAll("img");
+      // const wrapperWidth = 320;
+      // const angle = 360 / count;
+      // const translateZ =
+      //   (wrapperWidth / 2 + wrapperWidth / Math.sqrt(3)) * Math.sqrt(3);
+
+      // images.forEach((img, i) => {
+      //   img.style.transform = `rotateY(${i * 30
+      //     }deg) translateZ(${translateZ}px)`;
+      // });
+    </script>
+  </body>
 </html>
