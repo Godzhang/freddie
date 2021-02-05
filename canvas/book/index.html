@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <title>book-study</title>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      //
+      const canvas = document.getElementById("canvas");
+      canvas.width = 500;
+      canvas.height = 500;
+      canvas.style.width = 250 + "px";
+      canvas.style.height = 250 + "px";
+
+      const context = canvas.getContext("2d");
+      console.log(context);
+    </script>
+  </body>
+</html>
