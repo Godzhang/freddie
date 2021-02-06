@@ -1,0 +1,1 @@
+1. createPattern 尝试video和canvas的情景

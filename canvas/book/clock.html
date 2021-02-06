@@ -1,107 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../reset.css" />
-    <script src="../public/utils.js"></script>
-    <title>book-study</title>
-  </head>
-  <body>
-    <canvas id="canvas"></canvas>
-    <script>
-      //
-      const canvas = document.getElementById("canvas");
-      const context = canvas.getContext("2d");
-      const WIDTH = 500;
-      canvas.width = WIDTH;
-      canvas.height = WIDTH;
-      // canvas.style.width = WIDTH / 2 + "px";
-      // canvas.style.height = WIDTH / 2 + "px";
 
-      const FONT_HEIGHT = 15;
-      const MARGIN = 35;
-      const HAND_TRUNCATION = WIDTH / 25;
-      const HOUR_HAND_TRUNCATION = WIDTH / 10;
-      const NUMERAL_SPACING = 20;
-      const RADIUS = WIDTH / 2 - MARGIN;
-      const HAND_RADIUS = RADIUS + NUMERAL_SPACING;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <title>clock</title>
+</head>
 
-      function drawCircle() {
-        context.beginPath();
-        context.arc(
-          canvas.width / 2,
-          canvas.height / 2,
-          RADIUS,
-          0,
-          Math.PI * 2,
-          true
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    //
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+    const WIDTH = 500;
+    canvas.width = WIDTH;
+    canvas.height = WIDTH;
+    // canvas.style.width = WIDTH / 2 + "px";
+    // canvas.style.height = WIDTH / 2 + "px";
+
+    const FONT_HEIGHT = 15;
+    const MARGIN = 35;
+    const HAND_TRUNCATION = WIDTH / 25;
+    const HOUR_HAND_TRUNCATION = WIDTH / 10;
+    const NUMERAL_SPACING = 20;
+    const RADIUS = WIDTH / 2 - MARGIN;
+    const HAND_RADIUS = RADIUS + NUMERAL_SPACING;
+    let date = 0
+
+    function drawCircle() {
+      context.beginPath();
+      context.arc(
+        canvas.width / 2,
+        canvas.height / 2,
+        RADIUS,
+        0,
+        Math.PI * 2,
+        true
+      );
+      context.stroke();
+    }
+    function drawNumerals() {
+      const numerals = Array.from({ length: 12 }).map((item, i) => i + 1);
+      let angle = 0;
+      let numeralWidth = 0;
+
+      numerals.forEach((numeral) => {
+        angle = (Math.PI / 6) * (numeral - 3);
+        numeralWidth = context.measureText(numeral).width;
+        context.fillText(
+          numeral,
+          canvas.width / 2 + Math.cos(angle) * HAND_RADIUS - numeralWidth / 2,
+          canvas.height / 2 + Math.sin(angle) * HAND_RADIUS + FONT_HEIGHT / 3
         );
-        context.stroke();
-      }
-      function drawNumerals() {
-        const numerals = Array.from({ length: 12 }).map((item, i) => i + 1);
-        let angle = 0;
-        let numeralWidth = 0;
+      });
+    }
+    function drawCenter() {
+      context.beginPath();
+      context.arc(
+        canvas.width / 2,
+        canvas.height / 2,
+        5,
+        0,
+        Math.PI * 2,
+        true
+      );
+      context.fill();
+    }
+    function drawHand(endX, endY, lineWidth) {
+      context.lineWidth = lineWidth
+      context.moveTo(canvas.width / 2, canvas.height / 2);
+      context.lineTo(
+        endX,
+        endY
+      );
+      context.stroke()
+    }
+    function drawHourHand() {
+      let hour = date.getHours();
+      const minutes = date.getMinutes();
+      hour = hour > 12 ? hour - 12 : hour;
+      const angle = ((hour - 3) + (minutes / 60)) * (Math.PI / 6);
 
-        numerals.forEach((numeral) => {
-          angle = (Math.PI / 6) * (numeral - 3);
-          numeralWidth = context.measureText(numeral).width;
-          context.fillText(
-            numeral,
-            canvas.width / 2 + Math.cos(angle) * HAND_RADIUS - numeralWidth / 2,
-            canvas.height / 2 + Math.sin(angle) * HAND_RADIUS + FONT_HEIGHT / 3
-          );
-        });
-      }
-      function drawCenter() {
-        context.beginPath();
-        context.arc(
-          canvas.width / 2,
-          canvas.height / 2,
-          5,
-          0,
-          Math.PI * 2,
-          true
-        );
-        context.fill();
-      }
-      function drawHand(loc, isHour) {
-        const angle = Math.PI * 2 * (loc / 60) - Math.PI / 2;
-        const handRadius = isHour
-          ? RADIUS - HAND_TRUNCATION - HOUR_HAND_TRUNCATION
-          : RADIUS - HAND_TRUNCATION;
-        const lineWidth = isHour ? 5 : 1;
+      drawHand(
+        canvas.width / 2 + Math.cos(angle) * (RADIUS - HAND_TRUNCATION - HOUR_HAND_TRUNCATION),
+        canvas.height / 2 + Math.sin(angle) * (RADIUS - HAND_TRUNCATION - HOUR_HAND_TRUNCATION),
+        5
+      )
+    }
+    function drawMinuteHand() {
+      const minutes = date.getMinutes();
+      const angle = (minutes - 15) * 6 * Math.PI / 180
+      drawHand(
+        canvas.width / 2 + Math.cos(angle) * (RADIUS - HAND_TRUNCATION),
+        canvas.height / 2 + Math.sin(angle) * (RADIUS - HAND_TRUNCATION), 3
+      )
+    }
+    function drawSeconds() {
+      const seconds = date.getSeconds();
+      const angle = (seconds - 15) * 6 * Math.PI / 180
+      drawHand(
+        canvas.width / 2 + Math.cos(angle) * (RADIUS - HAND_TRUNCATION),
+        canvas.height / 2 + Math.sin(angle) * (RADIUS - HAND_TRUNCATION),
+        1
+      )
+    }
+    // 一个圆是360,也就是2PI,12个刻度,每个刻度30度,30度/5 ,每分钟6度.圆心一点,每6度一点,你要计算每分钟以圆心旋转6度的点坐标,利用旋转公式即可,如果用系统的cos,sin注意转换成弧度.
+    function drawHands() {
+      date = new Date()
 
-        context.lineWidth = lineWidth;
-        context.moveTo(canvas.width / 2, canvas.height / 2);
-        context.lineTo(
-          canvas.width / 2 + Math.cos(angle) * handRadius,
-          canvas.height / 2 + Math.sin(angle) * handRadius
-        );
-        context.stroke();
-      }
-      function drawHands() {
-        const date = new Date();
-        let hour = date.getHours();
-        hour = hour > 12 ? hour - 12 : hour;
+      drawHourHand()
+      drawMinuteHand()
+      drawSeconds()
+    }
 
-        drawHand(hour * 5 + date.getMinutes() / 60, true, 0.5);
-        drawHand(date.getMinutes(), false, 0.5);
-        drawHand(date.getSeconds(), false, 0.2);
-      }
+    function drawClock() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
 
-      function drawClock() {
-        context.clearRect(0, 0, canvas.width, canvas.height);
+      drawCircle();
+      drawNumerals();
+      drawCenter();
+      drawHands();
 
-        drawCircle();
-        drawNumerals();
-        drawCenter();
-        drawHands();
-      }
+      setTimeout(drawClock, 1000)
+    }
 
-      context.font = FONT_HEIGHT + "px Arial";
-      setInterval(drawClock, 1000);
-    </script>
-  </body>
+    context.font = FONT_HEIGHT + "px Arial";
+    drawClock()
+  </script>
+</body>
+
 </html>

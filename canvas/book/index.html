@@ -1,24 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../reset.css" />
-    <script src="../public/utils.js"></script>
-    <title>book-study</title>
-  </head>
-  <body>
-    <canvas id="canvas"></canvas>
-    <script>
-      //
-      const canvas = document.getElementById("canvas");
-      canvas.width = 500;
-      canvas.height = 500;
-      canvas.style.width = 250 + "px";
-      canvas.style.height = 250 + "px";
 
-      const context = canvas.getContext("2d");
-      console.log(context);
-    </script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <style>
+    #canvas {
+      /* margin: 100px; */
+      /* border: 1px solid #ddd; */
+    }
+  </style>
+  <title>book-study</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    //
+    const canvasWidth = document.documentElement.clientWidth
+    const canvasHeight = document.documentElement.clientHeight
+    const canvas = document.getElementById("canvas");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    const context = canvas.getContext("2d");
+
+    // 阴影
+    // 内凹效果的橡皮擦 start
+    context.lineWidth = 1
+    context.shadowColor = 'blue'
+    context.shadowOffsetX = -5
+    context.shadowOffsetY = -5
+    context.shadowBlur = 20
+    context.strokeStyle = 'rgba(0,0,255,0.6)'
+
+    context.beginPath()
+    context.arc(canvasWidth / 2, canvasHeight / 2, 300, 0, Math.PI * 2, false)
+    context.clip()
+    context.stroke()
+    // 内凹效果的橡皮擦 end
+
+    // function drawShadow(color) {
+    //   context.shadowColor = color
+    //   context.shadowOffsetX = 2
+    //   context.shadowOffsetY = -2
+    //   context.shadowBlur = 5
+
+    //   context.fillStyle = '#08c'
+    //   context.fillRect(100, 100, 100, 50)
+    // }
+    // drawShadow('rgba(0, 0, 0, 0.7)')
+
+    // document.body.addEventListener('click', () => {
+    //   context.clearRect(0, 0, canvasWidth, canvasHeight)
+    //   drawShadow('rgba(0,0,0,0)')
+    // })
+
+    // 图案
+    // const img = new Image()
+
+    // function fillCanvasWithPattern(repeatString) {
+    //   const pattern = context.createPattern(img, repeatString)
+    //   context.clearRect(0, 0, canvasWidth, canvasHeight)
+    //   context.fillStyle = pattern
+    //   context.fillRect(0, 0, canvasWidth, canvasHeight)
+    //   // context.fill()
+    //   requestAnimationFrame(fillCanvasWithPattern.bind(this, repeatString))
+    // }
+    // img.src = '../images/5.jpg'
+    // img.onload = () => {
+    //   fillCanvasWithPattern('no-repeat')
+    // }
+
+    // 径向渐变
+    // const radialGradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 10, canvas.width / 2, 0, 100)
+    // radialGradient.addColorStop(0, 'blue')
+    // radialGradient.addColorStop(0.25, 'white')
+    // radialGradient.addColorStop(0.5, 'purple')
+    // radialGradient.addColorStop(0.65, 'red')
+    // radialGradient.addColorStop(1, 'yellow')
+
+    // context.fillStyle = radialGradient
+    // context.rect(0, 0, canvas.width, canvas.height)
+    // context.fill()
+
+    // 线性渐变
+    // const gradient = context.createLinearGradient(325, 100, 525, 100)
+    // gradient.addColorStop(0, 'blue')
+    // gradient.addColorStop(0.25, 'white')
+    // gradient.addColorStop(0.5, 'purple')
+    // gradient.addColorStop(0.65, 'red')
+    // gradient.addColorStop(1, 'yellow')
+
+    // context.lineJoin = 'round'
+    // context.lineWidth = 30
+
+    // context.font = '24px Helvetica'
+    // context.fillText('click anywhere to erase', 175, 200)
+
+    // context.strokeStyle = 'darksalmon'
+    // context.fillStyle = gradient
+
+    // context.strokeRect(75, 100, 200, 200)
+    // context.fillRect(325, 100, 200, 200)
+
+    // canvas.addEventListener('mousedown', e => {
+    //   context.clearRect(0, 0, documentWidth, documentHeight)
+    // })
+  </script>
+</body>
+
 </html>
