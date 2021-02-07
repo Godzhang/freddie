@@ -9,6 +9,7 @@ function randomColor() {
   )}, ${Math.random()})`;
 }
 
+// 客户端坐标转 canvas 坐标
 function windowToCanvas(canvas, x, y) {
   const bbox = canvas.getBoundingClientRect();
   // 要考虑canvas画布大小和样式大小不一样时的坐标换算
@@ -18,6 +19,7 @@ function windowToCanvas(canvas, x, y) {
   };
 }
 
+// 绘制矩形，支持逆时针绘制
 function rect(context, x, y, w, h, direction) {
   // 如果是逆时针
   if (direction) {
@@ -34,6 +36,7 @@ function rect(context, x, y, w, h, direction) {
   context.closePath();
 }
 
+// 绘制网格
 function drawGrid(context, color, stepx, stepy) {
   const { width, height } = context.canvas;
   context.strokeStyle = color;
@@ -51,4 +54,23 @@ function drawGrid(context, color, stepx, stepy) {
     context.lineTo(width, i);
     context.stroke();
   }
+}
+
+// 绘制虚线
+function drawDashedLine(context, x1, y1, x2, y2, dashLength) {
+  dashLength = dashLength === undefined ? 5 : dashLength;
+  const deltaX = x2 - x1;
+  const deltaY = y2 - y1;
+  const numDashes = Math.floor(
+    Math.sqrt(deltaX * deltaX + deltaY * deltaY) / dashLength
+  );
+
+  for (let i = 0; i < numDashes; i++) {
+    context[i % 2 === 0 ? "moveTo" : "lineTo"](
+      x1 + (deltaX / numDashes) * i,
+      y1 + (deltaY / numDashes) * i
+    );
+  }
+
+  context.stroke();
 }
