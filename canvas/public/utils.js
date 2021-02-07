@@ -17,3 +17,38 @@ function windowToCanvas(canvas, x, y) {
     y: (y - bbox.top) * (canvas.height / bbox.height),
   };
 }
+
+function rect(context, x, y, w, h, direction) {
+  // 如果是逆时针
+  if (direction) {
+    context.moveTo(x, y);
+    context.lineTo(x, y + h);
+    context.lineTo(x + w, y + h);
+    context.lineTo(x + w, y);
+  } else {
+    context.moveTo(x, y);
+    context.lineTo(x + w, y);
+    context.lineTo(x + w, y + h);
+    context.lineTo(x, y + h);
+  }
+  context.closePath();
+}
+
+function drawGrid(context, color, stepx, stepy) {
+  const { width, height } = context.canvas;
+  context.strokeStyle = color;
+  context.lineWidth = 0.5;
+
+  for (let i = stepx + 0.5; i < width; i += stepx + 1) {
+    context.beginPath();
+    context.moveTo(i, 0);
+    context.lineTo(i, height);
+    context.stroke();
+  }
+  for (let i = stepy + 0.5; i < height; i += stepy + 1) {
+    context.beginPath();
+    context.moveTo(0, i);
+    context.lineTo(width, i);
+    context.stroke();
+  }
+}

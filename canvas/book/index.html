@@ -1,115 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <style>
+      #canvas {
+        /* margin: 100px; */
+        /* border: 1px solid #ddd; */
+      }
+    </style>
+    <title>book-study</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../reset.css" />
-  <script src="../public/utils.js"></script>
-  <style>
-    #canvas {
-      /* margin: 100px; */
-      /* border: 1px solid #ddd; */
-    }
-  </style>
-  <title>book-study</title>
-</head>
+  <body>
+    <canvas id="canvas"></canvas>
 
-<body>
-  <canvas id="canvas"></canvas>
-  <script>
-    //
-    const canvasWidth = document.documentElement.clientWidth
-    const canvasHeight = document.documentElement.clientHeight
-    const canvas = document.getElementById("canvas");
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
+    <script>
+      //
+      const canvasWidth = document.body.clientWidth;
+      const canvasHeight = document.body.clientHeight;
+      const canvas = document.getElementById("canvas");
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
 
-    const context = canvas.getContext("2d");
+      const context = canvas.getContext("2d");
 
-    // 阴影
-    // 内凹效果的橡皮擦 start
-    context.lineWidth = 1
-    context.shadowColor = 'blue'
-    context.shadowOffsetX = -5
-    context.shadowOffsetY = -5
-    context.shadowBlur = 20
-    context.strokeStyle = 'rgba(0,0,255,0.6)'
+      // function drawGrid(context, color, stepx, stepy) {
+      //   const { width, height } = context.canvas;
+      //   context.strokeStyle = color;
+      //   context.lineWidth = 0.5;
 
-    context.beginPath()
-    context.arc(canvasWidth / 2, canvasHeight / 2, 300, 0, Math.PI * 2, false)
-    context.clip()
-    context.stroke()
-    // 内凹效果的橡皮擦 end
+      //   for (let i = stepx + 0.5; i < width; i += stepx + 1) {
+      //     context.beginPath();
+      //     context.moveTo(i, 0);
+      //     context.lineTo(i, height);
+      //     context.stroke();
+      //   }
+      //   for (let i = stepy + 0.5; i < height; i += stepy + 1) {
+      //     context.beginPath();
+      //     context.moveTo(0, i);
+      //     context.lineTo(width, i);
+      //     context.stroke();
+      //   }
+      // }
+      // drawGrid(context, "OrangeRed", 10, 10);
 
-    // function drawShadow(color) {
-    //   context.shadowColor = color
-    //   context.shadowOffsetX = 2
-    //   context.shadowOffsetY = -2
-    //   context.shadowBlur = 5
+      // context.lineWidth = 1;
+      // context.beginPath();
+      // context.moveTo(50, 10);
+      // context.lineTo(450, 10);
+      // context.stroke();
+      // context.beginPath();
+      // context.moveTo(50.5, 50.5);
+      // context.lineTo(450.5, 50.5);
+      // context.stroke();
+      // 裁剪图形
+      // context.fillStyle = "Darkorange";
+      // context.strokeStyle = "rgba(0, 0, 0, 0.7)";
 
-    //   context.fillStyle = '#08c'
-    //   context.fillRect(100, 100, 100, 50)
-    // }
-    // drawShadow('rgba(0, 0, 0, 0.7)')
+      // context.beginPath();
 
-    // document.body.addEventListener('click', () => {
-    //   context.clearRect(0, 0, canvasWidth, canvasHeight)
-    //   drawShadow('rgba(0,0,0,0)')
-    // })
+      // context.rect(0, 0, canvasWidth, canvasHeight);
 
-    // 图案
-    // const img = new Image()
+      // rect(context, 100, 100, 100, 100, true);
 
-    // function fillCanvasWithPattern(repeatString) {
-    //   const pattern = context.createPattern(img, repeatString)
-    //   context.clearRect(0, 0, canvasWidth, canvasHeight)
-    //   context.fillStyle = pattern
-    //   context.fillRect(0, 0, canvasWidth, canvasHeight)
-    //   // context.fill()
-    //   requestAnimationFrame(fillCanvasWithPattern.bind(this, repeatString))
-    // }
-    // img.src = '../images/5.jpg'
-    // img.onload = () => {
-    //   fillCanvasWithPattern('no-repeat')
-    // }
+      // context.moveTo(150, 300); // 消除画圆之前子路径终点与圆的起点之间的连线
+      // context.arc(100, 300, 50, 0, Math.PI * 2, true);
 
-    // 径向渐变
-    // const radialGradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 10, canvas.width / 2, 0, 100)
-    // radialGradient.addColorStop(0, 'blue')
-    // radialGradient.addColorStop(0.25, 'white')
-    // radialGradient.addColorStop(0.5, 'purple')
-    // radialGradient.addColorStop(0.65, 'red')
-    // radialGradient.addColorStop(1, 'yellow')
+      // context.moveTo(600, 600);
+      // context.lineTo(500, 600);
+      // context.lineTo(600, 700);
 
-    // context.fillStyle = radialGradient
-    // context.rect(0, 0, canvas.width, canvas.height)
-    // context.fill()
+      // context.closePath();
 
-    // 线性渐变
-    // const gradient = context.createLinearGradient(325, 100, 525, 100)
-    // gradient.addColorStop(0, 'blue')
-    // gradient.addColorStop(0.25, 'white')
-    // gradient.addColorStop(0.5, 'purple')
-    // gradient.addColorStop(0.65, 'red')
-    // gradient.addColorStop(1, 'yellow')
+      // context.fill();
+      // context.stroke();
+      // -----------------------------------------------------
+      // context.fillStyle = "#08c";
+      // context.shadowColor = "rgba(0, 0, 0, 0.8)";
+      // context.shadowOffsetX = 12;
+      // context.shadowOffsetY = 12;
+      // context.shadowBlur = 15;
+      // context.arc(500, 500, 300, 0, Math.PI * 2);
+      // context.arc(500, 500, 400, 0, Math.PI * 2, true);
+      // context.fill();
 
-    // context.lineJoin = 'round'
-    // context.lineWidth = 30
+      // context.beginPath();
+      // context.rect(100, 100, 100, 100);
+      // context.stroke();
 
-    // context.font = '24px Helvetica'
-    // context.fillText('click anywhere to erase', 175, 200)
+      // context.beginPath();
+      // context.rect(500, 500, 100, 100);
+      // context.stroke();
+      // 阴影
+      // 内凹效果的橡皮擦 start
+      // context.lineWidth = 1;
+      // context.shadowColor = "blue";
+      // context.shadowOffsetX = -5;
+      // context.shadowOffsetY = -5;
+      // context.shadowBlur = 20;
+      // context.strokeStyle = "rgba(0,0,255,0.6)";
 
-    // context.strokeStyle = 'darksalmon'
-    // context.fillStyle = gradient
+      // context.beginPath();
+      // context.arc(
+      //   canvasWidth / 2,
+      //   canvasHeight / 2,
+      //   300,
+      //   0,
+      //   Math.PI * 2,
+      //   false
+      // );
+      // context.clip();
+      // context.stroke();
+      // 内凹效果的橡皮擦 end
 
-    // context.strokeRect(75, 100, 200, 200)
-    // context.fillRect(325, 100, 200, 200)
+      // function drawShadow(color) {
+      //   context.shadowColor = color
+      //   context.shadowOffsetX = 2
+      //   context.shadowOffsetY = -2
+      //   context.shadowBlur = 5
 
-    // canvas.addEventListener('mousedown', e => {
-    //   context.clearRect(0, 0, documentWidth, documentHeight)
-    // })
-  </script>
-</body>
+      //   context.fillStyle = '#08c'
+      //   context.fillRect(100, 100, 100, 50)
+      // }
+      // drawShadow('rgba(0, 0, 0, 0.7)')
 
+      // document.body.addEventListener('click', () => {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight)
+      //   drawShadow('rgba(0,0,0,0)')
+      // })
+
+      // 图案
+      // const img = new Image()
+
+      // function fillCanvasWithPattern(repeatString) {
+      //   const pattern = context.createPattern(img, repeatString)
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight)
+      //   context.fillStyle = pattern
+      //   context.fillRect(0, 0, canvasWidth, canvasHeight)
+      //   // context.fill()
+      //   requestAnimationFrame(fillCanvasWithPattern.bind(this, repeatString))
+      // }
+      // img.src = '../images/5.jpg'
+      // img.onload = () => {
+      //   fillCanvasWithPattern('no-repeat')
+      // }
+
+      // 径向渐变
+      // const radialGradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 10, canvas.width / 2, 0, 100)
+      // radialGradient.addColorStop(0, 'blue')
+      // radialGradient.addColorStop(0.25, 'white')
+      // radialGradient.addColorStop(0.5, 'purple')
+      // radialGradient.addColorStop(0.65, 'red')
+      // radialGradient.addColorStop(1, 'yellow')
+
+      // context.fillStyle = radialGradient
+      // context.rect(0, 0, canvas.width, canvas.height)
+      // context.fill()
+
+      // 线性渐变
+      // const gradient = context.createLinearGradient(325, 100, 525, 100)
+      // gradient.addColorStop(0, 'blue')
+      // gradient.addColorStop(0.25, 'white')
+      // gradient.addColorStop(0.5, 'purple')
+      // gradient.addColorStop(0.65, 'red')
+      // gradient.addColorStop(1, 'yellow')
+
+      // context.lineJoin = 'round'
+      // context.lineWidth = 30
+
+      // context.font = '24px Helvetica'
+      // context.fillText('click anywhere to erase', 175, 200)
+
+      // context.strokeStyle = 'darksalmon'
+      // context.fillStyle = gradient
+
+      // context.strokeRect(75, 100, 200, 200)
+      // context.fillRect(325, 100, 200, 200)
+
+      // canvas.addEventListener('mousedown', e => {
+      //   context.clearRect(0, 0, documentWidth, documentHeight)
+      // })
+    </script>
+  </body>
 </html>
