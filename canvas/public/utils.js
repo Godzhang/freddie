@@ -74,3 +74,33 @@ function drawDashedLine(context, x1, y1, x2, y2, dashLength) {
 
   context.stroke();
 }
+
+// 绘制圆角矩形
+function roundedRect(context, startX, startY, width, height, cornerRadius) {
+  const endX = startX + width;
+  const endY = startY + height;
+
+  context.moveTo(startX + cornerRadius, startY);
+  context.arcTo(endX, startY, endX, startY + cornerRadius, cornerRadius);
+  context.arcTo(endX, endY, endX - cornerRadius, endY, cornerRadius);
+  context.arcTo(startX, endY, startX, endY - cornerRadius, cornerRadius);
+  context.arcTo(startX, startY, startX + cornerRadius, startY, cornerRadius);
+}
+// 添加圆角矩形
+function addRoundedRect(
+  context,
+  strokeStyle = "#000",
+  fillStyle = "#000",
+  startX,
+  startY,
+  width,
+  height,
+  cornerRadius
+) {
+  context.beginPath();
+  context.strokeStyle = strokeStyle;
+  context.fillStyle = fillStyle;
+  roundedRect(context, startX, startY, width, height, cornerRadius);
+  context.closePath();
+  context.stroke();
+}

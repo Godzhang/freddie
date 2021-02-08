@@ -1,96 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <style>
+      #canvas {
+        /* margin: 100px; */
+        /* border: 1px solid #ddd; */
+      }
+    </style>
+    <title>book-study</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../reset.css" />
-  <script src="../public/utils.js"></script>
-  <style>
-    #canvas {
-      /* margin: 100px; */
-      /* border: 1px solid #ddd; */
-    }
-  </style>
-  <title>book-study</title>
-</head>
+  <body>
+    <canvas id="canvas"></canvas>
 
-<body>
-  <canvas id="canvas"></canvas>
+    <script>
+      //
+      const canvasWidth = document.body.clientWidth;
+      const canvasHeight = document.body.clientHeight;
+      const middleX = canvasWidth / 2;
+      const middleY = canvasHeight / 2;
+      const canvas = document.getElementById("canvas");
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
 
-  <script>
-    //
-    const canvasWidth = document.body.clientWidth;
-    const canvasHeight = document.body.clientHeight;
-    const canvas = document.getElementById("canvas");
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
+      const context = canvas.getContext("2d");
 
-    const context = canvas.getContext("2d");
+      context.fillStyle = "cornflowerblue";
+      context.strokeStyle = "OrangeRed";
 
-    // context.lineWidth = 20
-    // context.moveTo(100, 100)
-    // context.lineTo(500, 100)
-    // context.lineTo(100, 500)
+      context.shadowColor = "rgba(50, 50, 50, 1.0)";
+      context.shadowOffsetX = 2;
+      context.shadowOffsetY = 2;
+      context.shadowBlur = 4;
 
-    // context.lineCap = 'round'
-    // context.lineJoin = 'bevel'
-    // context.miterLimit = 20 // 斜接线与二分之一线宽的比值
-    // context.stroke()
+      context.lineWidth = 20;
+      context.lineCap = "round";
 
-    //  扩展 canvasRenderingContent2D 绘制虚线 start
-    // const moveToFunction = CanvasRenderingContext2D.prototype.moveTo
-    // CanvasRenderingContext2D.prototype.lastMoveToLocation = {}
-    // CanvasRenderingContext2D.prototype.moveTo = function (x, y) {
-    //   moveToFunction.apply(context, [x, y])
-    //   this.lastMoveToLocation.x = x
-    //   this.lastMoveToLocation.y = y
-    // }
-    // CanvasRenderingContext2D.prototype.dashedLineTo = function (x, y, dashLength) {
-    //   dashLength = dashLength === undefined ? 5 : dashLength;
-    //   const startX = this.lastMoveToLocation.x
-    //   const startY = this.lastMoveToLocation.y
-    //   const deltaX = x - startX
-    //   const deltaY = y - startY
-    //   const numDashes = Math.floor(
-    //     Math.sqrt(deltaX * deltaX + deltaY * deltaY) / dashLength
-    //   );
+      context.beginPath();
+      context.moveTo(120.5, 130);
+      context.quadraticCurveTo(150.8, 130, 160.6, 150.5);
+      context.quadraticCurveTo(190, 250.0, 210.5, 160.5);
+      context.quadraticCurveTo(240, 100.5, 290, 70.5);
 
-    //   for (let i = 0; i < numDashes; i++) {
-    //     context[i % 2 === 0 ? "moveTo" : "lineTo"](
-    //       startX + (deltaX / numDashes) * i,
-    //       startY + (deltaY / numDashes) * i
-    //     );
-    //   }
+      context.stroke();
 
-    //   this.moveTo(x, y)
-    // }
-    // context.moveTo(10, 10)
-    // context.dashedLineTo(100, 10)
-    // context.dashedLineTo(100, 100)
-    // context.strokeStyle = 'OrangeRed'
-    // context.stroke()
-    //  扩展 canvasRenderingContent2D 绘制虚线 end
+      // context.lineWidth = 20
+      // context.moveTo(100, 100)
+      // context.lineTo(500, 100)
+      // context.lineTo(100, 500)
 
-    // 绘制虚线 start
-    // function drawDashedLine(context, x1, y1, x2, y2, dashLength) {
-    //   dashLength = dashLength === undefined ? 5 : dashLength
-    //   const deltaX = x2 - x1
-    //   const deltaY = y2 - y1
-    //   const numDashes = Math.floor(
-    //     Math.sqrt(deltaX * deltaX + deltaY * deltaY) / dashLength
-    //   )
+      // context.lineCap = 'round'
+      // context.lineJoin = 'bevel'
+      // context.miterLimit = 20 // 斜接线与二分之一线宽的比值
+      // context.stroke()
 
-    //   for (let i = 0; i < numDashes; i++) {
-    //     context[i % 2 === 0 ? 'moveTo' : 'lineTo'](x1 + (deltaX / numDashes) * i, y1 + (deltaY / numDashes) * i)
-    //   }
+      //  扩展 canvasRenderingContent2D 绘制虚线 start
+      // const moveToFunction = CanvasRenderingContext2D.prototype.moveTo
+      // CanvasRenderingContext2D.prototype.lastMoveToLocation = {}
+      // CanvasRenderingContext2D.prototype.moveTo = function (x, y) {
+      //   moveToFunction.apply(context, [x, y])
+      //   this.lastMoveToLocation.x = x
+      //   this.lastMoveToLocation.y = y
+      // }
+      // CanvasRenderingContext2D.prototype.dashedLineTo = function (x, y, dashLength) {
+      //   dashLength = dashLength === undefined ? 5 : dashLength;
+      //   const startX = this.lastMoveToLocation.x
+      //   const startY = this.lastMoveToLocation.y
+      //   const deltaX = x - startX
+      //   const deltaY = y - startY
+      //   const numDashes = Math.floor(
+      //     Math.sqrt(deltaX * deltaX + deltaY * deltaY) / dashLength
+      //   );
 
-    //   context.stroke()
-    // }
-    // context.lineWidth = 3
-    // context.strokeStyle = 'OrangeRed'
-    // drawDashedLine(context, 20, 20, context.canvas.width - 20, 20)
-    // drawDashedLine(context, context.canvas.width - 20, 20, context.canvas.width - 20, context.canvas.height - 20, 10)
+      //   for (let i = 0; i < numDashes; i++) {
+      //     context[i % 2 === 0 ? "moveTo" : "lineTo"](
+      //       startX + (deltaX / numDashes) * i,
+      //       startY + (deltaY / numDashes) * i
+      //     );
+      //   }
+
+      //   this.moveTo(x, y)
+      // }
+      // context.moveTo(10, 10)
+      // context.dashedLineTo(100, 10)
+      // context.dashedLineTo(100, 100)
+      // context.strokeStyle = 'OrangeRed'
+      // context.stroke()
+      // 扩展 canvasRenderingContent2D 绘制虚线 end
+
+      // 绘制虚线 start
+      // function drawDashedLine(context, x1, y1, x2, y2, dashLength) {
+      //   dashLength = dashLength === undefined ? 5 : dashLength
+      //   const deltaX = x2 - x1
+      //   const deltaY = y2 - y1
+      //   const numDashes = Math.floor(
+      //     Math.sqrt(deltaX * deltaX + deltaY * deltaY) / dashLength
+      //   )
+
+      //   for (let i = 0; i < numDashes; i++) {
+      //     context[i % 2 === 0 ? 'moveTo' : 'lineTo'](x1 + (deltaX / numDashes) * i, y1 + (deltaY / numDashes) * i)
+      //   }
+
+      //   context.stroke()
+      // }
+      // context.lineWidth = 3
+      // context.strokeStyle = 'OrangeRed'
+      // drawDashedLine(context, 20, 20, context.canvas.width - 20, 20)
+      // drawDashedLine(context, context.canvas.width - 20, 20, context.canvas.width - 20, context.canvas.height - 20, 10)
       // 绘制虚线 end
 
       // function drawGrid(context, color, stepx, stepy) {
@@ -249,7 +269,6 @@
       // canvas.addEventListener('mousedown', e => {
       //   context.clearRect(0, 0, documentWidth, documentHeight)
       // })
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>
