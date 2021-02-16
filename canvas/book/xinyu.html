@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <style>
+    #canvas {
+      /* margin: 100px; */
+      /* border: 1px solid #ddd; */
+    }
+
+    #img {
+      position: absolute;
+      top: 0;
+      left: 402px;
+      width: 402px;
+      /* height: 2501.4px; */
+      height: 1023.3px;
+    }
+  </style>
+  <title>book-study</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <img src="" alt="" id="img">
+
+  <script>
+    //
+    // const canvasWidth = document.body.clientWidth;
+    // const canvasHeight = document.body.clientHeight;
+    const canvasWidth = 80.4 * 5
+    const canvasHeight = 113.7 * 9
+    const canvas = document.getElementById("canvas");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    canvas.style.width = canvasWidth / 2 + 'px'
+    canvas.style.height = canvasHeight / 2 + 'px'
+
+    const context = canvas.getContext("2d");
+
+    const descriptions = `落雁沉鱼 兰质蕙心 明眸皓齿 螓首蛾眉 水木清华 爽心悦目 天生丽质 天香国色 杏脸桃腮 煦色韶光 杏腮桃脸 杏雨梨云 涎玉沫珠 鱼沉雁落 宜嗔宜喜 旖旎风光 远山芙蓉 艳色绝世 余霞成绮 宜喜宜嗔 艳紫妖红 朱唇皓齿 左家娇女 章台杨柳 阿娇金屋 闭月羞花 逞娇呈美 春暖花香 春色满园 春深似海 彩云易散 姹紫嫣红 斗美夸丽 尽态极妍 蛾眉皓齿 国色天香 花颜月貌 绝色佳人 天生丽质 慧质兰心 秀外慧中 暗香盈袖 闭月羞花 沉鱼落雁 倾国倾城 温婉娴淑 千娇百媚 仪态万千 美艳绝世 国色天香 花容月貌 明目皓齿 淡扫峨眉 清艳脱俗 香肌玉肤 清丽绝俗 仪态万端 婉风流转 美撼凡尘 聘婷秀雅 娥娜翩跹 俏丽多姿 如花似月 风姿卓越 顾盼流转 清丝纠缠 举步轻摇 美若天仙 美愈天人 清秀高雅 艳冠群芳 剪水双瞳 美艳绝伦 神仙玉骨 楚楚动人 貌赛西施 姿容绝代 如花似玉 窈窕淑女 气质高雅 美丽四射 樱桃小口 静若处子 动若脱兔 小鸟宜人 善解人意 明眸善睐 娇艳妩媚 玲珑剔透 玉指如葱 肤如凝脂 眉如新月 粉妆玉琢 桃腮杏脸 亭亭玉立 楚楚动人 贤良淑德 秀色可餐 水灵秀气 完美无暇 娇羞可爱 婀娜多姿 美丽动人 人面桃花 柳眉杏眼 温文尔雅 明艳动人 天生尤物 芙蓉如面 娇艳惊人 冠压群芳 风华绝代`.split(' ')
+
+    // 绘制欣宇的贺卡 start
+    const hw = 80.4 * 5
+    const hh = 113.7 * 6
+    const title = '新年快乐'
+    const text = [
+      '祝欣宇小妹妹',
+      '牛气冲天',
+      '牛运亨通',
+      '牛转乾坤',
+      '牛年大吉',
+      '',
+      '财源滚滚',
+      '好事连连',
+      '笑口常开',
+      '心想事成',
+      '',
+      '秀发飘飘',
+      '钱包满满',
+      '多吃不胖',
+      '睡觉倍儿棒',
+      '',
+      '过年好！'
+    ]
+    // for (let i = 0; i < descriptions.length; i += 2) {
+    //   text.push(`${descriptions[i]}  ${descriptions[i + 1]}`)
+    // }
+
+
+    const img = new Image()
+    img.src = '../images/hongbao2.jpg'
+    img.onload = function () {
+      context.drawImage(img, 0, 0, 804, 113.7 * 4, 0, 0, hw, 113.7 * 2.4)
+      context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 2.4, hw, 113.7 * 1.8)
+      context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 3.6, hw, 113.7 * 1.8)
+      context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 5.4, hw, 113.7 * 1.8)
+      context.drawImage(img, 0, 113.7 * 7, 804, 113.7 * 3, 0, 113.7 * 7.2, hw, 113.7 * 1.8)
+      // context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 7.2, hw, 113.7 * 1.8)
+      // context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 9, hw, 113.7 * 1.8)
+      // context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 10.8, hw, 113.7 * 1.8)
+      // context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 12.6, hw, 113.7 * 1.8)
+      // context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 14.4, hw, 113.7 * 1.8)
+      // context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 16.2, hw, 113.7 * 1.8)
+      // context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 18, hw, 113.7 * 1.8)
+      // context.drawImage(img, 0, 113.7 * 7, 804, 113.7 * 3, 0, 113.7 * 18, hw, 113.7 * 1.8)
+
+      drawTitle()
+      drawText()
+      // drawLaugh()
+    }
+    function drawTitle() {
+      context.font = 'bold 50px STKaiti'
+      context.fillStyle = '#fdda01'
+      context.fillText(title, hw / 2 - context.measureText(title).width / 2, 150)
+    }
+    function drawText() {
+      const top = 300
+      context.fillStyle = '#fcce92'
+      // context.font = '30px STKaiti'
+      text.forEach((t, i) => {
+        let textTop, textLeft = hw / 2 - context.measureText(t).width / 2
+        console.log(t, textLeft)
+        if (i === 0) {
+          context.font = '40px STKaiti'
+          textLeft = hw / 2 - context.measureText(t).width / 2
+          textTop = top - 30
+        } else {
+          context.font = '30px STKaiti'
+          textLeft = hw / 2 - context.measureText(t).width / 2
+          textTop = top + i * 32
+        }
+        context.fillText(t, textLeft, textTop)
+      })
+    }
+    function drawLaugh() {
+      const img = new Image()
+      img.src = '../images/laugh.png'
+      img.onload = function () {
+        context.drawImage(img, hw / 2 - 50, 113.7 * 18, 80, 80)
+      }
+    }
+    canvas.onclick = () => {
+      const img = document.getElementById('img')
+      context.imageSmoothingEnabled = false
+      img.src = canvas.toDataURL('image/jpg')
+    }
+    // 绘制欣宇的贺卡 end
+
+  </script>
+</body>
+
+</html>

@@ -20,12 +20,12 @@
 
     #canvas {
       background-color: #fff;
-      cursor: pointer;
+      cursor: crosshair;
       margin: 60px 0 0 10px;
       box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
     }
   </style>
-  <title>rubber-band</title>
+  <title>可拖动多边形</title>
 </head>
 
 <body>
@@ -40,12 +40,10 @@
       <option value="OrangeRed" selected>OrangeRed</option>
       <option value="navy">navy</option>
     </select>
-    stroke shape:
-    <select id="strokeShapeSelect">
-      <option value="line">line</option>
-      <option value="circle">circle</option>
-      <option value="polygon" selected>polygon</option>
-    </select>
+    <label for="edit">
+      <input type="checkbox" id="edit">
+      Edit
+    </label>
     <span>
       sides:
       <select id="sidesSelect">
@@ -71,15 +69,17 @@
     const context = canvas.getContext("2d");
     const eraseAllButton = document.getElementById("eraseAllButton");
     const strokeStyleSelect = document.getElementById("strokeStyleSelect");
-    const strokeShapeSelect = document.getElementById("strokeShapeSelect");
     const sidesSelect = document.getElementById("sidesSelect");
     const guidewireCheckbox = document.getElementById("guidewireCheckbox");
+    const editCheckbox = document.getElementById('edit')
     const mousedown = {};
     const rubberbandRect = {};
     let guidewires = guidewireCheckbox.checked;
     let drawingSurfaceImageData;
-    let dragging = false;
     let polygon
+    let dragging = false, draggingOffsetX, draggingOffsetY
+    let sides = 5, editing = false
+    const polygons = []
 
     function saveDrawingSurface() {
       drawingSurfaceImageData = context.getImageData(
@@ -98,47 +98,30 @@
       rubberbandRect.left = Math.min(loc.x, mousedown.x);
       rubberbandRect.top = Math.min(loc.y, mousedown.y);
     }
-    function drawRubberbandShape(loc) {
-      context.beginPath();
-      context.strokeStyle = strokeStyleSelect.value;
-      context.moveTo(mousedown.x, mousedown.y);
-      context.lineTo(loc.x, loc.y);
-      context.stroke();
-    }
-    function drawRubberbandCircle(loc) {
-      const { width, height } = rubberbandRect
-      const radius = Math.sqrt(width * width + height * height);
-      context.beginPath();
-      context.strokeStyle = strokeStyleSelect.value;
-      context.arc(mousedown.x, mousedown.y, radius, 0, Math.PI * 2);
-      context.stroke();
-    }
-    function drawRubberbandPolygon(loc, sides, startAngle) {
-      const { width, height } = rubberbandRect
-      const radius = Math.sqrt(width * width + height * height);
-      if (!polygon) {
-        polygon = new Polygon(mousedown.x, mousedown.y, radius, sides, startAngle, strokeStyleSelect.value)
-      } else {
-        polygon.updateConfig({
-          x: mousedown.x,
-          y: mousedown.y,
-          radius,
-          startAngle,
-          strokeStyle: strokeStyleSelect.value
-        })
-      }
+    function drawPolygon(polygon) {
+      context.beginPath()
       polygon.stroke(context)
     }
-    function updateRubberband(loc) {
-      updateRubberbandRectangle(loc);
-      if (strokeShapeSelect.value === "line") {
-        drawRubberbandShape(loc);
-      } else if (strokeShapeSelect.value === "circle") {
-        drawRubberbandCircle(loc);
-      } else if (strokeShapeSelect.value === 'polygon') {
-        const startAngle = getPolygonAngle(loc)
-        drawRubberbandPolygon(loc, sidesSelect.value, startAngle)
+    function drawPolygons() {
+      polygons.forEach(polygon => {
+        drawPolygon(polygon)
+      })
+    }
+    function drawRubberbandShape(loc, sides, startAngle) {
+      const { width, height } = rubberbandRect
+      const radius = Math.sqrt(width * width + height * height);
+      const polygon = new Polygon(
+        mousedown.x, mousedown.y, radius, sides, startAngle, strokeStyleSelect.value
+      )
+      drawPolygon(polygon)
+      if (!dragging) {
+        polygons.push(polygon)
       }
+    }
+    // 更新并绘制图形
+    function updateRubberband(loc, sides, startAngle) {
+      updateRubberbandRectangle(loc);
+      drawRubberbandShape(loc, sides, startAngle)
     }
     function getPolygonAngle(loc) {
       const deltaX = loc.x - mousedown.x
@@ -168,32 +151,69 @@
       context.restore();
     }
 
+    function startDragging(loc) {
+      saveDrawingSurface()
+      mousedown.x = loc.x
+      mousedown.y = loc.y
+    }
+    function startEditing() {
+      canvas.style.cursor = 'pointer'
+      editing = true
+    }
+    function stopEditing() {
+      canvas.style.cursor = 'crosshair'
+      editing = false
+    }
+
     canvas.onmousedown = function (e) {
       const loc = windowToCanvas(canvas, e.clientX, e.clientY);
 
       e.preventDefault();
-      saveDrawingSurface();
-      mousedown.x = loc.x;
-      mousedown.y = loc.y;
-      dragging = true;
+
+      if (editing) {
+        polygons.forEach(polygon => {
+          polygon.createPath(context)
+          if (context.isPointInPath(loc.x, loc.y)) {
+            startDragging(loc)
+            dragging = polygon
+            draggingOffsetX = loc.x - polygon.x
+            draggingOffsetY = loc.y - polygon.y
+            return
+          }
+        })
+      } else {
+        startDragging(loc)
+        dragging = true
+      }
     };
     canvas.onmousemove = function (e) {
-      if (dragging) {
-        e.preventDefault();
-        const loc = windowToCanvas(canvas, e.clientX, e.clientY);
-        restoreDrawingSurface();
-        updateRubberband(loc);
-        if (guidewires) {
-          drawGuidewires(loc.x, loc.y);
+      e.preventDefault();
+      const loc = windowToCanvas(canvas, e.clientX, e.clientY);
+      if (dragging && editing) {
+        dragging.x = loc.x - draggingOffsetX
+        dragging.y = loc.y - draggingOffsetY
+        context.clearRect(0, 0, canvasWidth, canvasHeight)
+        drawGrid(context, 'lightgray', 10, 10)
+        drawPolygons()
+      } else {
+        if (dragging) {
+          restoreDrawingSurface();
+          updateRubberband(loc, sides, getPolygonAngle(loc));
+          if (guidewires) {
+            drawGuidewires(loc.x, loc.y);
+          }
         }
       }
     };
     canvas.onmouseup = function (e) {
       const loc = windowToCanvas(canvas, e.clientX, e.clientY);
-      restoreDrawingSurface();
-      updateRubberband(loc);
       dragging = false;
+      if (!editing) {
+        restoreDrawingSurface();
+        updateRubberband(loc, sides, getPolygonAngle(loc));
+      }
     };
+
     eraseAllButton.onclick = function () {
       context.clearRect(0, 0, canvas.width, canvas.height);
       drawGrid(context, "lightgray", 10, 10);
@@ -206,7 +226,14 @@
       guidewires = guidewireCheckbox.checked;
     };
     sidesSelect.onchange = function () {
-      polygon && polygon.setSides(sidesSelect.value)
+      sides = sidesSelect.value
+    }
+    editCheckbox.onchange = function (e) {
+      if (editCheckbox.checked) {
+        startEditing()
+      } else {
+        stopEditing()
+      }
     }
 
     drawGrid(context, "lightgray", 10, 10);

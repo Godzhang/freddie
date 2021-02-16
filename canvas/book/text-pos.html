@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <style>
+    #canvas {}
+  </style>
+  <title>text-pos</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    //
+    const canvasWidth = document.body.clientWidth;
+    const canvasHeight = document.body.clientHeight;
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    const fontHeight = 24
+    const alignValues = ['start', 'center', 'end']
+    const baseLineValues = ['top', 'middle', 'bottom', 'alphabetic', 'ideographic', 'hanging']
+    let x, y
+
+    function drawTextMarker() {
+      context.fillStyle = 'yellow'
+      context.fillRect(x, y, 7, 7)
+      context.strokeRect(x, y, 7, 7)
+    }
+    function drawText(text, textAlign, textBaseline) {
+      if (textAlign) context.textAlign = textAlign
+      if (textBaseline) context.textBaseline = textBaseline
+
+      context.fillStyle = 'cornflowerblue'
+      context.fillText(text, x, y)
+    }
+    function drawTextLine() {
+      context.strokeStyle = 'gray'
+      context.beginPath()
+      context.moveTo(x, y)
+      context.lineTo(x + 738, y)
+      context.stroke()
+    }
+
+    context.font = 'oblique normal bold 24px palatino'
+    drawGrid(context, 'lightgray', 10, 10)
+
+    for (let align = 0; align < alignValues.length; align++) {
+      for (let baseline = 0; baseline < baseLineValues.length; baseline++) {
+        x = 20 + align * fontHeight * 15
+        y = 20 + baseline * fontHeight * 3
+        console.log(x, y)
+
+        drawText(alignValues[align] + '/' + baseLineValues[baseline], alignValues[align], baseLineValues[baseline])
+
+        drawTextMarker()
+        drawTextLine()
+      }
+    }
+  </script>
+</body>
+
+</html>

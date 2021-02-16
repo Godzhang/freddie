@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <style>
+    body {
+      background-color: #eee;
+    }
+
+    #controls {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+    }
+
+    #canvas {
+      background-color: #fff;
+      cursor: pointer;
+      box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+  <title>model</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <div id="controls">
+    Stroke color:
+    <select id="strokeStyleSelect">
+      <option value="red">red</option>
+      <option value="green">green</option>
+      <option value="blue">blue</option>
+      <option value="cornflowerblue">cornflowerblue</option>
+      <option value="OrangeRed" selected>OrangeRed</option>
+      <option value="navy">navy</option>
+    </select>
+    Guidewires:
+    <input id="guidewireCheckbox" type="checkbox" checked />
+    <input id="eraseAllButton" type="button" value="Erase all" />
+  </div>
+
+  <script>
+    //
+    const canvasWidth = document.body.clientWidth;
+    const canvasHeight = document.body.clientHeight;
+    const middleX = canvasWidth / 2;
+    const middleY = canvasHeight / 2;
+    const canvas = document.getElementById("canvas");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    const context = canvas.getContext("2d");
+    const eraseAllButton = document.getElementById("eraseAllButton");
+    const strokeStyleSelect = document.getElementById("strokeStyleSelect");
+    const guidewireCheckbox = document.getElementById("guidewireCheckbox");
+
+    const AXIS_MARGIN = 40
+    const HORIZONTAL_TICK_SPACING = 10
+    const VERTICAL_TICK_SPACING = 10
+    const TICK_SIZE = 10
+
+    // const AXIS_ORIGIN = {
+    //   x: AXIS_MARGIN, y: canvasHeight - AXIS_MARGIN
+    // }
+    // const AXIS_TOP = AXIS_MARGIN
+    // const AXIS_RIGHT = canvasWidth - AXIS_MARGIN
+    // const AXIS_WIDTH = AXIS_RIGHT - AXIS_ORIGIN.x
+    // const AXIS_HEIGHT = AXIS_ORIGIN.y - AXIS_TOP
+
+    // const NUM_VERTICAL_TICKS = AXIS_HEIGHT / VERTICAL_TICK_SPACING
+    // const NUM_HORIZONTAL_TICKS = AXIS_WIDTH / HORIZONTAL_TICK_SPACING
+
+    const GRID_STROKE_STYLE = 'lightblue'
+    const GRID_SPACING = 10
+
+    const CONTROL_POINT_RADIUS = 5
+    const CONTROL_POINT_STROKE_STYLE = 'blue'
+    const CONTROL_POINT_FILL_STYLE = 'rgba(255, 255, 0, 0.5)'
+
+    const END_POINT_STROKE_STYLE = 'navy'
+    const END_POINT_FILL_STYLE = 'rgba(0, 255, 0, 0.5)'
+
+    const GUIDEWIRE_STROKE_STYLE = 'rgba(0, 0, 230, 0.4)'
+
+    let guidewires = guidewireCheckbox.checked,
+      mousedown = {},
+      rubberbandRect = {},
+      dragging = false,
+      draggingPoint = false,
+      endPoints = [{}, {}],
+      controlPoints = [{}, {}],
+      editing = false,
+      drawingSurfaceImageData
+
+    canvas.onmousedown = function (e) {
+      const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+
+      e.preventDefault()
+
+      if (!editing) {
+        saveDrawingSurface()
+        mousedown.x = loc.x
+        mousedown.y = loc.y
+        updateRubberbandRectangle(loc)
+        dragging = true
+      } else {
+        draggingPoint = cursorInControlPoint(loc)
+        if (!draggingPoint) {
+          draggingPoint = cursorInEndPoint(loc)
+        }
+      }
+    }
+    canvas.onmousemove = function (e) {
+      const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+
+      if (dragging || draggingPoint) {
+        e.preventDefault()
+        restoreDrawingSurface()
+        if (guidewires) {
+          drawGuidewires(loc.x, loc.y)
+        }
+      }
+
+      if (dragging) {
+        updateRubberband(loc)
+        drawControlAndEndPoints()
+      } else if (draggingPoint) {
+        updateDraggingPoint(loc)
+        drawControlAndEndPoints()
+        drawBezierCurve()
+      }
+    }
+    canvas.onmouseup = function (e) {
+      const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+
+      restoreDrawingSurface()
+
+      if (!editing) {
+        updateRubberband(loc)
+        drawControlAndEndPoints()
+        dragging = false
+        editing = true
+      } else {
+        if (draggingPoint) {
+          drawControlAndEndPoints()
+        } else {
+          editing = false
+        }
+
+        drawBezierCurve()
+        draggingPoint = undefined
+      }
+    }
+
+    eraseAllButton.onclick = function () {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      drawGrid(context, GRID_STROKE_STYLE, GRID_SPACING, GRID_SPACING)
+
+      saveDrawingSurface();
+
+      editing = false
+      dragging = false
+      draggingPoint = undefined
+    };
+    strokeStyleSelect.onchange = function (e) {
+      context.strokeStyle = strokeStyleSelect.value;
+    };
+    guidewireCheckbox.onchange = function (e) {
+      guidewires = guidewireCheckbox.checked;
+    };
+
+    context.strokeStyle = strokeStyleSelect.value
+    drawGrid(context, GRID_STROKE_STYLE, GRID_SPACING, GRID_SPACING)
+
+    function updateRubberbandRectangle(loc) {
+      rubberbandRect.width = Math.abs(loc.x - mousedown.x);
+      rubberbandRect.height = Math.abs(loc.y - mousedown.y);
+      rubberbandRect.left = Math.min(loc.x, mousedown.x);
+      rubberbandRect.top = Math.min(loc.y, mousedown.y);
+    }
+
+    function drawBezierCurve() {
+      context.beginPath()
+      context.moveTo(endPoints[0].x, endPoints[0].y)
+      context.bezierCurveTo(
+        controlPoints[0].x, controlPoints[0].y,
+        controlPoints[1].x, controlPoints[1].y,
+        endPoints[1].x, endPoints[1].y
+      )
+      context.strokeStyle = strokeStyleSelect.value
+      context.stroke()
+    }
+
+    function updateEndAndControlPoints() {
+      endPoints[0].x = rubberbandRect.left
+      endPoints[0].y = rubberbandRect.top
+
+      endPoints[1].x = rubberbandRect.left + rubberbandRect.width
+      endPoints[1].y = rubberbandRect.top + rubberbandRect.height
+
+      controlPoints[0].x = rubberbandRect.left
+      controlPoints[0].y = rubberbandRect.top + rubberbandRect.height
+
+      controlPoints[1].x = rubberbandRect.left + rubberbandRect.width
+      controlPoints[1].y = rubberbandRect.top
+    }
+
+    function drawRubberbandShape(loc) {
+      updateEndAndControlPoints(loc)
+      drawBezierCurve()
+    }
+
+    function updateRubberband(loc) {
+      updateRubberbandRectangle(loc)
+      drawRubberbandShape(loc)
+    }
+
+    function drawControlPoint(index) {
+      const { x, y } = controlPoints[index]
+      context.beginPath()
+      context.arc(x, y, CONTROL_POINT_RADIUS, 0, Math.PI * 2, false)
+      context.stroke()
+      context.fill()
+    }
+    function drawControlPoints() {
+      context.save()
+      context.strokeStyle = CONTROL_POINT_STROKE_STYLE
+      context.fillStyle = CONTROL_POINT_FILL_STYLE
+      drawControlPoint(0)
+      drawControlPoint(1)
+      context.stroke()
+      context.fill()
+      context.restore()
+    }
+    function drawEndPoint(index) {
+      const { x, y } = endPoints[index]
+      context.beginPath()
+      context.arc(x, y, CONTROL_POINT_RADIUS, 0, Math.PI * 2, false)
+      context.stroke()
+      context.fill()
+    }
+    function drawEndPoints() {
+      context.save()
+      context.strokeStyle = END_POINT_STROKE_STYLE
+      context.fillStyle = END_POINT_FILL_STYLE
+      drawEndPoint(0)
+      drawEndPoint(1)
+      context.stroke()
+      context.fill()
+      context.restore()
+    }
+    function drawControlAndEndPoints() {
+      drawControlPoints()
+      drawEndPoints()
+    }
+    function cursorInEndPoint(loc) {
+      let pt
+      endPoints.forEach(point => {
+        context.beginPath()
+        context.arc(point.x, point.y, CONTROL_POINT_RADIUS, 0, Math.PI * 2, false)
+        if (context.isPointInPath(loc.x, loc.y)) {
+          pt = point
+        }
+      })
+      return pt
+    }
+    function cursorInControlPoint(loc) {
+      let pt
+      controlPoints.forEach(point => {
+        context.beginPath()
+        context.arc(point.x, point.y, CONTROL_POINT_RADIUS, 0, Math.PI * 2, false)
+        if (context.isPointInPath(loc.x, loc.y)) {
+          pt = point
+        }
+      })
+      return pt
+    }
+    function updateDraggingPoint(loc) {
+      draggingPoint.x = loc.x
+      draggingPoint.y = loc.y
+    }
+  </script>
+  <script>
+    function saveDrawingSurface() {
+      drawingSurfaceImageData = context.getImageData(
+        0,
+        0,
+        canvasWidth,
+        canvasHeight
+      );
+    }
+    function restoreDrawingSurface() {
+      context.putImageData(drawingSurfaceImageData, 0, 0);
+    }
+    function drawHorizontalLine(y) {
+      context.beginPath();
+      context.moveTo(0, y + 0.5);
+      context.lineTo(context.canvas.width, y + 0.5);
+      context.stroke();
+    }
+    function drawVerticalLine(x) {
+      context.beginPath();
+      context.moveTo(x + 0.5, 0);
+      context.lineTo(x + 0.5, context.canvas.height);
+      context.stroke();
+    }
+    function drawGuidewires(x, y) {
+      context.save();
+      context.strokeStyle = "rgba(0, 0, 230, 0.4)";
+      context.lineWidth = 0.5;
+      drawVerticalLine(x);
+      drawHorizontalLine(y);
+      context.restore();
+    }
+  </script>
+</body>
+
+</html>

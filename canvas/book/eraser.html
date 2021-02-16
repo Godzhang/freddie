@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <style>
+    #canvas {}
+
+    #controls {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+    }
+  </style>
+  <title>eraser</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <div id="controls">
+    <input type="radio" name="radio" id="drawRadio" checked>
+    draw
+
+    <input type="radio" name="radio" id="eraserRadio">
+    eraser
+
+    eraser width:
+    <select id="eraserWidth">
+      <option value="25" selected>25</option>
+      <option value="40">40</option>
+      <option value="55">55</option>
+    </select>
+
+    eraser shape:
+    <select id="eraserShape">
+      <option value="circle" selected>circle</option>
+      <option value="rect">rect</option>
+    </select>
+  </div>
+  <script>
+    //
+    const canvasWidth = document.body.clientWidth;
+    const canvasHeight = document.body.clientHeight;
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    const drawRadio = document.getElementById('drawRadio')
+    const eraserRadio = document.getElementById('eraserRadio')
+    const eraserWidthSelect = document.getElementById('eraserWidth')
+    const eraserShapeSelect = document.getElementById('eraserShape')
+
+    const ERASER_LINE_WIDTH = 1
+    const ERASER_SHADOW_COLOR = 'rgb(0, 0, 0)'
+    const ERASER_SHADOW_STYLE = 'blue'
+    const ERASER_STROKE_STYLE = 'rgb(0, 0, 255)'
+    const ERASER_SHADOW_OFFSET = -5
+    const ERASER_SHADOW_BLUR = 20
+
+    let drawingSurfaceImageData,
+      lastX,
+      lastY,
+      mousedown = {},
+      rubberbandRect = {},
+      dragging = false
+
+    function drawRubberbandShape(loc) {
+      const deltaX = loc.x - mousedown.x
+      const deltaY = loc.y - mousedown.y
+      const radius = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
+
+      context.beginPath()
+      context.arc(mousedown.x, mousedown.y, radius, 0, Math.PI * 2)
+      context.stroke()
+      context.fill()
+    }
+    function updateRubberband(loc) {
+      updateRubberbandRectangle(loc)
+      drawRubberbandShape(loc)
+    }
+
+    function setDrawPathForEraser(loc) {
+      const eraserWidth = eraserWidthSelect.value
+
+      context.beginPath()
+
+      if (eraserShapeSelect.value === 'circle') {
+        context.arc(loc.x, loc.y, eraserWidth / 2, 0, Math.PI * 2)
+      } else {
+        context.rect(loc.x - eraserWidth / 2, loc.y - eraserWidth / 2, eraserWidth, eraserWidth)
+      }
+
+      context.clip()
+    }
+    function setErasePathForEraser() {
+      const eraserWidth = eraserWidthSelect.value
+
+      context.beginPath()
+
+      if (eraserShapeSelect.value === 'circle') {
+        context.arc(lastX, lastY, eraserWidth / 2 + ERASER_LINE_WIDTH, 0, Math.PI * 2)
+      } else {
+        context.rect(lastX - eraserWidth / 2 - ERASER_LINE_WIDTH, lastY - eraserWidth / 2 - ERASER_LINE_WIDTH, eraserWidth + ERASER_LINE_WIDTH * 2, eraserWidth + ERASER_LINE_WIDTH * 2)
+      }
+
+      context.clip()
+    }
+    function setEraserAttributes() {
+      context.lineWidth = ERASER_LINE_WIDTH
+      context.shadowColor = ERASER_SHADOW_COLOR
+      context.shadowOffsetX = ERASER_SHADOW_OFFSET
+      context.shadowOffsetY = ERASER_SHADOW_OFFSET
+      context.shadowBlur = ERASER_SHADOW_BLUR
+      context.strokeStyle = ERASER_STROKE_STYLE
+    }
+    function eraseLast() {
+      context.save()
+
+      setErasePathForEraser()
+      context.clearRect(0, 0, canvasWidth, canvasHeight)
+      drawGrid(context, 'lightgray', 10, 10)
+
+      context.restore()
+    }
+    function drawEraser(loc) {
+      context.save()
+
+      setEraserAttributes()
+      setDrawPathForEraser(loc)
+      context.stroke()
+
+      context.restore()
+    }
+
+    canvas.onmousedown = function (e) {
+      const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+      e.preventDefault()
+
+      if (drawRadio.checked) {
+        saveDrawingSurface()
+      }
+
+      mousedown.x = lastX = loc.x
+      mousedown.y = lastY = loc.y
+
+      dragging = true
+    }
+    canvas.onmousemove = function (e) {
+      if (dragging) {
+        e.preventDefault()
+
+        const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+
+        if (drawRadio.checked) {
+          restoreDrawingSurface()
+          updateRubberband(loc)
+        } else {
+          // 清除上次橡皮擦所在位置
+          eraseLast()
+          // 绘制新橡皮擦
+          drawEraser(loc)
+        }
+
+        lastX = loc.x
+        lastY = loc.y
+      }
+    }
+    canvas.onmouseup = function (e) {
+      const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+
+      if (drawRadio.checked) {
+        restoreDrawingSurface()
+        updateRubberband(loc)
+      }
+
+      if (eraserRadio.checked) {
+        eraseLast()
+      }
+
+      dragging = false
+    }
+
+    context.fillStyle = 'OrangeRed'
+    context.strokeStyle = 'blue'
+    drawGrid(context, 'lightgray', 10, 10)
+  </script>
+  <script>
+    function saveDrawingSurface() {
+      drawingSurfaceImageData = context.getImageData(
+        0,
+        0,
+        canvasWidth,
+        canvasHeight
+      );
+    }
+    function restoreDrawingSurface() {
+      context.putImageData(drawingSurfaceImageData, 0, 0);
+    }
+    function updateRubberbandRectangle(loc) {
+      rubberbandRect.width = Math.abs(loc.x - mousedown.x);
+      rubberbandRect.height = Math.abs(loc.y - mousedown.y);
+      rubberbandRect.left = Math.min(loc.x, mousedown.x);
+      rubberbandRect.top = Math.min(loc.y, mousedown.y);
+    }
+  </script>
+</body>
+
+</html>

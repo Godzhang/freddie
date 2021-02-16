@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/TextCursor.js"></script>
+  <script src="../public/TextLine.js"></script>
+  <script src="../public/utils.js"></script>
+  <style>
+    #canvas {}
+
+    #controls {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+    }
+  </style>
+  <title>model</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+
+  <div id="controls">
+    font select:
+    <select id="fontSelect">
+      <option value="arial">arial</option>
+      <option value="Serif" selected>Serif</option>
+      <option value="Georgia">Georgia</option>
+    </select>
+
+    size select:
+    <select id="sizeSelect">
+      <option value="12" selected>12</option>
+      <option value="14">14</option>
+      <option value="16">16</option>
+      <option value="20">20</option>
+    </select>
+  </div>
+
+  <script>
+    //
+    const canvasWidth = document.body.clientWidth;
+    const canvasHeight = document.body.clientHeight;
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    const BLINK_TIME = 1000
+    const BLINK_OFF = 300
+  </script>
+  <script>
+    //
+    const cursor = new TextCursor()
+    const fontSelect = document.getElementById('fontSelect')
+    const sizeSelect = document.getElementById('sizeSelect')
+    let drawingSurfaceImageData,
+      blinkingInterval, line
+
+    function saveDrawingSurface() {
+      drawingSurfaceImageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+    }
+
+    function setFont() {
+      context.font = `${sizeSelect.value}px ${fontSelect.value}`
+    }
+
+    function blinkCursor(x, y) {
+      clearInterval(blinkingInterval)
+      blinkingInterval = setInterval(() => {
+        cursor.erase(context, drawingSurfaceImageData)
+
+        setTimeout(() => {
+          if (cursor.left === x && cursor.top + cursor.getHeight(context) === y) {
+            cursor.draw(context, x, y)
+          }
+        }, BLINK_OFF)
+      }, BLINK_TIME)
+    }
+
+    function moveCursor(x, y) {
+      cursor.erase(context, drawingSurfaceImageData)
+
+      cursor.draw(context, x, y)
+      blinkCursor(x, y)
+    }
+
+    canvas.onmousedown = function (e) {
+      const { x, y } = windowToCanvas(canvas, e.clientX, e.clientY)
+
+      line = new TextLine(x, y)
+      moveCursor(x, y)
+    }
+
+    document.onkeydown = function (e) {
+      if (e.keyCode === 8 || e.keyCode === 13) {
+        e.preventDefault()
+      }
+
+      if (e.keyCode === 8) {
+        context.save()
+
+        line.erase(context, drawingSurfaceImageData)
+        line.removeCharacterBeforeCaret()
+
+        moveCursor(line.left + line.getWidth(context), line.bottom)
+
+        line.draw(context)
+
+        context.restore()
+      }
+    }
+    document.onkeypress = function (e) {
+      const key = String.fromCharCode(e.which)
+
+      if (e.keyCode !== 8 && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault()
+
+        context.save()
+
+        line.erase(context, drawingSurfaceImageData)
+        line.insert(key)
+
+        moveCursor(line.left + line.getWidth(context), line.bottom)
+
+        line.draw(context)
+
+        context.restore()
+      }
+    }
+
+    fontSelect.onchange = setFont
+    sizeSelect.onchange = setFont
+
+    context.lineWidth = 2
+
+    setFont()
+    drawGrid(context, 'lightgray', 10, 10)
+    saveDrawingSurface()
+  </script>
+  <script>
+
+  </script>
+</body>
+
+</html>

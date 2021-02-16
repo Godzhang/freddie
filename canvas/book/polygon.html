@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <script src="../constructor/Polygon.js"></script>
+  <style>
+    #canvas {
+      /* margin: 100px; */
+      /* border: 1px solid #ddd; */
+    }
+
+    #sidesSelect {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+  <title>book-study</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <select id="sidesSelect">
+    <option value="5" selected>5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+  </select>
+
+  <script>
+    //
+    const canvasWidth = document.body.clientWidth;
+    const canvasHeight = document.body.clientHeight;
+    const middleX = canvasWidth / 2;
+    const middleY = canvasHeight / 2;
+    const canvas = document.getElementById("canvas");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    const sidesSelect = document.getElementById('sidesSelect')
+
+    const context = canvas.getContext("2d");
+
+    const polygon = new Polygon(400, 400, 100, sidesSelect.value)
+
+    polygon.stroke(context)
+
+    sidesSelect.onchange = () => {
+      polygon.setSides(sidesSelect.value)
+      context.clearRect(0, 0, canvasWidth, canvasHeight)
+      polygon.stroke(context)
+    }
+  </script>
+</body>
+
+</html>

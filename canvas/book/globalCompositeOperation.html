@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <style>
+    #canvas {}
+
+    #controls {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+    }
+  </style>
+  <title>model</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <div id="controls">
+    composite operation:
+    <select id="operation"></select>
+  </div>
+
+  <script>
+    function addOperation() {
+      const arr = [
+        'source-atop',
+        'source-in',
+        'source-out',
+        'source-over',
+        'destination-atop',
+        'destination-in',
+        'destination-out',
+        'destination-over',
+        'lighter',
+        'copy',
+        'xor',
+      ]
+      const fragment = document.createDocumentFragment()
+      arr.forEach(t => {
+        const option = document.createElement('option')
+        option.innerHTML = t
+        option.setAttribute('value', t)
+        if (t === 'source-over') {
+          option.setAttribute('selected', true)
+        }
+        fragment.appendChild(option)
+      })
+      operation.appendChild(fragment)
+    }
+    addOperation()
+  </script>
+  <script>
+    //
+    const canvasWidth = document.body.clientWidth;
+    const canvasHeight = document.body.clientHeight;
+    const middleX = canvasWidth / 2;
+    const middleY = canvasHeight / 2;
+    const canvas = document.getElementById("canvas");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    const operation = document.getElementById('operation')
+
+    const context = canvas.getContext("2d");
+
+    function drawText() {
+      const text = '新年快乐'
+      context.save()
+      context.beginPath()
+      context.fillStyle = 'blue'
+      context.font = 'bold 200px STKaiti'
+      context.fillText(text, middleX - context.measureText(text).width / 2, middleY - 15)
+      context.restore()
+    }
+
+    canvas.onmousemove = function (e) {
+      e.stopPropagation()
+      const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+      context.clearRect(0, 0, canvasWidth, canvasHeight)
+      drawText()
+
+      context.save()
+      context.globalCompositeOperation = operation.value
+      context.beginPath()
+      context.fillStyle = 'OrangeRed'
+      context.arc(loc.x, loc.y, 50, 0, Math.PI * 2)
+      context.fill()
+      context.restore()
+    }
+  </script>
+</body>
+
+</html>

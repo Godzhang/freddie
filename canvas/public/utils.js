@@ -104,3 +104,58 @@ function addRoundedRect(
   context.closePath();
   context.stroke();
 }
+// 创建多边形
+function createPolygonPath(centerX, centerY, radius, sides, startAngle = 0) {
+  const points = getPolygonPoints(centerX, centerY, radius, sides, startAngle);
+  context.beginPath();
+  context.moveTo(points[0].x, points[0].y);
+  for (let i = 1; i < sides; i++) {
+    context.lineTo(points[i].x, points[i].y);
+  }
+  context.closePath();
+  context.stroke();
+}
+// 获取多边形顶点数据
+function getPolygonPoints(centerX, centerY, radius, sides, startAngle = 0) {
+  const points = [];
+  let angle = startAngle;
+
+  for (let i = 0; i < sides; i++) {
+    points.push({
+      x: centerX + Math.cos(angle) * radius,
+      y: centerY + Math.sin(angle) * radius, // 如果是减号就是逆时针绘制
+    });
+    angle += (Math.PI * 2) / sides;
+  }
+
+  return points;
+}
+// 绘制虚线
+function drawDashedLine(
+  ctx,
+  x1,
+  y1,
+  x2,
+  y2,
+  dashLength = 5,
+  strokeStyle = "#000"
+) {
+  if (typeof dashLength === "string") {
+    strokeStyle = dashLength;
+    dashLength = 5;
+  }
+  let deltaX = x2 - x1;
+  let deltaY = y2 - y1;
+  // 计算出分几段
+  let numDashes = Math.floor(
+    Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) / dashLength
+  );
+  for (let i = 0; i < numDashes; i++) {
+    ctx[i % 2 === 0 ? "moveTo" : "lineTo"](
+      x1 + (deltaX / numDashes) * i,
+      y1 + (deltaY / numDashes) * i
+    );
+  }
+  ctx.strokeStyle = strokeStyle;
+  ctx.stroke();
+}
