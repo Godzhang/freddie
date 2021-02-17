@@ -12,12 +12,20 @@
       /* margin: 100px; */
       /* border: 1px solid #ddd; */
     }
+
+    #video {
+      display: none;
+    }
   </style>
   <title>book-study</title>
 </head>
 
 <body>
   <canvas id="canvas"></canvas>
+  <video id="video">
+    <source src="../images/bg.mp4">
+    </source>
+  </video>
 
   <script>
     //
@@ -30,6 +38,266 @@
     canvas.height = canvasHeight;
 
     const context = canvas.getContext("2d");
+
+    // 计算 fps start
+    // let lastTime = 0
+    // function calculateFps() {
+    //   let now = Date.now()
+    //   let fps = 1000 / (now - lastTime)
+
+    //   lastTime = now
+
+    //   return fps
+    // }
+    // function animate() {
+    //   context.clearRect(0, 0, canvasWidth, canvasHeight)
+    //   context.fillStyle = 'cornflowerblue'
+    //   context.font = 'bold 40px arial'
+    //   context.fillText(calculateFps().toFixed() + ' fps', 20, 60)
+    //   window.requestAnimationFrame(animate)
+    // }
+    // animate()
+    // 计算 fps end
+    // 播放视频 start
+    // const video = document.getElementById('video')
+    // function animate() {
+    //   if (!video.ended) {
+
+    //     context.drawImage(video, 0, 0)
+    //     window.requestAnimationFrame(animate)
+    //   }
+    // }
+    // canvas.onclick = function () {
+    //   video.play()
+    //   animate()
+    // }
+    // 播放视频 end
+
+    // 滤镜实现淡出动画 start
+    // let interval = null
+    // let originalImageData = null
+    // const image = new Image()
+    // image.src = '../images/2.jpg'
+    // image.onload = function () {
+    //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+    //   originalImageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+    // }
+    // function fadeOut(context, imageData, x, y, steps, millisecondsPerStep) {
+    //   let frame = 0,
+    //     length = imageData.data.length
+
+    //   interval = setInterval(() => {
+    //     frame++
+    //     if (frame > steps) {
+    //       clearInterval(interval)
+    //       animationComplete()
+    //     } else {
+    //       increaseTransparency(imageData, steps)
+    //       context.putImageData(imageData, x, y)
+    //     }
+    //   }, millisecondsPerStep)
+    // }
+    // function increaseTransparency(imageData, steps) {
+    //   let alpha, currentAlpha, step, length = imageData.data.length
+
+    //   for (let i = 3; i < length; i += 4) {
+    //     alpha = originalImageData.data[i]
+    //     if (alpha > 0 && imageData.data[i] > 0) {
+    //       currentAlpha = imageData.data[i]
+    //       step = Math.ceil(alpha / steps)
+
+    //       if (currentAlpha - step > 0) {
+    //         imageData.data[i] -= step
+    //       } else {
+    //         imageData.data[0] = 0
+    //       }
+    //     }
+    //   }
+    // }
+    // function animationComplete() {
+    //   setTimeout(() => {
+    //     context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+    //   }, 1000)
+    // }
+    // canvas.onclick = function () {
+    //   fadeOut(context, context.getImageData(0, 0, canvasWidth, canvasHeight), 0, 0, 20, 1000 / 60)
+    // }
+    // 滤镜实现淡出动画 end
+    // 裁剪 + 滤镜 start
+    // const image = new Image()
+    // const sunglassFilter = new Worker('../worker/sunglassFilter.js')
+    // const LENS_RADIUS = canvasWidth / 5
+    // const offsetCanvas = document.createElement('canvas')
+    // const offsetContext = offsetCanvas.getContext('2d')
+    // offsetCanvas.width = canvasWidth
+    // offsetCanvas.height = canvasHeight
+
+    // function putSunglassesOn() {
+    //   const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+    //   const center = {
+    //     x: canvasWidth / 2, y: canvasHeight / 2
+    //   }
+    //   const leftLensLoction = {
+    //     x: center.x - LENS_RADIUS - 10,
+    //     y: center.y
+    //   }
+    //   const rightLensLoction = {
+    //     x: center.x + LENS_RADIUS + 10,
+    //     y: center.y
+    //   }
+
+    //   sunglassFilter.postMessage(imageData)
+
+    //   sunglassFilter.onmessage = function (event) {
+    //     offsetContext.putImageData(event.data, 0, 0)
+    //     drawLenses(leftLensLoction, rightLensLoction)
+    //     drawWire(center)
+    //     drawConnectors(center)
+    //   }
+    // }
+    // function drawLenses(leftLensLoction, rightLensLoction) {
+    //   context.save()
+    //   context.beginPath()
+    //   context.arc(leftLensLoction.x, leftLensLoction.y, LENS_RADIUS, 0, Math.PI * 2, false)
+    //   context.stroke()
+    //   context.moveTo(rightLensLoction.x, rightLensLoction.y)
+    //   context.arc(rightLensLoction.x, rightLensLoction.y, LENS_RADIUS, 0, Math.PI * 2, false)
+    //   context.stroke()
+    //   context.clip()
+    //   context.drawImage(offsetCanvas, 0, 0, canvasWidth, canvasHeight)
+    //   context.restore()
+
+    // }
+    // function drawWire(center) {
+    //   context.beginPath()
+    //   context.moveTo(center.x - LENS_RADIUS / 4, center.y - LENS_RADIUS / 2)
+    //   context.quadraticCurveTo(center.x, center.y - LENS_RADIUS + 20, center.x + LENS_RADIUS / 4, center.y - LENS_RADIUS / 2)
+    //   context.stroke()
+    // }
+    // function drawConnectors(center) {
+    //   context.beginPath()
+    //   context.fillStyle = 'silver'
+    //   context.strokeStyle = 'rgba(0,0,0,0.4)'
+    //   context.lineWidth = 2
+    //   context.arc(center.x - LENS_RADIUS / 4, center.y - LENS_RADIUS / 2, 4, 0, Math.PI * 2, false)
+    //   context.fill()
+    //   context.stroke()
+
+    //   context.beginPath()
+    //   context.arc(center.x + LENS_RADIUS / 4, center.y - LENS_RADIUS / 2, 4, 0, Math.PI * 2, false)
+    //   context.fill()
+    //   context.stroke()
+    // }
+
+    // image.src = '../images/2.jpg'
+    // image.onload = function () {
+    //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+    // }
+    // canvas.onclick = function () {
+    //   putSunglassesOn()
+    // }
+    // 裁剪 + 滤镜 end
+    // 墨镜滤镜 start
+    // const image = new Image()
+    // const sunglassFilter = new Worker('../worker/sunglassFilter.js')
+    // image.src = '../images/2.jpg'
+    // image.onload = function () {
+    //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+    // }
+    // function putSunglassesOn() {
+    //   sunglassFilter.postMessage(context.getImageData(0, 0, canvasWidth, canvasHeight))
+    //   sunglassFilter.onmessage = function (event) {
+    //     context.putImageData(event.data, 0, 0)
+    //     sunglassFilter.terminate()
+    //   }
+    // }
+    // canvas.onclick = function () {
+    //   putSunglassesOn()
+    // }
+    // 墨镜滤镜 end
+    // 浮雕滤镜效果 start
+    // const image = new Image()
+    // image.src = '../images/4.jpg'
+    // image.onload = function () {
+    //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+    // }
+    // function emboss() {
+    //   let imageData, data, length, width, index = 3
+
+    //   imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+    //   data = imageData.data
+    //   width = imageData.width
+    //   length = data.length
+    //   // 遍历每一个像素的分量值
+    //   for (let i = 0; i < length; i++) {
+    //     // 处理不是最后一行的
+    //     if (i <= length - width * 4) {
+    //       // 不处理 alpha
+    //       if ((i + 1) % 4 !== 0) {
+    //         // 如果是本行最后一个像素，由于右边没有像素值，所以取前一个像素的值
+    //         if ((i + 4) % (width * 4) === 0) {
+    //           data[i] = data[i - 4]
+    //           data[i + 1] = data[i - 3]
+    //           data[i + 2] = data[i - 2]
+    //           data[i + 3] = data[i - 1]
+    //           i += 3
+    //         } else {
+    //           data[i] = 255 / 2 + data[i] * 2 - data[i + 4] - data[i + width * 4]
+    //         }
+    //       }
+    //     } else { // 最后一行
+    //       if ((i + 1) % 4 !== 0) {
+    //         // 取上一行像素的分量值
+    //         data[i] = data[i - width * 4]
+    //       }
+    //     }
+    //   }
+
+    //   context.putImageData(imageData, 0, 0)
+    // }
+    // canvas.onclick = function () {
+    //   emboss()
+    // }
+    // 浮雕滤镜效果 end
+    // 黑白滤镜效果 start
+    // const image = new Image()
+    // image.src = '../images/2.jpg'
+    // image.onload = function () {
+    //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+    // }
+    // canvas.onclick = function () {
+    //   const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+    //   const data = imageData.data
+
+    //   for (let i = 0; i < data.length - 4; i += 4) {
+    //     const average = (data[i] + data[i + 1] + data[i + 2]) / 3
+    //     data[i] = average
+    //     data[i + 1] = average
+    //     data[i + 2] = average
+    //   }
+
+    //   context.putImageData(imageData, 0, 0)
+    // }
+    // 黑白滤镜效果 end
+    // 负片滤镜效果 start
+    // const image = new Image()
+    // image.src = '../images/5.jpg'
+    // image.onload = function () {
+    //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+    // }
+    // canvas.onclick = function () {
+    //   const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+    //   const data = imageData.data
+
+    //   for (let i = 0; i < data.length - 4; i += 4) {
+    //     data[i] = 255 - data[i]
+    //     data[i + 1] = 255 - data[i + 1]
+    //     data[i + 2] = 255 - data[i + 2]
+    //   }
+
+    //   context.putImageData(imageData, 0, 0)
+    // }
+    // 负片滤镜效果 end
 
     // 修改图像数据 start
     // const mousedown = {}

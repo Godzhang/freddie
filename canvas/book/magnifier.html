@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <style>
+    #canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+  <title>magnifier</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    //
+    let canvasWidth = document.body.clientWidth;
+    let canvasHeight = document.body.clientHeight;
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+    const image = new Image()
+
+    const magnification = 2 // 放大倍数
+    const magnifierRadius = 80 // 放大镜半径
+
+    function drawMagnifier(loc) {
+      context.save()
+      context.beginPath()
+      context.strokeStyle = '#08c'
+      context.arc(loc.x, loc.y, magnifierRadius, 0, Math.PI * 2)
+      context.stroke()
+      context.clip()
+      drawMagnifiedImage(loc)
+      context.restore()
+    }
+
+    function drawMagnifiedImage(loc) {
+      context.drawImage(image, 0, 0, canvasWidth, canvasHeight, (1 - magnification) * loc.x, (1 - magnification) * loc.y, canvasWidth * magnification, canvasHeight * magnification)
+    }
+
+    canvas.onmousemove = function (e) {
+      const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+
+      context.clearRect(0, 0, canvasWidth, canvasHeight)
+
+      drawImage()
+      drawMagnifier(loc)
+      // drawMagnifiedImage(loc)
+    }
+
+    function drawImage() {
+      context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+    }
+
+    context.strokeStyle = '#08c'
+    image.src = '../images/6.jpg'
+    image.onload = function () {
+      canvasWidth = image.width
+      canvasHeight = image.height
+      canvas.width = canvasWidth
+      canvas.height = canvasHeight
+      drawImage()
+    }
+  </script>
+  <script>
+    //
+  </script>
+</body>
+
+</html>

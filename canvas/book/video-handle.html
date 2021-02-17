@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <style>
+    #canvas {
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    #video {
+      display: none;
+    }
+
+    #controls {
+      position: absolute;
+      top: 650px;
+      left: 50%;
+      transform: translateX(-50%)
+    }
+  </style>
+  <title>video-handle</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <video src="../images/bg.mp4" id="video"></video>
+  <div id="controls">
+    <input id="controlButton" type="button" value="Play">
+    <input type="checkbox" id="colorCheckbox" checked>color
+    <input type="checkbox" id="flipCheckbox">Flip
+  </div>
+
+  <script>
+    //
+    const canvasWidth = 800
+    const canvasHeight = 600
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+    const offsetCanvas = document.createElement('canvas')
+    const offsetContext = offsetCanvas.getContext('2d')
+    const video = document.getElementById('video')
+    const controlButton = document.getElementById('controlButton')
+    const colorCheckbox = document.getElementById('colorCheckbox')
+    const flipCheckbox = document.getElementById('flipCheckbox')
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    offsetCanvas.width = canvasWidth
+    offsetCanvas.height = canvasHeight
+    let imageData
+
+    function removeColor() {
+      let imageData = offsetContext.getImageData(0, 0, canvasWidth, canvasHeight),
+        data = imageData.data,
+        width = imageData.width,
+        length = data.length,
+        average
+
+      for (let i = 0; i < length - 4; i += 4) {
+        average = (data[i] + data[i + 1] + data[i + 2]) / 3
+        data[i] = average
+        data[i + 1] = average
+        data[i + 2] = average
+      }
+
+      offsetContext.putImageData(imageData, 0, 0)
+    }
+
+    function drawFlipped() {
+      context.save()
+      context.translate(canvasWidth / 2, canvasHeight / 2)
+      context.rotate(Math.PI)
+      context.translate(-canvasWidth / 2, -canvasHeight / 2)
+      context.drawImage(offsetCanvas, 0, 0)
+      context.restore()
+    }
+
+    function nextVideoFrame() {
+      context.clearRect(0, 0, canvasWidth, canvasHeight)
+      if (video.ended) {
+        controlButton.value = 'Play'
+      } else {
+        offsetContext.drawImage(video, 0, 0, canvasWidth, canvasHeight)
+        if (!colorCheckbox.checked) {
+          removeColor()
+        }
+        if (flipCheckbox.checked) {
+          drawFlipped()
+        } else {
+          context.drawImage(offsetCanvas, 0, 0)
+        }
+        requestAnimationFrame(nextVideoFrame)
+      }
+    }
+
+    function startPlaying() {
+      requestAnimationFrame(nextVideoFrame)
+      video.play()
+    }
+    function stopPlaying() {
+      video.pause()
+    }
+
+    controlButton.onclick = function () {
+      if (controlButton.value === 'Play') {
+        startPlaying()
+        controlButton.value = 'Pause'
+      } else {
+        stopPlaying()
+        controlButton.value = 'Play'
+      }
+    }
+
+  </script>
+  <script>
+    //
+  </script>
+</body>
+
+</html>
