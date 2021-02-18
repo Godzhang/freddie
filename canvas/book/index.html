@@ -1,774 +1,831 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../reset.css" />
-  <script src="../public/utils.js"></script>
-  <style>
-    #canvas {
-      position: relative;
-      /* margin: 100px; */
-      /* border: 1px solid #ddd; */
-    }
-
-    #video {
-      display: none;
-    }
-  </style>
-  <title>book-study</title>
-</head>
-
-<body>
-  <canvas id="canvas"></canvas>
-  <video id="video">
-    <source src="../images/bg.mp4">
-    </source>
-  </video>
-
-  <script>
-    //
-    const canvasWidth = document.body.clientWidth;
-    const canvasHeight = document.body.clientHeight;
-    const middleX = canvasWidth / 2;
-    const middleY = canvasHeight / 2;
-    const canvas = document.getElementById("canvas");
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
-
-    const context = canvas.getContext("2d");
-
-    // 计算 fps start
-    // let lastTime = 0
-    // function calculateFps() {
-    //   let now = Date.now()
-    //   let fps = 1000 / (now - lastTime)
-
-    //   lastTime = now
-
-    //   return fps
-    // }
-    // function animate() {
-    //   context.clearRect(0, 0, canvasWidth, canvasHeight)
-    //   context.fillStyle = 'cornflowerblue'
-    //   context.font = 'bold 40px arial'
-    //   context.fillText(calculateFps().toFixed() + ' fps', 20, 60)
-    //   window.requestAnimationFrame(animate)
-    // }
-    // animate()
-    // 计算 fps end
-    // 播放视频 start
-    // const video = document.getElementById('video')
-    // function animate() {
-    //   if (!video.ended) {
-
-    //     context.drawImage(video, 0, 0)
-    //     window.requestAnimationFrame(animate)
-    //   }
-    // }
-    // canvas.onclick = function () {
-    //   video.play()
-    //   animate()
-    // }
-    // 播放视频 end
-
-    // 滤镜实现淡出动画 start
-    // let interval = null
-    // let originalImageData = null
-    // const image = new Image()
-    // image.src = '../images/2.jpg'
-    // image.onload = function () {
-    //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
-    //   originalImageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
-    // }
-    // function fadeOut(context, imageData, x, y, steps, millisecondsPerStep) {
-    //   let frame = 0,
-    //     length = imageData.data.length
-
-    //   interval = setInterval(() => {
-    //     frame++
-    //     if (frame > steps) {
-    //       clearInterval(interval)
-    //       animationComplete()
-    //     } else {
-    //       increaseTransparency(imageData, steps)
-    //       context.putImageData(imageData, x, y)
-    //     }
-    //   }, millisecondsPerStep)
-    // }
-    // function increaseTransparency(imageData, steps) {
-    //   let alpha, currentAlpha, step, length = imageData.data.length
-
-    //   for (let i = 3; i < length; i += 4) {
-    //     alpha = originalImageData.data[i]
-    //     if (alpha > 0 && imageData.data[i] > 0) {
-    //       currentAlpha = imageData.data[i]
-    //       step = Math.ceil(alpha / steps)
-
-    //       if (currentAlpha - step > 0) {
-    //         imageData.data[i] -= step
-    //       } else {
-    //         imageData.data[0] = 0
-    //       }
-    //     }
-    //   }
-    // }
-    // function animationComplete() {
-    //   setTimeout(() => {
-    //     context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
-    //   }, 1000)
-    // }
-    // canvas.onclick = function () {
-    //   fadeOut(context, context.getImageData(0, 0, canvasWidth, canvasHeight), 0, 0, 20, 1000 / 60)
-    // }
-    // 滤镜实现淡出动画 end
-    // 裁剪 + 滤镜 start
-    // const image = new Image()
-    // const sunglassFilter = new Worker('../worker/sunglassFilter.js')
-    // const LENS_RADIUS = canvasWidth / 5
-    // const offsetCanvas = document.createElement('canvas')
-    // const offsetContext = offsetCanvas.getContext('2d')
-    // offsetCanvas.width = canvasWidth
-    // offsetCanvas.height = canvasHeight
-
-    // function putSunglassesOn() {
-    //   const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
-    //   const center = {
-    //     x: canvasWidth / 2, y: canvasHeight / 2
-    //   }
-    //   const leftLensLoction = {
-    //     x: center.x - LENS_RADIUS - 10,
-    //     y: center.y
-    //   }
-    //   const rightLensLoction = {
-    //     x: center.x + LENS_RADIUS + 10,
-    //     y: center.y
-    //   }
-
-    //   sunglassFilter.postMessage(imageData)
-
-    //   sunglassFilter.onmessage = function (event) {
-    //     offsetContext.putImageData(event.data, 0, 0)
-    //     drawLenses(leftLensLoction, rightLensLoction)
-    //     drawWire(center)
-    //     drawConnectors(center)
-    //   }
-    // }
-    // function drawLenses(leftLensLoction, rightLensLoction) {
-    //   context.save()
-    //   context.beginPath()
-    //   context.arc(leftLensLoction.x, leftLensLoction.y, LENS_RADIUS, 0, Math.PI * 2, false)
-    //   context.stroke()
-    //   context.moveTo(rightLensLoction.x, rightLensLoction.y)
-    //   context.arc(rightLensLoction.x, rightLensLoction.y, LENS_RADIUS, 0, Math.PI * 2, false)
-    //   context.stroke()
-    //   context.clip()
-    //   context.drawImage(offsetCanvas, 0, 0, canvasWidth, canvasHeight)
-    //   context.restore()
-
-    // }
-    // function drawWire(center) {
-    //   context.beginPath()
-    //   context.moveTo(center.x - LENS_RADIUS / 4, center.y - LENS_RADIUS / 2)
-    //   context.quadraticCurveTo(center.x, center.y - LENS_RADIUS + 20, center.x + LENS_RADIUS / 4, center.y - LENS_RADIUS / 2)
-    //   context.stroke()
-    // }
-    // function drawConnectors(center) {
-    //   context.beginPath()
-    //   context.fillStyle = 'silver'
-    //   context.strokeStyle = 'rgba(0,0,0,0.4)'
-    //   context.lineWidth = 2
-    //   context.arc(center.x - LENS_RADIUS / 4, center.y - LENS_RADIUS / 2, 4, 0, Math.PI * 2, false)
-    //   context.fill()
-    //   context.stroke()
-
-    //   context.beginPath()
-    //   context.arc(center.x + LENS_RADIUS / 4, center.y - LENS_RADIUS / 2, 4, 0, Math.PI * 2, false)
-    //   context.fill()
-    //   context.stroke()
-    // }
-
-    // image.src = '../images/2.jpg'
-    // image.onload = function () {
-    //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
-    // }
-    // canvas.onclick = function () {
-    //   putSunglassesOn()
-    // }
-    // 裁剪 + 滤镜 end
-    // 墨镜滤镜 start
-    // const image = new Image()
-    // const sunglassFilter = new Worker('../worker/sunglassFilter.js')
-    // image.src = '../images/2.jpg'
-    // image.onload = function () {
-    //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
-    // }
-    // function putSunglassesOn() {
-    //   sunglassFilter.postMessage(context.getImageData(0, 0, canvasWidth, canvasHeight))
-    //   sunglassFilter.onmessage = function (event) {
-    //     context.putImageData(event.data, 0, 0)
-    //     sunglassFilter.terminate()
-    //   }
-    // }
-    // canvas.onclick = function () {
-    //   putSunglassesOn()
-    // }
-    // 墨镜滤镜 end
-    // 浮雕滤镜效果 start
-    // const image = new Image()
-    // image.src = '../images/4.jpg'
-    // image.onload = function () {
-    //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
-    // }
-    // function emboss() {
-    //   let imageData, data, length, width, index = 3
-
-    //   imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
-    //   data = imageData.data
-    //   width = imageData.width
-    //   length = data.length
-    //   // 遍历每一个像素的分量值
-    //   for (let i = 0; i < length; i++) {
-    //     // 处理不是最后一行的
-    //     if (i <= length - width * 4) {
-    //       // 不处理 alpha
-    //       if ((i + 1) % 4 !== 0) {
-    //         // 如果是本行最后一个像素，由于右边没有像素值，所以取前一个像素的值
-    //         if ((i + 4) % (width * 4) === 0) {
-    //           data[i] = data[i - 4]
-    //           data[i + 1] = data[i - 3]
-    //           data[i + 2] = data[i - 2]
-    //           data[i + 3] = data[i - 1]
-    //           i += 3
-    //         } else {
-    //           data[i] = 255 / 2 + data[i] * 2 - data[i + 4] - data[i + width * 4]
-    //         }
-    //       }
-    //     } else { // 最后一行
-    //       if ((i + 1) % 4 !== 0) {
-    //         // 取上一行像素的分量值
-    //         data[i] = data[i - width * 4]
-    //       }
-    //     }
-    //   }
-
-    //   context.putImageData(imageData, 0, 0)
-    // }
-    // canvas.onclick = function () {
-    //   emboss()
-    // }
-    // 浮雕滤镜效果 end
-    // 黑白滤镜效果 start
-    // const image = new Image()
-    // image.src = '../images/2.jpg'
-    // image.onload = function () {
-    //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
-    // }
-    // canvas.onclick = function () {
-    //   const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
-    //   const data = imageData.data
-
-    //   for (let i = 0; i < data.length - 4; i += 4) {
-    //     const average = (data[i] + data[i + 1] + data[i + 2]) / 3
-    //     data[i] = average
-    //     data[i + 1] = average
-    //     data[i + 2] = average
-    //   }
-
-    //   context.putImageData(imageData, 0, 0)
-    // }
-    // 黑白滤镜效果 end
-    // 负片滤镜效果 start
-    // const image = new Image()
-    // image.src = '../images/5.jpg'
-    // image.onload = function () {
-    //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
-    // }
-    // canvas.onclick = function () {
-    //   const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
-    //   const data = imageData.data
-
-    //   for (let i = 0; i < data.length - 4; i += 4) {
-    //     data[i] = 255 - data[i]
-    //     data[i + 1] = 255 - data[i + 1]
-    //     data[i + 2] = 255 - data[i + 2]
-    //   }
-
-    //   context.putImageData(imageData, 0, 0)
-    // }
-    // 负片滤镜效果 end
-
-    // 修改图像数据 start
-    // const mousedown = {}
-    // const rubberbandRectangle = {}
-    // let imageWidth,
-    //   imageHeight,
-    //   imageData,
-    //   imageDataCopy = context.createImageData(canvasWidth, canvasHeight),
-    //   dragging = false
-
-    // const image = new Image()
-    // image.src = '../images/5.jpg'
-    // image.onload = function () {
-    //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
-    // }
-
-    // function setRubberbandRectangle(x, y) {
-    //   rubberbandRectangle.left = Math.min(x, mousedown.x)
-    //   rubberbandRectangle.top = Math.min(y, mousedown.y)
-    //   rubberbandRectangle.width = Math.abs(x - mousedown.x)
-    //   rubberbandRectangle.height = Math.abs(y - mousedown.y)
-    // }
-
-    // function copyCanvasPixels() {
-    //   let i = 0
-    //   for (; i < 3; i++) {
-    //     imageDataCopy.data[i] = imageData.data[i]
-    //   }
-    //   for (i = 3; i < imageData.data.length - 4; i += 4) {
-    //     imageDataCopy.data[i] = imageData.data[i] / 2
-    //     imageDataCopy.data[i + 1] = imageData.data[i + 1]
-    //     imageDataCopy.data[i + 2] = imageData.data[i + 2]
-    //     imageDataCopy.data[i + 3] = imageData.data[i + 3]
-    //   }
-    // }
-
-    // function captureCanvasPixels() {
-    //   imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
-    //   copyCanvasPixels()
-    // }
-
-    // function restoreRubberbandPixels() {
-    //   const deviceWidthOverCSSPixels = imageData.width / canvas.width
-    //   const deviceHeightOverCSSPixels = imageData.height / canvas.height
-
-    //   context.putImageData(imageData, 0, 0)
-
-    //   context.putImageData(
-    //     imageDataCopy,
-    //     0,
-    //     0,
-    //     rubberbandRectangle.left + context.lineWidth,
-    //     rubberbandRectangle.top + context.lineWidth,
-    //     (rubberbandRectangle.width - context.lineWidth * 2) * deviceWidthOverCSSPixels,
-    //     (rubberbandRectangle.height - context.lineWidth * 2) * deviceHeightOverCSSPixels
-    //   )
-    // }
-
-    // function drawRubberband() {
-    //   context.strokeRect(rubberbandRectangle.left + context.lineWidth, rubberbandRectangle.top + context.lineWidth, rubberbandRectangle.width - context.lineWidth * 2, rubberbandRectangle.height - context.lineWidth * 2)
-    // }
-
-    // function rubberbandStart(x, y) {
-    //   mousedown.x = x
-    //   mousedown.y = y
-
-    //   rubberbandRectangle.left = x
-    //   rubberbandRectangle.top = y
-    //   rubberbandRectangle.width = 0
-    //   rubberbandRectangle.height = 0
-
-    //   dragging = true
-
-    //   captureCanvasPixels()
-    // }
-    // function rubberbandStretch(x, y) {
-    //   if (rubberbandRectangle.width > context.lineWidth * 2 && rubberbandRectangle.height > context.lineWidth * 2) {
-    //     if (imageData !== undefined) {
-    //       restoreRubberbandPixels()
-    //     }
-    //   }
-
-    //   setRubberbandRectangle(x, y)
-
-    //   if (rubberbandRectangle.width > context.lineWidth * 2 && rubberbandRectangle.height > context.lineWidth * 2) {
-    //     drawRubberband()
-    //   }
-    // }
-    // function rubberbandEnd() {
-    //   context.putImageData(imageData, 0, 0)
-
-    //   context.drawImage(canvas, rubberbandRectangle.left + context.lineWidth * 2, rubberbandRectangle.top + context.lineWidth * 2, rubberbandRectangle.width - context.lineWidth * 4, rubberbandRectangle.height - context.lineWidth * 4, 0, 0, canvasWidth, canvasHeight)
-
-    //   dragging = false
-    //   imageData = undefined
-    // }
-
-    // canvas.onmousedown = function (e) {
-    //   const loc = windowToCanvas(canvas, e.clientX, e.clientY)
-    //   e.preventDefault()
-    //   rubberbandStart(loc.x, loc.y)
-    // }
-    // canvas.onmousemove = function (e) {
-    //   if (dragging) {
-    //     const loc = windowToCanvas(canvas, e.clientX, e.clientY)
-    //     rubberbandStretch(loc.x, loc.y)
-    //   }
-    // }
-    // canvas.onmouseup = function () {
-    //   rubberbandEnd()
-    // }
-
-    // context.strokeStyle = 'navy'
-    // context.lineWidth = 1
-    // 修改图像数据 end
-
-    // 图片居中伸缩 start
-    // canvas.width = 300
-    // canvas.height = 300
-    // document.body.style.backgroundColor = '#eee'
-    // canvas.style.top = '30px'
-    // canvas.style.left = '30px'
-
-    // const image = new Image()
-    // image.src = '../images/1.jpg'
-    // image.onload = function () {
-    //   const w = image.width
-    //   const h = image.height
-
-    //   const left = (w - 300) / 2
-    //   const top = (h - 300) / 2
-
-    //   context.drawImage(image, left, top, w, h, 0, 0, w, h)
-    // }
-    // 图片居中伸缩 end
-
-    // 在圆弧周围绘制文字 start
-    // const TEXT_FILL_STYLE = 'rgba(100, 130, 240, 0.5)'
-    // const TEXT_STROKE_STYLE = 'rgba(200, 0, 0, 0.7)'
-    // const TEXT_SIZE = 64
-    // const circle = {
-    //   x: canvasWidth / 2,
-    //   y: canvasHeight / 2,
-    //   radius: 200
-    // }
-
-    // function drawCircularText(string, startAngle, endAngle) {
-    //   const { radius } = circle
-    //   const angleDecrement = (startAngle - endAngle) / (string.length - 1)
-    //   let angle = parseFloat(startAngle)
-    //   let index = 0
-    //   let character
-
-    //   context.save()
-
-    //   context.fillStyle = TEXT_FILL_STYLE
-    //   context.strokeStyle = TEXT_STROKE_STYLE
-    //   context.font = TEXT_SIZE + 'px Lucida Sans'
-
-    //   while (index < string.length) {
-    //     character = string.charAt(index)
-
-    //     context.save()
-    //     context.beginPath()
-
-    //     context.translate(
-    //       circle.x + Math.cos(angle) * radius,
-    //       circle.y - Math.sin(angle) * radius
-    //     )
-    //     context.rotate(Math.PI / 2 - angle)
-
-    //     context.fillText(character, 0, 0)
-    //     context.strokeText(character, 0, 0)
-
-    //     angle -= angleDecrement
-    //     index++
-
-    //     context.restore()
-    //   }
-    // }
-
-    // context.textAlign = 'center'
-    // context.textBaseline = 'middle'
-    // drawCircularText('Clockwise around the circle', Math.PI * 2, Math.PI / 8)
-    // 在圆弧周围绘制文字 end
-
-    // 裁剪伸缩效果 start
-    // let loop = null
-    // function fillCanvas(color) {
-    //   context.fillStyle = color
-    //   context.fillRect(0, 0, canvasWidth, canvasHeight)
-    // }
-
-    // function setClippingRegion(radius) {
-    //   context.beginPath()
-    //   context.arc(middleX, middleY - 50, radius, 0, Math.PI * 2)
-    //   context.clip()
-    // }
-
-    // function drawText() {
-    //   context.save()
-
-    //   const text = '新年快乐'
-    //   context.fillStyle = 'OrangeRed'
-    //   context.font = 'bold 150px arial'
-    //   context.fillText(text, canvasWidth / 2 - context.measureText(text).width / 2, canvasHeight / 2)
-
-    //   context.restore()
-    // }
-    // function endAnimation(loop) {
-    //   clearInterval(loop)
-
-    //   setTimeout(() => {
-    //     context.clearRect(0, 0, canvasWidth, canvasHeight)
-    //     drawText()
-    //   }, 1000)
-    // }
-    // function animate() {
-    //   let radius = Math.sqrt(middleX * middleX + middleY * middleY)
-    //   loop = setInterval(() => {
-    //     radius -= canvasWidth / 200
-    //     fillCanvas('charcoal')
-    //     if (radius > 0) {
-    //       context.save()
-    //       setClippingRegion(radius)
-    //       fillCanvas('white')
-    //       drawText()
-    //       context.restore()
-    //     } else {
-    //       endAnimation(loop)
-    //     }
-    //   }, 16)
-    // }
-    // canvas.onmousedown = function () {
-    //   animate()
-    // }
-    // drawText()
-    // 裁剪伸缩效果 end
-
-    // 绘制扇形 start
-    // const data = [0.05, 0.25, 0.6, 0.1]
-    // data.forEach((item, i) => {
-    //   if (i > 0) {
-    //     data[i] += data[i - 1]
-    //   }
-    // })
-    // const angles = data.map(item => {
-    //   return item * 360 * Math.PI / 180
-    // })
-    // const radius = 150
-    // const fillStyles = ['blue', 'red', 'green', 'OrangeRed']
-
-    // context.translate(400, 400)
-
-    // for (let i = 0; i < data.length; i++) {
-    //   context.beginPath()
-    //   context.fillStyle = fillStyles[i]
-    //   context.moveTo(0, 0)
-    //   context.arc(0, 0, radius, angles[i - 1] || 0, angles[i])
-    //   context.closePath()
-    //   context.fill()
-    // }
-    // 绘制扇形 end
-
-    // 绘制欣宇的贺卡 start
-    // const hw = 80.4 * 5
-    // const hh = 113.7 * 6
-    // const title = '新年快乐'
-    // const text = [
-    //   '祝欣宇老师在新的一年',
-    //   '牛气冲天',
-    //   '牛运亨通',
-    //   '牛转乾坤',
-    //   '牛年大吉',
-    //   '',
-    //   '财源滚滚',
-    //   '好事连连',
-    //   '笑口常开',
-    //   '心想事成',
-    //   '',
-    //   '秀发飘飘',
-    //   '钱包满满',
-    //   '多吃不胖',
-    //   '睡觉倍儿棒',
-    //   '',
-    //   '过年好！'
-    // ]
-    // const img = new Image()
-    // img.src = '../images/hongbao2.jpg'
-    // img.onload = function () {
-    //   context.drawImage(img, 0, 0, 804, 113.7 * 4, 0, 0, hw, 113.7 * 2.4)
-    //   context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 2.4, hw, 113.7 * 1.8)
-    //   context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 3.6, hw, 113.7 * 1.8)
-    //   context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 5.4, hw, 113.7 * 1.8)
-    //   context.drawImage(img, 0, 113.7 * 7, 804, 113.7 * 3, 0, 113.7 * 7.2, hw, 113.7 * 1.8)
-    //   drawTitle()
-    //   drawText()
-    //   drawLaugh()
-    // }
-    // function drawTitle() {
-    //   context.font = 'bold 50px STKaiti'
-    //   context.fillStyle = '#fdda01'
-    //   context.fillText(title, hw / 2 - context.measureText(title).width / 2, 150)
-    // }
-    // function drawText() {
-    //   const top = 300
-    //   context.fillStyle = '#fcce92'
-    //   context.font = '30px STKaiti'
-    //   text.forEach((t, i) => {
-    //     let textTop, textLeft = hw / 2 - context.measureText(t).width / 2
-    //     if (i === 0) {
-    //       textTop = top - 30
-    //     } else {
-    //       textTop = top + i * 32
-    //     }
-    //     context.fillText(t, textLeft, textTop)
-    //   })
-    // }
-    // function drawLaugh() {
-    //   const img = new Image()
-    //   img.src = '../images/laugh.png'
-    //   img.onload = function () {
-    //     context.drawImage(img, hw / 2 - 50, 113.7 * 7.5, 80, 80)
-    //   }
-    // }
-    // canvas.onclick = () => {
-    //   const img = document.getElementById('img')
-    //   context.imageSmoothingEnabled = false
-    //   img.src = canvas.toDataURL('image/jpg')
-    // }
-    // 绘制欣宇的贺卡 end
-
-    // context.globalCompositeOperation = 'xor'
-
-    // context.fillStyle = 'OrangeRed'
-    // context.arc(100, 100, 100, 0, Math.PI * 2)
-    // context.fill()
-
-    // context.beginPath()
-    // context.fillStyle = '#08c'
-    // context.arc(200, 200, 100, 0, Math.PI * 2)
-    // context.fill()
-
-    // context.strokeStyle = 'OrangeRed'
-    // context.fillStyle = '#08c'
-    // context.lineWidth = 20
-    // context.moveTo(0, 0)
-    // context.lineTo(canvasWidth, canvasHeight)
-    // context.stroke()
-
-    // context.save()
-    // context.translate(30, 30)
-    // context.arc(0, 0, 30, 0, Math.PI * 2)
-    // context.stroke()
-    // context.restore()
-
-    // context.beginPath()
-    // context.translate(60, 60)
-    // context.arc(0, 0, 30, 0, Math.PI * 2)
-    // context.stroke()
-
-    // document.addEventListener('click', e => {
-    //   console.log(context.isPointInPath(e.clientX, e.clientY))
-    // })
-    // 三次贝塞尔曲线箭头 end
-    // const entPoints = [{ x: 130, y: 70 }, { x: 430, y: 270 }]
-    // const controlPoints = [{ x: 130, y: 250 }, { x: 450, y: 70 }]
-
-    // function drawControlPoints() {
-    //   context.strokeStyle = 'yellow'
-    //   context.fillStyle = 'blue'
-    //   controlPoints.forEach(point => {
-    //     context.beginPath()
-    //     context.arc(point.x, point.y, 5, 0, Math.PI * 2, false)
-    //     context.stroke()
-    //     context.fill()
-    //   })
-    // }
-    // function drawEndPoints() {
-    //   context.strokeStyle = 'blue'
-    //   context.fillStyle = 'red'
-    //   entPoints.forEach(point => {
-    //     context.beginPath()
-    //     context.arc(point.x, point.y, 5, 0, Math.PI * 2, false)
-    //     context.stroke()
-    //     context.fill()
-    //   })
-    // }
-    // function drawBezierCurve() {
-    //   context.strokeStyle = 'blue'
-    //   context.beginPath()
-    //   context.moveTo(entPoints[0].x, entPoints[0].y)
-    //   context.bezierCurveTo(
-    //     controlPoints[0].x, controlPoints[0].y,
-    //     controlPoints[1].x, controlPoints[1].y,
-    //     entPoints[1].x, entPoints[1].y
-    //   )
-    //   context.stroke()
-    // }
-
-    // drawGrid(context, 'lightgray', 10, 10)
-    // drawControlPoints()
-    // drawEndPoints()
-    // drawBezierCurve()
-    // 三次贝塞尔曲线箭头 end
-
-    // 二次贝塞尔曲线箭头 start
-    // const ARROW_MARGIN = 30
-    // const POINT_RADIUS = 7
-    // const points = [
-    //   {
-    //     x: canvasWidth - ARROW_MARGIN,
-    //     y: canvasHeight - ARROW_MARGIN
-    //   },
-    //   {
-    //     x: canvasWidth - ARROW_MARGIN * 2,
-    //     y: canvasHeight - ARROW_MARGIN
-    //   },
-    //   {
-    //     x: POINT_RADIUS,
-    //     y: canvasHeight / 2
-    //   },
-    //   {
-    //     x: ARROW_MARGIN,
-    //     y: canvasHeight / 2 - ARROW_MARGIN
-    //   },
-    //   {
-    //     x: canvasWidth - ARROW_MARGIN,
-    //     y: ARROW_MARGIN
-    //   },
-    //   {
-    //     x: canvasWidth - ARROW_MARGIN,
-    //     y: ARROW_MARGIN * 2
-    //   }
-    // ]
-
-    // function drawPoint(x, y, strokeStyle, fillStyle) {
-    //   context.beginPath()
-    //   context.fillStyle = fillStyle
-    //   context.strokeStyle = strokeStyle
-    //   context.lineWidth = 0.5
-    //   context.arc(x, y, POINT_RADIUS, 0, Math.PI * 2, false)
-    //   context.fill()
-    //   context.stroke()
-    // }
-    // function drawArrow() {
-    //   context.strokeStyle = 'white';
-    //   context.fillStyle = 'cornflowerblue'
-    //   context.moveTo(canvasWidth - ARROW_MARGIN, ARROW_MARGIN * 2)
-    //   context.lineTo(canvasWidth - ARROW_MARGIN, canvasHeight - ARROW_MARGIN * 2)
-    //   context.quadraticCurveTo(points[0].x, points[0].y, points[1].x, points[1].y)
-    //   context.lineTo(ARROW_MARGIN, canvasHeight / 2 + ARROW_MARGIN)
-    //   context.quadraticCurveTo(points[2].x, points[2].y, points[3].x, points[3].y)
-    //   context.lineTo(canvasWidth - ARROW_MARGIN * 2, ARROW_MARGIN)
-    //   context.quadraticCurveTo(points[4].x, points[4].y, points[5].x, points[5].y)
-    //   context.fill()
-    //   context.stroke()
-    // }
-    // function drawBezierPoints() {
-    //   let i, strokeStyle, fillStyle
-    //   for (let i = 0; i < points.length; i++) {
-    //     fillStyle = i % 2 === 0 ? 'white' : 'blue'
-    //     strokeStyle = i % 2 === 0 ? 'blue' : 'white'
-    //     drawPoint(points[i].x, points[i].y, strokeStyle, fillStyle)
-    //   }
-    // }
-
-    // context.clearRect(0, 0, canvasWidth, canvasHeight)
-    // drawArrow()
-    // drawBezierPoints()
-    // 二次贝塞尔曲线箭头 end
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <style>
+      #canvas {
+        position: relative;
+        /* margin: 100px; */
+        /* border: 1px solid #ddd; */
+      }
+
+      #video {
+        display: none;
+      }
+    </style>
+    <title>book-study</title>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <video id="video" src="../images/bg.mp4"></video>
+
+    <script>
+      //
+      const canvasWidth = document.body.clientWidth;
+      const canvasHeight = document.body.clientHeight;
+      const middleX = canvasWidth / 2;
+      const middleY = canvasHeight / 2;
+      const canvas = document.getElementById("canvas");
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+
+      const context = canvas.getContext("2d");
+
+      // 背景滚动 start
+      // const image = new Image();
+      // let imageOffset = 0;
+      // let fps = 0;
+      // let lastTime = 0;
+      // const SKY_VELOCITY = 30;
+
+      // function erase() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      // }
+      // function draw() {
+      //   imageOffset =
+      //     imageOffset < canvasWidth ? imageOffset + SKY_VELOCITY / fps : 0;
+
+      //   context.save();
+      //   context.translate(-imageOffset, 0);
+      //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight);
+      //   context.drawImage(image, canvasWidth, 0, canvasWidth, canvasHeight);
+
+      //   context.restore();
+      // }
+      // function calculateFps(now) {
+      //   let fps = 1000 / (now - lastTime);
+      //   lastTime = now;
+      //   return fps;
+      // }
+      // function animate(now) {
+      //   if (now == undefined) {
+      //     now = Date.now();
+      //   }
+      //   fps = calculateFps(now);
+      //   if (fps > 0) {
+      //     erase();
+      //     draw();
+      //   }
+      //   requestAnimationFrame(animate);
+      // }
+
+      // image.src = "../images/5.jpg";
+      // image.onload = function () {
+      //   draw();
+      // };
+      // canvas.onclick = function () {
+      //   animate();
+      // };
+      // 背景滚动 end
+
+      // 双缓冲技术检测 start
+      // let sum = 0
+      // function animate() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight)
+      //   for (let i = 0;i<500000;i++) {
+      //     sum+=i
+      //   }
+      //   context.fillStyle = 'OrangeRed'
+      //   context.fillRect(0, 0, canvasWidth, canvasHeight)
+
+      //   requestAnimationFrame(animate)
+      // }
+      // animate()
+      // 双缓冲技术检测 end
+
+      // 计算 fps start
+      // let lastTime = 0
+      // function calculateFps() {
+      //   let now = Date.now()
+      //   let fps = 1000 / (now - lastTime)
+
+      //   lastTime = now
+
+      //   return fps
+      // }
+      // function animate() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight)
+      //   context.fillStyle = 'cornflowerblue'
+      //   context.font = 'bold 40px arial'
+      //   context.fillText(calculateFps().toFixed() + ' fps', 20, 60)
+      //   window.requestAnimationFrame(animate)
+      // }
+      // animate()
+      // 计算 fps end
+      // 播放视频 start
+      // const video = document.getElementById('video')
+      // function animate() {
+      //   if (!video.ended) {
+      //     context.drawImage(video, 0, 0)
+      //     window.requestAnimationFrame(animate)
+      //   }
+      // }
+      // canvas.onclick = function () {
+      //   video.play()
+      //   animate()
+      // }
+      // 播放视频 end
+
+      // 滤镜实现淡出动画 start
+      // let interval = null
+      // let originalImageData = null
+      // const image = new Image()
+      // image.src = '../images/2.jpg'
+      // image.onload = function () {
+      //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+      //   originalImageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+      // }
+      // function fadeOut(context, imageData, x, y, steps, millisecondsPerStep) {
+      //   let frame = 0,
+      //     length = imageData.data.length
+
+      //   interval = setInterval(() => {
+      //     frame++
+      //     if (frame > steps) {
+      //       clearInterval(interval)
+      //       animationComplete()
+      //     } else {
+      //       increaseTransparency(imageData, steps)
+      //       context.putImageData(imageData, x, y)
+      //     }
+      //   }, millisecondsPerStep)
+      // }
+      // function increaseTransparency(imageData, steps) {
+      //   let alpha, currentAlpha, step, length = imageData.data.length
+
+      //   for (let i = 3; i < length; i += 4) {
+      //     alpha = originalImageData.data[i]
+      //     if (alpha > 0 && imageData.data[i] > 0) {
+      //       currentAlpha = imageData.data[i]
+      //       step = Math.ceil(alpha / steps)
+
+      //       if (currentAlpha - step > 0) {
+      //         imageData.data[i] -= step
+      //       } else {
+      //         imageData.data[0] = 0
+      //       }
+      //     }
+      //   }
+      // }
+      // function animationComplete() {
+      //   setTimeout(() => {
+      //     context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+      //   }, 1000)
+      // }
+      // canvas.onclick = function () {
+      //   fadeOut(context, context.getImageData(0, 0, canvasWidth, canvasHeight), 0, 0, 20, 1000 / 60)
+      // }
+      // 滤镜实现淡出动画 end
+      // 裁剪 + 滤镜 start
+      // const image = new Image()
+      // const sunglassFilter = new Worker('../worker/sunglassFilter.js')
+      // const LENS_RADIUS = canvasWidth / 5
+      // const offsetCanvas = document.createElement('canvas')
+      // const offsetContext = offsetCanvas.getContext('2d')
+      // offsetCanvas.width = canvasWidth
+      // offsetCanvas.height = canvasHeight
+
+      // function putSunglassesOn() {
+      //   const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+      //   const center = {
+      //     x: canvasWidth / 2, y: canvasHeight / 2
+      //   }
+      //   const leftLensLoction = {
+      //     x: center.x - LENS_RADIUS - 10,
+      //     y: center.y
+      //   }
+      //   const rightLensLoction = {
+      //     x: center.x + LENS_RADIUS + 10,
+      //     y: center.y
+      //   }
+
+      //   sunglassFilter.postMessage(imageData)
+
+      //   sunglassFilter.onmessage = function (event) {
+      //     offsetContext.putImageData(event.data, 0, 0)
+      //     drawLenses(leftLensLoction, rightLensLoction)
+      //     drawWire(center)
+      //     drawConnectors(center)
+      //   }
+      // }
+      // function drawLenses(leftLensLoction, rightLensLoction) {
+      //   context.save()
+      //   context.beginPath()
+      //   context.arc(leftLensLoction.x, leftLensLoction.y, LENS_RADIUS, 0, Math.PI * 2, false)
+      //   context.stroke()
+      //   context.moveTo(rightLensLoction.x, rightLensLoction.y)
+      //   context.arc(rightLensLoction.x, rightLensLoction.y, LENS_RADIUS, 0, Math.PI * 2, false)
+      //   context.stroke()
+      //   context.clip()
+      //   context.drawImage(offsetCanvas, 0, 0, canvasWidth, canvasHeight)
+      //   context.restore()
+
+      // }
+      // function drawWire(center) {
+      //   context.beginPath()
+      //   context.moveTo(center.x - LENS_RADIUS / 4, center.y - LENS_RADIUS / 2)
+      //   context.quadraticCurveTo(center.x, center.y - LENS_RADIUS + 20, center.x + LENS_RADIUS / 4, center.y - LENS_RADIUS / 2)
+      //   context.stroke()
+      // }
+      // function drawConnectors(center) {
+      //   context.beginPath()
+      //   context.fillStyle = 'silver'
+      //   context.strokeStyle = 'rgba(0,0,0,0.4)'
+      //   context.lineWidth = 2
+      //   context.arc(center.x - LENS_RADIUS / 4, center.y - LENS_RADIUS / 2, 4, 0, Math.PI * 2, false)
+      //   context.fill()
+      //   context.stroke()
+
+      //   context.beginPath()
+      //   context.arc(center.x + LENS_RADIUS / 4, center.y - LENS_RADIUS / 2, 4, 0, Math.PI * 2, false)
+      //   context.fill()
+      //   context.stroke()
+      // }
+
+      // image.src = '../images/2.jpg'
+      // image.onload = function () {
+      //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+      // }
+      // canvas.onclick = function () {
+      //   putSunglassesOn()
+      // }
+      // 裁剪 + 滤镜 end
+      // 墨镜滤镜 start
+      // const image = new Image()
+      // const sunglassFilter = new Worker('../worker/sunglassFilter.js')
+      // image.src = '../images/2.jpg'
+      // image.onload = function () {
+      //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+      // }
+      // function putSunglassesOn() {
+      //   sunglassFilter.postMessage(context.getImageData(0, 0, canvasWidth, canvasHeight))
+      //   sunglassFilter.onmessage = function (event) {
+      //     context.putImageData(event.data, 0, 0)
+      //     sunglassFilter.terminate()
+      //   }
+      // }
+      // canvas.onclick = function () {
+      //   putSunglassesOn()
+      // }
+      // 墨镜滤镜 end
+      // 浮雕滤镜效果 start
+      // const image = new Image()
+      // image.src = '../images/4.jpg'
+      // image.onload = function () {
+      //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+      // }
+      // function emboss() {
+      //   let imageData, data, length, width, index = 3
+
+      //   imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+      //   data = imageData.data
+      //   width = imageData.width
+      //   length = data.length
+      //   // 遍历每一个像素的分量值
+      //   for (let i = 0; i < length; i++) {
+      //     // 处理不是最后一行的
+      //     if (i <= length - width * 4) {
+      //       // 不处理 alpha
+      //       if ((i + 1) % 4 !== 0) {
+      //         // 如果是本行最后一个像素，由于右边没有像素值，所以取前一个像素的值
+      //         if ((i + 4) % (width * 4) === 0) {
+      //           data[i] = data[i - 4]
+      //           data[i + 1] = data[i - 3]
+      //           data[i + 2] = data[i - 2]
+      //           data[i + 3] = data[i - 1]
+      //           i += 3
+      //         } else {
+      //           data[i] = 255 / 2 + data[i] * 2 - data[i + 4] - data[i + width * 4]
+      //         }
+      //       }
+      //     } else { // 最后一行
+      //       if ((i + 1) % 4 !== 0) {
+      //         // 取上一行像素的分量值
+      //         data[i] = data[i - width * 4]
+      //       }
+      //     }
+      //   }
+
+      //   context.putImageData(imageData, 0, 0)
+      // }
+      // canvas.onclick = function () {
+      //   emboss()
+      // }
+      // 浮雕滤镜效果 end
+      // 黑白滤镜效果 start
+      // const image = new Image()
+      // image.src = '../images/2.jpg'
+      // image.onload = function () {
+      //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+      // }
+      // canvas.onclick = function () {
+      //   const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+      //   const data = imageData.data
+
+      //   for (let i = 0; i < data.length - 4; i += 4) {
+      //     const average = (data[i] + data[i + 1] + data[i + 2]) / 3
+      //     data[i] = average
+      //     data[i + 1] = average
+      //     data[i + 2] = average
+      //   }
+
+      //   context.putImageData(imageData, 0, 0)
+      // }
+      // 黑白滤镜效果 end
+      // 负片滤镜效果 start
+      // const image = new Image()
+      // image.src = '../images/5.jpg'
+      // image.onload = function () {
+      //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+      // }
+      // canvas.onclick = function () {
+      //   const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+      //   const data = imageData.data
+
+      //   for (let i = 0; i < data.length - 4; i += 4) {
+      //     data[i] = 255 - data[i]
+      //     data[i + 1] = 255 - data[i + 1]
+      //     data[i + 2] = 255 - data[i + 2]
+      //   }
+
+      //   context.putImageData(imageData, 0, 0)
+      // }
+      // 负片滤镜效果 end
+
+      // 修改图像数据 start
+      // const mousedown = {}
+      // const rubberbandRectangle = {}
+      // let imageWidth,
+      //   imageHeight,
+      //   imageData,
+      //   imageDataCopy = context.createImageData(canvasWidth, canvasHeight),
+      //   dragging = false
+
+      // const image = new Image()
+      // image.src = '../images/5.jpg'
+      // image.onload = function () {
+      //   context.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+      // }
+
+      // function setRubberbandRectangle(x, y) {
+      //   rubberbandRectangle.left = Math.min(x, mousedown.x)
+      //   rubberbandRectangle.top = Math.min(y, mousedown.y)
+      //   rubberbandRectangle.width = Math.abs(x - mousedown.x)
+      //   rubberbandRectangle.height = Math.abs(y - mousedown.y)
+      // }
+
+      // function copyCanvasPixels() {
+      //   let i = 0
+      //   for (; i < 3; i++) {
+      //     imageDataCopy.data[i] = imageData.data[i]
+      //   }
+      //   for (i = 3; i < imageData.data.length - 4; i += 4) {
+      //     imageDataCopy.data[i] = imageData.data[i] / 2
+      //     imageDataCopy.data[i + 1] = imageData.data[i + 1]
+      //     imageDataCopy.data[i + 2] = imageData.data[i + 2]
+      //     imageDataCopy.data[i + 3] = imageData.data[i + 3]
+      //   }
+      // }
+
+      // function captureCanvasPixels() {
+      //   imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+      //   copyCanvasPixels()
+      // }
+
+      // function restoreRubberbandPixels() {
+      //   const deviceWidthOverCSSPixels = imageData.width / canvas.width
+      //   const deviceHeightOverCSSPixels = imageData.height / canvas.height
+
+      //   context.putImageData(imageData, 0, 0)
+
+      //   context.putImageData(
+      //     imageDataCopy,
+      //     0,
+      //     0,
+      //     rubberbandRectangle.left + context.lineWidth,
+      //     rubberbandRectangle.top + context.lineWidth,
+      //     (rubberbandRectangle.width - context.lineWidth * 2) * deviceWidthOverCSSPixels,
+      //     (rubberbandRectangle.height - context.lineWidth * 2) * deviceHeightOverCSSPixels
+      //   )
+      // }
+
+      // function drawRubberband() {
+      //   context.strokeRect(rubberbandRectangle.left + context.lineWidth, rubberbandRectangle.top + context.lineWidth, rubberbandRectangle.width - context.lineWidth * 2, rubberbandRectangle.height - context.lineWidth * 2)
+      // }
+
+      // function rubberbandStart(x, y) {
+      //   mousedown.x = x
+      //   mousedown.y = y
+
+      //   rubberbandRectangle.left = x
+      //   rubberbandRectangle.top = y
+      //   rubberbandRectangle.width = 0
+      //   rubberbandRectangle.height = 0
+
+      //   dragging = true
+
+      //   captureCanvasPixels()
+      // }
+      // function rubberbandStretch(x, y) {
+      //   if (rubberbandRectangle.width > context.lineWidth * 2 && rubberbandRectangle.height > context.lineWidth * 2) {
+      //     if (imageData !== undefined) {
+      //       restoreRubberbandPixels()
+      //     }
+      //   }
+
+      //   setRubberbandRectangle(x, y)
+
+      //   if (rubberbandRectangle.width > context.lineWidth * 2 && rubberbandRectangle.height > context.lineWidth * 2) {
+      //     drawRubberband()
+      //   }
+      // }
+      // function rubberbandEnd() {
+      //   context.putImageData(imageData, 0, 0)
+
+      //   context.drawImage(canvas, rubberbandRectangle.left + context.lineWidth * 2, rubberbandRectangle.top + context.lineWidth * 2, rubberbandRectangle.width - context.lineWidth * 4, rubberbandRectangle.height - context.lineWidth * 4, 0, 0, canvasWidth, canvasHeight)
+
+      //   dragging = false
+      //   imageData = undefined
+      // }
+
+      // canvas.onmousedown = function (e) {
+      //   const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+      //   e.preventDefault()
+      //   rubberbandStart(loc.x, loc.y)
+      // }
+      // canvas.onmousemove = function (e) {
+      //   if (dragging) {
+      //     const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+      //     rubberbandStretch(loc.x, loc.y)
+      //   }
+      // }
+      // canvas.onmouseup = function () {
+      //   rubberbandEnd()
+      // }
+
+      // context.strokeStyle = 'navy'
+      // context.lineWidth = 1
+      // 修改图像数据 end
+
+      // 图片居中伸缩 start
+      // canvas.width = 300
+      // canvas.height = 300
+      // document.body.style.backgroundColor = '#eee'
+      // canvas.style.top = '30px'
+      // canvas.style.left = '30px'
+
+      // const image = new Image()
+      // image.src = '../images/1.jpg'
+      // image.onload = function () {
+      //   const w = image.width
+      //   const h = image.height
+
+      //   const left = (w - 300) / 2
+      //   const top = (h - 300) / 2
+
+      //   context.drawImage(image, left, top, w, h, 0, 0, w, h)
+      // }
+      // 图片居中伸缩 end
+
+      // 在圆弧周围绘制文字 start
+      // const TEXT_FILL_STYLE = 'rgba(100, 130, 240, 0.5)'
+      // const TEXT_STROKE_STYLE = 'rgba(200, 0, 0, 0.7)'
+      // const TEXT_SIZE = 64
+      // const circle = {
+      //   x: canvasWidth / 2,
+      //   y: canvasHeight / 2,
+      //   radius: 200
+      // }
+
+      // function drawCircularText(string, startAngle, endAngle) {
+      //   const { radius } = circle
+      //   const angleDecrement = (startAngle - endAngle) / (string.length - 1)
+      //   let angle = parseFloat(startAngle)
+      //   let index = 0
+      //   let character
+
+      //   context.save()
+
+      //   context.fillStyle = TEXT_FILL_STYLE
+      //   context.strokeStyle = TEXT_STROKE_STYLE
+      //   context.font = TEXT_SIZE + 'px Lucida Sans'
+
+      //   while (index < string.length) {
+      //     character = string.charAt(index)
+
+      //     context.save()
+      //     context.beginPath()
+
+      //     context.translate(
+      //       circle.x + Math.cos(angle) * radius,
+      //       circle.y - Math.sin(angle) * radius
+      //     )
+      //     context.rotate(Math.PI / 2 - angle)
+
+      //     context.fillText(character, 0, 0)
+      //     context.strokeText(character, 0, 0)
+
+      //     angle -= angleDecrement
+      //     index++
+
+      //     context.restore()
+      //   }
+      // }
+
+      // context.textAlign = 'center'
+      // context.textBaseline = 'middle'
+      // drawCircularText('Clockwise around the circle', Math.PI * 2, Math.PI / 8)
+      // 在圆弧周围绘制文字 end
+
+      // 裁剪伸缩效果 start
+      // let loop = null
+      // function fillCanvas(color) {
+      //   context.fillStyle = color
+      //   context.fillRect(0, 0, canvasWidth, canvasHeight)
+      // }
+
+      // function setClippingRegion(radius) {
+      //   context.beginPath()
+      //   context.arc(middleX, middleY - 50, radius, 0, Math.PI * 2)
+      //   context.clip()
+      // }
+
+      // function drawText() {
+      //   context.save()
+
+      //   const text = '新年快乐'
+      //   context.fillStyle = 'OrangeRed'
+      //   context.font = 'bold 150px arial'
+      //   context.fillText(text, canvasWidth / 2 - context.measureText(text).width / 2, canvasHeight / 2)
+
+      //   context.restore()
+      // }
+      // function endAnimation(loop) {
+      //   clearInterval(loop)
+
+      //   setTimeout(() => {
+      //     context.clearRect(0, 0, canvasWidth, canvasHeight)
+      //     drawText()
+      //   }, 1000)
+      // }
+      // function animate() {
+      //   let radius = Math.sqrt(middleX * middleX + middleY * middleY)
+      //   loop = setInterval(() => {
+      //     radius -= canvasWidth / 200
+      //     fillCanvas('charcoal')
+      //     if (radius > 0) {
+      //       context.save()
+      //       setClippingRegion(radius)
+      //       fillCanvas('white')
+      //       drawText()
+      //       context.restore()
+      //     } else {
+      //       endAnimation(loop)
+      //     }
+      //   }, 16)
+      // }
+      // canvas.onmousedown = function () {
+      //   animate()
+      // }
+      // drawText()
+      // 裁剪伸缩效果 end
+
+      // 绘制扇形 start
+      // const data = [0.05, 0.25, 0.6, 0.1]
+      // data.forEach((item, i) => {
+      //   if (i > 0) {
+      //     data[i] += data[i - 1]
+      //   }
+      // })
+      // const angles = data.map(item => {
+      //   return item * 360 * Math.PI / 180
+      // })
+      // const radius = 150
+      // const fillStyles = ['blue', 'red', 'green', 'OrangeRed']
+
+      // context.translate(400, 400)
+
+      // for (let i = 0; i < data.length; i++) {
+      //   context.beginPath()
+      //   context.fillStyle = fillStyles[i]
+      //   context.moveTo(0, 0)
+      //   context.arc(0, 0, radius, angles[i - 1] || 0, angles[i])
+      //   context.closePath()
+      //   context.fill()
+      // }
+      // 绘制扇形 end
+
+      // 绘制欣宇的贺卡 start
+      // const hw = 80.4 * 5
+      // const hh = 113.7 * 6
+      // const title = '新年快乐'
+      // const text = [
+      //   '祝欣宇老师在新的一年',
+      //   '牛气冲天',
+      //   '牛运亨通',
+      //   '牛转乾坤',
+      //   '牛年大吉',
+      //   '',
+      //   '财源滚滚',
+      //   '好事连连',
+      //   '笑口常开',
+      //   '心想事成',
+      //   '',
+      //   '秀发飘飘',
+      //   '钱包满满',
+      //   '多吃不胖',
+      //   '睡觉倍儿棒',
+      //   '',
+      //   '过年好！'
+      // ]
+      // const img = new Image()
+      // img.src = '../images/hongbao2.jpg'
+      // img.onload = function () {
+      //   context.drawImage(img, 0, 0, 804, 113.7 * 4, 0, 0, hw, 113.7 * 2.4)
+      //   context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 2.4, hw, 113.7 * 1.8)
+      //   context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 3.6, hw, 113.7 * 1.8)
+      //   context.drawImage(img, 0, 113.7 * 4, 804, 113.7 * 3, 0, 113.7 * 5.4, hw, 113.7 * 1.8)
+      //   context.drawImage(img, 0, 113.7 * 7, 804, 113.7 * 3, 0, 113.7 * 7.2, hw, 113.7 * 1.8)
+      //   drawTitle()
+      //   drawText()
+      //   drawLaugh()
+      // }
+      // function drawTitle() {
+      //   context.font = 'bold 50px STKaiti'
+      //   context.fillStyle = '#fdda01'
+      //   context.fillText(title, hw / 2 - context.measureText(title).width / 2, 150)
+      // }
+      // function drawText() {
+      //   const top = 300
+      //   context.fillStyle = '#fcce92'
+      //   context.font = '30px STKaiti'
+      //   text.forEach((t, i) => {
+      //     let textTop, textLeft = hw / 2 - context.measureText(t).width / 2
+      //     if (i === 0) {
+      //       textTop = top - 30
+      //     } else {
+      //       textTop = top + i * 32
+      //     }
+      //     context.fillText(t, textLeft, textTop)
+      //   })
+      // }
+      // function drawLaugh() {
+      //   const img = new Image()
+      //   img.src = '../images/laugh.png'
+      //   img.onload = function () {
+      //     context.drawImage(img, hw / 2 - 50, 113.7 * 7.5, 80, 80)
+      //   }
+      // }
+      // canvas.onclick = () => {
+      //   const img = document.getElementById('img')
+      //   context.imageSmoothingEnabled = false
+      //   img.src = canvas.toDataURL('image/jpg')
+      // }
+      // 绘制欣宇的贺卡 end
+
+      // context.globalCompositeOperation = 'xor'
+
+      // context.fillStyle = 'OrangeRed'
+      // context.arc(100, 100, 100, 0, Math.PI * 2)
+      // context.fill()
+
+      // context.beginPath()
+      // context.fillStyle = '#08c'
+      // context.arc(200, 200, 100, 0, Math.PI * 2)
+      // context.fill()
+
+      // context.strokeStyle = 'OrangeRed'
+      // context.fillStyle = '#08c'
+      // context.lineWidth = 20
+      // context.moveTo(0, 0)
+      // context.lineTo(canvasWidth, canvasHeight)
+      // context.stroke()
+
+      // context.save()
+      // context.translate(30, 30)
+      // context.arc(0, 0, 30, 0, Math.PI * 2)
+      // context.stroke()
+      // context.restore()
+
+      // context.beginPath()
+      // context.translate(60, 60)
+      // context.arc(0, 0, 30, 0, Math.PI * 2)
+      // context.stroke()
+
+      // document.addEventListener('click', e => {
+      //   console.log(context.isPointInPath(e.clientX, e.clientY))
+      // })
+      // 三次贝塞尔曲线箭头 end
+      // const entPoints = [{ x: 130, y: 70 }, { x: 430, y: 270 }]
+      // const controlPoints = [{ x: 130, y: 250 }, { x: 450, y: 70 }]
+
+      // function drawControlPoints() {
+      //   context.strokeStyle = 'yellow'
+      //   context.fillStyle = 'blue'
+      //   controlPoints.forEach(point => {
+      //     context.beginPath()
+      //     context.arc(point.x, point.y, 5, 0, Math.PI * 2, false)
+      //     context.stroke()
+      //     context.fill()
+      //   })
+      // }
+      // function drawEndPoints() {
+      //   context.strokeStyle = 'blue'
+      //   context.fillStyle = 'red'
+      //   entPoints.forEach(point => {
+      //     context.beginPath()
+      //     context.arc(point.x, point.y, 5, 0, Math.PI * 2, false)
+      //     context.stroke()
+      //     context.fill()
+      //   })
+      // }
+      // function drawBezierCurve() {
+      //   context.strokeStyle = 'blue'
+      //   context.beginPath()
+      //   context.moveTo(entPoints[0].x, entPoints[0].y)
+      //   context.bezierCurveTo(
+      //     controlPoints[0].x, controlPoints[0].y,
+      //     controlPoints[1].x, controlPoints[1].y,
+      //     entPoints[1].x, entPoints[1].y
+      //   )
+      //   context.stroke()
+      // }
+
+      // drawGrid(context, 'lightgray', 10, 10)
+      // drawControlPoints()
+      // drawEndPoints()
+      // drawBezierCurve()
+      // 三次贝塞尔曲线箭头 end
+
+      // 二次贝塞尔曲线箭头 start
+      // const ARROW_MARGIN = 30
+      // const POINT_RADIUS = 7
+      // const points = [
+      //   {
+      //     x: canvasWidth - ARROW_MARGIN,
+      //     y: canvasHeight - ARROW_MARGIN
+      //   },
+      //   {
+      //     x: canvasWidth - ARROW_MARGIN * 2,
+      //     y: canvasHeight - ARROW_MARGIN
+      //   },
+      //   {
+      //     x: POINT_RADIUS,
+      //     y: canvasHeight / 2
+      //   },
+      //   {
+      //     x: ARROW_MARGIN,
+      //     y: canvasHeight / 2 - ARROW_MARGIN
+      //   },
+      //   {
+      //     x: canvasWidth - ARROW_MARGIN,
+      //     y: ARROW_MARGIN
+      //   },
+      //   {
+      //     x: canvasWidth - ARROW_MARGIN,
+      //     y: ARROW_MARGIN * 2
+      //   }
+      // ]
+
+      // function drawPoint(x, y, strokeStyle, fillStyle) {
+      //   context.beginPath()
+      //   context.fillStyle = fillStyle
+      //   context.strokeStyle = strokeStyle
+      //   context.lineWidth = 0.5
+      //   context.arc(x, y, POINT_RADIUS, 0, Math.PI * 2, false)
+      //   context.fill()
+      //   context.stroke()
+      // }
+      // function drawArrow() {
+      //   context.strokeStyle = 'white';
+      //   context.fillStyle = 'cornflowerblue'
+      //   context.moveTo(canvasWidth - ARROW_MARGIN, ARROW_MARGIN * 2)
+      //   context.lineTo(canvasWidth - ARROW_MARGIN, canvasHeight - ARROW_MARGIN * 2)
+      //   context.quadraticCurveTo(points[0].x, points[0].y, points[1].x, points[1].y)
+      //   context.lineTo(ARROW_MARGIN, canvasHeight / 2 + ARROW_MARGIN)
+      //   context.quadraticCurveTo(points[2].x, points[2].y, points[3].x, points[3].y)
+      //   context.lineTo(canvasWidth - ARROW_MARGIN * 2, ARROW_MARGIN)
+      //   context.quadraticCurveTo(points[4].x, points[4].y, points[5].x, points[5].y)
+      //   context.fill()
+      //   context.stroke()
+      // }
+      // function drawBezierPoints() {
+      //   let i, strokeStyle, fillStyle
+      //   for (let i = 0; i < points.length; i++) {
+      //     fillStyle = i % 2 === 0 ? 'white' : 'blue'
+      //     strokeStyle = i % 2 === 0 ? 'blue' : 'white'
+      //     drawPoint(points[i].x, points[i].y, strokeStyle, fillStyle)
+      //   }
+      // }
+
+      // context.clearRect(0, 0, canvasWidth, canvasHeight)
+      // drawArrow()
+      // drawBezierPoints()
+      // 二次贝塞尔曲线箭头 end
 
       // context.fillStyle = "cornflowerblue";
       // context.strokeStyle = "OrangeRed";
@@ -1010,7 +1067,6 @@
       // canvas.addEventListener('mousedown', e => {
       //   context.clearRect(0, 0, documentWidth, documentHeight)
       // })
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>
