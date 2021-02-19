@@ -35,6 +35,88 @@
 
       const context = canvas.getContext("2d");
 
+      // 视差滚动 start
+      // let beafWidth = 0,
+      //   beafHeight = 0,
+      //   lastTime = 0,
+      //   fps,
+      //   catOffset,
+      //   beafOffset;
+      // const CAT_VELOCITY = 20;
+      // const BEAF_VELOCITY = 100;
+
+      // const cat = new Image();
+      // const beaf = new Image();
+      // cat.src = "../images/5.jpg";
+      // beaf.src = "../images/beaf.jpg";
+      // beaf.onload = function () {
+      //   beafWidth = beaf.width;
+      //   beafHeight = beaf.height;
+      //   context.drawImage(cat, 0, 0, canvasWidth, canvasHeight);
+      //   context.drawImage(
+      //     beaf,
+      //     canvasWidth - beafWidth,
+      //     0,
+      //     beafWidth,
+      //     beafHeight
+      //   );
+      // };
+
+      // function calculateFps(now) {
+      //   let fps = 1000 / (now - lastTime);
+      //   lastTime = now;
+      //   return fps;
+      // }
+
+      // function erase() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      // }
+
+      // function draw() {
+      //   catOffset =
+      //     catOffset < canvasWidth ? catOffset + CAT_VELOCITY / fps : 0;
+      //   beafOffset =
+      //     beafOffset < canvasWidth ? beafOffset + BEAF_VELOCITY / fps : 0;
+
+      //   context.save();
+      //   context.translate(-catOffset, 0);
+      //   context.drawImage(cat, 0, 0, canvasWidth, canvasHeight);
+      //   context.drawImage(cat, canvasWidth, 0, canvasWidth, canvasHeight);
+      //   context.restore();
+
+      //   context.save();
+      //   context.translate(-beafOffset, 0);
+      //   context.drawImage(
+      //     beaf,
+      //     canvasWidth - beafWidth,
+      //     0,
+      //     beafWidth,
+      //     beafHeight
+      //   );
+      //   context.drawImage(
+      //     beaf,
+      //     canvasWidth * 2 - beafWidth,
+      //     0,
+      //     beafWidth,
+      //     beafHeight
+      //   );
+      //   context.restore();
+      // }
+
+      // function animate() {
+      //   fps = calculateFps(Date.now());
+
+      //   erase();
+      //   draw();
+
+      //   requestAnimationFrame(animate);
+      // }
+
+      // canvas.onclick = function () {
+      //   animate();
+      // };
+      // 视差滚动 end
+
       // 背景滚动 start
       // const image = new Image();
       // let imageOffset = 0;
