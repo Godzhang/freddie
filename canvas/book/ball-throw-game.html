@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <script src="../public/sprite.js"></script>
+    <style>
+      output {
+        color: blue;
+      }
+      .floatingControls {
+        background-color: rgba(0, 0, 0, 0.1);
+        border: thin solid skyblue;
+        box-shadow: 2px 2px 6px rgba(100, 140, 230, 0.5);
+        padding: 15px;
+        font: 12px Arial;
+      }
+      #canvas {
+        background-color: skyblue;
+        box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+      }
+      #scoreboard {
+        background-color: rgba(255, 255, 255, 0.5);
+        position: absolute;
+        left: 755px;
+        top: 20px;
+        color: blue;
+        font-size: 18px;
+        padding: 5px;
+      }
+      #controls {
+        position: absolute;
+        top: 20px;
+        left: 285px;
+      }
+    </style>
+    <title>ball-thrwo-game</title>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="scoreboard" class="floatingControls">0</div>
+    <div id="controls" class="floatingControls">
+      Launch velocity (m/s):
+      <output id="launchVelocityOutput"></output> m/s <br />
+
+      Launch angle (degrees):
+      <output id="launchAngleOutput"></output> degrees <br />
+    </div>
+
+    <script>
+      //
+      const canvasWidth = 800;
+      const canvasHeight = 450;
+      const canvas = document.getElementById("canvas");
+      const context = canvas.getContext("2d");
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      const scoreboard = document.getElementById("scoreboard");
+      const launchVelocityOutput = document.getElementById(
+        "launchVelocityOutput"
+      );
+      const launchAngleOutput = document.getElementById("launchAngleOutput");
+    </script>
+    <script>
+      //
+      let elapsedTime,
+        launchTime,
+        score = 0,
+        lastScore = 0,
+        lastMouse = { left: 0, top: 0 },
+        threePointer = false,
+        needInstructions = true;
+
+      const LAUNCHPAD_X = 50;
+      const LAUNCHPAD_Y = canvasHeight - 50;
+      const LAUNCHPAD_WIDTH = 50;
+      const LAUNCHPAD_HEIGHT = 12;
+      const BALL_RADIUS = 8;
+      const ARENA_LENGTH_IN_METERS = 10;
+      const INITIAL_LAUNCH_ANGLE = Math.PI / 4;
+
+      let launchAngle = INITIAL_LAUNCH_ANGLE;
+      let pixelsPerMeter = canvasWidth / ARENA_LENGTH_IN_METERS;
+    </script>
+    <script>
+      //
+      const launchPadPainter = {
+        LAUNCHPAD_FILL_STYLE: "rgb(100, 140, 230)",
+        paint: function (ledge, context) {},
+      };
+      const launchPad = new Sprite("launchPad", launchPadPainter);
+
+      const ballPainter = {
+        BALL_FILL_STYLE: "rgb(255, 255, 0)",
+        BALL_STROKE_STYLE: "rgba(0, 0, 0, 0.4)",
+        paing: function (ball, context) {},
+      };
+      const lob = {
+        lastTime: 0,
+        GRAVITY_FORCE: 9.81,
+        applyGravity: function (elapsed) {},
+        updateBallPosition: function (updateDelta) {},
+        checkForThreePointer: function () {},
+        checkBallBounds: function () {},
+        execute: function (ball, context, time) {},
+      };
+      const ball = new Sprite("ball", ballPainter, [lob]);
+      let ballInFlight = false;
+
+      const catchBall = {
+        ballInBucket: function () {},
+        adjustScore: function () {},
+        execute: function (bucket, context, time) {},
+      };
+      const BUCKET_X = 668;
+      const BUCKET_Y = canvasHeight - 100;
+      const bucketImage = new Image();
+      const bucket = new Sprite(
+        "bucket",
+        {
+          paint: function (sprite, context) {},
+        },
+        [catchBall]
+      );
+    </script>
+    <script>
+      //
+      function reset() {}
+      function showText(text) {}
+      function drawGuidewire() {}
+      function updatBackgroundText() {}
+      function resetScoreLater() {}
+      function updateSprites(time) {}
+      function paintSprites() {}
+      function animate(time) {}
+    </script>
+    <script>
+      //
+      canvas.onmousedown = function (e) {
+        e.preventDefault();
+      };
+      canvas.onmousemove = function (e) {
+        e.preventDefault();
+      };
+    </script>
+    <script>
+      ball.width = BALL_RADIUS * 2;
+      ball.height = ball.width;
+    </script>
+  </body>
+</html>
