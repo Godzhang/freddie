@@ -173,6 +173,16 @@ COREHTML5.Progressbar.prototype.createDOMElement = function () {
   this.domElement.appendChild(this.context.canvas);
 };
 
+COREHTML5.Progressbar.prototype.appendTo = function (element) {
+  element.appendChild(this.domElement);
+  this.domElement.style.width = element.offsetWidth + "px";
+  this.domElement.style.height = element.offsetHeight + "px";
+  this.resize();
+
+  this.trough.resize(element.offsetWidth, element.offsetHeight);
+  this.trough.draw(this.offscreen);
+};
+
 COREHTML5.Progressbar.prototype.setCanvasSize = function () {
   const domElementParent = this.domElement.parentNode;
 
@@ -180,10 +190,36 @@ COREHTML5.Progressbar.prototype.setCanvasSize = function () {
   this.context.canvas.height = domElementParent.offsetHeight;
 };
 
-COREHTML5.Progressbar.prototype.resize = function () {};
+COREHTML5.Progressbar.prototype.resize = function () {
+  const domElementParent = this.domElement.parentNode;
+  const w = domElementParent.offsetWidth;
+  const h = domElementParent.offsetHeight;
+
+  this.setCanvasSize();
+
+  this.context.canvas.width = w;
+  this.context.canvas.height = h;
+
+  this.offscreen.canvas.width = w;
+  this.offscreen.canvas.height = h;
+};
 
 COREHTML5.Progressbar.prototype.draw = function (percentComplete) {
+  const width = this.offscreen.canvas.width * (percentComplete / 100);
+  const height = this.offscreen.canvas.height;
+
   if (percentComplete > 0) {
+    this.context.drawImage(
+      this.offscreen.canvas,
+      0,
+      0,
+      width,
+      height,
+      0,
+      0,
+      width,
+      height
+    );
   }
 };
 
