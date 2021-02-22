@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <script src="../public/COREHTML5.js"></script>
+    <style>
+      body {
+        background-color: bisque;
+      }
+      #roundedRectangleDiv {
+        position: absolute;
+        left: 50px;
+        top: 70px;
+        width: 450px;
+        height: 80px;
+      }
+      .range {
+        vertical-align: -5px;
+      }
+      #controls {
+        color:blue;
+        margin: 20px 65px 0 0;
+      }
+      #widthRange {
+        margin-right: 30px;
+        display: inline;
+      }
+    </style>
+    <title>round rectangle controls</title>
+  </head>
+
+  <body>
+    <div id="controls">
+      <div id="widthRangeDiv">
+        Width:
+        <input
+          type="range"
+          id="widthRange"
+          class="range"
+          minimum="5"
+          maximum="100"
+        />
+      </div>
+      Height:
+      <input
+          type="range"
+          id="heightRange"
+          class="range"
+          minimum="5"
+          maximum="100"
+        />
+      </div>
+    </div>
+    <div id="roundedRectangleDiv"></div>
+    <script>
+      //
+      const widthRange = document.getElementById('widthRange')
+      const heightRange = document.getElementById('heightRange')
+      const roundedRectangle = new COREHTML5.RoundedRectangle('rgba(0, 0, 0, 0,2)', 'darkgoldenrod', widthRange.value, heightRange.value)
+
+      function resize() {
+        roundedRectangle.horizontalSizePercent = widthRange.value/  100
+        roundedRectangle.verticalSizePercent = heightRange.value/ 100
+        roundedRectangle.resize(roundedRectangle.domElement.offsetWidth, roundedRectangle.domElement.offsetHeight)
+        roundedRectangle.erase()
+        roundedRectangle.draw()
+      }
+
+      widthRange.onchange = resize
+      heightRange.onchange = resize
+      roundedRectangle.appendTo(document.getElementById('roundedRectangleDiv'))
+      roundedRectangle.draw()
+    </script>
+    <script>
+      //
+    </script>
+  </body>
+</html>

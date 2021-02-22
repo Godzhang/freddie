@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <script src="../public/COREHTML5.js"></script>
+    <style>
+      body {
+        background-color: linen;
+      }
+      #loadingSpan {
+        position: absolute;
+        left: 250px;
+        text-align: center;
+        font: 20px Arial;
+        color: teal;
+        text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+      }
+      #progressbarDiv {
+        position: absolute;
+        top: 50px;
+        left: 35px;
+        width: 500px;
+        height: 70px;
+      }
+    </style>
+    <title>round rectangle controls</title>
+  </head>
+
+  <body>
+    <input type="button" id="startButton" value="Start" />
+    <span id="loadingSpan" style="display: none">Loading...</span>
+    <div id="progressbarDiv"></div>
+    <script>
+      //
+      const startButton = document.getElementById("startButton");
+      const loadingSpan = document.getElementById("loadingSpan");
+      const progressbar = new COREHTML5.Progressbar(
+        "rgba(0, 0, 0, 0.2)",
+        "teal",
+        90,
+        70
+      );
+      let percentComplete = 0;
+
+      startButton.onclick = function () {};
+
+      progressbar.appendTo(document.getElementById("progressbarDiv"));
+    </script>
+    <script>
+      //
+    </script>
+  </body>
+</html>
