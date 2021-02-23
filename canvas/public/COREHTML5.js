@@ -482,11 +482,11 @@ COREHTML5.Pan = function (
   panCanvasAlpha = 0.5
 ) {
   this.imageCanvas = imageCanvas;
+  this.imageContext = this.imageCanvas.getContext("2d");
   this.image = image;
   this.viewportPercent = viewportPercent;
   this.panCanvasAlpha = panCanvasAlpha;
 
-  this.imageContext = this.imageCanvas.getContext("2d");
   this.panCanvas = document.createElement("canvas");
   this.panContext = this.panCanvas.getContext("2d");
 
@@ -504,6 +504,165 @@ COREHTML5.Pan = function (
   return this;
 };
 
-COREHTML5.Pan.prototype.initialize = function () {};
+COREHTML5.Pan.prototype.initialize = function () {
+  const width = this.image.width * (this.viewportPercent / 100);
+  const height = this.image.height * (this.viewportPercent / 100);
 
-// COREHTML5.Pan.prototype. = function() {}
+  this.addEventHandlers();
+  this.setupViewport(width, height);
+  this.setupDOMElement(width, height);
+  this.setupPanCanvas(width, height);
+  this.draw();
+};
+
+COREHTML5.Pan.prototype.setupPanCanvas = function (w, h) {
+  this.panCanvas.width = w;
+  this.panCanvas.height = h;
+};
+
+COREHTML5.Pan.prototype.setupDOMElement = function (w, h) {
+  this.domElement.style.width = w + "px";
+  this.domElement.style.height = h + "px";
+  this.domElement.className = "pan";
+};
+
+COREHTML5.Pan.prototype.setupViewport = function (w, h) {
+  this.viewportLocation = { x: 0, y: 0 };
+  this.viewportSize = { width: w, height: h };
+  this.viewportLastLocation = { x: 0, y: 0 };
+};
+
+COREHTML5.Pan.prototype.moveViewport = function (mouse, offset) {
+  this.viewportLocation.x = mouse.x - offset.x;
+  this.viewportLocation.y = mouse.y - offset.y;
+
+  const delta = {
+    x: this.viewportLastLocation.x - this.viewportLocation.x,
+    y: this.viewportLastLocation.y - this.viewportLocation.y,
+  };
+
+  this.imageContext.translate(
+    delta.x * (this.image.width / this.panCanvas.width),
+    delta.y * (this.image.height / this.panCanvas.height)
+  );
+
+  this.viewportLastLocation.x = this.viewportLocation.x;
+  this.viewportLastLocation.y = this.viewportLocation.y;
+};
+
+COREHTML5.Pan.prototype.isPointInViewport = function (x, y) {
+  this.panContext.beginPath();
+  this.panContext.rect(
+    this.viewportLocation.x,
+    this.viewportLocation.y,
+    this.viewportSize.width,
+    this.viewportSize.height
+  );
+  return this.panContext.isPointInPath(x, y);
+};
+
+COREHTML5.Pan.prototype.addEventHandlers = function () {
+  this.domElement.onmousedown = (e) => {
+    const mouse = this.windowToCanvas(e.clientX, e.clientY);
+    let offset = null;
+
+    e.preventDefault();
+
+    if (this.isPointInViewport(mouse.x, mouse.y)) {
+      offset = {
+        x: mouse.x - this.viewportLocation.x,
+        y: mouse.y - this.viewportLocation.y,
+      };
+      this.panCanvas.onmousemove = (e) => {
+        this.erase();
+        this.moveViewport(this.windowToCanvas(e.clientX, e.clientY), offset);
+        this.draw();
+      };
+      this.panCanvas.onmouseup = (e) => {
+        this.panCanvas.onmousemove = undefined;
+        this.panCanvas.onmouseup = undefined;
+      };
+    }
+  };
+};
+
+COREHTML5.Pan.prototype.drawPanCanvas = function (alpha) {
+  this.panContext.save();
+  this.panContext.globalAlpha = alpha;
+  this.panContext.drawImage(
+    this.image,
+    0,
+    0,
+    this.image.width,
+    this.image.height,
+    0,
+    0,
+    this.panCanvas.width,
+    this.panCanvas.height
+  );
+  this.panContext.restore();
+};
+
+COREHTML5.Pan.prototype.drawImageCanvas = function () {
+  this.imageContext.drawImage(
+    this.image,
+    0,
+    0,
+    this.image.width,
+    this.image.height
+  );
+};
+
+COREHTML5.Pan.prototype.drawViewport = function () {
+  const panContext = this.panContext;
+  panContext.shadowColor = "rgba(0, 0, 0, 0.4)";
+  panContext.shadowOffsetX = 2;
+  panContext.shadowOffsetY = 2;
+  panContext.shadowBlur = 3;
+
+  panContext.lineWidth = 3;
+  panContext.strokeStyle = "white";
+  panContext.strokeRect(
+    this.viewportLocation.x,
+    this.viewportLocation.y,
+    this.viewportSize.width,
+    this.viewportSize.height
+  );
+};
+
+COREHTML5.Pan.prototype.clipToViewport = function () {
+  this.panContext.beginPath();
+  this.panContext.rect(
+    this.viewportLocation.x,
+    this.viewportLocation.y,
+    this.viewportSize.width,
+    this.viewportSize.height
+  );
+  this.panContext.clip();
+};
+
+COREHTML5.Pan.prototype.draw = function () {
+  this.drawImageCanvas();
+  this.drawPanCanvas(this.panCanvasAlpha);
+
+  this.panContext.save();
+  this.clipToViewport();
+  this.drawPanCanvas(1);
+  this.panContext.restore();
+
+  this.drawViewport();
+};
+
+COREHTML5.Pan.prototype.erase = function () {
+  const panContext = this.panContext;
+  panContext.clearRect(0, 0, panContext.canvas.width, panContext.canvas.height);
+};
+
+COREHTML5.Pan.prototype.windowToCanvas = function (x, y) {
+  const bbox = this.panCanvas.getBoundingClientRect();
+
+  return {
+    x: x - bbox.left * (canvas.width / bbox.width),
+    y: y - bbox.top * (canvas.height / bbox.height),
+  };
+};

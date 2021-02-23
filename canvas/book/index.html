@@ -1,73 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../reset.css" />
-    <script src="../public/utils.js"></script>
-    <script src="../public/sprite.js"></script>
-    <script src="../public/shape.js"></script>
-    <style>
-      #canvas {
-        position: relative;
-        /* margin: 100px; */
-        /* border: 1px solid #ddd; */
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <script src="../public/sprite.js"></script>
+  <script src="../public/shape.js"></script>
+  <style>
+    #canvas {
+      position: relative;
+      /* margin: 100px; */
+      /* border: 1px solid #ddd; */
+    }
+
+    #video {
+      display: none;
+    }
+  </style>
+  <title>book-study</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <video id="video" src="../images/bg.mp4"></video>
+
+  <script>
+    //
+    const canvasWidth = document.body.clientWidth;
+    const canvasHeight = document.body.clientHeight;
+    const middleX = canvasWidth / 2;
+    const middleY = canvasHeight / 2;
+    const canvas = document.getElementById("canvas");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    const context = canvas.getContext("2d");
+
+    // 模拟小球水平抛出动画 start
+    const ball = new Ball(0, canvasHeight);
+    let vx = 3;
+    let vy = -6;
+    let gravity = 0.2;
+    let friction = -0.015; // 横向阻力
+    let bounce = -0.75;
+
+    function drawFrame() {
+      context.clearRect(0, 0, canvasWidth, canvasHeight);
+      ball.x += vx;
+      ball.y += vy;
+
+      if (ball.y + ball.radius > canvasHeight) {
+        ball.y = canvasHeight - ball.radius;
+        vy *= bounce;
       }
 
-      #video {
-        display: none;
+      if (vy < 0.01) {
+        vx += friction;
       }
-    </style>
-    <title>book-study</title>
-  </head>
 
-  <body>
-    <canvas id="canvas"></canvas>
-    <video id="video" src="../images/bg.mp4"></video>
+      ball.fill(context);
 
-    <script>
-      //
-      const canvasWidth = document.body.clientWidth;
-      const canvasHeight = document.body.clientHeight;
-      const middleX = canvasWidth / 2;
-      const middleY = canvasHeight / 2;
-      const canvas = document.getElementById("canvas");
-      canvas.width = canvasWidth;
-      canvas.height = canvasHeight;
+      vy += gravity;
 
-      const context = canvas.getContext("2d");
-
-      // 模拟小球水平抛出动画 start
-      const ball = new Ball(0, canvasHeight);
-      let vx = 3;
-      let vy = -6;
-      let gravity = 0.2;
-      let friction = -0.015; // 横向阻力
-      let bounce = -0.75;
-
-      function drawFrame() {
-        context.clearRect(0, 0, canvasWidth, canvasHeight);
-        ball.x += vx;
-        ball.y += vy;
-
-        if (ball.y + ball.radius > canvasHeight) {
-          ball.y = canvasHeight - ball.radius;
-          vy *= bounce;
-        }
-
-        if (vy < 0.01) {
-          vx += friction;
-        }
-
-        ball.fill(context);
-
-        vy += gravity;
-
-        if (vx > 0) {
-          requestAnimationFrame(drawFrame);
-        }
+      if (vx > 0) {
+        requestAnimationFrame(drawFrame);
       }
-      drawFrame();
+    }
+    drawFrame();
       // 模拟小球水平抛出动画 end
 
       // 小球垂直落地反弹 start
@@ -1254,6 +1255,7 @@
       // canvas.addEventListener('mousedown', e => {
       //   context.clearRect(0, 0, documentWidth, documentHeight)
       // })
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>

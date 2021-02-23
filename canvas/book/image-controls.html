@@ -1,82 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../reset.css" />
-    <script src="../public/utils.js"></script>
-    <script src="../public/COREHTML5.js"></script>
-    <style>
-      body {
-        background-color: #ddd;
-      }
-      #colorPatchCanvas {
-        position: absolute;
-        top: 75px;
-        left: 410px;
-        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        border: thin solid rgba(0, 0, 0, 0.2);
-      }
-      .slider {
-        position: absolute;
-        width: 324px;
-        height: 50px;
-      }
-      #redSliderDiv {
-        left: 40px;
-        top: 50px;
-      }
-      #greenSliderDiv {
-        left: 40px;
-        top: 115px;
-      }
-      #blueSliderDiv {
-        left: 40px;
-        top: 180px;
-      }
-      #alphaSliderDiv {
-        left: 40px;
-        top: 300px;
-      }
-    </style>
-    <title>image controls</title>
-  </head>
 
-  <body>
-    <div id="controls">
-      <span id="alphaSpan">0</span>
-      <div id="alphaSliderDiv"></div>
-      <span id="sizeSpan">0</span>
-      <div id="sizeSliderDiv"></div>
-    </div>
-    <canvas id="canvas" width="1000" height="600"></canvas>
-    <script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <script src="../public/COREHTML5.js"></script>
+  <style>
+    body {
+      background-color: rgba(100, 145, 250, 0.3);
+    }
+
+    #canvas {
+      position: absolute;
+      left: 0;
+      top: 50px;
+      margin: 0 0 20px 20px;
+      padding: 0;
+      box-shadow: 5px 5px 7px rgba(60, 60, 70, 0.7);
+      border: 1px solid rgba(100, 140, 130, 0.5);
+      cursor: crosshair;
+    }
+
+    .pan {
+      position: absolute;
+      top: 70px;
+      left: 50px;
+      box-shadow: 5px 5px 7px rgba(60, 60, 70, 0.7);
+      cursor: pointer;
+    }
+
+    #sizeSliderDiv {
+      position: absolute;
+      top: -5px;
+      left: 20px;
+      margin-left: 10px;
+      display: inline;
+      width: 175px;
+      height: 45px;
+    }
+
+    #alphaSliderDiv {
+      position: absolute;
+      top: -5px;
+      left: 270px;
+      margin-left: 10px;
+      display: inline;
+      width: 175px;
+      height: 45px;
+    }
+
+    #controls {
+      position: absolute;
+      left: 10px;
+      margin-left: 35px;
+      margin-bottom: 25px;
+    }
+
+    #alphaSpan {
+      position: absolute;
+      left: 240px;
+      vertical-align: center;
+      color: rgb(80, 100, 190);
+      font: 18px Arial;
+      text-shadow: 2px 2px 4px rgba(100, 140, 250, 0.8);
+    }
+
+    #sizeSpan {
+      position: absolute;
+      left: -20px;
+      vertical-align: center;
+      color: rgb(80, 100, 190);
+      font: 18px Arial;
+      text-shadow: 2px 2px 4px rgba(100, 140, 250, 0.8);
+    }
+  </style>
+  <title>image controls</title>
+</head>
+
+<body>
+  <div id="controls">
+    <span id="alphaSpan">0</span>
+    <div id="alphaSliderDiv"></div>
+    <span id="sizeSpan">0</span>
+    <div id="sizeSliderDiv"></div>
+  </div>
+  <canvas id="canvas" width="1000" height="600"></canvas>
+  <script>
+    //
+    const context = document.getElementById("canvas").getContext("2d");
+    const image = new Image();
+    const alphaSpan = document.getElementById("alphaSpan");
+    const sizeSpan = document.getElementById("sizeSpan");
+    const sizeSlider = new COREHTML5.Slider(
+      "blue",
+      "cornflowerblue",
+      0.85,
+      90,
+      50
+    );
+    const alphaSlider = new COREHTML5.Slider(
+      "blue",
+      "cornflowerblue",
+      0.5,
+      90,
+      50
+    );
+    const pan = new COREHTML5.Pan(context.canvas, image)
+    const e = pan.domElement
+    const ALPHA_MAX = 1;
+    const SIZE_MAX = 12;
+
+    sizeSlider.addChangeListener(() => {
+      let size = parseFloat(sizeSlider.knobPercent) * 12
+      size = Math.max(size, 2)
+      sizeSpan.innerHTML = size.toFixed(1) + '%'
+
+      pan.imageContext.setTransform(1, 0, 0, 1, 0, 0)
+      pan.viewportPercent = size
+
+      pan.erase()
+      pan.initialize()
+      pan.draw()
+    })
+
+    alphaSlider.addChangeListener(() => {
+      alphaSpan.innerHTML = parseFloat(alphaSlider.knobPercent * 100).toFixed(0) + '%'
+      alphaSpan.style.opacity = parseFloat(alphaSlider.knobPercent)
+
+      pan.panCanvasAlpha = alphaSlider.knobPercent
+      pan.erase()
+      pan.draw()
+    })
+
+    image.src = '../images/3.jpg'
+    document.body.append(e)
+    e.className = 'pan'
+
+    alphaSlider.appendTo('alphaSliderDiv')
+    sizeSlider.appendTo('sizeSliderDiv')
+
+    pan.viewportPercent = sizeSlider.knobPercent * SIZE_MAX
+    pan.panCanvasAlpha = alphaSlider.knobPercent * ALPHA_MAX
+
+    sizeSpan.innerHTML = pan.viewportPercent.toFixed(0) + '%'
+    alphaSpan.innerHTML = (pan.panCanvasAlpha * 100).toFixed(0) + '%'
+
+    alphaSlider.draw()
+    sizeSlider.draw()
+  </script>
+  <script>
       //
-      const context = document.getElementById("canvas").getContext("2d");
-      const image = new Image();
-      const alphaSpan = document.getElementById("alphaSpan");
-      const sizeSpan = document.getElementById("sizeSpan");
-      const sizeSlider = new COREHTML5.Slider(
-        "blue",
-        "cornflowerblue",
-        0.85,
-        90,
-        50
-      );
-      const alpahSlider = new COREHTML5.Slider(
-        "blue",
-        "cornflowerblue",
-        0.5,
-        90,
-        50
-      );
-      // const pan = new COREHTML5.Pan(context.canvas, image)
-      // const e = pan.domElement
-      const ALPHA_MAX = 1;
-      const SIZE_MAX = 12;
-    </script>
-    <script>
-      //
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>
