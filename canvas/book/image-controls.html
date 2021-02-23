@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <script src="../public/COREHTML5.js"></script>
+    <style>
+      body {
+        background-color: #ddd;
+      }
+      #colorPatchCanvas {
+        position: absolute;
+        top: 75px;
+        left: 410px;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        border: thin solid rgba(0, 0, 0, 0.2);
+      }
+      .slider {
+        position: absolute;
+        width: 324px;
+        height: 50px;
+      }
+      #redSliderDiv {
+        left: 40px;
+        top: 50px;
+      }
+      #greenSliderDiv {
+        left: 40px;
+        top: 115px;
+      }
+      #blueSliderDiv {
+        left: 40px;
+        top: 180px;
+      }
+      #alphaSliderDiv {
+        left: 40px;
+        top: 300px;
+      }
+    </style>
+    <title>image controls</title>
+  </head>
+
+  <body>
+    <div id="controls">
+      <span id="alphaSpan">0</span>
+      <div id="alphaSliderDiv"></div>
+      <span id="sizeSpan">0</span>
+      <div id="sizeSliderDiv"></div>
+    </div>
+    <canvas id="canvas" width="1000" height="600"></canvas>
+    <script>
+      //
+      const context = document.getElementById("canvas").getContext("2d");
+      const image = new Image();
+      const alphaSpan = document.getElementById("alphaSpan");
+      const sizeSpan = document.getElementById("sizeSpan");
+      const sizeSlider = new COREHTML5.Slider(
+        "blue",
+        "cornflowerblue",
+        0.85,
+        90,
+        50
+      );
+      const alpahSlider = new COREHTML5.Slider(
+        "blue",
+        "cornflowerblue",
+        0.5,
+        90,
+        50
+      );
+      // const pan = new COREHTML5.Pan(context.canvas, image)
+      // const e = pan.domElement
+      const ALPHA_MAX = 1;
+      const SIZE_MAX = 12;
+    </script>
+    <script>
+      //
+    </script>
+  </body>
+</html>

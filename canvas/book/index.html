@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../reset.css" />
     <script src="../public/utils.js"></script>
     <script src="../public/sprite.js"></script>
+    <script src="../public/shape.js"></script>
     <style>
       #canvas {
         position: relative;
@@ -36,6 +37,109 @@
 
       const context = canvas.getContext("2d");
 
+      // 模拟小球水平抛出动画 start
+      const ball = new Ball(0, canvasHeight);
+      let vx = 3;
+      let vy = -6;
+      let gravity = 0.2;
+      let friction = -0.015; // 横向阻力
+      let bounce = -0.75;
+
+      function drawFrame() {
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+        ball.x += vx;
+        ball.y += vy;
+
+        if (ball.y + ball.radius > canvasHeight) {
+          ball.y = canvasHeight - ball.radius;
+          vy *= bounce;
+        }
+
+        if (vy < 0.01) {
+          vx += friction;
+        }
+
+        ball.fill(context);
+
+        vy += gravity;
+
+        if (vx > 0) {
+          requestAnimationFrame(drawFrame);
+        }
+      }
+      drawFrame();
+      // 模拟小球水平抛出动画 end
+
+      // 小球垂直落地反弹 start
+      // const ball = new Ball(canvasWidth / 2, 0);
+      // const gravity = 0.5; // 重力加速度
+      // const bounce = -0.5; // 反弹系数，绝对值越大，反弹越多
+      // let vy = 0;
+
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   ball.y += vy;
+      //   if (ball.y > canvasHeight - ball.radius) {
+      //     ball.y = canvasHeight - ball.radius;
+      //     // 到达底部，速度反向，因为有速度损耗，要减小
+      //     vy *= bounce;
+      //   }
+      //   ball.fill(context);
+      //   vy += gravity;
+
+      //   requestAnimationFrame(drawFrame);
+      // }
+      // drawFrame();
+      // 小球落地反弹 end
+
+      // 重力 start
+      // const ball = new Ball(0, canvasHeight);
+      // let vx = 8;
+      // let vy = -9.81;
+      // let gravity = 0.2;
+      // const points = [[ball.x, ball.y]];
+
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   ball.x += vx;
+      //   ball.y += vy;
+      //   ball.fill(context);
+
+      //   points.push([ball.x, ball.y]);
+
+      //   vy += gravity;
+
+      //   context.beginPath();
+      //   context.moveTo(points[0][0], points[0][1]);
+      //   for (let i = 1; i < points.length; i++) {
+      //     context.lineTo(points[i][0], points[i][1]);
+      //   }
+      //   context.stroke();
+
+      //   if (ball.y <= canvasHeight + ball.radius) {
+      //     requestAnimationFrame(drawFrame);
+      //   }
+      // }
+      // drawFrame();
+      // 重力 end
+
+      // 椭圆 start
+      // const radiusX = 200;
+      // const radiusY = 100;
+      // let angle = 0;
+
+      // context.translate(300, 300);
+      // context.lineWidth = 0.5;
+      // context.strokeStyle = "OrangeRed";
+      // context.fillStyle = "OrangeRed";
+      // context.moveTo(radiusX, 0);
+      // for (let i = 1; i <= 360; i++) {
+      //   angle += Math.PI / 180;
+      //   context.lineTo(Math.cos(angle) * radiusX, Math.sin(angle) * radiusY);
+      //   context.stroke();
+      //   context.fill();
+      // }
+      // 椭圆 end
       // 视差滚动 start
       // let beafWidth = 0,
       //   beafHeight = 0,

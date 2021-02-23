@@ -231,3 +231,279 @@ COREHTML5.Progressbar.prototype.erase = function () {
     this.context.canvas.height
   );
 };
+
+// Slider
+COREHTML5.Slider = function (
+  strokeStyle = "gray",
+  fillStyle = "skyblue",
+  knobPercent = 0,
+  hpercent,
+  vpercent
+) {
+  this.trough = new COREHTML5.RoundedRectangle(
+    strokeStyle,
+    fillStyle,
+    hpercent || 95,
+    vpercent || 95
+  );
+
+  this.knobPercent = knobPercent;
+  this.strokeStyle = strokeStyle;
+  this.fillStyle = fillStyle;
+
+  this.SHADOW_COLOR = "rgba(100, 100, 100, 0.8)";
+  this.SHADOW_OFFSET_X = 3;
+  this.SHADOW_OFFSET_Y = 3;
+  // this.SHADOW_BLUR = 3;
+
+  this.HORIZONTAL_MARGIN = this.SHADOW_OFFSET_X * 2;
+  this.VERTICAL_MARGIN = this.SHADOW_OFFSET_Y * 2;
+
+  this.KNOB_SHADOW_COLOR = "yellow";
+  this.KNOB_SHADOW_OFFSET_X = 1;
+  this.KNOB_SHADOW_OFFSET_Y = 1;
+  this.KNOB_SHADOW_BLUR = 0;
+
+  this.KNOB_FILL_STYLE = "rgba(255, 255, 255, 0.45)";
+  this.KNOB_STROKE_STYLE = "rgba(0, 0, 150, 0.45)";
+
+  this.context = document.createElement("canvas").getContext("2d");
+  this.changeEventListeners = [];
+
+  this.createDOMElement();
+  this.addMouseHandlers();
+
+  return this;
+};
+COREHTML5.Slider.prototype.createDOMElement = function () {
+  this.domElement = document.createElement("div");
+  this.domElement.appendChild(this.context.canvas);
+};
+
+COREHTML5.Slider.prototype.appendTo = function (elementId) {
+  document.getElementById(elementId).appendChild(this.domElement);
+
+  this.setCanvasSize();
+  this.resize();
+};
+
+COREHTML5.Slider.prototype.setCanvasSize = function () {
+  const domElementParent = this.domElement.parentNode;
+
+  this.context.canvas.width = domElementParent.offsetWidth;
+  this.context.canvas.height = domElementParent.offsetHeight;
+};
+
+COREHTML5.Slider.prototype.resize = function () {
+  const canvas = this.context.canvas;
+  const canvasWidth = canvas.width;
+  const canvasHeight = canvas.height;
+
+  // this.cornerRadius = (canvasHeight / 2 - 2 * this.VERTICAL_MARGIN) / 2;
+
+  this.top = this.VERTICAL_MARGIN;
+  this.left = this.HORIZONTAL_MARGIN;
+  this.right = this.left + canvasWidth - 2 * this.HORIZONTAL_MARGIN;
+  this.bottom = this.top + canvasHeight - 2 * this.VERTICAL_MARGIN;
+
+  this.trough.resize(canvasWidth, canvasHeight);
+  this.knobRadius = canvasHeight / 2 - this.context.lineWidth * 2;
+};
+
+COREHTML5.Slider.prototype.addMouseHandlers = function () {
+  this.domElement.onmouseover = (e) => {
+    this.context.canvas.style.cursor = "crosshair";
+  };
+  this.domElement.onmousedown = (e) => {
+    const mouse = this.windowToCanvas(e.clientX, e.clientY);
+
+    e.preventDefault();
+
+    if (this.mouseInTrough(mouse) || this.mouseInKnob(mouse)) {
+      this.knobPercent = this.knobPositionToPercent(mouse.x);
+      this.fireChangeEvent(e);
+      this.erase();
+      this.draw();
+      this.dragging = true;
+    }
+  };
+  window.addEventListener("mousemove", (e) => {
+    let mouse, percent;
+
+    e.preventDefault();
+
+    if (this.dragging) {
+      mouse = this.windowToCanvas(e.clientX, e.clientY);
+      percent = this.knobPositionToPercent(mouse.x);
+
+      if (percent >= 0 && percent <= 1) {
+        this.fireChangeEvent(e);
+        this.erase();
+        this.draw(percent);
+      }
+    }
+  });
+  window.addEventListener("mouseup", (e) => {
+    e.preventDefault();
+
+    if (this.dragging) {
+      this.fireChangeEvent(e);
+      this.dragging = false;
+    }
+  });
+};
+
+COREHTML5.Slider.prototype.fireChangeEvent = function (e) {
+  for (let i = 0, len = this.changeEventListeners.length; i < len; i++) {
+    this.changeEventListeners[i](e);
+  }
+};
+
+COREHTML5.Slider.prototype.addChangeListener = function (listenerFunction) {
+  this.changeEventListeners.push(listenerFunction);
+};
+
+COREHTML5.Slider.prototype.windowToCanvas = function (x, y) {
+  const canvas = this.context.canvas;
+  const bbox = canvas.getBoundingClientRect();
+
+  return {
+    x: x - bbox.left * (canvas.width / bbox.width),
+    y: y - bbox.top * (canvas.height / bbox.height),
+  };
+};
+
+COREHTML5.Slider.prototype.mouseInTrough = function (mouse) {
+  this.context.beginPath();
+  this.context.rect(this.left, 0, this.right - this.left, this.bottom);
+
+  return this.context.isPointInPath(mouse.x, mouse.y);
+};
+
+COREHTML5.Slider.prototype.mouseInKnob = function (mouse) {
+  const position = this.knobPercentToPosition(this.knobPercent);
+  this.context.beginPath();
+  this.context.arc(
+    position,
+    this.context.canvas.height / 2,
+    this.knobRadius,
+    0,
+    Math.PI * 2
+  );
+
+  return this.context.isPointInPath(mouse.x, mouse.y);
+};
+
+COREHTML5.Slider.prototype.knobPositionToPercent = function (position) {
+  const troughWidth = this.right - this.left - 2 * this.knobRadius;
+  return (position - this.left - this.knobRadius) / troughWidth;
+};
+
+COREHTML5.Slider.prototype.knobPercentToPosition = function (percent) {
+  percent = Math.max(0, Math.min(1, percent));
+  const troughWidth = this.right - this.left - 2 * this.knobRadius;
+  return percent * troughWidth + this.left + this.knobRadius;
+};
+
+COREHTML5.Slider.prototype.fillKnob = function (position) {
+  const context = this.context;
+
+  context.save();
+
+  context.shadowColor = this.KNOB_SHADOW_COLOR;
+  context.shadowOffsetX = this.KNOB_SHADOW_OFFSET_X;
+  context.shadowOffsetY = this.KNOB_SHADOW_OFFSET_Y;
+  context.shadowBlur = this.KNOB_SHADOW_BLUR;
+
+  context.beginPath();
+  context.arc(
+    position,
+    this.top + (this.bottom - this.top) / 2,
+    this.knobRadius,
+    0,
+    Math.PI * 2
+  );
+  context.clip();
+
+  context.fillStyle = this.KNOB_FILL_STYLE;
+  context.fill();
+  context.restore();
+};
+
+COREHTML5.Slider.prototype.strokeKnob = function () {
+  const context = this.context;
+
+  context.save();
+  context.lineWidth = 1;
+  context.strokeStyle = this.KNOB_STROKE_STYLE;
+  context.stroke();
+  context.restore();
+};
+
+COREHTML5.Slider.prototype.drawKnob = function (percent) {
+  percent = Math.max(0, Math.min(1, percent));
+
+  this.knobPercent = percent;
+  this.fillKnob(this.knobPercentToPosition(percent));
+  this.strokeKnob();
+};
+
+COREHTML5.Slider.prototype.drawTrough = function () {
+  this.context.save();
+  this.trough.fillStyle = this.fillStyle;
+  this.trough.strokeStyle = this.strokeStyle;
+  this.trough.draw(this.context);
+  this.context.restore();
+};
+
+COREHTML5.Slider.prototype.draw = function (percent) {
+  this.context.globalAlpha = this.opacity;
+  if (percent === undefined) {
+    percent = this.knobPercent;
+  }
+  this.drawTrough();
+  this.drawKnob(percent);
+};
+
+COREHTML5.Slider.prototype.erase = function () {
+  this.context.clearRect(
+    this.left - this.knobRadius,
+    0 - this.knobRadius,
+    this.context.canvas.width + 4 * this.knobRadius,
+    this.context.canvas.height + 3 * this.knobRadius
+  );
+};
+
+// Pan
+COREHTML5.Pan = function (
+  imageCanvas,
+  image,
+  viewportPercent = 10,
+  panCanvasAlpha = 0.5
+) {
+  this.imageCanvas = imageCanvas;
+  this.image = image;
+  this.viewportPercent = viewportPercent;
+  this.panCanvasAlpha = panCanvasAlpha;
+
+  this.imageContext = this.imageCanvas.getContext("2d");
+  this.panCanvas = document.createElement("canvas");
+  this.panContext = this.panCanvas.getContext("2d");
+
+  this.domElement = document.createElement("div");
+  this.domElement.appendChild(this.panCanvas);
+
+  if (image.width === 0 || image.height === 0) {
+    image.onload = () => {
+      this.initialize();
+    };
+  } else {
+    this.initialize();
+  }
+
+  return this;
+};
+
+COREHTML5.Pan.prototype.initialize = function () {};
+
+// COREHTML5.Pan.prototype. = function() {}
