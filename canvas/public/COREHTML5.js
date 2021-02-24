@@ -659,10 +659,11 @@ COREHTML5.Pan.prototype.erase = function () {
 };
 
 COREHTML5.Pan.prototype.windowToCanvas = function (x, y) {
-  const bbox = this.panCanvas.getBoundingClientRect();
+  const panCanvas = this.panCanvas;
+  const bbox = panCanvas.getBoundingClientRect();
 
   return {
-    x: x - bbox.left * (canvas.width / bbox.width),
-    y: y - bbox.top * (canvas.height / bbox.height),
+    x: x - bbox.left * (panCanvas.width / bbox.width),
+    y: y - bbox.top * (panCanvas.height / bbox.height),
   };
 };
