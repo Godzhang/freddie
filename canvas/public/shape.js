@@ -39,6 +39,14 @@ class Ball {
       height: this.radius * 2,
     };
   }
+
+  checkMouse(mouse) {
+    const dx = mouse.x - this.x;
+    const dy = mouse.y - this.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    return distance < this.radius;
+  }
 }
 
 class Box {

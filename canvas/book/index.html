@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../reset.css" />
-    <script src="../public/public.js"></script>
     <script src="../public/utils.js"></script>
+    <script src="../public/public.js"></script>
     <script src="../public/sprite.js"></script>
     <script src="../public/shape.js"></script>
     <style>
@@ -45,21 +45,592 @@
 
       const context = canvas.getContext("2d");
 
-      // 俄罗斯方块 start
-      const boxes = [];
-      const activeBox = createBox();
-      let vy = 2;
+      //红色蒙版 start
+      // const image = new Image();
+      // image.src = "../images/1.jpg";
+      // image.onload = function () {
+      //   const imageWidth = image.width;
+      //   const imageHeight = image.height;
 
-      function createBox() {
-        let x = Math.random() * canvasWidth;
-        let y = 0;
-        let width = Math.random() * 40 + 10;
-        let height = Math.random() * 40 + 10;
-        let color = randomColor();
-        let box = new Box(x, y, width, height, color);
-        boxes.push(box);
-        return box;
-      }
+      //   context.drawImage(image, 0, 0);
+
+      //   const imageData = context.getImageData(0, 0, imageWidth, imageHeight);
+      //   const data = imageData.data;
+      //   for (let i = 0; i < data.length - 4; i += 4) {
+      //     const average = (data[i] + data[i + 1] + data[i + 2]) / 3;
+      //     data[i] = average;
+      //     data[i + 1] = 0;
+      //     data[i + 2] = 0;
+      //   }
+      //   context.putImageData(imageData, 600, 0);
+
+      //   const imageData2 = context.getImageData(0, 0, imageWidth, imageHeight);
+      //   const data2 = imageData2.data;
+      //   for (let i = 0; i < data2.length - 4; i += 4) {
+      //     const average =
+      //       data2[i] * 0.3 + data2[i + 1] * 0.6 + data2[i + 2] * 0.1;
+      //     data2[i] = 0;
+      //     data2[i + 1] = average;
+      //     data2[i + 2] = 0;
+      //   }
+      //   context.putImageData(imageData2, 0, 450);
+
+      //   const imageData3 = context.getImageData(0, 0, imageWidth, imageHeight);
+      //   const data3 = imageData3.data;
+      //   for (let i = 0; i < data3.length - 4; i += 4) {
+      //     const average =
+      //       data3[i] * 0.3 + data3[i + 1] * 0.6 + data3[i + 2] * 0.1;
+      //     data3[i] = 0;
+      //     data3[i + 1] = 0;
+      //     data3[i + 2] = average;
+      //   }
+      //   context.putImageData(imageData3, 600, 450);
+      // };
+      //红色蒙版 end
+
+      // 加权平均值实现灰度图片 start
+      // const image = new Image();
+      // image.src = "../images/1.jpg";
+      // image.onload = function () {
+      //   const imageWidth = image.width;
+      //   const imageHeight = image.height;
+
+      //   context.drawImage(image, 0, 0);
+
+      //   const imageData = context.getImageData(0, 0, imageWidth, imageHeight);
+      //   const data = imageData.data;
+      //   for (let i = 0; i < data.length - 4; i += 4) {
+      //     const average = (data[i] + data[i + 1] + data[i + 2]) / 3;
+      //     data[i] = average;
+      //     data[i + 1] = average;
+      //     data[i + 2] = average;
+      //   }
+      //   context.putImageData(imageData, 600, 0);
+
+      //   const imageData2 = context.getImageData(0, 0, imageWidth, imageHeight);
+      //   const data2 = imageData2.data;
+      //   for (let i = 0; i < data2.length - 4; i += 4) {
+      //     const average =
+      //       data2[i] * 0.3 + data2[i + 1] * 0.6 + data2[i + 2] * 0.1;
+      //     data2[i] = average;
+      //     data2[i + 1] = average;
+      //     data2[i + 2] = average;
+      //   }
+      //   context.putImageData(imageData2, 600, 450);
+      // };
+      // 加权平均值实现灰度图片 end
+
+      // 绳球运动 start
+      // const ball = new Ball(canvasWidth / 2, canvasHeight / 2);
+      // const mouse = tools.getMouse(canvas);
+      // const targetX = canvasWidth / 2;
+      // const spring = 0.02; // 弹性系数
+      // const friction = 0.95; // 摩擦系数
+      // const gravity = 1;
+      // let vx = 0,
+      //   vy = 0;
+
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   const ax = (mouse.x - ball.x) * spring;
+      //   const ay = (mouse.y - ball.y) * spring;
+      //   vx += ax;
+      //   vy += ay;
+      //   vy += gravity;
+      //   vx *= friction;
+      //   vy *= friction;
+      //   ball.x += vx;
+      //   ball.y += vy;
+      //   ball.fill(context);
+
+      //   context.beginPath();
+      //   context.strokeStyle = "#69f";
+      //   context.moveTo(ball.x, ball.y);
+      //   context.lineTo(mouse.x, mouse.y);
+      //   context.stroke();
+
+      //   requestAnimationFrame(drawFrame);
+      // }
+      // drawFrame();
+      // 绳球运动 end
+
+      // 跟随鼠标的弹性动画 start
+      // const ball = new Ball(canvasWidth / 2, canvasHeight / 2);
+      // const mouse = tools.getMouse(canvas);
+      // const spring = 0.02; // 弹性系数
+      // const friction = 0.95; // 摩擦系数
+      // let vx = 0,
+      //   vy = 0;
+
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   const ax = (mouse.x - ball.x) * spring;
+      //   const ay = (mouse.y - ball.y) * spring;
+      //   vx += ax;
+      //   vy += ay;
+      //   vx *= friction;
+      //   vy *= friction;
+      //   ball.x += vx;
+      //   ball.y += vy;
+      //   ball.fill(context);
+
+      //   context.beginPath();
+      //   context.strokeStyle = "#69f";
+      //   context.moveTo(ball.x, ball.y);
+      //   context.lineTo(mouse.x, mouse.y);
+      //   context.stroke();
+
+      //   requestAnimationFrame(drawFrame);
+      // }
+      // drawFrame();
+      // 跟随鼠标的弹性动画 end
+
+      // 弹性动画 start
+      // const ball = new Ball(0, canvasHeight / 2);
+      // const targetX = canvasWidth / 2;
+      // const spring = 0.02; // 弹性系数
+      // const friction = 0.95; // 摩擦系数
+      // let vx = 0;
+
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   const ax = (targetX - ball.x) * spring;
+      //   vx += ax;
+      //   vx *= friction;
+      //   ball.x += vx;
+      //   ball.fill(context);
+      //   requestAnimationFrame(drawFrame);
+      // }
+      // drawFrame();
+      // 弹性动画 end
+
+      // 缓动动画作用于小球半径，透明度，颜色 start
+      // const ball = new Ball(
+      //   canvasWidth / 2,
+      //   canvasHeight / 2,
+      //   30,
+      //   "rgba(255, 102, 153, 1)"
+      // );
+      // const easing = 0.02;
+      // const targetRadius = 360;
+      // let opacity = 1;
+      // const targetOpacity = 0;
+      // let red = 255;
+      // let green = 0;
+      // let blue = 0;
+      // const targetRed = 10;
+      // const targetGreen = 255;
+      // const targetBlue = 55;
+
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   // const vRadius = (targetRadius - ball.radius) * easing;
+      //   // ball.radius += vRadius;
+      //   // const vOpacity = (targetOpacity - opacity) * easing;
+      //   // opacity += vOpacity;
+      //   // ball.color = `rgba(255, 102, 153, ${opacity})`;
+      //   const vRed = (targetRed - red) * easing;
+      //   const vGreen = (targetGreen - green) * easing;
+      //   const vBlue = (targetBlue - blue) * easing;
+      //   red += vRed;
+      //   green += vGreen;
+      //   blue += vBlue;
+      //   ball.color = `rgba(${red}, ${green}, ${blue}, 1)`;
+      //   ball.fill(context);
+
+      //   requestAnimationFrame(drawFrame);
+      // }
+      // drawFrame();
+      // 缓动动画作用于小球半径，透明度，颜色 end
+
+      // 小球追随鼠标的缓动动画，第二个小球跟随第一个小球动 start
+      // const bigBall = new Ball(canvasWidth / 2, canvasHeight / 2, 15, "#f69");
+      // const smallBall = new Ball(canvasWidth / 2, canvasHeight / 2, 12, "#6cf");
+      // const mouse = tools.getMouse(canvas);
+      // const easing = 0.05;
+
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   const vx1 = (mouse.x - bigBall.x) * easing;
+      //   const vy1 = (mouse.y - bigBall.y) * easing;
+      //   bigBall.x += vx1;
+      //   bigBall.y += vy1;
+      //   bigBall.fill(context);
+
+      //   const vx2 = (bigBall.x - smallBall.x) * easing;
+      //   const vy2 = (bigBall.y - smallBall.y) * easing;
+      //   smallBall.x += vx2;
+      //   smallBall.y += vy2;
+      //   smallBall.fill(context);
+
+      //   requestAnimationFrame(drawFrame);
+      // }
+      // drawFrame();
+      // 小球追随鼠标的缓动动画，第二个小球跟随第一个小球动 end
+
+      // 小球追随鼠标的缓动动画 start
+      // const ball = new Ball(canvasWidth / 2, canvasHeight / 2, 15, "#f69");
+      // const easing = 0.05;
+      // const loc = tools.getMouse(canvas);
+
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   const vx = (loc.x - ball.x) * easing;
+      //   const vy = (loc.y - ball.y) * easing;
+      //   ball.x += vx;
+      //   ball.y += vy;
+      //   ball.fill(context);
+
+      //   context.beginPath();
+      //   context.strokeStyle = "OrangeRed";
+      //   context.moveTo(ball.x, ball.y);
+      //   context.lineTo(loc.x, loc.y);
+      //   context.stroke();
+
+      //   requestAnimationFrame(drawFrame);
+      // }
+      // drawFrame();
+      // 小球追随鼠标的缓动动画 end
+
+      // 任意方向缓动动画 start
+      // const ball = new Ball(0, 0);
+      // const targetX = (canvasWidth * 3) / 4;
+      // const targetY = canvasHeight / 2;
+      // const easing = 0.04;
+
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   const vx = (targetX - ball.x) * easing;
+      //   const vy = (targetY - ball.y) * easing;
+      //   ball.x += vx;
+      //   ball.y += vy;
+
+      //   if (targetX - ball.x >= 0.001 || targetY - ball.y >= 0.001) {
+      //     requestAnimationFrame(drawFrame);
+      //   } else {
+      //     ball.x = targetX;
+      //     ball.y = targetY;
+      //   }
+
+      //   ball.fill(context);
+      // }
+      // drawFrame();
+      // 任意方向缓动动画 end
+
+      // 单方向缓动动画 start
+      // const ball = new Ball(0, canvasHeight / 2);
+      // const targetX = (canvasWidth * 3) / 4;
+      // const easing = 0.05;
+
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   const vx = (targetX - ball.x) * easing;
+      //   ball.x += vx;
+
+      //   console.log(targetX - ball.x, vx);
+
+      //   if (targetX - ball.x > 0.01) {
+      //     requestAnimationFrame(drawFrame);
+      //   } else {
+      //     ball.x = targetX;
+      //   }
+
+      //   ball.fill(context);
+      // }
+      // drawFrame();
+      // 单方向缓动动画 end
+
+      // 抛掷物体 start
+      // let isMousedown = false;
+      // const ball = new Ball(canvasWidth / 2, canvasHeight / 2, 20);
+      // ball.fill(context);
+      // let dx = 0,
+      //   dy = 0,
+      //   oldX,
+      //   oldY,
+      //   vx = 0,
+      //   vy = 0,
+      //   gravity = 1.5,
+      //   bounce = -0.8,
+      //   friction = 0.985;
+
+      // canvas.onmousedown = (e) => {
+      //   e.preventDefault();
+      //   const loc = windowToCanvas(canvas, e.clientX, e.clientY);
+      //   if (ball.checkMouse(loc)) {
+      //     oldX = ball.x;
+      //     oldY = ball.y;
+      //     dx = loc.x - ball.x;
+      //     dy = loc.y - ball.y;
+
+      //     isMousedown = true;
+
+      //     canvas.onmousemove = (e) => {
+      //       const loc = windowToCanvas(canvas, e.clientX, e.clientY);
+      //       ball.x = loc.x - dx;
+      //       ball.y = loc.y - dy;
+
+      //       if (ball.x < ball.radius) {
+      //         ball.x = ball.radius;
+      //       } else if (ball.x > canvasWidth - ball.radius) {
+      //         ball.x = canvasWidth - ball.radius;
+      //       } else if (ball.y < ball.radius) {
+      //         ball.y = ball.radius;
+      //       } else if (ball.y > canvasHeight - ball.radius) {
+      //         ball.y = canvasHeight - ball.radius;
+      //       }
+      //     };
+      //     canvas.onmouseup = (_) => {
+      //       canvas.onmousemove = null;
+      //       canvas.onmouseup = null;
+      //       isMousedown = false;
+      //     };
+      //   }
+      // };
+      // function checkBorder(ball) {
+      //   if (ball.x < ball.radius) {
+      //     ball.x = ball.radius;
+      //     vx = bounce * vx;
+      //   } else if (ball.x > canvasWidth - ball.radius) {
+      //     ball.x = canvasWidth - ball.radius;
+      //     vx = bounce * vx;
+      //   } else if (ball.y < ball.radius) {
+      //     ball.y = ball.radius;
+      //     vy = bounce * vy;
+      //   } else if (ball.y > canvasHeight - ball.radius) {
+      //     ball.y = canvasHeight - ball.radius;
+      //     vy = bounce * vy;
+      //   }
+      // }
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   if (isMousedown) {
+      //     vx = ball.x - oldX;
+      //     vy = ball.y - oldY;
+      //     oldX = ball.x;
+      //     oldY = ball.y;
+      //   } else {
+      //     vy += gravity;
+      //     vx *= friction;
+      //     ball.x += vx;
+      //     ball.y += vy;
+      //     checkBorder(ball);
+      //   }
+      //   ball.fill(context);
+      //   requestAnimationFrame(drawFrame);
+      // }
+      // drawFrame();
+      // 抛掷物体 end
+
+      // 捕获动态小球 start
+      // let frame = null;
+      // const ball = new Ball(0, canvasHeight / 2, 30, "OrangeRed");
+      // ball.fill(context);
+
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   ball.x += 2;
+      //   ball.fill(context);
+      //   frame = requestAnimationFrame(drawFrame);
+      // }
+      // drawFrame();
+
+      // document.addEventListener("click", (e) => {
+      //   const loc = windowToCanvas(canvas, e.clientX, e.clientY);
+      //   if (ball.checkMouse(loc)) {
+      //     cancelAnimationFrame(frame);
+      //   }
+      // });
+      // 捕获动态小球 end
+
+      // 捕获静态小球 start
+      // const ball = new Ball(canvasWidth / 2, canvasHeight / 2, 30);
+      // ball.fill(context);
+      // canvas.addEventListener("mousemove", (e) => {
+      //   const loc = windowToCanvas(canvas, e.clientX, e.clientY);
+      //   if (ball.checkMouse(loc)) {
+      //     console.log("被移入小球");
+      //   } else {
+      //     console.log("被移出小球");
+      //   }
+      //   // context.save();
+      //   // context.beginPath();
+      //   // context.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+      //   // if (context.isPointInPath(loc.x, loc.y)) {
+      //   //   console.log("被移入小球");
+      //   // } else {
+      //   //   console.log("被移出小球");
+      //   // }
+      //   // context.restore();
+      // });
+      // 捕获静态小球 end
+
+      // 多物体碰撞检测 start
+      // const balls = [];
+      // const n = 50;
+      // const radius = 10;
+      // const deviation = radius / 5;
+
+      // for (let i = 0; i < n; i++) {
+      //   const ball = new Ball();
+      //   ball.x = Math.random() * canvasWidth;
+      //   ball.y = Math.random() * canvasHeight;
+      //   ball.radius = radius;
+      //   ball.color = randomColor();
+      //   ball.vx = Math.random() * 2 - 1;
+      //   ball.vy = Math.random() * 2 - 1;
+      //   balls.push(ball);
+      // }
+      // function checkCollision(ballA, i) {
+      //   for (let j = i + 1; j < balls.length; j++) {
+      //     const ballB = balls[j];
+      //     if (tools.checkCircle(ballB, ballA)) {
+      //       ballA.vx = -ballA.vx;
+      //       ballA.vy = -ballA.vy;
+      //       ballB.vx = -ballB.vx;
+      //       ballB.vy = -ballB.vy;
+      //       // 每次碰撞，为小球的x,y加上偏移量，避免相互重叠
+      //       if (ballA.vx > 0) {
+      //         ballA.x += deviation;
+      //       } else {
+      //         ballA.x -= deviation;
+      //       }
+      //       if (ballA.vy > 0) {
+      //         ballA.y += deviation;
+      //       } else {
+      //         ballA.y -= deviation;
+      //       }
+      //       if (ballB.vx > 0) {
+      //         ballB.x += deviation;
+      //       } else {
+      //         ballB.x -= deviation;
+      //       }
+      //       if (ballB.vy > 0) {
+      //         ballB.y += deviation;
+      //       } else {
+      //         ballB.y -= deviation;
+      //       }
+      //     }
+      //   }
+      // }
+      // function checkBorder(ball) {
+      //   if (ball.x < ball.radius) {
+      //     ball.x = ball.radius;
+      //     ball.vx = -ball.vx;
+      //   } else if (ball.x > canvasWidth - ball.radius) {
+      //     ball.x = canvasWidth - ball.radius;
+      //     ball.vx = -ball.vx;
+      //   } else if (ball.y < ball.radius) {
+      //     ball.y = ball.radius;
+      //     ball.vy = -ball.vy;
+      //   } else if (ball.y > canvasHeight - ball.radius) {
+      //     ball.y = canvasHeight - ball.radius;
+      //     ball.vy = -ball.vy;
+      //   }
+      // }
+      // function drawBall(ball) {
+      //   ball.fill(context);
+      //   ball.x += ball.vx;
+      //   ball.y += ball.vy;
+      // }
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   balls.forEach(checkCollision);
+      //   balls.forEach(checkBorder);
+      //   balls.forEach(drawBall);
+      //   requestAnimationFrame(drawFrame);
+      // }
+      // drawFrame();
+      // 多物体碰撞检测 end
+
+      // 小球碰撞反弹 start
+      // const ballA = new Ball(0, canvasHeight / 2, 12, "#6cf");
+      // const ballB = new Ball(canvasWidth, canvasHeight / 2, 12, "#f69");
+
+      // let vx = 2;
+
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   ballA.x += vx;
+      //   ballB.x -= vx;
+      //   if (tools.checkCircle(ballB, ballA)) {
+      //     vx = -vx;
+      //   }
+      //   ballA.fill(context);
+      //   ballB.fill(context);
+
+      //   requestAnimationFrame(drawFrame);
+      // }
+      // drawFrame();
+      // 小球碰撞反弹 end
+
+      // 外接圆碰撞检测 start
+      // const ballA = new Ball(canvasWidth / 2, canvasHeight / 2, 20, "#f69");
+      // const ballB = new Ball(100, 100, 20, "#08c");
+
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   ballA.fill(context);
+      //   ballB.fill(context);
+      //   if (tools.checkCircle(ballB, ballA)) {
+      //     console.log("撞上了");
+      //   } else {
+      //     console.log("没撞上");
+      //   }
+      // }
+      // window.addEventListener("mousemove", (e) => {
+      //   const loc = windowToCanvas(canvas, e.clientX, e.clientY);
+      //   ballB.x = loc.x;
+      //   ballB.y = loc.y;
+      //   drawFrame();
+      // });
+      // 外接圆碰撞检测 end
+
+      // 俄罗斯方块 start
+      // const boxes = [];
+      // let activeBox = createBox();
+      // let vy = 1.5;
+
+      // function createBox() {
+      //   let x = Math.random() * canvasWidth;
+      //   let y = 0;
+      //   let width = Math.random() * 40 + 10;
+      //   let height = Math.random() * 40 + 10;
+      //   let color = randomColor();
+      //   let box = new Box(x, y, width, height, color);
+      //   boxes.push(box);
+      //   return box;
+      // }
+      // window.addEventListener("keydown", (e) => {
+      //   switch (e.which) {
+      //     case 40:
+      //       activeBox.y += 5;
+      //       break;
+      //     case 37:
+      //       activeBox.x -= 5;
+      //       break;
+      //     case 39:
+      //       activeBox.x += 5;
+      //       break;
+      //   }
+      // });
+      // function drawFrame() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   activeBox.y += vy;
+      //   if (activeBox.y > canvasHeight - activeBox.height) {
+      //     activeBox.y = canvasHeight - activeBox.height;
+      //     activeBox = createBox();
+      //   }
+      //   boxes.forEach((box) => {
+      //     if (activeBox !== box && tools.checkRect(activeBox, box)) {
+      //       activeBox.y = box.y - activeBox.height;
+      //       activeBox = createBox();
+      //     }
+      //     box.fill(context);
+      //   });
+      //   requestAnimationFrame(drawFrame);
+      // }
+      // drawFrame();
       // 俄罗斯方块 end
 
       // 外接矩形碰撞检测 start
