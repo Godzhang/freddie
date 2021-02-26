@@ -45,6 +45,162 @@
 
       const context = canvas.getContext("2d");
 
+      // 画圆动画 start
+      const cx = 400;
+      const cy = 400;
+      const radius = 200;
+      let startAngle = 0;
+      let endAngle = Math.PI * 2;
+      const duration = 500;
+      let prevAngle = startAngle,
+        nextAngle;
+      let startTime;
+
+      function drawCircle(currentTime) {
+        if (!startTime) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1);
+
+        context.beginPath();
+        nextAngle = startAngle + (endAngle - startAngle) * progress;
+        context.arc(cx, cy, radius, prevAngle, nextAngle);
+        prevAngle = nextAngle;
+        context.stroke();
+
+        requestAnimationFrame(drawCircle);
+      }
+
+      context.lineWidth = 7;
+      context.strokeStyle = "OrangeRed";
+      requestAnimationFrame(drawCircle);
+      // 画圆动画 end
+
+      // 折线动画 start
+      // function handleExecute() {
+      //   context.strokeStyle = "rgba(81, 160, 255, 1)";
+      //   context.lineWidth = 7;
+      //   context.lineJoin = "round";
+      //   context.lineCap = "round";
+
+      //   // 转折点坐标
+      //   const keyPoints = [
+      //     { x: 250, y: 200 },
+      //     { x: 550, y: 200 },
+      //     { x: 250, y: 500 },
+      //     { x: 550, y: 500 },
+      //     { x: 250, y: 200 },
+      //   ];
+
+      //   const duration = 1000;
+      //   let prevX = keyPoints[0].x,
+      //     prevY = keyPoints[0].y,
+      //     nextX,
+      //     nextY,
+      //     startTime;
+
+      //   const partProportion = 1 / (keyPoints.length - 1); // 每一段的时间
+      //   let lineIndexCache = 1;
+
+      //   const step = (currentTime) => {
+      //     !startTime && (startTime = currentTime);
+      //     const timeElapsed = currentTime - startTime;
+      //     const progress = Math.min(timeElapsed / duration, 1);
+
+      //     const lineIndex = Math.min(
+      //       Math.floor(progress / partProportion) + 1,
+      //       keyPoints.length - 1
+      //     );
+      //     const partProgress =
+      //       (progress - (lineIndex - 1) * partProportion) / partProportion;
+
+      //     const draw = () => {
+      //       context.beginPath();
+      //       context.moveTo(prevX, prevY);
+
+      //       if (lineIndex !== lineIndexCache) {
+      //         context.lineTo(
+      //           keyPoints[lineIndex - 1].x,
+      //           keyPoints[lineIndex - 1].y
+      //         );
+      //         lineIndexCache = lineIndex;
+      //       }
+
+      //       prevX = nextX = ~~(
+      //         keyPoints[lineIndex - 1].x +
+      //         (keyPoints[lineIndex].x - keyPoints[lineIndex - 1].x) *
+      //           partProgress
+      //       );
+      //       prevY = nextY = ~~(
+      //         keyPoints[lineIndex - 1].y +
+      //         (keyPoints[lineIndex].y - keyPoints[lineIndex - 1].y) *
+      //           partProgress
+      //       );
+
+      //       context.lineTo(nextX, nextY);
+      //       context.stroke();
+      //     };
+      //     draw();
+
+      //     if (progress < 1) {
+      //       requestAnimationFrame(step);
+      //     } else {
+      //       console.log("done");
+      //     }
+      //   };
+      //   requestAnimationFrame(step);
+      // }
+      // handleExecute();
+      // 折线动画 end
+
+      // 使用多条路径绘制直线动画 start
+      // let count = 0;
+      // function handleExecute() {
+      //   context.strokeStyle = "rgba(81, 160, 255, 1)";
+      //   context.lineWidth = 4;
+      //   context.lineJoin = "round";
+
+      //   const startX = 100;
+      //   const startY = 100;
+      //   const endX = canvasWidth - 100;
+      //   const endY = canvasHeight - 100;
+      //   const duration = 1000;
+      //   let prevX = startX,
+      //     prevY = startY,
+      //     nextX,
+      //     nextY,
+      //     startTime;
+
+      //   const step = (currentTime) => {
+      //     !startTime && (startTime = currentTime);
+      //     const timeElapsed = currentTime - startTime;
+      //     const progress = Math.min(timeElapsed / duration, 1);
+
+      //     const draw = () => {
+      //       context.beginPath();
+      //       context.moveTo(prevX, prevY);
+      //       prevX = nextX = startX + (endX - startX) * progress;
+      //       prevY = nextY = startY + (endY - startY) * progress;
+
+      //       if (count % 2 === 0) {
+      //         context.lineWidth = progress * 20;
+      //         context.lineTo(nextX, nextY);
+      //         context.stroke();
+      //       }
+      //     };
+      //     draw();
+
+      //     if (progress < 1) {
+      //       count++;
+      //       requestAnimationFrame(step);
+      //     } else {
+      //       console.log(count);
+      //     }
+      //   };
+      //   requestAnimationFrame(step);
+      // }
+      // handleExecute();
+      // 使用多条路径绘制直线动画 end
+
       //红色蒙版 start
       // const image = new Image();
       // image.src = "../images/1.jpg";
