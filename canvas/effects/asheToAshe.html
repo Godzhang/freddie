@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <script src="../libs/jquery.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+  <style>
+    #image {
+      display: inline-block;
+    }
+
+    .dust {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      filter: blur(0.05em);
+    }
+  </style>
+  <title>灰飞烟灭</title>
+</head>
+
+<body>
+  <div class="content">
+    <div id="image">
+      <img src="../images/5.jpg" width="400" alt="">
+    </div>
+  </div>
+
+  <script>
+    //
+    const imageBox = document.querySelector('#image')
+    html2canvas(imageBox, {
+      backgroundColor: 'transparent'
+    }).then(canvas => {
+      const context = canvas.getContext('2d')
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
+      const pixelArr = imageData.data
+      const w = canvas.width
+      const h = canvas.height
+
+      const data = pixelArr.slice(0).fill(0)
+      const canvasCount = 30 // 随机创建图像数组的个数
+      const imageDataArray = Array.from({ length: canvasCount }, () => data.slice(0))
+      //将原图像上的像素信息随机分配进不同的透明图象上，位置保持不变
+      for (let i = 0; i < pixelArr.length; i += 4) {
+        const a = imageDataArray[Math.floor(Math.random() * canvasCount)]
+        a[i] = pixelArr[i]
+        a[i + 1] = pixelArr[i + 1]
+        a[i + 2] = pixelArr[i + 2]
+        a[i + 3] = pixelArr[i + 3]
+      }
+
+      for (let i = 0; i < canvasCount; i++) {
+        const cvs = document.createElement('canvas')
+        const ctx = cvs.getContext('2d')
+        cvs.width = w
+        cvs.height = h
+        cvs.classList.add('dust')
+
+        ctx.putImageData(new ImageData(imageDataArray[i], w, h), 0, 0)
+
+
+        setTimeout(() => { }, i * 70)
+
+        imageBox.appendChild(cvs)
+      }
+    })
+  </script>
+  <script>
+      //
+  </script>
+</body>
+
+</html>

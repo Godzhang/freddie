@@ -1,78 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../reset.css" />
-    <script src="../public/utils.js"></script>
-    <script src="../public/public.js"></script>
-    <script src="../public/sprite.js"></script>
-    <script src="../public/shape.js"></script>
-    <style>
-      #canvas {
-        position: relative;
-        /* margin: 100px; */
-        /* border: 1px solid #ddd; */
-      }
 
-      #video {
-        display: none;
-      }
-      #message {
-        position: absolute;
-        top: 25px;
-        left: 25px;
-        font-size: 30px;
-      }
-    </style>
-    <title>book-study</title>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <script src="../public/public.js"></script>
+  <script src="../public/sprite.js"></script>
+  <script src="../public/shape.js"></script>
+  <style>
+    #canvas {
+      position: relative;
+      /* margin: 100px; */
+      /* border: 1px solid #ddd; */
+    }
 
-  <body>
-    <canvas id="canvas"></canvas>
-    <div id="message"></div>
-    <!-- <video id="video" src="../images/bg.mp4"></video> -->
+    #video {
+      display: none;
+    }
 
-    <script>
-      //
-      const canvasWidth = document.body.clientWidth;
-      const canvasHeight = document.body.clientHeight;
-      const middleX = canvasWidth / 2;
-      const middleY = canvasHeight / 2;
-      const canvas = document.getElementById("canvas");
-      canvas.width = canvasWidth;
-      canvas.height = canvasHeight;
+    #message {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      font-size: 30px;
+    }
+  </style>
+  <title>book-study</title>
+</head>
 
-      const context = canvas.getContext("2d");
+<body>
+  <canvas id="canvas"></canvas>
+  <div id="message"></div>
+  <!-- <video id="video" src="../images/bg.mp4"></video> -->
+
+  <script>
+    //
+    const canvasWidth = document.body.clientWidth;
+    const canvasHeight = document.body.clientHeight;
+    const middleX = canvasWidth / 2;
+    const middleY = canvasHeight / 2;
+    const canvas = document.getElementById("canvas");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    const context = canvas.getContext("2d");
 
       // 画圆动画 start
-      const cx = 400;
-      const cy = 400;
-      const radius = 200;
-      let startAngle = 0;
-      let endAngle = Math.PI * 2;
-      const duration = 500;
-      let prevAngle = startAngle,
-        nextAngle;
-      let startTime;
+      // const cx = 400;
+      // const cy = 400;
+      // const radius = 200;
+      // let startAngle = 0;
+      // let endAngle = Math.PI * 2;
+      // const duration = 500;
+      // let prevAngle = startAngle,
+      //   nextAngle;
+      // let startTime;
 
-      function drawCircle(currentTime) {
-        if (!startTime) startTime = currentTime;
-        const timeElapsed = currentTime - startTime;
-        const progress = Math.min(timeElapsed / duration, 1);
+      // function drawCircle(currentTime) {
+      //   if (!startTime) startTime = currentTime;
+      //   const timeElapsed = currentTime - startTime;
+      //   const progress = Math.min(timeElapsed / duration, 1);
 
-        context.beginPath();
-        nextAngle = startAngle + (endAngle - startAngle) * progress;
-        context.arc(cx, cy, radius, prevAngle, nextAngle);
-        prevAngle = nextAngle;
-        context.stroke();
+      //   context.beginPath();
+      //   nextAngle = startAngle + (endAngle - startAngle) * progress;
+      //   context.arc(cx, cy, radius, prevAngle, nextAngle);
+      //   prevAngle = nextAngle;
+      //   context.stroke();
 
-        requestAnimationFrame(drawCircle);
-      }
+      //   requestAnimationFrame(drawCircle);
+      // }
 
-      context.lineWidth = 7;
-      context.strokeStyle = "OrangeRed";
-      requestAnimationFrame(drawCircle);
+      // context.lineWidth = 7;
+      // context.strokeStyle = "OrangeRed";
+      // requestAnimationFrame(drawCircle);
       // 画圆动画 end
 
       // 折线动画 start
@@ -2222,6 +2224,7 @@
       // canvas.addEventListener('mousedown', e => {
       //   context.clearRect(0, 0, documentWidth, documentHeight)
       // })
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>

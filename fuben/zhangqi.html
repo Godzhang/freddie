@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- <script src="./js/jquery.js"></script> -->
@@ -11,29 +12,29 @@
     <script src="./js/velocity.min.js"></script> -->
     <!-- <script src="./js/three.js"></script> -->
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
+        * {
+            margin: 0;
+            padding: 0;
+        }
 
-      html,
-      body {
-        width: 100%;
-        height: 100%;
-      }
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
 
-      .container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
+        .container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
     <title>zhangqi</title>
-  </head>
+</head>
 
-  <body>
+<body>
     <div class="container"></div>
     <script>
       //
@@ -45,17 +46,42 @@
       //
     </script>
     <script>
-      //
+        //
+        class Base {
+            constructor(data) {
+                console.log('base constructor start')
+                this.data = this.prepareData(data)
+                console.log('base constructor end')
+            }
+
+            prepareData(data) {
+                console.log('base prepareData')
+                return data
+            }
+        }
+        class Chart extends Base {
+            constructor(data) {
+                console.log('chart constructor start')
+                super(data)
+                this.name = 'chart'
+                console.log('chart constructor end')
+            }
+            prepareData(data) {
+                console.log('chart prepareData')
+                return data.concat([4])
+            }
+        }
+        console.log(new Chart([1, 2, 3]))
     </script>
     <script>
       //
-      const buffer = new ArrayBuffer(16);
-      console.log(buffer);
-      const int32View = new Int32Array(buffer);
-      for (let i = 0; i < int32View.length; i++) {
-        int32View[i] = i * 2;
-      }
-      console.log(int32View);
+      // const buffer = new ArrayBuffer(16);
+      // console.log(buffer);
+      // const int32View = new Int32Array(buffer);
+      // for (let i = 0; i < int32View.length; i++) {
+      //   int32View[i] = i * 2;
+      // }
+      // console.log(int32View);
     </script>
     <script>
       //
@@ -2089,5 +2115,6 @@
       //   require("./src/index.js");
       // })(graph);
     </script>
-  </body>
+</body>
+
 </html>
