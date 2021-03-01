@@ -1,51 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <script src="../public/public.js"></script>
+    <script src="../public/sprite.js"></script>
+    <script src="../public/shape.js"></script>
+    <style>
+      #canvas {
+        position: relative;
+        /* margin: 100px; */
+        /* border: 1px solid #ddd; */
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../reset.css" />
-  <script src="../public/utils.js"></script>
-  <script src="../public/public.js"></script>
-  <script src="../public/sprite.js"></script>
-  <script src="../public/shape.js"></script>
-  <style>
-    #canvas {
-      position: relative;
-      /* margin: 100px; */
-      /* border: 1px solid #ddd; */
-    }
+      #video {
+        display: none;
+      }
 
-    #video {
-      display: none;
-    }
+      #message {
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        font-size: 30px;
+      }
+    </style>
+    <title>book-study</title>
+  </head>
 
-    #message {
-      position: absolute;
-      top: 25px;
-      left: 25px;
-      font-size: 30px;
-    }
-  </style>
-  <title>book-study</title>
-</head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="message"></div>
+    <!-- <video id="video" src="../images/bg.mp4"></video> -->
 
-<body>
-  <canvas id="canvas"></canvas>
-  <div id="message"></div>
-  <!-- <video id="video" src="../images/bg.mp4"></video> -->
+    <script>
+      //
+      const canvasWidth = document.body.clientWidth;
+      const canvasHeight = document.body.clientHeight;
+      const middleX = canvasWidth / 2;
+      const middleY = canvasHeight / 2;
+      const canvas = document.getElementById("canvas");
+      const context = canvas.getContext("2d");
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
 
-  <script>
-    //
-    const canvasWidth = document.body.clientWidth;
-    const canvasHeight = document.body.clientHeight;
-    const middleX = canvasWidth / 2;
-    const middleY = canvasHeight / 2;
-    const canvas = document.getElementById("canvas");
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
+      // 粒子文字 start
+      const threeBezier = (t, p1, p2, cp1, cp2) => {
+        const [startX, startY] = p1;
+        const [endX, endY] = p2;
+        const [cpX1, cpY1] = cp1;
+        const [cpX2, cpY2] = cp2;
+        let x =
+          startX * Math.pow(1 - t, 3) +
+          3 * cpX1 * t * Math.pow(1 - t, 2) +
+          3 * cpX2 * Math.pow(t, 2) * (1 - t) +
+          endX * Math.pow(t, 3);
+        let y =
+          startY * Math.pow(1 - t, 3) +
+          3 * cpY1 * Math.pow(1 - t, 2) * t +
+          3 * cpY2 * (1 - t) * Math.pow(t, 2) +
+          endY * Math.pow(t, 3);
+        return {
+          x,
+          y,
+        };
+      };
+      class Particle {
+        constructor(center) {
+          this.x = center.x;
+          this.y = center.y;
+          this.item = 0; // 贝塞尔曲线系数
+          this.vx = 20;
+          this.vy = 16;
+          this.initX = Math.random() * canvasWidth;
+          this.initY = Math.random() * canvasHeight;
+        }
+        draw(context) {
+          context.beginPath();
+          // const { x, y } = threeBezier(
+          //   this.item,
+          //   [this.initX, this.initY],
+          //   [this.x, this.y],
+          //   [this.x, this.y],
+          //   [this.x, this.y]
+          // );
+          // const x = this.x - (this.x - this.initX) / 10;
+          // const y = this.y - (this.y - this.initY) / 10;
+          context.arc(this.initY, this.initX, 2, 0, Math.PI * 2, true);
+          context.fillStyle = randomColor();
+          context.fill();
+          context.closePath();
+          this.speed();
+        }
+        speed() {
+          this.initX += (this.x - this.initX) / 10;
+          this.initY += (this.y - this.initY) / 10;
+          this.item += 0.005;
+        }
+      }
 
-    const context = canvas.getContext("2d");
+      const points = createViceCanvas();
+      let interval = null;
+      init();
+
+      function createViceCanvas() {
+        const viceCanvas = document.createElement("canvas");
+        const viceContext = viceCanvas.getContext("2d");
+        viceCanvas.width = canvasWidth;
+        viceCanvas.height = canvasHeight;
+        initCanvas(viceContext);
+        return getFontInfo(viceContext);
+      }
+      function init() {
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+        points.forEach((val) => val.draw(context));
+        interval = requestAnimationFrame(init);
+        if (points[0].item >= 1) {
+          cancelAnimationFrame(interval);
+        }
+      }
+      function initCanvas(context) {
+        const text = "WWW";
+        context.font = "200px Arial";
+        const measure = context.measureText(text);
+        context.fillText(
+          text,
+          (canvasWidth - measure.width) / 2,
+          canvasHeight / 2
+        );
+      }
+      function getFontInfo(context) {
+        const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+          .data;
+        const particles = [];
+        for (let i = 0; i < canvasWidth; i += 4) {
+          for (let j = 0; j < canvasHeight; j += 4) {
+            const fontIndex = (i + j * canvasWidth) * 4 + 3; // 获取每个像素的透明度分量
+            if (imageData[fontIndex] > 0) {
+              particles.push(new Particle({ x: i, y: j }));
+            }
+          }
+        }
+        return particles;
+      }
+
+      // 粒子文字 end
 
       // 画圆动画 start
       // const cx = 400;
@@ -2224,7 +2324,6 @@
       // canvas.addEventListener('mousedown', e => {
       //   context.clearRect(0, 0, documentWidth, documentHeight)
       // })
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

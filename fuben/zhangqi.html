@@ -47,31 +47,31 @@
     </script>
     <script>
         //
-        class Base {
-            constructor(data) {
-                console.log('base constructor start')
-                this.data = this.prepareData(data)
-                console.log('base constructor end')
-            }
+        // class Base {
+        //     constructor(data) {
+        //         console.log('base constructor start')
+        //         this.data = this.prepareData(data)
+        //         console.log('base constructor end')
+        //     }
 
-            prepareData(data) {
-                console.log('base prepareData')
-                return data
-            }
-        }
-        class Chart extends Base {
-            constructor(data) {
-                console.log('chart constructor start')
-                super(data)
-                this.name = 'chart'
-                console.log('chart constructor end')
-            }
-            prepareData(data) {
-                console.log('chart prepareData')
-                return data.concat([4])
-            }
-        }
-        console.log(new Chart([1, 2, 3]))
+        //     prepareData(data) {
+        //         console.log('base prepareData')
+        //         return data
+        //     }
+        // }
+        // class Chart extends Base {
+        //     constructor(data) {
+        //         console.log('chart constructor start')
+        //         super(data)
+        //         this.name = 'chart'
+        //         console.log('chart constructor end')
+        //     }
+        //     prepareData(data) {
+        //         console.log('chart prepareData')
+        //         return data.concat([4])
+        //     }
+        // }
+        // console.log(new Chart([1, 2, 3]))
     </script>
     <script>
       //
