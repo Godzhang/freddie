@@ -46,105 +46,87 @@
       canvas.height = canvasHeight;
 
       // 粒子文字 start
-      const threeBezier = (t, p1, p2, cp1, cp2) => {
-        const [startX, startY] = p1;
-        const [endX, endY] = p2;
-        const [cpX1, cpY1] = cp1;
-        const [cpX2, cpY2] = cp2;
-        let x =
-          startX * Math.pow(1 - t, 3) +
-          3 * cpX1 * t * Math.pow(1 - t, 2) +
-          3 * cpX2 * Math.pow(t, 2) * (1 - t) +
-          endX * Math.pow(t, 3);
-        let y =
-          startY * Math.pow(1 - t, 3) +
-          3 * cpY1 * Math.pow(1 - t, 2) * t +
-          3 * cpY2 * (1 - t) * Math.pow(t, 2) +
-          endY * Math.pow(t, 3);
-        return {
-          x,
-          y,
-        };
-      };
-      class Particle {
-        constructor(center) {
-          this.x = center.x;
-          this.y = center.y;
-          this.item = 0; // 贝塞尔曲线系数
-          this.vx = 20;
-          this.vy = 16;
-          this.initX = Math.random() * canvasWidth;
-          this.initY = Math.random() * canvasHeight;
-        }
-        draw(context) {
-          context.beginPath();
-          // const { x, y } = threeBezier(
-          //   this.item,
-          //   [this.initX, this.initY],
-          //   [this.x, this.y],
-          //   [this.x, this.y],
-          //   [this.x, this.y]
-          // );
-          // const x = this.x - (this.x - this.initX) / 10;
-          // const y = this.y - (this.y - this.initY) / 10;
-          context.arc(this.initY, this.initX, 2, 0, Math.PI * 2, true);
-          context.fillStyle = randomColor();
-          context.fill();
-          context.closePath();
-          this.speed();
-        }
-        speed() {
-          this.initX += (this.x - this.initX) / 10;
-          this.initY += (this.y - this.initY) / 10;
-          this.item += 0.005;
-        }
-      }
+      // class Particle {
+      //   constructor(center) {
+      //     this.x = center.x;
+      //     this.y = center.y;
+      //     this.initX = Math.random() * canvasWidth;
+      //     this.initY = Math.random() * canvasHeight;
+      //     this.vx = (this.x - this.initX) / 100;
+      //     this.vy = (this.y - this.initY) / 100;
+      //     this.isDone = false;
+      //   }
+      //   draw(context) {
+      //     context.beginPath();
+      //     context.arc(this.initX, this.initY, 2, 0, Math.PI * 2);
+      //     context.fillStyle = "OrangeRed";
+      //     context.fill();
+      //     context.closePath();
+      //     this.speed();
+      //   }
+      //   speed() {
+      //     const dx = Math.abs(this.x - this.initX);
+      //     const dy = Math.abs(this.y - this.initY);
+      //     if (dx < 0.01) {
+      //       this.initX = this.x;
+      //     } else {
+      //       this.initX += this.vx;
+      //     }
+      //     if (dy < 0.01) {
+      //       this.initY = this.y;
+      //     } else {
+      //       this.initY += this.vy;
+      //     }
+      //     if (this.initX === this.x && this.initY === this.y) {
+      //       this.isDone = true;
+      //     }
+      //   }
+      // }
 
-      const points = createViceCanvas();
-      let interval = null;
-      init();
+      // const points = createViceCanvas();
+      // let interval = null;
+      // init();
 
-      function createViceCanvas() {
-        const viceCanvas = document.createElement("canvas");
-        const viceContext = viceCanvas.getContext("2d");
-        viceCanvas.width = canvasWidth;
-        viceCanvas.height = canvasHeight;
-        initCanvas(viceContext);
-        return getFontInfo(viceContext);
-      }
-      function init() {
-        context.clearRect(0, 0, canvasWidth, canvasHeight);
-        points.forEach((val) => val.draw(context));
-        interval = requestAnimationFrame(init);
-        if (points[0].item >= 1) {
-          cancelAnimationFrame(interval);
-        }
-      }
-      function initCanvas(context) {
-        const text = "WWW";
-        context.font = "200px Arial";
-        const measure = context.measureText(text);
-        context.fillText(
-          text,
-          (canvasWidth - measure.width) / 2,
-          canvasHeight / 2
-        );
-      }
-      function getFontInfo(context) {
-        const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
-          .data;
-        const particles = [];
-        for (let i = 0; i < canvasWidth; i += 4) {
-          for (let j = 0; j < canvasHeight; j += 4) {
-            const fontIndex = (i + j * canvasWidth) * 4 + 3; // 获取每个像素的透明度分量
-            if (imageData[fontIndex] > 0) {
-              particles.push(new Particle({ x: i, y: j }));
-            }
-          }
-        }
-        return particles;
-      }
-
+      // function createViceCanvas() {
+      //   const viceCanvas = document.createElement("canvas");
+      //   const viceContext = viceCanvas.getContext("2d");
+      //   viceCanvas.width = canvasWidth;
+      //   viceCanvas.height = canvasHeight;
+      //   initCanvas(viceContext);
+      //   return getFontInfo(viceContext);
+      // }
+      // function initCanvas(context) {
+      //   const text = "新华社";
+      //   context.font = "200px KaiTi";
+      //   const measure = context.measureText(text);
+      //   context.fillText(
+      //     text,
+      //     (canvasWidth - measure.width) / 2,
+      //     canvasHeight / 2
+      //   );
+      // }
+      // function getFontInfo(context) {
+      //   const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+      //     .data;
+      //   const particles = [];
+      //   for (let i = 0; i < canvasWidth; i += 4) {
+      //     for (let j = 0; j < canvasHeight; j += 4) {
+      //       const fontIndex = (i + j * canvasWidth) * 4 + 3; // 获取每个像素的透明度分量
+      //       if (imageData[fontIndex] > 0) {
+      //         particles.push(new Particle({ x: i, y: j }));
+      //       }
+      //     }
+      //   }
+      //   return particles;
+      // }
+      // function init() {
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   points.forEach((val) => val.draw(context));
+      //   interval = requestAnimationFrame(init);
+      //   if (points[0].isDone) {
+      //     cancelAnimationFrame(interval);
+      //   }
+      // }
       // 粒子文字 end
 
       // 画圆动画 start

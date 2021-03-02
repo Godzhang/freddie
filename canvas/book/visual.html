@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <script src="../public/d3-hierarchy.v2.js"></script>
+    <style>
+      #canvas {
+      }
+      #title {
+        position: absolute;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 30px;
+      }
+    </style>
+    <title>visual</title>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svg"></svg>
+    <div id="title"></div>
+    <script>
+      //
+      const canvasWidth = document.body.clientWidth;
+      const canvasHeight = document.body.clientHeight;
+      const canvas = document.getElementById("canvas");
+      const context = canvas.getContext("2d");
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      //
+    </script>
+    <script>
+      // svg 绘制层次图
+      // let activeTarget = null;
+      // const titleEl = document.getElementById("title");
+      // const data = {
+      //   name: "中国",
+      //   children: [
+      //     {
+      //       name: "浙江",
+      //       children: [
+      //         { name: "杭州" },
+      //         { name: "宁波" },
+      //         { name: "温州" },
+      //         { name: "绍兴" },
+      //       ],
+      //     },
+      //     { name: "广西", children: [{ name: "桂林" }, { name: "南宁" }] },
+      //   ],
+      // };
+      // const regions = d3
+      //   .hierarchy(data)
+      //   .sum((d) => 1)
+      //   .sort((a, b) => b.value - a.value);
+      // const pack = d3.pack().size([canvasHeight, canvasHeight]).padding(3);
+      // const root = pack(regions);
+      // canvas.style.display = "none";
+      // const svg = document.getElementById("svg");
+      // svg.setAttribute("width", document.body.clientWidth);
+      // svg.setAttribute("height", document.body.clientHeight);
+
+      // function draw(
+      //   parent,
+      //   node,
+      //   { fillStyle = "rgba(0, 0, 0, 0.2)", textColor = "white" } = {}
+      // ) {
+      //   const children = node.children;
+      //   const { x, y, r } = node;
+      //   const circle = document.createElementNS(
+      //     "http://www.w3.org/2000/svg",
+      //     "circle"
+      //   );
+      //   circle.setAttribute("data-name", node.data.name);
+      //   circle.setAttribute("cx", x);
+      //   circle.setAttribute("cy", y);
+      //   circle.setAttribute("r", r);
+      //   circle.setAttribute("fill", fillStyle);
+      //   parent.appendChild(circle);
+      //   if (children) {
+      //     const group = document.createElementNS(
+      //       "http://www.w3.org/2000/svg",
+      //       "g"
+      //     );
+      //     group.setAttribute("data-name", node.data.name);
+      //     children.forEach((child) => draw(group, child));
+      //     parent.appendChild(group);
+      //   } else {
+      //     const text = document.createElementNS(
+      //       "http://www.w3.org/2000/svg",
+      //       "text"
+      //     );
+      //     text.setAttribute("fill", textColor);
+      //     text.setAttribute("font-family", "Arial");
+      //     text.setAttribute("font-size", "1.5rem");
+      //     text.setAttribute("text-anchor", "middle");
+      //     text.setAttribute("x", x);
+      //     text.setAttribute("y", y);
+      //     const name = node.data.name;
+      //     text.textContent = name;
+      //     parent.appendChild(text);
+      //   }
+      // }
+      // function getTitle(target) {
+      //   const name = target.getAttribute("data-name");
+      //   if (target.parentNode && target.parentNode.nodeName === "g") {
+      //     const parentName = target.parentNode.getAttribute("data-name");
+      //     return `${parentName}-${name}`;
+      //   }
+      //   return name;
+      // }
+      // draw(svg, root);
+
+      // svg.addEventListener("mousemove", (e) => {
+      //   const target = e.target;
+      //   if (target.nodeName === "text") target = target.parentNode;
+      //   if (activeTarget !== target) {
+      //     if (activeTarget) {
+      //       activeTarget.setAttribute("fill", "rgba(0, 0, 0, 0.2)");
+      //     }
+      //   }
+      //   target.setAttribute("fill", "rgba(0, 128, 0, 0.1");
+      //   activeTarget = target;
+      //   titleEl.textContent = getTitle(target);
+      // });
+    </script>
+    <script>
+      // canvas 绘制层次图
+      // const data = {
+      //   name: "中国",
+      //   children: [
+      //     {
+      //       name: "浙江",
+      //       children: [
+      //         { name: "杭州" },
+      //         { name: "宁波" },
+      //         { name: "温州" },
+      //         { name: "绍兴" },
+      //       ],
+      //     },
+      //     { name: "广西", children: [{ name: "桂林" }, { name: "南宁" }] },
+      //   ],
+      // };
+      // const regions = d3
+      //   .hierarchy(data)
+      //   .sum((d) => 1)
+      //   .sort((a, b) => b.value - a.value);
+      // const pack = d3.pack().size([canvasHeight, canvasHeight]).padding(3);
+      // const root = pack(regions);
+      // let lastCircle = null;
+
+      // function draw(
+      //   context,
+      //   node,
+      //   { fillStyle = "rgba(0, 0, 0, 0.2)", textColor = "white" } = {},
+      //   loc
+      // ) {
+      //   const children = node.children;
+      //   const { x, y, r } = node;
+      //   context.fillStyle = fillStyle;
+      //   context.beginPath();
+      //   context.arc(x, y, r, 0, Math.PI * 2);
+      //   context.fill();
+      //   if (children) {
+      //     children.forEach((child) => draw(context, child));
+      //   } else {
+      //     const name = node.data.name;
+      //     context.fillStyle = textColor;
+      //     context.font = "1.5rem Arial";
+      //     context.textAlign = "center";
+      //     context.fillText(name, x, y);
+      //   }
+      // }
+      // draw(context, root);
+
+      // canvas.onmousemove = function (e) {
+      //   const loc = windowToCanvas(canvas, e.clientX, e.clientY);
+      //   context.clearRect(0, 0, canvasWidth, canvasHeight);
+      //   draw(context, root, {}, loc);
+      // };
+    </script>
+  </body>
+</html>
