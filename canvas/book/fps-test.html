@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <script src="../public/public.js"></script>
+    <script src="../public/sprite.js"></script>
+    <script src="../public/shape.js"></script>
+    <style>
+      #canvas {
+        position: relative;
+        /* margin: 100px; */
+        /* border: 1px solid #ddd; */
+      }
+
+      #video {
+        display: none;
+      }
+
+      #message {
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        font-size: 30px;
+      }
+    </style>
+    <title>book-study</title>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="message"></div>
+    <!-- <video id="video" src="../images/bg.mp4"></video> -->
+
+    <script>
+      //
+      const canvasWidth = document.body.clientWidth;
+      const canvasHeight = document.body.clientHeight;
+      const middleX = canvasWidth / 2;
+      const middleY = canvasHeight / 2;
+      const canvas = document.getElementById("canvas");
+      const context = canvas.getContext("2d");
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+
+      let lastTime = Date.now();
+      function drawCircle(context, radius) {
+        const x = Math.random() * canvasWidth;
+        const y = Math.random() * canvasHeight;
+        const fillColor = randomColor();
+        context.fillStyle = fillColor;
+        context.beginPath();
+        context.arc(x, y, radius, 0, Math.PI * 2);
+        context.fill();
+      }
+      function draw(context, count = 500, radius = 10) {
+        for (let i = 0; i < count; i++) {
+          drawCircle(context, radius);
+        }
+      }
+      requestAnimationFrame(function update(currentTime) {
+        const dt = currentTime - lastTime;
+        console.log(~~(1000 / dt));
+        lastTime = currentTime;
+
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+        draw(context);
+        requestAnimationFrame(update);
+      });
+    </script>
+  </body>
+</html>
