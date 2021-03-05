@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <script src="../libs/zrender.js"></script>
+    <style>
+      #container {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <title>model</title>
+  </head>
+
+  <body>
+    <div id="container"></div>
+
+    <script>
+      //
+      console.log(zrender);
+    </script>
+    <script>
+      //
+      const zr = zrender.init(document.getElementById("container"));
+      const droplet = new zrender.Droplet({
+        shape: {
+          cx: 500,
+          cy: 500,
+          width: 50,
+          height: 100,
+        },
+        style: {
+          fill: "OrangeRed",
+          stroke: "#f00",
+        },
+      });
+      zr.add(droplet);
+    </script>
+  </body>
+</html>
