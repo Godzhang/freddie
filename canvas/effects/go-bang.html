@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <style>
+    #canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #controls {
+      text-align: center;
+    }
+
+    #controls button {
+      margin-top: 20px;
+      cursor: pointer;
+    }
+  </style>
+  <title>goBang</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <div id="controls">
+    <button id="reset">重新开始</button>
+    <button id="repentance">悔棋</button>
+    <button id="cancelRepentance">撤销悔棋</button>
+  </div>
+  <script>
+    //
+    let canvasWidth = document.body.clientWidth
+    let canvasHeight = document.body.clientHeight
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+  </script>
+  <script>
+    //
+    const BOARD_PADDING = 20
+    const BOARD_LINES_NUM = 20
+    const half_padding = BOARD_PADDING / 2 + 0.5
+    const chess_radius = 8
+
+    const checkerboard = []
+    const history = []
+    const dustbin = []
+    let currentStep = 0
+    let isOver = false
+
+    let role = 1 // 1 为黑色，2为白色
+
+    function checkRole() {
+      role = role === 1 ? 2 : 1
+    }
+
+    canvas.width = canvas.height = canvasWidth = canvasHeight = BOARD_PADDING * BOARD_LINES_NUM
+
+    function drawBoard() {
+      context.lineWidth = 1
+      context.strokeStyle = '#bbb'
+
+      context.beginPath()
+
+      for (let i = 0; i < BOARD_LINES_NUM; i++) {
+        context.moveTo(half_padding + i * BOARD_PADDING, half_padding)
+        context.lineTo(half_padding + i * BOARD_PADDING, BOARD_PADDING * BOARD_LINES_NUM - half_padding)
+        context.stroke()
+        context.moveTo(half_padding, half_padding + i * BOARD_PADDING)
+        context.lineTo(BOARD_PADDING * BOARD_LINES_NUM - half_padding, half_padding + i * BOARD_PADDING)
+        context.stroke()
+      }
+    }
+    function initBoardMatrix() {
+      for (let i = 0; i < BOARD_LINES_NUM; i++) {
+        checkerboard[i] = []
+        for (let j = 0; j < BOARD_LINES_NUM; j++) {
+          checkerboard[i][j] = 0
+        }
+      }
+    }
+  </script>
+  <script>
+    // 绘制棋子
+    function drawChessman(x, y, isBlack) {
+      const gradient = context.createRadialGradient(x, y, chess_radius, x - chess_radius / 2, y - chess_radius / 2, 0)
+
+      context.beginPath()
+      context.arc(x, y, chess_radius, 0, Math.PI * 2)
+      context.closePath()
+      if (isBlack) {
+        gradient.addColorStop(0, '#0a0a0a')
+        gradient.addColorStop(1, '#636766')
+      } else {
+        gradient.addColorStop(0, '#d1d1d1')
+        gradient.addColorStop(1, '#f9f9f9')
+      }
+      context.fillStyle = gradient
+      context.fill()
+    }
+    function isFiveEuqal(arr, i) {
+      const curr = arr[i]
+      for (let j = i + 1, start = 0; start < 4; j++, start++) {
+        if (arr[j] !== curr) return false
+      }
+      return true
+    }
+    // 检测结果
+    function checkResult(x, y, role) {
+      if (x === undefined || y === undefined || role === undefined) return
+
+      let countContinuous = 0
+      const len = BOARD_LINES_NUM
+      const YContinuous = checkerboard.map(row => row[y])
+      const XContinuous = checkerboard[x]
+      const S1Continuous = []
+      const S2Continuous = []
+
+      for (let i = 0; i < XContinuous.length; i++) {
+        if (XContinuous[i] !== 0) {
+          if (isFiveEuqal(XContinuous, i)) {
+            return true
+          }
+        }
+      }
+      for (let i = 0; i < YContinuous.length; i++) {
+        if (YContinuous[i] !== 0) {
+          if (isFiveEuqal(YContinuous, i)) {
+            return true
+          }
+        }
+      }
+    }
+  </script>
+  <script>
+    //
+    function initEvents() {
+      canvas.addEventListener('click', e => {
+        if (isOver) return
+        const { x, y } = windowToCanvas(canvas, e.clientX, e.clientY)
+        const xIndex = Math.round((x - half_padding) / BOARD_PADDING)
+        const yIndex = Math.round((y - half_padding) / BOARD_PADDING)
+        if (checkerboard[xIndex][yIndex] !== undefined && checkerboard[xIndex][yIndex] === 0) {
+          checkerboard[xIndex][yIndex] = role
+
+          const posX = half_padding + xIndex * BOARD_PADDING
+          const posY = half_padding + yIndex * BOARD_PADDING
+          drawChessman(posX, posY, role === 1)
+
+          if (checkResult(xIndex, yIndex, role)) {
+            console.log('success')
+            isOver = true
+            // showSuccessTip()
+            return
+          }
+
+          currentStep++
+          history.push({
+            x: xIndex,
+            y: yIndex,
+            posX,
+            posY,
+            role
+          })
+
+          checkRole()
+        }
+      })
+    }
+  </script>
+  <script>
+    //
+    const reset = document.getElementById('reset')
+    const repentance = document.getElementById('repentance')
+    const cancelRepentance = document.getElementById('cancelRepentance')
+
+    function clearPrevChess({ x, y, posX, posY }) {
+      context.clearRect(posX - chess_radius - 0.5, posY - chess_radius - 0.5, chess_radius * 2 + 1, chess_radius * 2 + 0.5)
+      context.save()
+      context.beginPath()
+      if (x === 0 && y === 0) {
+        context.translate(posX, posY)
+        context.moveTo(0, 0)
+        context.lineTo(chess_radius, 0)
+        context.stroke()
+        context.moveTo(0, 0)
+        context.lineTo(0, chess_radius)
+        context.stroke()
+      } else if (x === BOARD_LINES_NUM - 1 && y === BOARD_LINES_NUM - 1) {
+        context.translate(posX, posY)
+        context.moveTo(0, 0)
+        context.lineTo(-chess_radius, 0)
+        context.stroke()
+        context.moveTo(0, 0)
+        context.lineTo(0, -chess_radius)
+        context.stroke()
+      } else if (x === 0 && y === BOARD_LINES_NUM - 1) {
+        context.translate(posX, posY)
+        context.moveTo(0, 0)
+        context.lineTo(chess_radius, 0)
+        context.stroke()
+        context.moveTo(0, 0)
+        context.lineTo(0, -chess_radius)
+        context.stroke()
+      } else if (x === BOARD_LINES_NUM - 1 && y === 0) {
+        context.translate(posX, posY)
+        context.moveTo(0, 0)
+        context.lineTo(-chess_radius, 0)
+        context.stroke()
+        context.moveTo(0, 0)
+        context.lineTo(0, chess_radius)
+        context.stroke()
+      } else if (x === 0) {
+        context.translate(posX, posY)
+        context.moveTo(0, 0)
+        context.lineTo(chess_radius, 0)
+        context.stroke()
+        context.moveTo(0, chess_radius)
+        context.lineTo(0, -chess_radius)
+        context.stroke()
+      } else if (x === BOARD_LINES_NUM - 1) {
+        context.translate(posX, posY)
+        context.moveTo(0, 0)
+        context.lineTo(-chess_radius, 0)
+        context.stroke()
+        context.moveTo(0, chess_radius)
+        context.lineTo(0, -chess_radius)
+        context.stroke()
+      } else if (y === 0) {
+        context.translate(posX, posY)
+        context.moveTo(0, 0)
+        context.lineTo(0, chess_radius)
+        context.stroke()
+        context.moveTo(-chess_radius, 0)
+        context.lineTo(chess_radius, 0)
+        context.stroke()
+      } else if (y === BOARD_LINES_NUM - 1) {
+        context.translate(posX, posY)
+        context.moveTo(0, 0)
+        context.lineTo(0, -chess_radius)
+        context.stroke()
+        context.moveTo(-chess_radius, 0)
+        context.lineTo(chess_radius, 0)
+        context.stroke()
+      } else {
+        context.translate(posX, posY)
+        context.moveTo(-chess_radius, 0)
+        context.lineTo(chess_radius, 0)
+        context.stroke()
+        context.moveTo(0, -chess_radius)
+        context.lineTo(0, chess_radius)
+        context.stroke()
+      }
+      context.restore()
+    }
+
+    reset.onclick = function () {
+      context.clearRect(0, 0, canvasWidth, canvasHeight)
+      drawBoard()
+      initBoardMatrix()
+      role = 1
+      isOver = false
+    }
+    repentance.onclick = function () {
+      if (history.length === 0) return
+
+      const prev = history.pop()
+      dustbin.push(prev)
+
+      clearPrevChess(prev)
+      // 更改状态
+      checkerboard[prev.x][prev.y] = 0
+      checkRole()
+      currentStep--
+    }
+    cancelRepentance.onclick = function () {
+      if (dustbin.length === 0) return
+
+      const last = dustbin.pop()
+      history.push(last)
+
+      drawChessman(last.posX, last.posY, last.role === 1)
+
+      checkerboard[last.x][last.y] = last.role
+      checkRole()
+      currentStep++
+    }
+  </script>
+  <script>
+    //
+    function init() {
+      drawBoard()
+      initBoardMatrix()
+      initEvents()
+    }
+    init()
+  </script>
+  <script>//</script>
+  <script>//</script>
+</body>
+
+</html>
