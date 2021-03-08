@@ -10,9 +10,10 @@
     <script src="../public/shape.js"></script>
     <style>
       #canvas {
-        position: relative;
-        /* margin: 100px; */
-        /* border: 1px solid #ddd; */
+        /* position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); */
       }
 
       #video {
@@ -44,6 +45,36 @@
       const context = canvas.getContext("2d");
       canvas.width = canvasWidth;
       canvas.height = canvasHeight;
+
+      context.strokeStyle = "OrangeRed";
+
+      // test translate start
+      context.lineWidth = 20;
+      context.beginPath();
+      context.moveTo(10, 100.5);
+      context.lineTo(100, 100.5);
+      context.stroke();
+      // test translate end
+
+      // grid start
+      // const row = 21;
+      // const col = 21;
+      // const origin = { x: 200.5, y: 200.5 };
+      // const spacing = 21;
+
+      // context.lineWidth = 1;
+      // context.strokeStyle = "OrangeRed";
+      // for (let i = 0; i < row; i++) {
+      //   context.moveTo(origin.x, origin.y + i * spacing);
+      //   context.lineTo(origin.x + (col - 1) * spacing, origin.y + i * spacing);
+      //   context.stroke();
+      // }
+      // for (let j = 0; j < col; j++) {
+      //   context.moveTo(origin.x + j * spacing, origin.y);
+      //   context.lineTo(origin.x + j * spacing, origin.y + (row - 1) * spacing);
+      //   context.stroke();
+      // }
+      // grid end
 
       // 粒子文字 start
       // class Particle {
