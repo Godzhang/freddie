@@ -1,438 +1,493 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../reset.css" />
-    <script src="../public/utils.js"></script>
-    <style>
-      #canvas {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.2);
-      }
 
-      #controls {
-        text-align: center;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <style>
+    #canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.2);
+    }
 
-      #controls button {
-        margin-top: 20px;
-        cursor: pointer;
-      }
-      #tips {
-        position: absolute;
-        top: 100px;
-        left: 30px;
-      }
-      #tips h3 {
-        margin: 10px 0;
-      }
-      #tips ul li {
-        list-style: decimal;
-        line-height: 1.5;
-      }
-    </style>
-    <title>goBang</title>
-  </head>
+    #controls {
+      text-align: center;
+    }
 
-  <body>
-    <canvas id="canvas"></canvas>
-    <div id="controls">
-      <button id="reset">重新开始</button>
-      <button id="repentance">悔棋</button>
-      <button id="cancelRepentance">撤销悔棋</button>
-    </div>
-    <div id="tips">
-      <h3>未完成功能：</h3>
-      <ul>
-        <li>胜负判定</li>
-        <li>电脑AI下棋</li>
-        <li>代码封装成类</li>
-      </ul>
-      <h3>扩展功能：</h3>
-      <ul>
-        <li>nodejs + websocket 支持双人下棋等功能</li>
-      </ul>
-    </div>
-    <script>
-      //
-      let canvasWidth = document.body.clientWidth;
-      let canvasHeight = document.body.clientHeight;
-      const canvas = document.getElementById("canvas");
-      const context = canvas.getContext("2d");
-      canvas.width = canvasWidth;
-      canvas.height = canvasHeight;
-    </script>
-    <script>
-      //
-      const BOARD_PADDING = 20; // 棋盘每格的间距
-      const BOARD_LINES_NUM = 21; // 棋盘每个方向的线数
-      const BOARD_POINTS_NUM = BOARD_LINES_NUM - 1; // 棋盘每个方向的点数
-      const half_padding = BOARD_PADDING / 2;
-      const chess_radius = 9; // 棋子半径
-      const drawStartPos = 0.5; // 画线起始偏移量
+    #controls button {
+      margin-top: 20px;
+      cursor: pointer;
+    }
 
-      const checkerboard = []; // 虚拟棋盘数据
-      const history = [];
-      const dustbin = [];
-      const mouse = { x: 0, y: 0 };
+    #tips {
+      margin-top: 40px;
+      font-size: 30px;
+      text-align: center;
+    }
 
-      let currentStep = 0; // 已走的步数
-      let isOver = false; // 是否结束
-      let imageData = null; // 画布信息
+    #command {
+      position: absolute;
+      top: 100px;
+      left: 30px;
+    }
 
-      let role = 1; // 1 为黑色，2为白色
+    #command h3 {
+      margin: 10px 0;
+    }
 
-      function checkRole() {
-        role = role === 1 ? 2 : 1;
-      }
+    #command ul li {
+      list-style: decimal;
+      line-height: 1.5;
+    }
+  </style>
+  <title>goBang</title>
+</head>
 
-      canvas.width = canvas.height = canvasWidth = canvasHeight =
-        BOARD_PADDING * BOARD_LINES_NUM + 1;
-      canvas.style.margin = `-${canvasHeight / 2}px 0 0 -${canvasWidth / 2}px`;
+<body>
+  <canvas id="canvas"></canvas>
+  <div id="controls">
+    <button id="reset">重新开始</button>
+    <button id="repentance">悔棋</button>
+    <button id="cancelRepentance">撤销悔棋</button>
+  </div>
+  <div id="tips"></div>
+  <div id="command">
+    <h3>未完成功能：</h3>
+    <ul>
+      <li>电脑AI下棋</li>
+      <li>代码封装成类</li>
+    </ul>
+    <h3>扩展功能：</h3>
+    <ul>
+      <li>nodejs + websocket 支持双人下棋等功能</li>
+    </ul>
+  </div>
+  <script>
+    //
+    let canvasWidth = document.body.clientWidth;
+    let canvasHeight = document.body.clientHeight;
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+  </script>
+  <script>
+    //
+    const BOARD_PADDING = 20; // 棋盘每格的间距
+    const BOARD_LINES_NUM = 21; // 棋盘每个方向的线数
+    const BOARD_POINTS_NUM = BOARD_LINES_NUM - 1; // 棋盘每个方向的点数
+    const half_padding = BOARD_PADDING / 2;
+    const chess_radius = 9; // 棋子半径
+    const drawStartPos = 0.5; // 画线起始偏移量
 
-      function drawBoard() {
-        context.lineWidth = 1;
-        context.strokeStyle = "#bbb";
+    const checkerboard = []; // 虚拟棋盘数据
+    const history = [];
+    const dustbin = [];
+    const mouse = { x: 0, y: 0 };
 
-        context.save();
-        context.beginPath();
+    let currentStep = 0; // 已走的步数
+    let isOver = false; // 是否结束
+    let imageData = null; // 画布信息
+    let winnerId = 0; // 赢方棋子ID
+    let role = 1; // 1 为黑色，2为白色
 
-        context.translate(half_padding, half_padding);
+    const tips = document.getElementById('tips')
 
-        for (
-          let i = 0, start = drawStartPos;
-          i < BOARD_LINES_NUM;
-          i++, start += BOARD_PADDING
-        ) {
-          context.moveTo(start, 0);
-          context.lineTo(
-            start,
-            BOARD_PADDING * (BOARD_LINES_NUM - 1) + drawStartPos
-          );
-          context.stroke();
-          context.moveTo(0, start);
-          context.lineTo(
-            BOARD_PADDING * (BOARD_LINES_NUM - 1) + drawStartPos,
-            start
-          );
-          context.stroke();
-        }
-        context.restore();
-      }
-      function initBoardMatrix() {
-        for (let i = 0; i < BOARD_LINES_NUM; i++) {
-          checkerboard[i] = [];
-          for (let j = 0; j < BOARD_LINES_NUM; j++) {
-            checkerboard[i][j] = 0;
-          }
-        }
-      }
-    </script>
-    <script>
-      // 绘制棋子
-      function drawChessman(x, y, isBlack) {
-        const gradient = context.createRadialGradient(
-          x,
-          y,
-          chess_radius,
-          x - chess_radius / 2,
-          y - chess_radius / 2,
-          0
-        );
+    function checkRole() {
+      role = role === 1 ? 2 : 1;
+    }
 
-        context.beginPath();
-        context.arc(x, y, chess_radius, 0, Math.PI * 2);
-        context.closePath();
-        if (isBlack) {
-          gradient.addColorStop(0, "#0a0a0a");
-          gradient.addColorStop(1, "#636766");
-        } else {
-          gradient.addColorStop(0, "#d1d1d1");
-          gradient.addColorStop(1, "#f9f9f9");
-        }
-        context.fillStyle = gradient;
-        context.fill();
-      }
-      // 绘制辅助点
-      function drawCrosshair(posX, posY) {
-        context.beginPath();
-        context.fillStyle = "#aaa";
-        context.arc(posX, posY, 5, 0, Math.PI * 2);
-        context.fill();
-      }
+    canvas.width = canvas.height = canvasWidth = canvasHeight =
+      BOARD_PADDING * BOARD_LINES_NUM + 1;
+    canvas.style.margin = `-${canvasHeight / 2}px 0 0 -${canvasWidth / 2}px`;
 
-      function isFiveEuqal(arr, i) {
-        const curr = arr[i];
-        for (let j = i + 1, start = 0; start < 4; j++, start++) {
-          if (arr[j] !== curr) return false;
-        }
-        return true;
-      }
-      // 检测结果
-      function checkResult(x, y, role) {
-        if (x === undefined || y === undefined || role === undefined) return;
+    function drawBoard() {
+      context.lineWidth = 1;
+      context.strokeStyle = "#bbb";
 
-        let countContinuous = 0;
-        const len = BOARD_LINES_NUM;
-        const YContinuous = checkerboard.map((row) => row[y]);
-        const XContinuous = checkerboard[x];
-        const S1Continuous = [];
-        const S2Continuous = [];
+      context.save();
+      context.beginPath();
 
-        for (let i = 0; i < XContinuous.length; i++) {
-          if (XContinuous[i] !== 0) {
-            if (isFiveEuqal(XContinuous, i)) {
-              return true;
-            }
-          }
-        }
-        for (let i = 0; i < YContinuous.length; i++) {
-          if (YContinuous[i] !== 0) {
-            if (isFiveEuqal(YContinuous, i)) {
-              return true;
-            }
-          }
-        }
-      }
-    </script>
-    <script>
-      //
-      function initEvents() {
-        canvas.onmousemove = (e) => {
-          if (isOver) return;
+      context.translate(half_padding, half_padding);
 
-          const { x, y } = windowToCanvas(canvas, e.clientX, e.clientY);
-          const xIndex = Math.min(
-            Math.floor(x / BOARD_PADDING),
-            BOARD_POINTS_NUM
-          );
-          const yIndex = Math.min(
-            Math.floor(y / BOARD_PADDING),
-            BOARD_POINTS_NUM
-          );
-          if (
-            checkerboard[xIndex][yIndex] !== undefined &&
-            checkerboard[xIndex][yIndex] === 0
-          ) {
-            putCanvasState();
-
-            const posX = half_padding + xIndex * BOARD_PADDING;
-            const posY = half_padding + yIndex * BOARD_PADDING;
-            drawCrosshair(posX, posY);
-            mouse.x = posX;
-            mouse.y = posY;
-          }
-        };
-        canvas.onmouseleave = (e) => {
-          putCanvasState();
-        };
-        canvas.addEventListener("click", (e) => {
-          if (isOver) return;
-          const { x, y } = windowToCanvas(canvas, e.clientX, e.clientY);
-          const xIndex = Math.round((x - half_padding) / BOARD_PADDING);
-          const yIndex = Math.round((y - half_padding) / BOARD_PADDING);
-          if (
-            checkerboard[xIndex][yIndex] !== undefined &&
-            checkerboard[xIndex][yIndex] === 0
-          ) {
-            checkerboard[xIndex][yIndex] = role;
-
-            const posX = half_padding + xIndex * BOARD_PADDING;
-            const posY = half_padding + yIndex * BOARD_PADDING;
-            drawChessman(posX, posY, role === 1);
-
-            if (checkResult(xIndex, yIndex, role)) {
-              console.log("success");
-              isOver = true;
-              // showSuccessTip()
-              return;
-            }
-
-            currentStep++;
-            history.push({
-              x: xIndex,
-              y: yIndex,
-              posX,
-              posY,
-              role,
-            });
-
-            checkRole();
-            saveCanvasState();
-          }
-        });
-      }
-    </script>
-    <script>
-      //
-      const reset = document.getElementById("reset");
-      const repentance = document.getElementById("repentance");
-      const cancelRepentance = document.getElementById("cancelRepentance");
-
-      function suppleBoard(
-        origin,
-        firstStart,
-        firstEnd,
-        secondStart,
-        secondEnd
+      for (
+        let i = 0, start = drawStartPos;
+        i < BOARD_LINES_NUM;
+        i++, start += BOARD_PADDING
       ) {
-        context.translate(origin.x + drawStartPos, origin.y + drawStartPos);
-        context.moveTo(firstStart.x, firstStart.y);
-        context.lineTo(firstEnd.x, firstEnd.y);
-        context.stroke();
-        context.moveTo(secondStart.x, secondStart.y);
-        context.lineTo(secondEnd.x, secondEnd.y);
-        context.stroke();
-      }
-
-      function clearPrevChess({ x, y, posX, posY }) {
-        context.clearRect(
-          posX - chess_radius,
-          posY - chess_radius,
-          chess_radius * 2,
-          chess_radius * 2
+        context.moveTo(start, 0);
+        context.lineTo(
+          start,
+          BOARD_PADDING * (BOARD_LINES_NUM - 1) + drawStartPos
         );
-        context.save();
-        context.beginPath();
-        if (x === 0 && y === 0) {
-          suppleBoard(
-            { x: posX, y: posY },
-            { x: 0, y: 0 },
-            { x: chess_radius, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: chess_radius }
-          );
-        } else if (x === BOARD_LINES_NUM - 1 && y === BOARD_LINES_NUM - 1) {
-          suppleBoard(
-            { x: posX, y: posY },
-            { x: 0, y: 0 },
-            { x: -chess_radius, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: -chess_radius }
-          );
-        } else if (x === 0 && y === BOARD_LINES_NUM - 1) {
-          suppleBoard(
-            { x: posX, y: posY },
-            { x: 0, y: 0 },
-            { x: chess_radius, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: -chess_radius }
-          );
-        } else if (x === BOARD_LINES_NUM - 1 && y === 0) {
-          suppleBoard(
-            { x: posX, y: posY },
-            { x: 0, y: 0 },
-            { x: -chess_radius, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: chess_radius }
-          );
-        } else if (x === 0) {
-          suppleBoard(
-            { x: posX, y: posY },
-            { x: 0, y: 0 },
-            { x: chess_radius, y: 0 },
-            { x: 0, y: chess_radius },
-            { x: 0, y: -chess_radius }
-          );
-        } else if (x === BOARD_LINES_NUM - 1) {
-          suppleBoard(
-            { x: posX, y: posY },
-            { x: 0, y: 0 },
-            { x: -chess_radius, y: 0 },
-            { x: 0, y: chess_radius },
-            { x: 0, y: -chess_radius }
-          );
-        } else if (y === 0) {
-          suppleBoard(
-            { x: posX, y: posY },
-            { x: 0, y: 0 },
-            { x: 0, y: chess_radius },
-            { x: -chess_radius, y: 0 },
-            { x: chess_radius, y: 0 }
-          );
-        } else if (y === BOARD_LINES_NUM - 1) {
-          suppleBoard(
-            { x: posX, y: posY },
-            { x: 0, y: 0 },
-            { x: 0, y: -chess_radius },
-            { x: -chess_radius, y: 0 },
-            { x: chess_radius, y: 0 }
-          );
-        } else {
-          suppleBoard(
-            { x: posX, y: posY },
-            { x: -chess_radius, y: 0 },
-            { x: chess_radius, y: 0 },
-            { x: 0, y: -chess_radius },
-            { x: 0, y: chess_radius }
-          );
+        context.stroke();
+        context.moveTo(0, start);
+        context.lineTo(
+          BOARD_PADDING * (BOARD_LINES_NUM - 1) + drawStartPos,
+          start
+        );
+        context.stroke();
+      }
+      context.restore();
+    };
+    function drawCenterPoint() {
+      const centerIndex = BOARD_POINTS_NUM / 2
+      let posX = half_padding + centerIndex * BOARD_PADDING;
+      let posY = half_padding + centerIndex * BOARD_PADDING;
+      posX = posX % 2 === 0 ? posX + 0.5 : posX
+      posY = posY % 2 === 0 ? posY + 0.5 : posY
+
+      context.save()
+      context.fillStyle = '#333'
+      context.beginPath()
+      context.arc(posX, posY, 3, 0, Math.PI * 2)
+      context.fill()
+      context.restore()
+    }
+    function initBoardMatrix() {
+      for (let i = 0; i < BOARD_LINES_NUM; i++) {
+        checkerboard[i] = [];
+        for (let j = 0; j < BOARD_LINES_NUM; j++) {
+          checkerboard[i][j] = 0;
         }
-        context.restore();
       }
+    }
+  </script>
+  <script>
+    // 绘制棋子
+    function drawChessman(x, y, isBlack) {
+      const gradient = context.createRadialGradient(
+        x,
+        y,
+        chess_radius,
+        x - chess_radius / 2,
+        y - chess_radius / 2,
+        0
+      );
 
-      reset.onclick = function () {
-        context.clearRect(0, 0, canvasWidth, canvasHeight);
-        drawBoard();
-        initBoardMatrix();
-        role = 1;
-        isOver = false;
+      context.beginPath();
+      context.arc(x, y, chess_radius, 0, Math.PI * 2);
+      context.closePath();
+      if (isBlack) {
+        gradient.addColorStop(0, "#0a0a0a");
+        gradient.addColorStop(1, "#636766");
+      } else {
+        gradient.addColorStop(0, "#d1d1d1");
+        gradient.addColorStop(1, "#f9f9f9");
+      }
+      context.fillStyle = gradient;
+      context.fill();
+    }
+    // 绘制辅助点
+    function drawCrosshair(posX, posY) {
+      context.beginPath();
+      context.fillStyle = "#aaa";
+      context.arc(posX, posY, 5, 0, Math.PI * 2);
+      context.fill();
+    }
+
+    function isFiveEuqal(arr, i) {
+      const curr = arr[i];
+      for (let j = i + 1, start = 0; start < 4; j++, start++) {
+        if (arr[j] !== curr) return false;
+      }
+      winnerId = curr
+      return true;
+    }
+    // 检测结果
+    function checkResult(x, y, role) {
+      if (x === undefined || y === undefined || role === undefined) return;
+      const len = BOARD_LINES_NUM;
+      const YContinuous = checkerboard.map((row) => row[y]);
+      const XContinuous = checkerboard[x];
+      const S1Continuous = [];
+      const S2Continuous = [];
+
+      for (let i = 0; i < XContinuous.length; i++) {
+        if (XContinuous[i] !== 0) {
+          if (isFiveEuqal(XContinuous, i)) {
+            return true;
+          }
+        }
+      }
+      for (let i = 0; i < YContinuous.length; i++) {
+        if (YContinuous[i] !== 0) {
+          if (isFiveEuqal(YContinuous, i)) {
+            return true;
+          }
+        }
+      }
+      // 将落子两个斜向各扩展4个格位
+      for (let i = x - 4, j = y - 4; i <= x + 4; i++, j++) {
+        if (i >= 0 && j >= 0) {
+          S1Continuous.push(checkerboard[i][j])
+        }
+      }
+      for (let i = 0; i < S1Continuous.length; i++) {
+        if (S1Continuous[i] !== 0) {
+          if (isFiveEuqal(S1Continuous, i)) {
+            return true;
+          }
+        }
+      }
+      // 判断另一个方向
+      for (let i = x - 4, j = y + 4; i <= x + 4; i++, j--) {
+        if (i >= 0 && j >= 0) {
+          S2Continuous.push(checkerboard[i][j])
+        }
+      }
+      for (let i = 0; i < S2Continuous.length; i++) {
+        if (S2Continuous[i] !== 0) {
+          if (isFiveEuqal(S2Continuous, i)) {
+            return true;
+          }
+        }
+      }
+    }
+  </script>
+  <script>
+    //
+    function initEvents() {
+      canvas.onmousemove = (e) => {
+        if (isOver) return;
+
+        const { x, y } = windowToCanvas(canvas, e.clientX, e.clientY);
+        const xIndex = Math.min(
+          Math.floor(x / BOARD_PADDING),
+          BOARD_POINTS_NUM
+        );
+        const yIndex = Math.min(
+          Math.floor(y / BOARD_PADDING),
+          BOARD_POINTS_NUM
+        );
+        if (
+          checkerboard[xIndex][yIndex] !== undefined &&
+          checkerboard[xIndex][yIndex] === 0
+        ) {
+          putCanvasState();
+
+          const posX = half_padding + xIndex * BOARD_PADDING;
+          const posY = half_padding + yIndex * BOARD_PADDING;
+          drawCrosshair(posX, posY);
+          mouse.x = posX;
+          mouse.y = posY;
+        }
       };
-      repentance.onclick = function () {
-        if (history.length === 0) return;
-
-        const prev = history.pop();
-        dustbin.push(prev);
-
-        clearPrevChess(prev);
-        // 更改状态
-        checkerboard[prev.x][prev.y] = 0;
-        checkRole();
-        currentStep--;
-
-        saveCanvasState();
+      canvas.onmouseleave = (e) => {
+        putCanvasState();
       };
-      cancelRepentance.onclick = function () {
-        if (dustbin.length === 0) return;
+      canvas.addEventListener("click", (e) => {
+        if (isOver) return;
+        const { x, y } = windowToCanvas(canvas, e.clientX, e.clientY);
+        const xIndex = Math.round((x - half_padding) / BOARD_PADDING);
+        const yIndex = Math.round((y - half_padding) / BOARD_PADDING);
+        if (
+          checkerboard[xIndex][yIndex] !== undefined &&
+          checkerboard[xIndex][yIndex] === 0
+        ) {
+          checkerboard[xIndex][yIndex] = role;
 
-        const last = dustbin.pop();
-        history.push(last);
+          const posX = half_padding + xIndex * BOARD_PADDING;
+          const posY = half_padding + yIndex * BOARD_PADDING;
+          drawChessman(posX, posY, role === 1);
 
-        drawChessman(last.posX, last.posY, last.role === 1);
+          currentStep++;
+          history.push({
+            x: xIndex,
+            y: yIndex,
+            posX,
+            posY,
+            role,
+          });
 
-        checkerboard[last.x][last.y] = last.role;
-        checkRole();
-        currentStep++;
+          checkRole();
+          saveCanvasState();
 
-        saveCanvasState();
-      };
-    </script>
-    <script>
-      //
-      function saveCanvasState() {
-        imageData = context.getImageData(0, 0, canvasWidth, canvasHeight);
+          if (checkResult(xIndex, yIndex, role)) {
+            tips.innerHTML = winnerId === 1 ? '黑棋胜' : '白棋胜'
+            isOver = true;
+            return;
+          }
+        }
+      });
+    }
+  </script>
+  <script>
+    //
+    const reset = document.getElementById("reset");
+    const repentance = document.getElementById("repentance");
+    const cancelRepentance = document.getElementById("cancelRepentance");
+
+    function suppleBoard(
+      origin,
+      firstStart,
+      firstEnd,
+      secondStart,
+      secondEnd
+    ) {
+      context.translate(origin.x + drawStartPos, origin.y + drawStartPos);
+      context.moveTo(firstStart.x, firstStart.y);
+      context.lineTo(firstEnd.x, firstEnd.y);
+      context.stroke();
+      context.moveTo(secondStart.x, secondStart.y);
+      context.lineTo(secondEnd.x, secondEnd.y);
+      context.stroke();
+    }
+
+    function clearPrevChess({ x, y, posX, posY }) {
+      context.clearRect(
+        posX - chess_radius,
+        posY - chess_radius,
+        chess_radius * 2,
+        chess_radius * 2
+      );
+      context.save();
+      context.beginPath();
+      if (x === 0 && y === 0) {
+        suppleBoard(
+          { x: posX, y: posY },
+          { x: 0, y: 0 },
+          { x: chess_radius, y: 0 },
+          { x: 0, y: 0 },
+          { x: 0, y: chess_radius }
+        );
+      } else if (x === BOARD_LINES_NUM - 1 && y === BOARD_LINES_NUM - 1) {
+        suppleBoard(
+          { x: posX, y: posY },
+          { x: 0, y: 0 },
+          { x: -chess_radius, y: 0 },
+          { x: 0, y: 0 },
+          { x: 0, y: -chess_radius }
+        );
+      } else if (x === 0 && y === BOARD_LINES_NUM - 1) {
+        suppleBoard(
+          { x: posX, y: posY },
+          { x: 0, y: 0 },
+          { x: chess_radius, y: 0 },
+          { x: 0, y: 0 },
+          { x: 0, y: -chess_radius }
+        );
+      } else if (x === BOARD_LINES_NUM - 1 && y === 0) {
+        suppleBoard(
+          { x: posX, y: posY },
+          { x: 0, y: 0 },
+          { x: -chess_radius, y: 0 },
+          { x: 0, y: 0 },
+          { x: 0, y: chess_radius }
+        );
+      } else if (x === 0) {
+        suppleBoard(
+          { x: posX, y: posY },
+          { x: 0, y: 0 },
+          { x: chess_radius, y: 0 },
+          { x: 0, y: chess_radius },
+          { x: 0, y: -chess_radius }
+        );
+      } else if (x === BOARD_LINES_NUM - 1) {
+        suppleBoard(
+          { x: posX, y: posY },
+          { x: 0, y: 0 },
+          { x: -chess_radius, y: 0 },
+          { x: 0, y: chess_radius },
+          { x: 0, y: -chess_radius }
+        );
+      } else if (y === 0) {
+        suppleBoard(
+          { x: posX, y: posY },
+          { x: 0, y: 0 },
+          { x: 0, y: chess_radius },
+          { x: -chess_radius, y: 0 },
+          { x: chess_radius, y: 0 }
+        );
+      } else if (y === BOARD_LINES_NUM - 1) {
+        suppleBoard(
+          { x: posX, y: posY },
+          { x: 0, y: 0 },
+          { x: 0, y: -chess_radius },
+          { x: -chess_radius, y: 0 },
+          { x: chess_radius, y: 0 }
+        );
+      } else {
+        suppleBoard(
+          { x: posX, y: posY },
+          { x: -chess_radius, y: 0 },
+          { x: chess_radius, y: 0 },
+          { x: 0, y: -chess_radius },
+          { x: 0, y: chess_radius }
+        );
       }
-      function putCanvasState() {
-        context.putImageData(imageData, 0, 0);
-      }
-    </script>
-    <script>
+      context.restore();
+    }
+
+    reset.onclick = function () {
+      context.clearRect(0, 0, canvasWidth, canvasHeight);
+      drawBoard();
+      drawCenterPoint()
+      initBoardMatrix();
+      role = 1;
+      isOver = false;
+      tips.innerHTML = ''
+      saveCanvasState();
+    };
+    repentance.onclick = function () {
+      if (history.length === 0 || isOver) return;
+
+      const prev = history.pop();
+      dustbin.push(prev);
+
+      clearPrevChess(prev);
+      // 更改状态
+      checkerboard[prev.x][prev.y] = 0;
+      checkRole();
+      currentStep--;
+
+      saveCanvasState();
+    };
+    cancelRepentance.onclick = function () {
+      if (dustbin.length === 0 || isOver) return;
+
+      const last = dustbin.pop();
+      history.push(last);
+
+      drawChessman(last.posX, last.posY, last.role === 1);
+
+      checkerboard[last.x][last.y] = last.role;
+      checkRole();
+      currentStep++;
+
+      saveCanvasState();
+    };
+  </script>
+  <script>
+    //
+    function saveCanvasState() {
+      imageData = context.getImageData(0, 0, canvasWidth, canvasHeight);
+    }
+    function putCanvasState() {
+      context.putImageData(imageData, 0, 0);
+    }
+  </script>
+  <script>
+    //
+    function init() {
+      drawBoard();
+      drawCenterPoint();
+      initBoardMatrix();
+      initEvents();
+      saveCanvasState();
+    }
+    init();
+  </script>
+  <script>
       //
-      function init() {
-        drawBoard();
-        initBoardMatrix();
-        initEvents();
-        saveCanvasState();
-      }
-      init();
-    </script>
-    <script>
+  </script>
+  <script>
       //
-    </script>
-    <script>
-      //
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>
