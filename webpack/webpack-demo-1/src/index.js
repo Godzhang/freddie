@@ -1,3 +1,4 @@
-import { show } from "./show";
+import show, { hide } from "./show";
 
 show("world");
+hide();
