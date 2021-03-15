@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <style>
+    .tool {
+      text-align: center;
+    }
+
+    .tool #again {
+      font-size: 30px;
+      line-height: 2;
+    }
+
+    #canvas {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
+    }
+  </style>
+  <title>guaguale</title>
+</head>
+
+<body>
+  <div class="tool">
+    <a href="javascript:;" id="again">再来一次</a>
+  </div>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    //
+    const canvasWidth = 500;
+    const canvasHeight = 404;
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+  </script>
+  <script>
+    //
+    let bgImage = null
+    let coverImage = null
+
+    function preloadBgImage() {
+      return new Promise(resolve => {
+        const image = new Image()
+        image.src = '../images/5.jpg'
+        image.onload = function () {
+          bgImage = image
+          resolve()
+        }
+      })
+    }
+
+    function preloadCover() {
+      return new Promise(resolve => {
+        const image = new Image()
+        image.src = '../images/gray-bg.jpg'
+        image.onload = function () {
+          coverImage = image
+          resolve()
+        }
+      })
+    }
+    function drawBgImage() {
+      context.drawImage(bgImage, 0, 0, canvasWidth, canvasHeight)
+    }
+    function drawCover() {
+      context.drawImage(coverImage, 0, 0, canvasWidth, canvasHeight)
+    }
+
+    async function init() {
+      await Promise.all([preloadBgImage(), preloadCover()])
+      drawBgImage()
+      drawCover()
+    }
+    init()
+  </script>
+  <script>
+    //
+    const erase_radius = 12
+    const erase_color = 'OrangeRed'
+    const mouse = { x: 0, y: 0 }
+    let isDragging = false
+
+    function drawErase(loc) {
+      context.save()
+      context.fillStyle = erase_color
+      context.beginPath()
+      context.arc(loc.x, loc.y, erase_radius, 0, Math.PI * 2)
+      context.fill()
+      context.restore()
+    }
+    function setErasePath() {
+      context.beginPath()
+      context.arc(mouse.x, mouse.y, erase_radius + 1, 0, Math.PI * 2)
+      context.clip()
+    }
+
+    function eraseLast() {
+      context.save()
+
+      setErasePath()
+      context.clearRect(0, 0, canvasWidth, canvasHeight)
+      drawBgImage()
+
+      context.restore()
+    }
+    function erase(loc) {
+      eraseLast()
+      drawErase(loc)
+    }
+
+    canvas.onmousedown = e => {
+      e.preventDefault()
+      const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+      mouse.x = loc.x
+      mouse.y = loc.y
+      isDragging = true
+    }
+    canvas.onmousemove = e => {
+      if (!isDragging) return
+
+      const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+      erase(loc)
+      mouse.x = loc.x
+      mouse.y = loc.y
+    }
+    canvas.onmouseup = e => {
+      eraseLast()
+      isDragging = false
+    }
+  </script>
+</body>
+
+</html>
