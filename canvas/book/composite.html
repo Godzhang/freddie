@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <style>
+    #canvas {}
+  </style>
+  <title>composite</title>
+</head>
+
+<body>
+
+  <script>
+    //
+    let startX = 50, startY = 50, w = 300, h = 250, rectWidth = 200, rectHeight = 100
+
+    function drawArc(context, x, y, fillStyle = 'OrangeRed', radius = 50) {
+      context.beginPath()
+      context.fillStyle = fillStyle
+      context.arc(x, y, radius, 0, Math.PI * 2)
+      context.fill()
+    }
+    function drawRect(context, x, y, width = rectWidth, height = rectHeight, fillStyle = '#08c') {
+      context.beginPath()
+      context.fillStyle = fillStyle
+      context.rect(x, y, width, height)
+      context.fill()
+    }
+    function createCanvas(index) {
+      const x = index % 4, y = ~~(index / 4)
+      const canvas = document.createElement('canvas')
+      canvas.width = w
+      canvas.height = h
+      canvas.style.position = 'absolute'
+      canvas.style.top = startY + y * h + 'px'
+      canvas.style.left = startX + x * w + 'px'
+      document.body.appendChild(canvas)
+
+      return canvas.getContext('2d')
+    }
+
+    const compositeArr = ['source-over', 'source-atop', 'source-in', 'source-out', 'destination-over', 'destination-atop', 'destination-in', 'destination-out', 'lighter', 'copy', 'xor']
+
+    compositeArr.forEach((item, index) => drawGlobalCompositeOperation(item, index))
+
+    function drawGlobalCompositeOperation(item, index) {
+      const context = createCanvas(index)
+      context.globalCompositeOperation = item
+      drawRect(context, 0, 0)
+      drawArc(context, rectWidth, rectHeight)
+    }
+
+    // function drawGlobalCompositeOperation(item, index) {
+    //   let x = index % 4, y = ~~(index / 4)
+    //   x = startX + x * w, y = startY + y * h
+    //   context.save()
+    //   // context.globalCompositeOperation = item
+    //   // console.log(startX + w * x, startY + h * y)
+    //   // context.translate(startX + w * x, startY + h * y)
+    //   drawBoundryPoints(x, y)
+    //   drawRect(x, y)
+    //   drawArc(x + rectWidth, y + rectHeight)
+    //   context.restore()
+    // }
+  </script>
+</body>
+
+</html>

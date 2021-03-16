@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../reset.css" />
+  <script src="../public/utils.js"></script>
+  <style>
+    #canvas {}
+
+    #composite {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+    }
+  </style>
+  <title>composite</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <select id="composite"></select>
+  <script>
+    //
+    const canvas = document.getElementById('canvas')
+    const composite = document.getElementById('composite')
+    canvas.width = document.body.clientWidth
+    canvas.height = document.body.clientHeight
+    const context = canvas.getContext('2d')
+
+    function drawArc(x, y, fillStyle = 'OrangeRed', radius = 50) {
+      context.beginPath()
+      context.fillStyle = fillStyle
+      context.arc(x, y, radius, 0, Math.PI * 2)
+      context.fill()
+    }
+    function drawRect(x, y, width = 300, height = 200, fillStyle = '#08c') {
+      context.beginPath()
+      context.fillStyle = fillStyle
+      context.rect(x, y, width, height)
+      context.fill()
+    }
+
+    const compositeArr = ['source-over', 'source-atop', 'source-in', 'source-out', 'destination-over', 'destination-atop', 'destination-in', 'destination-out', 'lighter', 'copy', 'xor']
+
+    compositeArr.forEach(item => {
+      const option = document.createElement('option')
+      option.value = item
+      option.innerHTML = item
+      composite.appendChild(option)
+    })
+
+    composite.onchange = e => {
+      draw(e.target.value)
+    }
+
+    function draw(item) {
+      context.clearRect(0, 0, canvas.width, canvas.height)
+      context.globalCompositeOperation = item
+      drawRect(300, 300)
+      drawArc(600, 500)
+    }
+    draw(compositeArr[0])
+
+  </script>
+</body>
+
+</html>
