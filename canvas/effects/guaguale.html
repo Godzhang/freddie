@@ -1,140 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <style>
+      .tool {
+        text-align: center;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../reset.css" />
-  <script src="../public/utils.js"></script>
-  <style>
-    .tool {
-      text-align: center;
-    }
+      .tool #again {
+        font-size: 30px;
+        line-height: 2;
+      }
 
-    .tool #again {
-      font-size: 30px;
-      line-height: 2;
-    }
+      #canvas {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+    </style>
+    <title>guaguale</title>
+  </head>
 
-    #canvas {
-      position: absolute;
-      left: 50%;
-      transform: translate(-50%, 0);
-    }
-  </style>
-  <title>guaguale</title>
-</head>
+  <body>
+    <div class="tool">
+      <a href="javascript:;" id="again">再来一次</a>
+    </div>
+    <canvas id="canvas"></canvas>
 
-<body>
-  <div class="tool">
-    <a href="javascript:;" id="again">再来一次</a>
-  </div>
-  <canvas id="canvas"></canvas>
+    <script>
+      //
+      const canvasWidth = 500;
+      const canvasHeight = 404;
+      const canvas = document.getElementById("canvas");
+      const context = canvas.getContext("2d");
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+    </script>
+    <script>
+      //
+      const again = document.getElementById("again");
+      let isDone = false;
 
-  <script>
-    //
-    const canvasWidth = 500;
-    const canvasHeight = 404;
-    const canvas = document.getElementById("canvas");
-    const context = canvas.getContext("2d");
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
-  </script>
-  <script>
-    //
-    let bgImage = null
-    let coverImage = null
+      function setBgImage() {
+        canvas.style.backgroundImage = `url(../images/5.jpg)`;
+        canvas.style.backgroundSize = "100% 100%";
+        canvas.style.backgroundRepeat = "no-repeat";
+      }
+      function drawMask() {
+        context.save();
+        context.globalCompositeOperation = "source-over";
+        context.fillStyle = "gray";
+        context.fillRect(0, 0, canvasWidth, canvasHeight);
+        context.restore();
+      }
+      setBgImage();
+      drawMask();
 
-    function preloadBgImage() {
-      return new Promise(resolve => {
-        const image = new Image()
-        image.src = '../images/5.jpg'
-        image.onload = function () {
-          bgImage = image
-          resolve()
+      function checkClean() {
+        const imageData = context.getImageData(0, 0, canvasWidth, canvasHeight)
+          .data;
+        let count = 0;
+        for (let i = 3; i < imageData.length - 4; i += 4) {
+          if (imageData[i] === 0) {
+            count++;
+          }
         }
-      })
-    }
-
-    function preloadCover() {
-      return new Promise(resolve => {
-        const image = new Image()
-        image.src = '../images/gray-bg.jpg'
-        image.onload = function () {
-          coverImage = image
-          resolve()
+        if (count > imageData.length / (4 * 2)) {
+          canvas.onmousemove = null;
+          isDone = true;
+          context.clearRect(0, 0, canvasWidth, canvasHeight);
         }
-      })
-    }
-    function drawBgImage() {
-      context.drawImage(bgImage, 0, 0, canvasWidth, canvasHeight)
-    }
-    function drawCover() {
-      context.drawImage(coverImage, 0, 0, canvasWidth, canvasHeight)
-    }
+      }
 
-    async function init() {
-      await Promise.all([preloadBgImage(), preloadCover()])
-      drawBgImage()
-      drawCover()
-    }
-    init()
-  </script>
-  <script>
-    //
-    const erase_radius = 12
-    const erase_color = 'OrangeRed'
-    const mouse = { x: 0, y: 0 }
-    let isDragging = false
+      canvas.onmousedown = (e) => {
+        if (isDone) return;
+        canvas.onmousemove = (e) => {
+          const loc = windowToCanvas(canvas, e.clientX, e.clientY);
+          context.globalCompositeOperation = "destination-out";
+          context.beginPath();
+          context.arc(loc.x, loc.y, 12, 0, Math.PI * 2);
+          context.fill();
+          checkClean();
+        };
+      };
+      canvas.onmouseup = () => {
+        canvas.onmousemove = null;
+      };
 
-    function drawErase(loc) {
-      context.save()
-      context.fillStyle = erase_color
-      context.beginPath()
-      context.arc(loc.x, loc.y, erase_radius, 0, Math.PI * 2)
-      context.fill()
-      context.restore()
-    }
-    function setErasePath() {
-      context.beginPath()
-      context.arc(mouse.x, mouse.y, erase_radius + 1, 0, Math.PI * 2)
-      context.clip()
-    }
-
-    function eraseLast() {
-      context.save()
-
-      setErasePath()
-      context.clearRect(0, 0, canvasWidth, canvasHeight)
-      drawBgImage()
-
-      context.restore()
-    }
-    function erase(loc) {
-      eraseLast()
-      drawErase(loc)
-    }
-
-    canvas.onmousedown = e => {
-      e.preventDefault()
-      const loc = windowToCanvas(canvas, e.clientX, e.clientY)
-      mouse.x = loc.x
-      mouse.y = loc.y
-      isDragging = true
-    }
-    canvas.onmousemove = e => {
-      if (!isDragging) return
-
-      const loc = windowToCanvas(canvas, e.clientX, e.clientY)
-      erase(loc)
-      mouse.x = loc.x
-      mouse.y = loc.y
-    }
-    canvas.onmouseup = e => {
-      eraseLast()
-      isDragging = false
-    }
-  </script>
-</body>
-
+      again.onclick = () => {
+        isDone = false;
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+        drawMask();
+      };
+    </script>
+    <script>
+      //
+    </script>
+  </body>
 </html>
