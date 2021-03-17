@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../reset.css" />
+    <script src="../public/utils.js"></script>
+    <style>
+      #canvas {
+      }
+    </style>
+    <title>loop-countdown</title>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+      //
+      // const canvasWidth = document.body.clientWidth;
+      // const canvasHeight = document.body.clientHeight;
+      // const canvas = document.getElementById("canvas");
+      // const context = canvas.getContext("2d");
+      // canvas.width = canvasWidth;
+      // canvas.height = canvasHeight;
+    </script>
+    <script>
+      // https://juejin.cn/post/6844903704047386632#heading-1
+      class Countdown {
+        static defaultOptions = {
+          id: "canvas",
+          size: 130,
+          borderWidth: 4,
+          borderColor: "#fff",
+          outerColor: "#fff",
+          scheduleColor: "#fff",
+          fontColor: "#fff",
+          ringColor: "#ffc720",
+          innerColor: "#4e84e5",
+          fontSize: 50,
+          time: 5,
+        };
+
+        constructor(options = {}) {
+          this.settings = Object.assign(Countdown.defaultOptions, options);
+          this.init();
+        }
+
+        init() {
+          const {} = this.settings;
+
+          this.canvas = document.getElementById(this.settings.id);
+          this.canvas.width = this.settings.size;
+        }
+      }
+    </script>
+    <script>
+      //
+      window.onload = function () {
+        // const countdown = new Countdown()
+        // countdown.init()
+      };
+    </script>
+  </body>
+</html>
