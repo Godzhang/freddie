@@ -6,3 +6,4 @@
 6. Uint8ClampedArray 为什么不能直接赋值，而需要遍历每一项单独赋值
 7. canvas绘制线的时候，使用beginPath的情况下，只有当lineWidth=1，并且从0.5的位置开始绘制时，颜色才和strokeStyle一致，否则颜色是浅一些的。
 8. 给canvas元素设置css transform(translate)属性时，会影响canvas绘制的效果，线段会从1px变成2或3px。
+9. composite-select.html，效果展示有问题。
