@@ -1,6 +1,12 @@
-type Dialog = {
+export type Dialog = {
   id?: string;
 };
+
+export const Dialog = {
+  name: 'zhangqi',
+  id: 'fjdslkfj'
+}
+
 function closeDialog(dialog: Dialog) {
   if (!dialog.id) return;
   setTimeout(() => {

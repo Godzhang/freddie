@@ -1,4 +1,4 @@
-class Game {
+export class Game {
   private pieces = Game.makePieces();
 
   private static makePieces() {
