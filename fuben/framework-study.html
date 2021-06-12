@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    #rotate {
+      width: 100px;
+      height: 100px;
+      border: 1px solid #f00;
+      text-align: center;
+      line-height: 100px;
+      transition: transform .5s;
+    }
+  </style>
+  <title>framework-study</title>
+</head>
+
+<body>
+  <div id="container">
+    <div id="rotate">旋转</div>
+  </div>
+  <script>
+    function cssTransform(el, prop, value) {
+      if (!el.transform) {
+        el.transform = {}
+      }
+      if (typeof value === 'undefined') {
+        if (typeof el.transform[prop] === 'undefined') {
+          switch (prop) {
+            case "scale":
+            case "scaleX":
+              el.transform[prop] = 1
+            default:
+              el.transform[prop] = 0
+          }
+        }
+        return el.transform[prop]
+      }
+
+      el.transform[prop] = value
+
+      let transformVal = ""
+      for (let key in el.transform) {
+        switch (key) {
+          case "scale":
+            transformVal += `${key}(${el.transform[key]})`
+            break
+          case "rotate":
+            transformVal += `${key}(${el.transform[key]}deg)`
+            break
+          default:
+            transformVal += `${key}(${el.transform[key]}px)`
+        }
+      }
+
+      el.style.transform = transformVal
+    }
+  </script>
+  <script>
+    function Transform(element) {
+      let units = {},
+        transformVal = "",
+        transforms = {},
+        // attrs = ['scale', 'scaleX', 'scaleY', 'scaleZ', 'scale3d', 'rotate', 'rotateX', 'rotateY', 'rotateZ', 'rotate3d', 'translate', 'translateX', 'translateY', 'translateZ', 'translate3d', 'skew', 'skewX', 'skewY'];
+        attrs = ['scale', 'rotate', 'translate'];
+
+      attrs.forEach(attr => {
+        if (attr.indexOf('scale') >= 0) {
+          units[attr] = ""
+          transforms[attr] = 1
+        } else {
+          units[attr] = attr.indexOf('rotate') >= 0 ? 'deg' : 'px'
+          transforms[attr] = 0
+        }
+
+        Object.defineProperty(element, attr, {
+          get() {
+            return transforms[attr]
+          },
+          set(value) {
+            transforms[attr] = value
+            transformVal = ""
+            attrs.forEach(attr => {
+              transformVal += `${attr}(${transforms[attr]}${units[attr]})`
+            })
+            element.style.transform = transformVal
+          }
+        })
+      })
+    }
+  </script>
+  <script>
+    const rotate = document.getElementById("rotate")
+    Transform(rotate)
+
+    rotate.onclick = () => {
+      rotate.rotate = 30
+      rotate.translate = 30
+      //   cssTransform(rotate, 'rotate', 30)
+      //   cssTransform(rotate, 'translateX', 30)
+    }
+  </script>
+</body>
+
+</html>
