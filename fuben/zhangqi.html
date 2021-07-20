@@ -29,12 +29,83 @@
         width: 100%;
         height: 100%;
       }
+      .grid-container {
+        display: grid;
+        width: 100%;
+        height: 100%;
+        /* grid-template-columns: 100px 100px 100px 100px 100px;
+        grid-template-rows: 100px 100px 100px 100px 100px; */
+        /* grid-template-columns: repeat(3, 33.33%);
+        grid-template-rows: repeat(3, 33.33%); */
+        /* grid-template-columns: repeat(auto-fill, 200px); */
+        /* grid-template-columns: 100px 1fr 2fr 200px; */
+        /* grid-template-columns: 1fr 1fr minmax(100px, 300px); */
+        /* grid-template-columns: 100px auto 100px; */
+        grid-template-columns: [c1] 100px [c2] 100px [c3] 100px [c4] auto [c5];
+        grid-template-rows: [r1] 100px [r2] 100px [r3] 100px [r4] auto [r5];
+        /* grid-template-columns: repeat(12, 1fr); */
+        /* grid-template-columns: repeat(3, 33.33%);
+        grid-template-rows: repeat(3, 33.33%); */
+        /* gap: 20px; */
+        /* justify-items: stretch; */
+        /* align-items: center; */
+        /* place-content: center space-evenly; */
+        /* grid-auto-rows: 50px;
+        grid-auto-columns: 150px; */
+        grid-auto-flow: row dense;
+      }
+      .grid-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .item-1 {
+        /* grid-column-start: 2;
+        grid-column-end: 4;
+        grid-row-start: 1;
+        grid-row-end: 3; */
+      }
+      .item-2 {
+        /* grid-column-start: c3;
+        grid-column-end: c5; */
+        /* grid-column-start: span 3; */
+        /* grid-area: 2; */
+      }
     </style>
     <title>zhangqi</title>
   </head>
 
   <body>
-    <div class="container"></div>
+    <!-- <div class="container"></div> -->
+    <div class="grid-container">
+      <div class="grid-item item-1" style="background-color: orange">
+        <p>grid-item-1</p>
+      </div>
+      <div class="grid-item item-2" style="background-color: orangered">
+        <p>grid-item-2</p>
+      </div>
+      <div class="grid-item item-3" style="background-color: orchid">
+        <p>grid-item-3</p>
+      </div>
+      <div class="grid-item item-4" style="background-color: palegoldenrod">
+        <p>grid-item-4</p>
+      </div>
+      <div class="grid-item item-5" style="background-color: palegreen">
+        <p>grid-item-5</p>
+      </div>
+      <div class="grid-item item-6" style="background-color: palevioletred">
+        <p>grid-item-6</p>
+      </div>
+      <div class="grid-item item-7" style="background-color: purple">
+        <p>grid-item-7</p>
+      </div>
+      <div class="grid-item item-8" style="background-color: saddlebrown">
+        <p>grid-item-8</p>
+      </div>
+      <div class="grid-item item-9" style="background-color: seagreen">
+        <p>grid-item-9</p>
+      </div>
+    </div>
     <script>
       //
     </script>
