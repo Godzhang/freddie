@@ -41,8 +41,8 @@
         /* grid-template-columns: 100px 1fr 2fr 200px; */
         /* grid-template-columns: 1fr 1fr minmax(100px, 300px); */
         /* grid-template-columns: 100px auto 100px; */
-        grid-template-columns: [c1] 100px [c2] 100px [c3] 100px [c4] auto [c5];
-        grid-template-rows: [r1] 100px [r2] 100px [r3] 100px [r4] auto [r5];
+        /* grid-template-columns: [c1] 100px [c2] 100px [c3] 100px [c4] auto [c5];
+        grid-template-rows: [r1] 100px [r2] 100px [r3] 100px [r4] auto [r5]; */
         /* grid-template-columns: repeat(12, 1fr); */
         /* grid-template-columns: repeat(3, 33.33%);
         grid-template-rows: repeat(3, 33.33%); */
@@ -52,25 +52,55 @@
         /* place-content: center space-evenly; */
         /* grid-auto-rows: 50px;
         grid-auto-columns: 150px; */
+        /* grid-auto-flow: row dense; */
+        /* grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas:
+          ". header header"
+          "body body sidebar"
+          "footer footer footer"; */
+        /* grid-template-columns: 1fr 1fr 1fr; */
+        /* grid-template-columns: repeat(auto-fit, 200px); */
+        /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
         grid-auto-flow: row dense;
+        grid-auto-rows: 50px; */
+        grid-template-columns: repeat(6, 1fr);
       }
       .grid-item {
         display: flex;
         align-items: center;
         justify-content: center;
       }
-      .item-1 {
-        /* grid-column-start: 2;
-        grid-column-end: 4;
-        grid-row-start: 1;
-        grid-row-end: 3; */
+      /* .item-4 {
+        grid-column-start: span 3;
+      } */
+      /* .item-1 {
+        grid-area: header;
       }
       .item-2 {
-        /* grid-column-start: c3;
-        grid-column-end: c5; */
-        /* grid-column-start: span 3; */
-        /* grid-area: 2; */
+        grid-area: header;
       }
+      .item-3 {
+        grid-area: header;
+      }
+      .item-4 {
+        grid-area: sidebar;
+      }
+      .item-5 {
+        grid-area: body;
+      }
+      .item-6 {
+        grid-area: body;
+      }
+      .item-7 {
+        grid-area: footer;
+      }
+      .item-8 {
+        grid-area: footer;
+      }
+      .item-9 {
+        grid-area: footer;
+      } */
     </style>
     <title>zhangqi</title>
   </head>
