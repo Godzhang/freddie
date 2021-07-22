@@ -30,9 +30,9 @@
         height: 100%;
       }
       .grid-container {
-        display: grid;
+        /* display: grid;
         width: 100%;
-        height: 100%;
+        height: 100%; */
         /* grid-template-columns: 100px 100px 100px 100px 100px;
         grid-template-rows: 100px 100px 100px 100px 100px; */
         /* grid-template-columns: repeat(3, 33.33%);
@@ -64,13 +64,13 @@
         gap: 10px;
         grid-auto-flow: row dense;
         grid-auto-rows: 50px; */
-        grid-template-columns: repeat(6, 1fr);
+        /* grid-template-columns: repeat(6, 1fr); */
       }
-      .grid-item {
+      /* .grid-item {
         display: flex;
         align-items: center;
         justify-content: center;
-      }
+      } */
       /* .item-4 {
         grid-column-start: span 3;
       } */
@@ -107,7 +107,7 @@
 
   <body>
     <!-- <div class="container"></div> -->
-    <div class="grid-container">
+    <!-- <div class="grid-container">
       <div class="grid-item item-1" style="background-color: orange">
         <p>grid-item-1</p>
       </div>
@@ -135,9 +135,107 @@
       <div class="grid-item item-9" style="background-color: seagreen">
         <p>grid-item-9</p>
       </div>
-    </div>
+    </div> -->
     <script>
       //
+      // const addRemote = async (a, b, cb) =>
+      //   new Promise((resolve) => {
+      //     setTimeout(() => {
+      //       const res = a + b;
+      //       resolve(res);
+      //       cb && cb(res);
+      //     }, 1000);
+      //   });
+
+      // 请实现本地的add方法，调用addRemote，能最优的实现输入数字的加法。
+      // async function add(...inputs) {
+      //   let sum = inputs[0];
+      //   for (let i = 1, len = inputs.length; i < len; i++) {
+      //     sum = await addRemote(sum, inputs[i]);
+      //   }
+      //   return sum;
+      // }
+      // 递归
+      // async function add(...inputs) {
+      //   let res = 0;
+      //   if (inputs.length === 0) return res;
+      //   if (inputs.length === 1) return inputs[0];
+
+      //   const a = inputs.pop();
+      //   const b = inputs.pop();
+      //   inputs.push(await addRemote(a, b));
+      //   return add(...inputs);
+      // }
+      // reduce
+      // async function add(...args) {
+      //   return args.reduce((promiseChain, item) => {
+      //     return promiseChain.then((res) => {
+      //       return addRemote(res, item);
+      //     });
+      //   }, Promise.resolve(0));
+      // }
+      //
+      // async function add(...args) {
+      //   if (args.length <= 1) return Promise.resolve(args[0]);
+      //   const promiseList = [];
+      //   for (let i = 0; i * 2 < args.length - 1; i++) {
+      //     const promise = addRemote(args[i * 2], args[i * 2 + 1]);
+      //     promiseList.push(promise);
+      //   }
+
+      //   if (args.length % 2) {
+      //     const promise = Promise.resolve(args[args.length - 1]);
+      //     promiseList.push(promise);
+      //   }
+
+      //   return Promise.all(promiseList).then((results) => {
+      //     return add(...results);
+      //   });
+      // }
+      // 加缓存
+      // const cache = {};
+      // async function addFn(a, b) {
+      //   const key1 = `${a}${b}`;
+      //   const key2 = `${b}${a}`;
+      //   const cacheVal = cache[key1] || cache[key2];
+
+      //   if (cacheVal) return Promise.resolve(cacheVal);
+
+      //   return addRemote(a, b, (res) => {
+      //     cache[key1] = res;
+      //     cache[key2] = res;
+      //     return res;
+      //   });
+      // }
+      // async function add(...args) {
+      //   if (args.length <= 1) return Promise.resolve(args[0]);
+      //   const promiseList = [];
+      //   for (let i = 0; i * 2 < args.length - 1; i++) {
+      //     const promise = addFn(args[i * 2], args[i * 2 + 1]);
+      //     promiseList.push(promise);
+      //   }
+
+      //   if (args.length % 2) {
+      //     const promise = Promise.resolve(args[args.length - 1]);
+      //     promiseList.push(promise);
+      //   }
+
+      //   return Promise.all(promiseList).then((results) => {
+      //     return add(...results);
+      //   });
+      // }
+
+      // 请用示例验证运行结果:
+      // add(1, 2).then((result) => {
+      //   console.log(result); // 3
+      // });
+
+      // add(3, 5, 2).then((result) => {
+      //   console.log(result); // 10
+      // });
+      // add(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11).then((result) => {
+      //   console.log(result); // 66
+      // });
     </script>
     <script>
       //
