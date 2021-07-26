@@ -1,86 +1,46 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams,
-} from "react-router-dom";
+import React, { createRef, useEffect, useState } from "react";
 import "./App.css";
+
+// const LazyComponent = lazy(() => import("./components/LazyComponent"))
 
 const App = () => {
   return (
-    <Router>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/topics">Topics</Link>
-          </li>
-        </ul>
-      </nav>
-      <Switch>
-        <Route path="/about" component={About}></Route>
-        <Route path="/topics" component={Topics}></Route>
-        <Route path="/">
-          <Home />
-        </Route>
-        {/* <Route path="/users">
-          <Users />
-        </Route>
-        <Route path="/">
-          <Home />
-        </Route> */}
-      </Switch>
-    </Router>
+    <div className="app">
+      <Mouse render={(pos) => <ShowPos pos={pos} />}></Mouse>
+    </div>
   );
 };
 
-function Home() {
-  return <h2>Home</h2>;
-}
+const ShowPos = (props) => {
+  const pos = props.pos;
+  return (
+    <p>
+      The current mouse position is ({pos.x}, {pos.y})
+    </p>
+  );
+};
 
-function About() {
-  return <h2>About</h2>;
-}
+const Mouse = (props) => {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
 
-function Topics() {
-  const match = useRouteMatch();
-  console.log("match: ", match);
+  const onHandleMouseMove = (e) => {
+    setPos({
+      x: e.clientX,
+      y: e.clientY,
+    });
+  };
 
   return (
-    <div>
-      <h2>Topics</h2>
-      <ul>
-        <li>
-          <Link to={`${match.url}/components`}>Components</Link>
-        </li>
-        <li>
-          <Link to={`${match.url}/props-v-state`}>Props v. State</Link>
-        </li>
-      </ul>
-      <Switch>
-        <Route path={`${match.path}/:topicId`}>
-          <Topic />
-        </Route>
-        <Route path={match.path}>
-          <h3>Please select a topic.</h3>
-        </Route>
-      </Switch>
+    <div
+      style={{ width: "100%", height: "100%" }}
+      onMouseMove={onHandleMouseMove}
+    >
+      {props.render(pos)}
+      {/* <p>
+        The current mouse position is ({pos.x}, {pos.y})
+      </p> */}
     </div>
   );
-}
-
-function Topic() {
-  const params = useParams();
-  console.log("params: ", params);
-  return <h3>Requested topic ID: {params.topicId}</h3>;
-}
+};
 
 export default App;
