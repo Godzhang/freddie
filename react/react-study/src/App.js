@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import AHookTest from "./pages/AHookTest";
 import "./App.css";
 
-// const LazyComponent = lazy(() => import("./components/LazyComponent"))
-
 const App = () => {
-  return <div className="app"></div>;
+  return (
+    <div className="app">
+      <AHookTest />
+    </div>
+  );
 };
 
 export default App;
