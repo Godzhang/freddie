@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useRequest, useDebounceFn, useBoolean } from "ahooks";
 
+const url = "https://gank.io/api/v2/categories/GanHuo";
+
 const AHookTest = () => {
   const [value, setValue] = useState("");
   const [isLeading, { toggle }] = useBoolean(false);
