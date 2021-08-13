@@ -9,7 +9,11 @@
       "request": "launch",
       "name": "启动程序",
       // "program": "${workspaceFolder}/tests/lib/rules/settimeout-no-number.js",
-      "program": "${workspaceFolder}\\eslint\\eslint-plugin-demo\\tests\\lib\\rules\\settimeout-no-number.js"
+      // "program": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "debug"],
+      "port": 5858
     }
   ]
 }

@@ -13,6 +13,7 @@ bLoaders.pitch = function (remainingRequest, precedingRequest, data) {
   console.log(remainingRequest);
   console.log(precedingRequest);
   console.log(data);
+  return "bLoader Pitching Loader->";
 };
 
 module.exports = bLoaders;
