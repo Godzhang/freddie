@@ -5,23 +5,16 @@ export default {
   component: Button,
 };
 
-// export const DefaultButton = () => ({
-//   components: { Button },
-
-//   template: `<Button @click="onClick">新华Button</Button>`,
-
-//   methods: {
-//     onClick: () => {
-//       alert("click");
-//     },
-//   },
-// });
 export const DefaultButton = () => ({
   components: { Button },
-  template: `<Button @click="onClick">新华Button</Button>`,
+  template: `<Button>新华Button</Button>`,
 });
 
 DefaultButton.storyName = "default";
-// DefaultButton.story = {
-//   name: "default",
-// };
+
+export const PrimaryButton = () => ({
+  components: { Button },
+  template: `<Button>primary 新华Button</Button>`,
+});
+
+PrimaryButton.storyName = "primary";
