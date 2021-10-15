@@ -1,0 +1,38 @@
+<body>
+<script>
+class Element {
+  constructor (
+    tagName = 'div',
+    attrs = {},
+    children = [],
+  ) {
+    this.tagName = tagName;
+    this.attrs = attrs;
+    this.children = children;
+  }
+  render () {
+    const elm = document.createElement(this.tagName);
+    for (let key in this.attrs) {
+      elm.setAttribute(key, this.attrs[key]);
+    }
+    this.children.forEach(child => {
+      const childElm = child instanceof Element
+        ? child.render()
+        : document.createTextNode(child);
+      elm.appendChild(childElm);
+    });
+    return elm;
+  }
+}
+const el = (...args) => new Element(...args);
+
+// test
+const ul = el('ul', {id: 'list'}, [
+  el('li', {class: 'item'}, ['Item 1']),
+  el('li', {class: 'item'}, ['Item 2']),
+  el('li', {class: 'item'}, ['Item 3'])
+]);
+const ulRoot = ul.render();
+document.body.appendChild(ulRoot);
+</script>
+</body>
