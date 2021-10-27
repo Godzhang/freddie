@@ -41,22 +41,42 @@
 
     <script></script>
     <script>
-      function compose(...funcs) {
-        if (funcs.length === 0) {
-          return (arg) => arg;
-        }
+      // const flow = (...funcs) => {
+      //   return (params) => {
+      //     return funcs.reduce((params, fn) => fn(params), params);
+      //   };
+      // };
+      // const obj = {};
+      // function a(obj) {
+      //   console.log("a called");
+      //   obj.a = 1;
+      //   return obj;
+      // }
+      // function b(obj) {
+      //   console.log("b called");
+      //   obj.a += 10;
+      //   return obj;
+      // }
+      // const res = flow(a, b)(obj);
+      // console.log(res);
+    </script>
+    <script>
+      // function compose(...funcs) {
+      //   if (funcs.length === 0) {
+      //     return (arg) => arg;
+      //   }
 
-        if (funcs.length === 1) {
-          return funcs[0];
-        }
+      //   if (funcs.length === 1) {
+      //     return funcs[0];
+      //   }
 
-        return funcs.reduce((a, b) => (...args) => a(b(...args)));
-      }
-      const fn = (n) => n + 1;
-      const fn2 = (n) => n * 2;
-      const fn3 = (n) => n - 3;
-      const cfn = compose(fn, fn2, fn3);
-      console.log(cfn(1));
+      //   return funcs.reduce((a, b) => (...args) => a(b(...args)));
+      // }
+      // const fn = (n) => n + 1;
+      // const fn2 = (n) => n * 2;
+      // const fn3 = (n) => n - 3;
+      // const cfn = compose(fn, fn2, fn3);
+      // console.log(cfn(1));
     </script>
     <script>
       // const url = "https://gank.io/api/v2/categories/GanHuo";
