@@ -1,0 +1,20 @@
+{
+  "name": "task0321",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "push": "git add -A && git commit -m update && git push origin master",
+    "cv": "rimraf ./cv/chenzhi.pdf && markdown-pdf -s ./cv/cv.css -o ./cv/chenzhi.pdf ./cv/chenzhi.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitee.com:sandii/task0321.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "markdown-pdf": "^10.0.0",
+    "rimraf": "^3.0.2"
+  }
+}

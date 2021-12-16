@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      #codeView {
+        font-size: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 24px;
+      }
+    </style>
+    <title>redux</title>
+  </head>
+  <body>
+    <div class="container">
+      <pre id="codeView"></pre>
+    </div>
+    <script>
+      // 不严谨的仿redux
+      let initialState = {
+        count: 0,
+        info: {
+          name: "",
+          description: "",
+        },
+      };
+
+      const createStore = (reducers, initState) => {
+        let currentReducers = reducers;
+        let currentState = initState;
+        const listeners = [];
+
+        function subscribe(listener) {
+          listeners.push(listener);
+        }
+
+        function changeState(action) {
+          // state.count = count;
+          const reducerKeys = Object.keys(currentReducers);
+          let hasChange = false;
+          let nextState = {};
+          for (let i = 0; i < reducerKeys.length; i++) {
+            let key = reducerKeys[i];
+            let reducer = currentReducers[key];
+            nextState = reducer(currentState, action);
+          }
+          hasChange = hasChange || nextState !== currentState;
+          currentState = nextState;
+          if (hasChange) {
+            listeners.forEach((listener) => listener());
+          }
+        }
+
+        function getState() {
+          return currentState;
+        }
+
+        return {
+          subscribe,
+          changeState,
+          getState,
+        };
+      };
+
+      function plan(state = initialState, action) {
+        switch (action.type) {
+          case "INCREMENT":
+            return {
+              ...state,
+              count: state.count + 1,
+            };
+          case "DECREMENT":
+            return {
+              ...state,
+              count: state.count - 1,
+            };
+          default:
+            return state;
+        }
+      }
+
+      let store = createStore({ count: plan }, initialState);
+      store.subscribe(() => {
+        let state = store.getState();
+        console.log(state.count);
+      });
+      store.subscribe(() => {
+        let state = store.getState();
+        console.log(`${state.info.name}:${state.info.description}`);
+      });
+      store.changeState({
+        type: "INCREMENT",
+      });
+    </script>
+    <script>
+      const scripts = Array.from(document.getElementsByTagName("script"));
+      const showScript = scripts.slice(2, -1)[0];
+      document.getElementById("codeView").innerText = showScript.innerText;
+    </script>
+  </body>
+</html>
