@@ -1,5 +1,5 @@
 <template>
-  <div class="app">hello vue</div>
+  <div class="app">hello vuefdf</div>
 </template>
 <script>
 export default {
@@ -8,4 +8,9 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+}
+</style>
