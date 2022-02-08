@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      canvas {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      }
+    </style>
+    <title>wordcloud</title>
+  </head>
+  <body>
+    <canvas
+      id="canvas"
+      width="800"
+      height="800"
+      style="width: 800px; height: 600px"
+    ></canvas>
+    <canvas
+      id="canvas2"
+      width="800"
+      height="800"
+      style="width: 800px; height: 600px"
+    ></canvas>
+    <script>
+      window.wordInfos = {};
+    </script>
+    <script src="./node_modules/wordcloud/src/wordcloud2.js"></script>
+    <script>
+      const downloadSource = ({ href = "", name = "" }) => {
+        const a = document.createElement("a");
+        a.download = name;
+        a.href = href;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      };
+      const randomNumber = (min, max) => {
+        return ~~(Math.random() * (max - min)) + min;
+      };
+      const createRandomWord = () => {
+        const minWordLen = 3,
+          maxWordLen = 8;
+        const len = randomNumber(3, maxWordLen + 1);
+        let res = "";
+        for (let i = 0; i < len; i++) {
+          res += String.fromCharCode(randomNumber(97, 123));
+        }
+        return res;
+      };
+      const createRandomData = (len) => {
+        const minSize = 20,
+          maxSize = 140;
+
+        const arr = new Array(len);
+        for (let i = 0; i < len; i++) {
+          arr[i] = [createRandomWord(), randomNumber(minSize, maxSize)];
+        }
+        return arr;
+      };
+      const randomHslColor = (min = 10, max = 50) => {
+        return (
+          "hsl(" +
+          (Math.random() * 360).toFixed() +
+          "," +
+          (Math.random() * 30 + 70).toFixed() +
+          "%," +
+          (Math.random() * (max - min) + min).toFixed() +
+          "%)"
+        );
+      };
+      const measureTextWidth = (text, fontSize = 20, fontFamily = "arial") => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        ctx.font = `${fontSize}px ${fontFamily}`;
+        ctx.fillText(text, 50, 50);
+        return ctx.measureText(text).width;
+      };
+      const getCloudList = (arr) =>
+        arr.map((item) => [item.keyword, item.count / 53]);
+    </script>
+
+    <script>
+      // const canvas = document.getElementById("canvas");
+      // const ctx = canvas.getContext("2d");
+
+      // let index = 0;
+      // let cloudData = [];
+      // const handleCloudData = (list) => {
+      //   cloudData = list.map((item) => {
+      //     item.fontSize = item.count / 5;
+      //     item.color = randomHslColor();
+      //     return item;
+      //   });
+      //   // cloudData = getCloudList(list);
+      // };
+
+      // const renderWordCloud = (list) => {
+      //   list.forEach((item, i) => {
+      //     ctx.font = `${item[1]}px arial`;
+      //     ctx.fillStyle = randomHslColor(10, 50);
+      //     const textWidth = measureTextWidth(item[0], item[1]);
+      //     const x = randomNumber(
+      //         textWidth / 2 + 30,
+      //         canvas.width - textWidth / 2 - 30
+      //       ),
+      //       y = randomNumber(20, canvas.height - 20);
+      //     ctx.fillText(item[0], x, y);
+      //   });
+      // };
+
+      // fetch("/data.json")
+      //   .then((res) => res.json())
+      //   .then((res) => {
+      //   });
+    </script>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const canvas2 = document.getElementById("canvas2");
+      const colorCaches = new Map();
+      let cloudData = null;
+      let index = 0;
+
+      const renderWordCloud = (canvas, list) => {
+        WordCloud(canvas, {
+          list,
+          color: (word) => {
+            if (colorCaches.has(word)) {
+              return colorCaches.get(word);
+            } else {
+              let color = randomHslColor(10, 90);
+              colorCaches.set(word, color);
+              return color;
+            }
+          },
+          shuffle: false,
+          rotateRatio: 0,
+        });
+      };
+
+      fetch("/data.json")
+        .then((res) => res.json())
+        .then((res) => {
+          const list = getCloudList(res[0].words.slice(0, 10));
+          // console.log(list);
+          renderWordCloud(canvas, list);
+          console.log("-------------------------------------");
+          const list2 = getCloudList(res[1].words.slice(0, 10));
+          // console.log(list2);
+          // renderWordCloud(canvas2, list2);
+        });
+    </script>
+  </body>
+</html>

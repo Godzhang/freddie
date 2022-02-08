@@ -1,0 +1,1215 @@
+[
+  {
+    "startTime": "2021-12-06 00:00:00",
+    "endTime": "2021-12-13 00:00:00",
+
+    "words": [
+      {
+        "freq": 29285.0,
+        "count": 8035,
+        "sum": 29285.0,
+        "keyword": "U.S."
+      },
+      {
+        "freq": 20555.0,
+        "count": 5671,
+        "sum": 20555.0,
+        "keyword": "Register"
+      },
+      {
+        "freq": 24365.0,
+        "count": 4634,
+        "sum": 24365.0,
+        "keyword": "China"
+      },
+      {
+        "freq": 16641.0,
+        "count": 4535,
+        "sum": 16641.0,
+        "keyword": "York"
+      },
+      {
+        "freq": 19384.0,
+        "count": 4140,
+        "sum": 19384.0,
+        "keyword": "Omicron"
+      },
+      {
+        "freq": 11730.0,
+        "count": 3649,
+        "sum": 11730.0,
+        "keyword": "team"
+      },
+      {
+        "freq": 9294.0,
+        "count": 3604,
+        "sum": 9294.0,
+        "keyword": "COVID-19"
+      },
+      {
+        "freq": 12972.0,
+        "count": 3533,
+        "sum": 12972.0,
+        "keyword": "variant"
+      },
+      {
+        "freq": 12878.0,
+        "count": 3263,
+        "sum": 12878.0,
+        "keyword": "game"
+      },
+      {
+        "freq": 9979.0,
+        "count": 3129,
+        "sum": 9979.0,
+        "keyword": "Photo"
+      },
+      {
+        "freq": 7736.0,
+        "count": 3126,
+        "sum": 7736.0,
+        "keyword": "month"
+      },
+      {
+        "freq": 9353.0,
+        "count": 3023,
+        "sum": 9353.0,
+        "keyword": "government"
+      },
+      {
+        "freq": 18978.0,
+        "count": 2996,
+        "sum": 18978.0,
+        "keyword": "Russia"
+      },
+      {
+        "freq": 10784.0,
+        "count": 2986,
+        "sum": 10784.0,
+        "keyword": "United"
+      },
+      {
+        "freq": 7700.0,
+        "count": 2834,
+        "sum": 7700.0,
+        "keyword": "pandemic"
+      },
+      {
+        "freq": 9036.0,
+        "count": 2829,
+        "sum": 9036.0,
+        "keyword": "family"
+      },
+      {
+        "freq": 8576.0,
+        "count": 2764,
+        "sum": 8576.0,
+        "keyword": "Washington"
+      },
+      {
+        "freq": 4972.0,
+        "count": 2509,
+        "sum": 4972.0,
+        "keyword": "FREE unlimited access"
+      },
+      {
+        "freq": 9259.0,
+        "count": 2500,
+        "sum": 9259.0,
+        "keyword": "Congress"
+      },
+      {
+        "freq": 7641.0,
+        "count": 2386,
+        "sum": 7641.0,
+        "keyword": "case"
+      },
+      {
+        "freq": 7709.0,
+        "count": 2372,
+        "sum": 7709.0,
+        "keyword": "White House"
+      },
+      {
+        "freq": 7528.0,
+        "count": 2306,
+        "sum": 7528.0,
+        "keyword": "vaccine"
+      },
+      {
+        "freq": 6450.0,
+        "count": 2185,
+        "sum": 6450.0,
+        "keyword": "omicron variant"
+      },
+      {
+        "freq": 5194.0,
+        "count": 2178,
+        "sum": 5194.0,
+        "keyword": "AP"
+      },
+      {
+        "freq": 2319.0,
+        "count": 2159,
+        "sum": 2319.0,
+        "keyword": "reference"
+      },
+      {
+        "freq": 2168.0,
+        "count": 2108,
+        "sum": 2168.0,
+        "keyword": "Block"
+      },
+      {
+        "freq": 8047.0,
+        "count": 2053,
+        "sum": 8047.0,
+        "keyword": "office"
+      },
+      {
+        "freq": 5945.0,
+        "count": 2038,
+        "sum": 5945.0,
+        "keyword": "work"
+      },
+      {
+        "freq": 6296.0,
+        "count": 2037,
+        "sum": 6296.0,
+        "keyword": "life"
+      },
+      {
+        "freq": 13307.0,
+        "count": 1995,
+        "sum": 13307.0,
+        "keyword": "Ukraine"
+      },
+      {
+        "freq": 6730.0,
+        "count": 1992,
+        "sum": 6730.0,
+        "keyword": "cases"
+      },
+      {
+        "freq": 7692.0,
+        "count": 1949,
+        "sum": 7692.0,
+        "keyword": "games"
+      },
+      {
+        "freq": 4627.0,
+        "count": 1889,
+        "sum": 4627.0,
+        "keyword": "place"
+      },
+      {
+        "freq": 5268.0,
+        "count": 1888,
+        "sum": 5268.0,
+        "keyword": "Biden"
+      },
+      {
+        "freq": 5235.0,
+        "count": 1860,
+        "sum": 5235.0,
+        "keyword": "Reuters"
+      },
+      {
+        "freq": 6550.0,
+        "count": 1769,
+        "sum": 6550.0,
+        "keyword": "Christmas"
+      },
+      {
+        "freq": 6484.0,
+        "count": 1755,
+        "sum": 6484.0,
+        "keyword": "Beijing"
+      },
+      {
+        "freq": 4907.0,
+        "count": 1712,
+        "sum": 4907.0,
+        "keyword": "CNBC"
+      },
+      {
+        "freq": 7570.0,
+        "count": 1712,
+        "sum": 7570.0,
+        "keyword": "yards"
+      },
+      {
+        "freq": 6093.0,
+        "count": 1700,
+        "sum": 6093.0,
+        "keyword": "money"
+      },
+      {
+        "freq": 3726.0,
+        "count": 1699,
+        "sum": 3726.0,
+        "keyword": "president"
+      },
+      {
+        "freq": 4365.0,
+        "count": 1690,
+        "sum": 4365.0,
+        "keyword": "video"
+      },
+      {
+        "freq": 5813.0,
+        "count": 1686,
+        "sum": 5813.0,
+        "keyword": "members"
+      },
+      {
+        "freq": 7069.0,
+        "count": 1661,
+        "sum": 7069.0,
+        "keyword": "employees"
+      },
+      {
+        "freq": 4164.0,
+        "count": 1655,
+        "sum": 4164.0,
+        "keyword": "decision"
+      },
+      {
+        "freq": 4644.0,
+        "count": 1646,
+        "sum": 4644.0,
+        "keyword": "death"
+      },
+      {
+        "freq": 5341.0,
+        "count": 1643,
+        "sum": 5341.0,
+        "keyword": "minutes"
+      },
+      {
+        "freq": 6259.0,
+        "count": 1640,
+        "sum": 6259.0,
+        "keyword": "Republicans"
+      },
+      {
+        "freq": 7434.0,
+        "count": 1631,
+        "sum": 7434.0,
+        "keyword": "Democrats"
+      },
+      {
+        "freq": 6614.0,
+        "count": 1597,
+        "sum": 6614.0,
+        "keyword": "Insider"
+      },
+      {
+        "freq": 5975.0,
+        "count": 1587,
+        "sum": 5975.0,
+        "keyword": "Covid"
+      },
+      {
+        "freq": 5358.0,
+        "count": 1584,
+        "sum": 5358.0,
+        "keyword": "workers"
+      },
+      {
+        "freq": 7353.0,
+        "count": 1564,
+        "sum": 7353.0,
+        "keyword": "law"
+      },
+      {
+        "freq": 3681.0,
+        "count": 1559,
+        "sum": 3681.0,
+        "keyword": "coronavirus"
+      },
+      {
+        "freq": 4662.0,
+        "count": 1543,
+        "sum": 4662.0,
+        "keyword": "America"
+      },
+      {
+        "freq": 6591.0,
+        "count": 1502,
+        "sum": 6591.0,
+        "keyword": "Australia"
+      },
+      {
+        "freq": 4599.0,
+        "count": 1498,
+        "sum": 4599.0,
+        "keyword": "Covid-19"
+      },
+      {
+        "freq": 5892.0,
+        "count": 1487,
+        "sum": 5892.0,
+        "keyword": "Los Angeles"
+      },
+      {
+        "freq": 3846.0,
+        "count": 1487,
+        "sum": 3846.0,
+        "keyword": "market"
+      },
+      {
+        "freq": 4202.0,
+        "count": 1422,
+        "sum": 4202.0,
+        "keyword": "Twitter"
+      },
+      {
+        "freq": 5559.0,
+        "count": 1404,
+        "sum": 5559.0,
+        "keyword": "Texas"
+      },
+      {
+        "freq": 5127.0,
+        "count": 1383,
+        "sum": 5127.0,
+        "keyword": "booster"
+      },
+      {
+        "freq": 4993.0,
+        "count": 1371,
+        "sum": 4993.0,
+        "keyword": "party"
+      },
+      {
+        "freq": 3336.0,
+        "count": 1368,
+        "sum": 3336.0,
+        "keyword": "morning"
+      },
+      {
+        "freq": 4487.0,
+        "count": 1357,
+        "sum": 4487.0,
+        "keyword": "inflation"
+      },
+      {
+        "freq": 4225.0,
+        "count": 1351,
+        "sum": 4225.0,
+        "keyword": "Supreme Court"
+      },
+      {
+        "freq": 3243.0,
+        "count": 1344,
+        "sum": 3243.0,
+        "keyword": "head"
+      },
+      {
+        "freq": 6024.0,
+        "count": 1342,
+        "sum": 6024.0,
+        "keyword": "parents"
+      },
+      {
+        "freq": 4469.0,
+        "count": 1333,
+        "sum": 4469.0,
+        "keyword": "trial"
+      },
+      {
+        "freq": 4654.0,
+        "count": 1329,
+        "sum": 4654.0,
+        "keyword": "virus"
+      },
+      {
+        "freq": 6156.0,
+        "count": 1314,
+        "sum": 6156.0,
+        "keyword": "omicron"
+      },
+      {
+        "freq": 2356.0,
+        "count": 1281,
+        "sum": 2356.0,
+        "keyword": "headlines"
+      },
+      {
+        "freq": 5354.0,
+        "count": 1267,
+        "sum": 5354.0,
+        "keyword": "England"
+      },
+      {
+        "freq": 3611.0,
+        "count": 1258,
+        "sum": 3611.0,
+        "keyword": "Jussie Smollett"
+      },
+      {
+        "freq": 4750.0,
+        "count": 1241,
+        "sum": 4750.0,
+        "keyword": "Department"
+      },
+      {
+        "freq": 3645.0,
+        "count": 1239,
+        "sum": 3645.0,
+        "keyword": "economy"
+      },
+      {
+        "freq": 2456.0,
+        "count": 1231,
+        "sum": 2456.0,
+        "keyword": "Flash"
+      },
+      {
+        "freq": 4312.0,
+        "count": 1224,
+        "sum": 4312.0,
+        "keyword": "stock"
+      },
+      {
+        "freq": 4112.0,
+        "count": 1214,
+        "sum": 4112.0,
+        "keyword": "Americans"
+      },
+      {
+        "freq": 4668.0,
+        "count": 1212,
+        "sum": 4668.0,
+        "keyword": "CNN"
+      },
+      {
+        "freq": 7600.0,
+        "count": 1202,
+        "sum": 7600.0,
+        "keyword": "Amazon"
+      },
+      {
+        "freq": 4745.0,
+        "count": 1191,
+        "sum": 4745.0,
+        "keyword": "shares"
+      },
+      {
+        "freq": 3882.0,
+        "count": 1184,
+        "sum": 3882.0,
+        "keyword": "players"
+      },
+      {
+        "freq": 3321.0,
+        "count": 1180,
+        "sum": 3321.0,
+        "keyword": "quarter"
+      },
+      {
+        "freq": 3787.0,
+        "count": 1170,
+        "sum": 3787.0,
+        "keyword": "Britain"
+      },
+      {
+        "freq": 3049.0,
+        "count": 1163,
+        "sum": 3049.0,
+        "keyword": "power"
+      },
+      {
+        "freq": 3031.0,
+        "count": 1154,
+        "sum": 3031.0,
+        "keyword": "Rep"
+      },
+      {
+        "freq": 2020.0,
+        "count": 1151,
+        "sum": 2020.0,
+        "keyword": "host"
+      },
+      {
+        "freq": 5436.0,
+        "count": 1138,
+        "sum": 5436.0,
+        "keyword": "Facebook"
+      },
+      {
+        "freq": 3607.0,
+        "count": 1129,
+        "sum": 3607.0,
+        "keyword": "election"
+      },
+      {
+        "freq": 3055.0,
+        "count": 1122,
+        "sum": 3055.0,
+        "keyword": "investigation"
+      },
+      {
+        "freq": 3633.0,
+        "count": 1101,
+        "sum": 3633.0,
+        "keyword": "content"
+      },
+      {
+        "freq": 3324.0,
+        "count": 1097,
+        "sum": 3324.0,
+        "keyword": "Capitol"
+      },
+      {
+        "freq": 3503.0,
+        "count": 1075,
+        "sum": 3503.0,
+        "keyword": "UK"
+      },
+      {
+        "freq": 5651.0,
+        "count": 1072,
+        "sum": 5651.0,
+        "keyword": "India"
+      },
+      {
+        "freq": 2271.0,
+        "count": 1042,
+        "sum": 2271.0,
+        "keyword": "Press"
+      },
+      {
+        "freq": 2580.0,
+        "count": 1023,
+        "sum": 2580.0,
+        "keyword": "member"
+      },
+      {
+        "freq": 5713.0,
+        "count": 1022,
+        "sum": 5713.0,
+        "keyword": "Mexico"
+      },
+      {
+        "freq": 3352.0,
+        "count": 1022,
+        "sum": 3352.0,
+        "keyword": "mother"
+      },
+      {
+        "freq": 2845.0,
+        "count": 1019,
+        "sum": 2845.0,
+        "keyword": "defense"
+      }
+    ]
+  },
+  {
+    "startTime": "2021-12-13 00:00:00",
+    "endTime": "2021-12-20 00:00:00",
+    "words": [
+      {
+        "freq": 20450.0,
+        "count": 6450,
+        "sum": 20450.0,
+        "keyword": "U.S."
+      },
+      {
+        "freq": 22893.0,
+        "count": 6292,
+        "sum": 22893.0,
+        "keyword": "Register"
+      },
+      {
+        "freq": 26067.0,
+        "count": 5410,
+        "sum": 26067.0,
+        "keyword": "Omicron"
+      },
+      {
+        "freq": 16884.0,
+        "count": 5000,
+        "sum": 16884.0,
+        "keyword": "cases"
+      },
+      {
+        "freq": 13567.0,
+        "count": 4893,
+        "sum": 13567.0,
+        "keyword": "COVID-19"
+      },
+      {
+        "freq": 17986.0,
+        "count": 4774,
+        "sum": 17986.0,
+        "keyword": "York"
+      },
+      {
+        "freq": 25657.0,
+        "count": 4641,
+        "sum": 25657.0,
+        "keyword": "China"
+      },
+      {
+        "freq": 10275.0,
+        "count": 4184,
+        "sum": 10275.0,
+        "keyword": "month"
+      },
+      {
+        "freq": 10121.0,
+        "count": 3784,
+        "sum": 10121.0,
+        "keyword": "pandemic"
+      },
+      {
+        "freq": 11756.0,
+        "count": 3720,
+        "sum": 11756.0,
+        "keyword": "variant"
+      },
+      {
+        "freq": 14087.0,
+        "count": 3615,
+        "sum": 14087.0,
+        "keyword": "game"
+      },
+      {
+        "freq": 12210.0,
+        "count": 3502,
+        "sum": 12210.0,
+        "keyword": "team"
+      },
+      {
+        "freq": 11200.0,
+        "count": 3368,
+        "sum": 11200.0,
+        "keyword": "government"
+      },
+      {
+        "freq": 11971.0,
+        "count": 3234,
+        "sum": 11971.0,
+        "keyword": "Congress"
+      },
+      {
+        "freq": 10138.0,
+        "count": 3075,
+        "sum": 10138.0,
+        "keyword": "family"
+      },
+      {
+        "freq": 9702.0,
+        "count": 3042,
+        "sum": 9702.0,
+        "keyword": "Photo"
+      },
+      {
+        "freq": 5853.0,
+        "count": 2950,
+        "sum": 5853.0,
+        "keyword": "FREE unlimited access"
+      },
+      {
+        "freq": 9165.0,
+        "count": 2869,
+        "sum": 9165.0,
+        "keyword": "Washington"
+      },
+      {
+        "freq": 9577.0,
+        "count": 2607,
+        "sum": 9577.0,
+        "keyword": "United"
+      },
+      {
+        "freq": 7754.0,
+        "count": 2508,
+        "sum": 7754.0,
+        "keyword": "Christmas"
+      },
+      {
+        "freq": 11124.0,
+        "count": 2452,
+        "sum": 11124.0,
+        "keyword": "games"
+      },
+      {
+        "freq": 7843.0,
+        "count": 2410,
+        "sum": 7843.0,
+        "keyword": "case"
+      },
+      {
+        "freq": 8423.0,
+        "count": 2301,
+        "sum": 8423.0,
+        "keyword": "White House"
+      },
+      {
+        "freq": 7468.0,
+        "count": 2244,
+        "sum": 7468.0,
+        "keyword": "omicron variant"
+      },
+      {
+        "freq": 5821.0,
+        "count": 2235,
+        "sum": 5821.0,
+        "keyword": "Covid-19"
+      },
+      {
+        "freq": 7613.0,
+        "count": 2176,
+        "sum": 7613.0,
+        "keyword": "office"
+      },
+      {
+        "freq": 7875.0,
+        "count": 2144,
+        "sum": 7875.0,
+        "keyword": "players"
+      },
+      {
+        "freq": 5924.0,
+        "count": 2144,
+        "sum": 5924.0,
+        "keyword": "work"
+      },
+      {
+        "freq": 13704.0,
+        "count": 2109,
+        "sum": 13704.0,
+        "keyword": "Russia"
+      },
+      {
+        "freq": 5967.0,
+        "count": 2045,
+        "sum": 5967.0,
+        "keyword": "president"
+      },
+      {
+        "freq": 7164.0,
+        "count": 2029,
+        "sum": 7164.0,
+        "keyword": "vaccine"
+      },
+      {
+        "freq": 7874.0,
+        "count": 2018,
+        "sum": 7874.0,
+        "keyword": "Covid"
+      },
+      {
+        "freq": 5217.0,
+        "count": 2004,
+        "sum": 5217.0,
+        "keyword": "decision"
+      },
+      {
+        "freq": 6524.0,
+        "count": 1951,
+        "sum": 6524.0,
+        "keyword": "Biden"
+      },
+      {
+        "freq": 4345.0,
+        "count": 1951,
+        "sum": 4345.0,
+        "keyword": "coronavirus"
+      },
+      {
+        "freq": 7008.0,
+        "count": 1947,
+        "sum": 7008.0,
+        "keyword": "NFL"
+      },
+      {
+        "freq": 6070.0,
+        "count": 1923,
+        "sum": 6070.0,
+        "keyword": "death"
+      },
+      {
+        "freq": 5990.0,
+        "count": 1922,
+        "sum": 5990.0,
+        "keyword": "inflation"
+      },
+      {
+        "freq": 4109.0,
+        "count": 1906,
+        "sum": 4109.0,
+        "keyword": "AP"
+      },
+      {
+        "freq": 6203.0,
+        "count": 1882,
+        "sum": 6203.0,
+        "keyword": "COVID"
+      },
+      {
+        "freq": 7668.0,
+        "count": 1874,
+        "sum": 7668.0,
+        "keyword": "employees"
+      },
+      {
+        "freq": 6393.0,
+        "count": 1873,
+        "sum": 6393.0,
+        "keyword": "virus"
+      },
+      {
+        "freq": 9162.0,
+        "count": 1872,
+        "sum": 9162.0,
+        "keyword": "Democrats"
+      },
+      {
+        "freq": 5211.0,
+        "count": 1858,
+        "sum": 5211.0,
+        "keyword": "life"
+      },
+      {
+        "freq": 6842.0,
+        "count": 1847,
+        "sum": 6842.0,
+        "keyword": "money"
+      },
+      {
+        "freq": 7095.0,
+        "count": 1833,
+        "sum": 7095.0,
+        "keyword": "Build"
+      },
+      {
+        "freq": 4949.0,
+        "count": 1820,
+        "sum": 4949.0,
+        "keyword": "Reuters"
+      },
+      {
+        "freq": 7937.0,
+        "count": 1815,
+        "sum": 7937.0,
+        "keyword": "booster"
+      },
+      {
+        "freq": 5167.0,
+        "count": 1794,
+        "sum": 5167.0,
+        "keyword": "Americans"
+      },
+      {
+        "freq": 6294.0,
+        "count": 1777,
+        "sum": 6294.0,
+        "keyword": "members"
+      },
+      {
+        "freq": 7133.0,
+        "count": 1741,
+        "sum": 7133.0,
+        "keyword": "Fed"
+      },
+      {
+        "freq": 6630.0,
+        "count": 1726,
+        "sum": 6630.0,
+        "keyword": "Beijing"
+      },
+      {
+        "freq": 4829.0,
+        "count": 1711,
+        "sum": 4829.0,
+        "keyword": "deal"
+      },
+      {
+        "freq": 6646.0,
+        "count": 1673,
+        "sum": 6646.0,
+        "keyword": "Australia"
+      },
+      {
+        "freq": 3983.0,
+        "count": 1618,
+        "sum": 3983.0,
+        "keyword": "place"
+      },
+      {
+        "freq": 4558.0,
+        "count": 1568,
+        "sum": 4558.0,
+        "keyword": "economy"
+      },
+      {
+        "freq": 5405.0,
+        "count": 1546,
+        "sum": 5405.0,
+        "keyword": "California"
+      },
+      {
+        "freq": 5746.0,
+        "count": 1539,
+        "sum": 5746.0,
+        "keyword": "Sen"
+      },
+      {
+        "freq": 5327.0,
+        "count": 1536,
+        "sum": 5327.0,
+        "keyword": "Britain"
+      },
+      {
+        "freq": 7484.0,
+        "count": 1524,
+        "sum": 7484.0,
+        "keyword": "Insider"
+      },
+      {
+        "freq": 7120.0,
+        "count": 1512,
+        "sum": 7120.0,
+        "keyword": "omicron"
+      },
+      {
+        "freq": 3995.0,
+        "count": 1484,
+        "sum": 3995.0,
+        "keyword": "central bank"
+      },
+      {
+        "freq": 6401.0,
+        "count": 1469,
+        "sum": 6401.0,
+        "keyword": "Los Angeles"
+      },
+      {
+        "freq": 2740.0,
+        "count": 1464,
+        "sum": 2740.0,
+        "keyword": "headlines"
+      },
+      {
+        "freq": 4247.0,
+        "count": 1451,
+        "sum": 4247.0,
+        "keyword": "video"
+      },
+      {
+        "freq": 4632.0,
+        "count": 1421,
+        "sum": 4632.0,
+        "keyword": "party"
+      },
+      {
+        "freq": 4374.0,
+        "count": 1418,
+        "sum": 4374.0,
+        "keyword": "America"
+      },
+      {
+        "freq": 5536.0,
+        "count": 1403,
+        "sum": 5536.0,
+        "keyword": "Kentucky"
+      },
+      {
+        "freq": 6806.0,
+        "count": 1398,
+        "sum": 6806.0,
+        "keyword": "yards"
+      },
+      {
+        "freq": 5625.0,
+        "count": 1392,
+        "sum": 5625.0,
+        "keyword": "shares"
+      },
+      {
+        "freq": 4486.0,
+        "count": 1388,
+        "sum": 4486.0,
+        "keyword": "legislation"
+      },
+      {
+        "freq": 2745.0,
+        "count": 1369,
+        "sum": 2745.0,
+        "keyword": "CNBC"
+      },
+      {
+        "freq": 2745.0,
+        "count": 1369,
+        "sum": 2745.0,
+        "keyword": "Flash"
+      },
+      {
+        "freq": 4867.0,
+        "count": 1347,
+        "sum": 4867.0,
+        "keyword": "parents"
+      },
+      {
+        "freq": 5317.0,
+        "count": 1343,
+        "sum": 5317.0,
+        "keyword": "Pfizer"
+      },
+      {
+        "freq": 5127.0,
+        "count": 1335,
+        "sum": 5127.0,
+        "keyword": "Capitol"
+      },
+      {
+        "freq": 4238.0,
+        "count": 1329,
+        "sum": 4238.0,
+        "keyword": "workers"
+      },
+      {
+        "freq": 3676.0,
+        "count": 1322,
+        "sum": 3676.0,
+        "keyword": "House"
+      },
+      {
+        "freq": 4922.0,
+        "count": 1306,
+        "sum": 4922.0,
+        "keyword": "England"
+      },
+      {
+        "freq": 3034.0,
+        "count": 1306,
+        "sum": 3034.0,
+        "keyword": "market"
+      },
+      {
+        "freq": 4013.0,
+        "count": 1301,
+        "sum": 4013.0,
+        "keyword": "London"
+      },
+      {
+        "freq": 4072.0,
+        "count": 1300,
+        "sum": 4072.0,
+        "keyword": "list"
+      },
+      {
+        "freq": 3719.0,
+        "count": 1300,
+        "sum": 3719.0,
+        "keyword": "vote"
+      },
+      {
+        "freq": 4052.0,
+        "count": 1297,
+        "sum": 4052.0,
+        "keyword": "Bank"
+      },
+      {
+        "freq": 3405.0,
+        "count": 1292,
+        "sum": 3405.0,
+        "keyword": "power"
+      },
+      {
+        "freq": 3758.0,
+        "count": 1288,
+        "sum": 3758.0,
+        "keyword": "minutes"
+      },
+      {
+        "freq": 4239.0,
+        "count": 1269,
+        "sum": 4239.0,
+        "keyword": "Department"
+      },
+      {
+        "freq": 2506.0,
+        "count": 1268,
+        "sum": 2506.0,
+        "keyword": "Mark Meadows"
+      },
+      {
+        "freq": 3713.0,
+        "count": 1257,
+        "sum": 3713.0,
+        "keyword": "election"
+      },
+      {
+        "freq": 3281.0,
+        "count": 1255,
+        "sum": 3281.0,
+        "keyword": "business"
+      },
+      {
+        "freq": 2574.0,
+        "count": 1247,
+        "sum": 2574.0,
+        "keyword": "morning"
+      },
+      {
+        "freq": 4187.0,
+        "count": 1229,
+        "sum": 4187.0,
+        "keyword": "law"
+      },
+      {
+        "freq": 2702.0,
+        "count": 1223,
+        "sum": 2702.0,
+        "keyword": "head"
+      },
+      {
+        "freq": 4116.0,
+        "count": 1184,
+        "sum": 4116.0,
+        "keyword": "vaccines"
+      },
+      {
+        "freq": 4376.0,
+        "count": 1174,
+        "sum": 4376.0,
+        "keyword": "Rep"
+      },
+      {
+        "freq": 2932.0,
+        "count": 1174,
+        "sum": 2932.0,
+        "keyword": "industry"
+      },
+      {
+        "freq": 3492.0,
+        "count": 1168,
+        "sum": 3492.0,
+        "keyword": "deaths"
+      },
+      {
+        "freq": 4146.0,
+        "count": 1158,
+        "sum": 4146.0,
+        "keyword": "Senate"
+      },
+      {
+        "freq": 5721.0,
+        "count": 1132,
+        "sum": 5721.0,
+        "keyword": "India"
+      },
+      {
+        "freq": 1903.0,
+        "count": 1126,
+        "sum": 1903.0,
+        "keyword": "President Joe Biden"
+      }
+    ]
+  }
+]
